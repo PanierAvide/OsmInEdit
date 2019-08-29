@@ -1,0 +1,39 @@
+image: node:9-stretch
+
+before_script:
+  - node --version
+  - npm --version
+  - npm install
+  - apt-get update -qq && apt-get install -y -qq ncftp zip sed
+
+cache:
+  paths:
+    - node_modules/
+
+test:
+  script:
+    - npm run test
+    - npm run doc:js:check
+
+deploy:develop:
+  stage: deploy
+  only:
+    - develop
+  script:
+    - ./embed_git_hash.sh
+    - npm run build
+    - npm run doc
+    - ncftpput -u "${FTP_USERNAME}" -p "${FTP_PASSWORD}" -R osminedit.pavie.info /web/dev/ ./build/*
+    - ncftpput -u "${FTP_USERNAME}" -p "${FTP_PASSWORD}" -R osminedit.pavie.info /web/dev/doc/ ./doc/*
+
+deploy:master:
+  stage: deploy
+  only:
+    - master
+  script:
+    #prodosm- echo "{\"editor_name\":\"OsmInEdit\",\"hash\":\"GIT_HASH\",\"data_min_zoom\":18,\"map_initial_zoom\":18,\"map_initial_latlng\":[48.13678,-1.69533],\"providers\":{\"bing\":\"AhsSQakuHuX3ozMBXC60w-hPk0KD_smZZbHLjb7mBFfeIwDKJnJn2_qK3qQfYfPZ\"},\"osm_api_url\":\"https://api.openstreetmap.org\",\"oauth_consumer_key\":\"3lzD17wk8BNT22p5M2HE261mV4gbziyA7W2mbB1l\",\"oauth_secret\":\"n2TgSEakcg46eQWDXyCwlrWwIxMrWdbYV7Yw4xmm\",\"always_authenticated\":false}" > ./src/config/config.json
+    - ./embed_git_hash.sh
+    - npm run build
+    - npm run doc
+    - ncftpput -u "${FTP_USERNAME}" -p "${FTP_PASSWORD}" -R osminedit.pavie.info /web/ ./build/*
+    - ncftpput -u "${FTP_USERNAME}" -p "${FTP_PASSWORD}" -R osminedit.pavie.info /web/doc/ ./doc/*

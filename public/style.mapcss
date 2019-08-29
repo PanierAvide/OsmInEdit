@@ -1,0 +1,714 @@
+/*
+ * This file is part of OsmInEdit, released under ISC license (see LICENSE.md)
+ *
+ * Copyright (c) Adrien Pavie 2019
+ * Copyright (c) Daimler AG 2019
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ */
+
+meta {
+	title: 'OsmInEdit indoor map stylesheet';
+}
+
+/****************************************************************************
+ * Labels
+ */
+
+*[name],
+*[ref] {
+	font-family: Arial;
+	font-size: 12;
+	font-weight: bold;
+	text-color: black;
+	text-offset: 6; /** Half of the font-size **/
+}
+
+line[name],
+line[ref] {
+	text-position: line;
+}
+
+
+/****************************************************************************
+ * Indoor structures
+ */
+
+/*
+ * Labelled features
+ */
+
+*[indoor][ref],
+*[buildingpart][ref],
+*[room][ref] {
+	text: ref;
+}
+
+*[indoor][name],
+*[buildingpart][name],
+*[room][name],
+*[public_transport=platform][name],
+*[railway=platform][name],
+area[highway][name],
+relation[type=multipolygon][highway][name] {
+	text: name;
+}
+
+
+/*
+ * Surface of objects
+ */
+
+/** Rooms **/
+area[indoor=room],
+area[buildingpart=room],
+area[room],
+relation[type=multipolygon][indoor=room],
+relation[type=multipolygon][buildingpart=room],
+relation[type=multipolygon][room] {
+	fill-color: #E0E0E0;
+	fill-opacity: 0.5;
+	z-index: -5;
+}
+
+/** Walls **/
+area[indoor=wall][area=yes],
+relation[type=multipolygon][indoor=wall] {
+	fill-color: #444444;
+	fill-opacity: 0.9;
+	z-index: -2;
+}
+
+/** Areas (travelling spaces) **/
+area[indoor=~/area|corridor|level/],
+area[buildingpart=~/corridor|hall/],
+area[room=~/corridor|hall|entry|gallery|collection|entrance/],
+area[highway=~/pedestrian|footway|corridor/],
+area[railway=platform],
+area[public_transport=platform],
+area[shop=mall],
+relation[type=multipolygon][indoor=~/area|corridor|level/],
+relation[type=multipolygon][buildingpart=~/corridor|hall/],
+relation[type=multipolygon][room=~/corridor|hall|entry|gallery|collection|entrance/],
+relation[type=multipolygon][highway=~/pedestrian|footway|corridor/],
+relation[type=multipolygon][railway=platform],
+relation[type=multipolygon][public_transport=platform],
+relation[type=multipolygon][shop=mall] {
+	fill-color: #EEEEEE;
+	fill-opacity: 0.5;
+	z-index: -6;
+}
+
+/** Restricted room/areas **/
+area[indoor=~/room|area|corridor/][access=~/private|no/],
+area[buildingpart][access=~/private|no/],
+area[room=technical],
+relation[type=multipolygon][indoor=~/room|area|corridor/][access=~/private|no/],
+relation[type=multipolygon][buildingpart][access=~/private|no/],
+relation[type=multipolygon][room=technical]{
+	fill-color: #A2A2A2;
+}
+
+
+/*
+ * Walls of objects
+ */
+
+/** Hard wall **/
+area[indoor=room],
+area[buildingpart=~/room|hall/],
+area[room],
+*[indoor=column],
+*[indoor=wall],
+area[building],
+area[building:part],
+relation[type=multipolygon][indoor=~/room|corridor/],
+relation[type=multipolygon][buildingpart=~/room|corridor|hall/],
+relation[type=multipolygon][room],
+relation[type=multipolygon][building],
+relation[type=multipolygon][building:part] {
+	color: #444444;
+	opacity: 1;
+	width: 7;
+}
+
+/** No wall **/
+area[indoor=~/area|corridor/],
+area[buildingpart=corridor],
+area[railway=platform],
+area[public_transport=platform],
+area[indoor=level],
+relation[type=multipolygon][indoor=~/area|corridor/],
+relation[type=multipolygon][railway=platform],
+relation[type=multipolygon][public_transport=platform],
+relation[type=multipolygon][indoor=level] {
+	color: #AAAAAA;
+	opacity: 1;
+	width: 0.5;
+}
+
+/** Pillars **/
+*[indoor=column],
+*[man_made=pillar],
+*[building:part=column] {
+	fill-color: #999999;
+	fill-opacity: 0.5;
+}
+
+
+/*
+ * Room/area icons
+ */
+area[room],
+area[area][area!=yes],
+relation[type=multipolygon][room],
+relation[type=multipolygon][area][area!=yes] {
+	icon-image-aliases: '"amphitheatre": "auditorium", "reception": "administration", "refectory": "restaurant", "checkroom": "locker"';
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+area[room],
+relation[type=multipolygon][room] {
+	icon-image: url('room_$[room].png');
+}
+
+area[area][area!=yes],
+relation[type=multipolygon][area][area!=yes] {
+	icon-image: url('room_$[area].png');
+}
+
+
+/*
+ * Doors
+ */
+
+node[door][door!=no],
+node[entrance] {
+	color: #003F05;
+	fill-color: #00AB0D;
+	opacity: 1;
+	fill-opacity: 1;
+	width: 5;
+	symbol-size: 7;
+}
+
+line[door][door!=no],
+line[entrance] {
+	color: #006804;
+	opacity: 1;
+	width: 12;
+	linecap: none;
+}
+
+/** Passages **/
+node[door=no] {
+	color: #AAAAAA;
+	fill-color: #EEEEEE;
+	opacity: 1;
+	width: 1;
+	symbol-size: 7;
+	icon-opacity: 0;
+}
+
+line[door=no] {
+	color: #AAAAAA;
+	fill-color: #EEEEEE;
+	opacity: 1;
+	width: 12;
+	linecap: none;
+	icon-opacity: 0;
+}
+
+
+/*
+ * Vertical passages
+ */
+
+/** General definition **/
+area[buildingpart=verticalpassage],
+area[buildingpart:verticalpassage],
+area[room=~/stairs|escalator/],
+area[indoor=elevator],
+area[highway=~/elevator|lift|steps/],
+area[stairs=yes] {
+	color: #7495DA;
+	fill-color: #AEBDDA;
+	opacity: 1;
+	fill-opacity: 0.5;
+	width: 2.5;
+	z-index: -1;
+}
+
+/** Icons **/
+*[buildingpart=verticalpassage],
+*[buildingpart:verticalpassage],
+*[room=~/stairs|escalator/],
+*[indoor=elevator],
+*[highway=elevator],
+*[stairs=yes] {
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+*[buildingpart:verticalpassage=elevator],
+*[indoor=elevator],
+*[highway=~/elevator|lift/] {
+	icon-image: url('passage_elevator.png');
+}
+
+*[buildingpart:verticalpassage=stairway],
+*[room=stairs],
+*[stairs=yes],
+area[highway=steps] {
+	icon-image: url('passage_stairs.png');
+}
+
+*[buildingpart:verticalpassage=escalator],
+*[room=escalator],
+*[conveying=yes],
+area[conveying=~/yes|forward|backward|reversible/] {
+	icon-image: url('passage_escalator.png');
+}
+
+/** Emergency stairs **/
+area[buildingpart=verticalpassage][access=emergency],
+area[room=stairs][access=emergency],
+area[stairs=yes][access=emergency] {
+	color: #009262;
+	fill-color: #C0FFCB;
+	icon-image: url('emergency_stairs.png');
+}
+
+
+/*
+ * Building delimitation
+ */
+
+area[building],
+area[building:part],
+relation[type=multipolygon][building],
+relation[type=multipolygon][building:part] {
+	fill-color: #D4CACA;
+	fill-opacity: 0.6;
+	z-index: -10;
+	width: 5;
+	color: #8F5467;
+}
+
+/** Gradins **/
+area[building:part=tier],
+relation[type=multipolygon][building:part=tier] {
+	color: #B4ADB3;
+	opacity: 1;
+	width: 1;
+	fill-color: #BABABA;
+	fill-opacity: 0.5;
+	z-index: -4;
+}
+
+
+/****************************************************************************
+ * Road objects
+ */
+
+line[highway] {
+	color: #0044A0;
+	opacity: 1;
+	width: 15;
+}
+
+line[highway=footway] {
+	color: #2481FF;
+}
+
+line[highway=steps] {
+	color: #2A4378;
+	opacity: 1;
+	width: 15;
+	linecap: none;
+	dashes: 3,2;
+	z-index: -1;
+}
+
+/** Escalator **/
+line[conveying=~/yes|forward|backward|reversible/] {
+	color: #848484;
+	opacity: 1;
+	width: 15;
+	linecap: none;
+	dashes: 3,1;
+}
+
+line[conveying=~/yes|forward|backward|reversible/][highway!=footway] {
+	icon-image: url('passage_escalator.png');
+}
+
+/** Flat escalator **/
+line[conveying=~/yes|forward|backward|reversible/][highway=footway] {
+	dashes: 3,2;
+}
+
+
+/****************************************************************************
+ * Barriers
+ */
+
+*[barrier] {
+	icon-image: url('barrier_$[barrier].png');
+	color: #5B5B5B;
+	opacity: 1;
+	fill-opacity: 0.5;
+	fill-color: #5B5B5B;
+	width: 15;
+	linecap: none;
+}
+
+
+/****************************************************************************
+ * Railway
+ */
+
+way[railway=~/rail|subway|light_rail|monorail|narrow_gauge|tram/] {
+	color: #888888;
+	opacity: 1;
+	width: 15;
+	linecap: none;
+	dashes: 5,5;
+}
+
+*[railway=~/platform|subway_entrance/] {
+	icon-image: url('railway_$[railway].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+
+/****************************************************************************
+ * Aeroways
+ */
+
+*[aeroway] {
+	icon-image: url('aeroway_$[aeroway].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+
+/****************************************************************************
+ * Labels
+ */
+
+*[name][amenity] {
+	text-color: #3E3E3E;
+}
+
+*[name][shop] {
+	text-color: #AC39AC;
+}
+
+*[name][tourism] {
+	text-color: #0099E4;
+}
+
+
+/****************************************************************************
+ * Public transport objects
+ */
+
+*[highway=bus_stop] {
+	icon-image: url('highway_bus_stop.png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+
+/****************************************************************************
+ * Amenities
+ */
+
+*[amenity=~/bar|biergarten|cafe|fast_food|food_court|ice_cream|pub|restaurant|college|kindergarten|library|school|music_school|driving_school|language_school|university|car_rental|parking|taxi|atm|bank|bureau_de_change|clinic|dentist|doctors|hospital|nursing_home|pharmacy|social_facility|veterinary|arts_centre|brothel|casino|cinema|community_centre|gambling|nightclub|planetarium|social_centre|stripclub|studio|swingerclub|animal_boarding|animal_shelter|courthouse|coworking_space|crematorium|crypt|dojo|embassy|fire_station|gym|internet_cafe|photo_booth|place_of_worship|police|post_box|post_office|sauna|shower|telephone|toilets|piano|parking_space/] {
+	fill-color: #FFDAAD;
+	opacity: 1;
+	fill-opacity: 0.5;
+	icon-image: url('amenity_$[amenity].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+	text: name;
+}
+
+/** Comfort amenities **/
+*[amenity=toilets],
+*[public_transport=waiting_area],
+*[room=waiting],
+*[area=waiting] {
+	fill-color: #E3C8E3;
+}
+
+/** Small amenities **/
+*[amenity=~/atm|photo_booth|post_box|piano|telephone|parking_space/] {
+	color: #FFBA66;
+}
+
+/** Large, landuse-like, amenities **/
+area[amenity=~/school|college|university|hospital|parking/] {
+	z-index: -9;
+}
+
+/** Independant amenities **/
+*[amenity=~/parking|parking_space|taxi|bus_station|shelter/] {
+	color: #E0BF96;
+	width: 1;
+}
+
+/** Parking for disabled people **/
+*[amenity=parking_space][wheelchair=yes],
+*[amenity=parking_space][capacity:disabled] {
+	icon-image: url('parking_disabled.png');
+}
+
+/** Toilets **/
+*[amenity=toilets][female=~/yes|only|designated/][!male],
+*[amenity=toilets][female=~/yes|only|designated/][male=no] {
+	icon-image: url('amenity_toilets_women.png');
+}
+
+*[amenity=toilets][male=~/yes|only|designated/][!female],
+*[amenity=toilets][male=~/yes|only|designated/][female=no] {
+	icon-image: url('amenity_toilets_men.png');
+}
+
+*[amenity=toilets][wheelchair=~/yes|only|designated/] {
+	icon-image: url('amenity_toilets_disabled.png');
+}
+
+
+/****************************************************************************
+ * Shops
+ */
+
+*[shop] {
+	icon-image: url('shopping_$[shop].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+	opacity: 1;
+	text: name;
+}
+
+*[shop][!name][brand] {
+	text: brand;
+}
+
+area[shop] {
+	fill-color: #FFDAAD;
+	fill-opacity: 0.5;
+}
+
+/** Store departements **/
+*[department] {
+	fill-color: #FFCFCC;
+	color: #D29494;
+	fill-opacity: 0.5;
+	z-index: -4;
+	opacity: 1;
+	width: 0.5;
+}
+
+
+/****************************************************************************
+ * Tourism-related objects
+ */
+
+*[tourism=~/aquarium|artwork|attraction|gallery|hostel|hotel|motel|museum/],
+*[information=~/office|map/] {
+	icon-image: url('tourism_$[tourism].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+	color: #BF9962;
+	fill-color: #FFF6AD;
+	opacity: 1;
+	fill-opacity: 0.5;
+	text: name;
+}
+
+/** Glass cabinet **/
+*[indoor=glass_cabinet] {
+	color: #A2CCC8;
+	fill-color: #E3F3F5;
+	opacity: 1;
+	fill-opacity: 0.5;
+	width: 2;
+	z-index: -1;
+}
+
+/** Showcase **/
+*[amenity=showcase] {
+	color: #A2CCC8;
+	fill-color: #A2CCC8;
+	opacity: 1;
+	fill-opacity: 0.5;
+	width: 2;
+	z-index: -1;
+}
+
+/** Historic elements **/
+*[historic] {
+	text: name;
+}
+
+way[historic],
+relation[type=multipolygon][historic] {
+	color: #C0B0A2;
+	opacity: 0.5;
+	width: 0.5;
+	fill-color: #C0B0A2;
+	z-index: -1;
+}
+
+*[historic=tomb] {
+	icon-image: url('historic_tomb.png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+*[historic=artifact] {
+	icon-image: url('tourism_archaeological.png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+/** Grass **/
+area[landuse=grass],
+relation[type=multipolygon][landuse=grass] {
+	opacity: 0;
+	width: 0;
+	fill-color: #CFECA8;
+	fill-opacity: 0.5;
+	z-index: -1;
+}
+
+
+/****************************************************************************
+ * Amenities
+ */
+
+/** All amenities **/
+*[amenity][amenity!=showcase] {
+	fill-color: #FFDAAD;
+	opacity: 1;
+	fill-opacity: 0.5;
+	icon-image: url('amenity_$[amenity].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+	text: name;
+}
+
+
+/****************************************************************************
+ * Barriers
+ */
+
+*[barrier=hedge] {
+	color: #8CD16E;
+}
+
+*[barrier=shelf] {
+	color: #DBA0A0;
+	fill-color: #DBA0A0;
+}
+
+*[barrier=~/self_checkout|checkout/] {
+	fill-color: #EEEEEE;
+	icon-image: url('barrier_$[barrier].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+
+/****************************************************************************
+ * Railway
+ */
+
+*[railway=buffer_stop] {
+	icon-image: url('railway_$[railway].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+
+/****************************************************************************
+ * Emergency
+ */
+
+*[emergency] {
+	icon-image: url('emergency_$[emergency].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+
+/****************************************************************************
+ * Man made
+ */
+
+*[man_made=~/surveillance|lamp|street_lamp/] {
+	icon-image: url('man_made_$[man_made].png');
+	icon-image-aliases: '"street_lamp": "lamp"';
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+
+/****************************************************************************
+ * Signaletics
+ */
+
+*[advertising] {
+	color: #5B5B5B;
+	opacity: 1;
+	icon-image: url('pub_$[advertising].png');
+	icon-image-aliases: '"sign": "poster_box", "wall_painting": "poster_box"';
+}
+
+*[advertising=billboard][support=pole] {
+	icon-image: url('pub_$[advertising]_$[support].png');
+}
+
+*[pole=landmark_sign] {
+	icon-image: url('pole_landmark_sign.png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+	text: ref;
+}
+
+*[highway=milestone] {
+	icon-image: url('poi_point_of_interest.png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+	text: name;
+}
+
+*:active {
+	color: red;
+	fill-color: red;
+}

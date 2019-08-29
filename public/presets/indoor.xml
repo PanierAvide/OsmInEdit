@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<presets xmlns="http://josm.openstreetmap.de/tagging-preset-1.0"
+	author="sidjy"
+	version="1.7_2018-03-24"
+	shortdescription="Simple Indoor Tagging"
+	fr.shortdescription="Cartographie d'intérieur Simple Indoor"
+	description="Simple Indoor Tagging"
+	fr.description="Cartographie d'intérieur Simple Indoor"
+>
+
+	<chunk id="level">
+		<multiselect key="level" text="Level" fr.text="Etages desservis" values="5;4;3;2;1;0;-1;-2;-3;-4;-5" values_searchable="true" />
+	</chunk>
+
+	<chunk id="name_ref">
+		<text key="name" text="Name" />
+		<text key="ref" text="Reference" />
+	</chunk>
+
+	<group name="Building structure" fr.name="Cartographie d'intérieur">
+		<item name="Room" fr.name="Pièce" type="closedway" preset_name_label="true">
+			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
+			<label text="Conventional room with walls" fr.text="Pièce classique avec des murs" />
+				<space />
+			<key key="indoor" value="room" />
+			<combo key="room" text="Type of room" fr.text="Type de pièce" values_searchable="true">
+				<list_entry value="yes" />
+				<list_entry value="shop" />
+				<list_entry value="entrance" short_description="Typically the first room on the way into a building" />
+				<list_entry value="toilets" />
+				<list_entry value="restaurant" />
+				<list_entry value="office" />
+				<list_entry value="storage" />
+				<list_entry value="corridor" />
+				<list_entry value="stairs" />
+				<list_entry value="utility" />
+			</combo>
+			<reference ref="name_ref" />
+			<reference ref="level" />
+		</item> <!-- Room -->
+
+		<item name="Area" fr.name="Zone" type="closedway" preset_name_label="true">
+			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
+			<label text="Area without walls" fr.text="Zone intérieure sans murs" />
+			<space />
+			<key key="indoor" value="area" />
+			<reference ref="name_ref" />
+		</item> <!-- Area -->
+
+		<item name="Wall" fr.name="Mur" type="way,closedway" preset_name_label="true">
+			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
+			<label text="Individual (non-passable) wall element, when not already defined by indoor=room" fr.text="Mur non franchissable qui n'est pas défini par une pièce" />
+			<space />
+			<key key="indoor" value="wall" />
+			<check key="area" text="Solid wall" />
+			<reference ref="level" />
+		</item> <!-- Wall -->
+
+		<item name="Corridor" fr.name="Couloir" type="closedway" preset_name_label="true">
+			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
+			<label text="Unwalled connecting passage" fr.text="Passage de raccordement sans murs" />
+			<space />
+			<key key="indoor" value="corridor" />
+			<reference ref="name_ref" />
+			<reference ref="level" />
+		</item> <!-- Corridor -->
+
+		<item name="Staircase" fr.name="Cage d'escalier" type="closedway" preset_name_label="true">
+			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
+			<key key="indoor" value="room" />
+			<key key="room" value="stairs" />
+			<reference ref="level" />
+		</item>
+
+		<item name="Elevator" fr.name="Ascenseur" type="node,closedway" preset_name_label="true">
+			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
+			<space />
+			<key key="highway" value="elevator" />
+			<reference ref="level" />
+		</item> <!-- Elevator -->
+
+		<item name="Stairs" fr.name="Escaliers/Escalator" type="way" preset_name_label="true">
+			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
+			<space />
+			<key key="highway" value="steps" />
+			<key key="indoor" value="yes" />
+			<optional>
+				<combo key="conveying" text="Escalator" values_searchable="true">
+					<list_entry value="yes" short_description="escalator with unspecified direction" />
+					<list_entry value="forward" short_description="movement in way direction" />
+					<list_entry value="backward" short_description="movement opposite to way direction" />
+					<list_entry value="reversible" short_description="changing direction" />
+					<list_entry value="" short_description="not an escalator" />
+				</combo>
+			</optional>
+			<reference ref="level" />
+		</item> <!-- Stairs -->
+	</group>
+</presets>

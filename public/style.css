@@ -1,0 +1,473 @@
+/*
+ * This file is part of OsmInEdit, released under ISC license (see LICENSE.md)
+ *
+ * Copyright (c) Adrien Pavie 2019
+ * Copyright (c) Daimler AG 2019
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ */
+
+/*
+ * Common
+ */
+
+html, body, #root {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.app-header {
+	height: 55px;
+}
+
+.app-body {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	top: 55px;
+}
+
+.app-map-container {
+	width: 100%;
+	height: 100%;
+}
+
+.mode-floorplan .app-map-container,
+.mode-editindoor .app-map-container {
+	height: calc(100% - 50px);
+}
+
+.app-toolbar {
+	display: none;
+}
+
+.mode-floorplan .app-toolbar,
+.mode-editindoor .app-toolbar {
+	display: block;
+	width: 100%;
+	height: 50px;
+}
+
+.flex-fill {
+	flex:1 1 auto;
+}
+
+.dropzone {
+	border: 3px dashed rgb(0, 123, 255);
+	cursor: pointer;
+}
+
+.dropzone p {
+	margin: 10px;
+	text-align: center;
+}
+
+.leaflet-overlay-pane svg {
+	width: unset;
+	height: unset;
+	vertical-align: unset;
+}
+
+svg.mdi-icon {
+	width: unset;
+	height: unset;
+}
+
+/* Hide according to screen size */
+@media screen and (max-width: 576px) {
+	.hide-xsDown {
+		display: none !important;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.hide-smDown {
+		display: none !important;
+	}
+}
+
+@media screen and (max-width: 992px) {
+	.hide-mdDown {
+		display: none !important;
+	}
+}
+
+
+/* High-DPI screens */
+@media
+	only screen and (-webkit-min-device-pixel-ratio: 1.3),
+	only screen and (-o-min-device-pixel-ratio: 13/10),
+	only screen and (min-resolution: 120dpi)
+{
+	body, .form-control, .btn {
+		font-size: 0.8em !important;
+	}
+
+	h3, input.form-control {
+		font-size: 1.1em !important;
+	}
+
+	h5 {
+		font-size: 0.9em !important;
+	}
+}
+
+.dense-tabs .nav-item {
+	padding: 0.4rem 0.5rem;
+}
+
+.leaflet-control-sidepanelbtn a {
+	cursor: pointer;
+}
+
+.leaflet-control-sidepanelbtn svg {
+	width: 24px;
+	height: 24px;
+}
+
+/* Level selector */
+.leaflet-control-levels a {
+	cursor: pointer;
+}
+
+.leaflet-control-levels a.leaflet-control-level-selected,
+.leaflet-control-levels a.leaflet-control-level-selected:hover {
+	background-color: #013243;
+	color: white !important;
+}
+
+
+/*
+ * Modes
+ */
+
+.btn-mode-floorplan {
+	background-color: #e26a6a !important;
+	border-color: #e26a6a !important;
+}
+
+.mode-floorplan .app-header {
+	background-color: #e26a6a !important;
+}
+
+.mode-floorplan .btn-mode-floorplan.active {
+	background-color: #c0392b !important;
+	border-color: #c0392b !important;
+	box-shadow: unset !important;
+}
+
+.btn-mode-editindoor {
+	background-color: #6bb9f0 !important;
+	border-color: #6bb9f0 !important;
+}
+
+.mode-editindoor .app-header {
+	background-color: #6bb9f0 !important;
+}
+
+.mode-editindoor .btn-mode-editindoor.active {
+	background-color: #2574a9 !important;
+	border-color: #2574a9 !important;
+	box-shadow: unset !important;
+}
+
+.mode-editindoor .app-header .btn-outline-secondary,
+.mode-floorplan .app-header .btn-outline-secondary,
+.mode-editindoor .app-header .btn-outline-secondary:hover:disabled,
+.mode-floorplan .app-header .btn-outline-secondary:hover:disabled {
+	background-color: #f8f9fa;
+	border-color: #f8f9fa;
+}
+
+.mode-editindoor .app-header .btn-outline-secondary:hover,
+.mode-floorplan .app-header .btn-outline-secondary:hover {
+	background-color: #6c757d;
+	border-color: #6c757d;
+}
+
+
+
+/*
+ * Map
+ */
+
+.app-map {
+	width: 100%;
+	height: 100%;
+}
+
+.app-tags-table input {
+	border-radius: 0;
+}
+
+.leaflet-vertex-icon {
+	border-radius: 50px;
+	border-width: 1px;
+	background-color: grey !important;
+	z-index: 15000;
+}
+
+.leaflet-interactive,
+.leaflet-grab {
+	cursor: unset !important;
+}
+
+.leaflet-clickable {
+	cursor: crosshair !important;
+}
+
+.mode-explore .app-map-novector .leaflet-marker-pane,
+.mode-explore .app-map-novector .leaflet-overlay-pane,
+.mode-explore .app-map-novector .leaflet-shadow-pane,
+.mode-editindoor .app-map-novector .leaflet-marker-pane,
+.mode-editindoor .app-map-novector .leaflet-overlay-pane,
+.mode-editindoor .app-map-novector .leaflet-shadow-pane {
+	visibility: hidden;
+}
+
+.leaflet-control-north {
+	width: 32px;
+	text-align: center;
+	background-color: white;
+}
+
+.leaflet-control-north img {
+	height: 30px;
+}
+
+
+/*
+ * Presets
+ */
+
+.app-preset-card {
+	border: 1px solid lightgrey;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 100%;
+}
+
+.app-preset-card:hover {
+	background-color: #eee;
+}
+
+.app-preset-card h5 {
+	margin: 0;
+	padding: 0;
+}
+
+.app-preset-card .app-preset-enter {
+/* 	margin-top: 4px; */
+}
+
+
+/*
+ * Geometry type selector
+ */
+
+.app-geomtype {
+	border: 1px solid lightgrey;
+	border-radius: 5px;
+	cursor: pointer;
+	margin: 10px 0;
+	align-items: center;
+}
+
+.app-geomtype:hover {
+	background-color: #eee;
+}
+
+.app-geomtype-text span {
+	display: block;
+}
+
+.app-geomtype-text span:first-child {
+	font-weight: bold;
+}
+
+
+/*
+ * Tags table
+ */
+
+.app-tags .input-group:not(:first-child) > .form-control {
+	border-top-left-radius: 0;
+}
+
+.app-tags .input-group:not(:last-child) > .form-control {
+	border-bottom-left-radius: 0;
+	border-bottom: none;
+}
+
+.app-tags .input-group:not(:first-child) > .input-group-append > .btn {
+	border-top-right-radius: 0;
+}
+
+.app-tags .input-group:not(:last-child) > .input-group-append > .btn {
+	border-bottom-right-radius: 0;
+	border-bottom: none;
+}
+
+.app-tags-add {
+	width: 50% !important;
+	margin: 0 10px;
+	border-top-left-radius: 0 !important;
+	border-top-right-radius: 0 !important;
+}
+
+.app-tags-row-key, .app-tags-row-val {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+
+/*
+ * Presets forms
+ */
+
+.multiselect-native-select .btn-group {
+	width: 100%;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+}
+
+.multiselect-container.dropdown-menu.show label {
+	padding-left: 10px;
+}
+
+.form-group-check input {
+	vertical-align: middle;
+}
+
+.form-group-check label {
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+
+/*
+ * Breadcrumb Arrow (for navigation)
+ */
+
+.breadcrumb-arrow {
+	height: 36px;
+	padding: 0;
+	line-height: 36px;
+	list-style: none;
+	background-color: #e6e9ed;
+	border-radius: 5px;
+}
+.breadcrumb-arrow ol {
+	padding: 0;
+}
+.breadcrumb-arrow .breadcrumb-item {
+	cursor: pointer;
+}
+.breadcrumb-arrow .breadcrumb-item + .breadcrumb-item {
+	padding-left: unset;
+}
+.breadcrumb-arrow .breadcrumb-item + .breadcrumb-item::before {
+	padding-right: unset !important;
+}
+.breadcrumb-arrow li:first-child a {
+	border-radius: 4px 0 0 4px;
+	-webkit-border-radius: 4px 0 0 4px;
+	-moz-border-radius: 4px 0 0 4px
+}
+.breadcrumb-arrow li, .breadcrumb-arrow li a, .breadcrumb-arrow li:not(:first-child) span {
+	display: inline-block;
+	vertical-align: top
+}
+.breadcrumb-arrow li:not(:first-child) {
+	margin-left: -5px;
+}
+.breadcrumb-arrow li+li:before {
+	padding: 0;
+	content: "" !important;
+}
+.breadcrumb-arrow li a, .breadcrumb-arrow li:not(:first-child) span {
+	height: 36px;
+	padding: 0 10px 0 25px;
+	line-height: 36px
+}
+.breadcrumb-arrow li:first-child a {
+	padding: 0 10px
+}
+.breadcrumb-arrow li a {
+	position: relative;
+	color: #6c757d;
+	text-decoration: none;
+	background-color: #fff68f;
+	border: 1px solid #fff68f;
+}
+.breadcrumb-arrow li:not(:last-child) a {
+	margin: 0 4px 0 0;
+}
+.breadcrumb-arrow li:last-child a {
+	border-radius: 0 4px 4px 0;
+}
+.breadcrumb-arrow li:first-child a {
+	padding-left: 10px
+}
+.breadcrumb-arrow li a:after, .breadcrumb-arrow li a:before {
+	position: absolute;
+	top: -1px;
+	width: 0;
+	height: 0;
+	content: '';
+	border-top: 18px solid transparent;
+	border-bottom: 18px solid transparent
+}
+.breadcrumb-arrow li:not(:last-child) a:before {
+	right: -10px;
+	z-index: 3;
+	border-left-color: #fff68f;
+	border-left-style: solid;
+	border-left-width: 11px
+}
+.breadcrumb-arrow li:not(:last-child) a:after {
+	right: -12px;
+	z-index: 2;
+	border-left: 11px solid #f4d03f;
+}
+.breadcrumb-arrow li a:focus, .breadcrumb-arrow li a:hover {
+	background-color: #ffec8b;
+	border: 1px solid #ffec8b;
+}
+.breadcrumb-arrow li a:focus:before, .breadcrumb-arrow li a:hover:before {
+	border-left-color: #ffec8b;
+}
+.breadcrumb-arrow li a:active {
+	background-color: #f4d03f;
+	border: 1px solid #f4d03f;
+}
+.breadcrumb-arrow li a:active:after, .breadcrumb-arrow li a:active:before {
+	border-left-color: #f4d03f;
+}
+.breadcrumb-arrow li span {
+	position: relative;
+	padding: 0 10px;
+}
+.breadcrumb-arrow li:not(:last-child) span {
+	margin: 0 4px 0 0;
+}
+.breadcrumb-arrow li:not(:last-child) span:before {
+	position: absolute;
+	width: 0;
+	height: 0;
+	content: '';
+	border-top: 18px solid transparent;
+	border-bottom: 18px solid transparent;
+	right: -10px;
+	z-index: 3;
+	border-left-color: #e6e9ed;
+	border-left-style: solid;
+	border-left-width: 11px;
+}
