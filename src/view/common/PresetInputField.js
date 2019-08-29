@@ -103,7 +103,7 @@ class PresetInputField extends Component {
 			</Form.Group>;
 		}
 		else if(this.props.type === "combo") {
-			const values = d.list_entrys ? d.list_entrys.map(d => d.value) : d.values.split("," || d.delimiter);
+			const values = d.list_entrys ? d.list_entrys.map(d => d.value) : (d.values || "").split("," || d.delimiter);
 			const displayValues = d.list_entrys ?
 				d.list_entrys.map(d => d.display_value || d.value)
 				: (d.display_values ?
@@ -118,7 +118,9 @@ class PresetInputField extends Component {
 					value={currentVal}
 					size="sm"
 				>
-					<option value={"null"}></option>
+					{(d.use_last_as_default === undefined || d.use_last_as_default === "false") &&
+						<option value={"null"}></option>
+					}
 					{values.map((e,i) => (
 						<option key={i} value={e || ""}>{displayValues[i]}</option>
 					))}

@@ -71,7 +71,7 @@ class BuildingEditPane extends Component {
 
 				<PresetInputField
 					type="combo"
-					data={{ text: window.I18n.t("Type of building"), key: "building", values: "yes,retail,commercial,parking,industrial,apartments,garage,school,church,warehouse,university,office,hospital,hotel,train_station,college,civic,public" }}
+					data={{ text: window.I18n.t("Type of building"), key: "building", values: "retail,commercial,parking,industrial,apartments,garage,school,church,warehouse,university,office,hospital,hotel,train_station,college,civic,public,yes" , use_last_as_default: "force" }}
 					tags={tags}
 				/>
 

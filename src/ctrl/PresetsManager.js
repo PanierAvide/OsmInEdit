@@ -167,8 +167,10 @@ class PresetsManager {
 
 						for(const k in item.tags) {
 							if(fTags[k] !== item.tags[k]) {
-								valid = false;
-								break;
+								if(fTags[k] === undefined || item.tagMatch[k] !== "key") {
+									valid = false;
+									break;
+								}
 							}
 						}
 
@@ -234,8 +236,15 @@ class PresetsManager {
 		// Keys
 		if([ "item", "chunk", "optional" ].includes(type) && p.key) {
 			const tags = {};
-			p.key.map(k => this._simplifyJSONPreset(k, "key")).forEach(t => { tags[t.key] = t.value; });
+			const tagMatch = {};
+			p.key.map(k => this._simplifyJSONPreset(k, "key")).forEach(t => {
+				tags[t.key] = t.value;
+				if(t.match && t.match !== "keyvalue") {
+					tagMatch[t.key] = t.match;
+				}
+			});
 			res.tags = tags;
+			res.tagMatch = tagMatch;
 		}
 
 		// Copy properties
@@ -243,7 +252,7 @@ class PresetsManager {
 			"icon", "name", "key", "value", "type", "wiki", "id", "ref", "href",
 			"text", "default", "use_last_as_default", "auto_increment", "length",
 			"alternative_autocomplete_keys", "match", "values", "editable", "delimiter",
-			"values_from", "display_values", "short_descriptions", "values_searchable",
+			"values_from", "display_values", "short_descriptions", "values_searchable", "use_last_as_default",
 			"values_no_i18n", "values_sort", "rows", "short_description", "icon_size", "display_value"
 		].forEach(prop => {
 			if(p.$ && p.$[prop]) { res[prop] = p.$[prop]; }

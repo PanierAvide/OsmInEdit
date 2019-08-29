@@ -23,6 +23,7 @@ import deepEqual from 'fast-deep-equal';
 import GeoJSONValidation from 'geojson-validation';
 import Mousetrap from 'mousetrap';
 import pointOnFeature from '@turf/point-on-feature';
+import pointToLineDistance from '@turf/point-to-line-distance';
 import PubSub from 'pubsub-js';
 
 const GEOJSON_PRECISION = 8;
@@ -135,8 +136,14 @@ class EditableLayer extends Path {
 
 	componentWillUnmount() {
 		super.componentWillUnmount();
+
 		PubSub.unsubscribe("map.editablelayer.redraw");
 		this.updateLeafletElement(this.props, { leaflet: this.props.leaflet });
+
+		if(this.snap) {
+			this.snap.disable();
+			delete this.snap;
+		}
 	}
 
 	updateLeafletElement(fromProps, toProps) {
@@ -321,8 +328,8 @@ class EditableLayer extends Path {
 					new L.LatLng(toProps.selection.geometry.coordinates[1], toProps.selection.geometry.coordinates[0])
 					: null;
 
-				// Unselecting a door = update door lines
-				if(fromProps.selection && this._isADoorWithWidth(fromProps.selection)) {
+				// Selecting/unselecting a door = update door lines
+				if((fromProps.selection && this._isADoorWithWidth(fromProps.selection)) || (toProps.selection && this._isADoorWithWidth(toProps.selection))) {
 					this._addDoorLines(this.leafletElement, toProps.leaflet.map);
 				}
 
@@ -423,6 +430,19 @@ class EditableLayer extends Path {
 		if(updateIcons) {
 			this._addIcons(this.leafletElement);
 		}
+
+		// Enable/disable snapping
+		if(this.snap) {
+			if((toProps.draw || toProps.selection) && (!fromProps.draw && !fromProps.selection)) {
+				this.snap.enable();
+			}
+			else if(!toProps.draw && !toProps.selection && (fromProps.draw || fromProps.selection)) {
+				this.snap.disable();
+				if(toProps.leaflet && toProps.leaflet.map) {
+					toProps.leaflet.map.off("touchmove");
+				}
+			}
+		}
 	}
 
 	/**
@@ -498,7 +518,7 @@ class EditableLayer extends Path {
 		this._addDoorLines(layer, map);
 
 		// Enable snapping
-		this.snap = new MyMarkerSnap(props.leaflet.map, { snapDistance: 20 });
+		this.snap = this.snap || new MyMarkerSnap(props.leaflet.map, { snapDistance: 20 });
 		this._enableSnapping(map);
 
 		// Disable mouseover event when dragging a vertex
@@ -775,25 +795,51 @@ class EditableLayer extends Path {
 
 		this._doorLines = L.layerGroup();
 
-		const potentialLayers = layer.getLayers().filter(l => l.feature && l.feature.properties.tags && this._isRoomLikeFeature(l.feature));
 		const doorLayers = layer.getLayers().filter(l => l.getLatLng && this._isADoorWithWidth(l.feature));
+		const potentialLayers = layer
+			.getLayers()
+			.filter(l => l.feature && l.feature.properties.tags && this._isRoomLikeFeature(l.feature))
+			.map(l => {
+				switch(l.feature.geometry.type) {
+					case "LineString":
+						l._asLine = l.feature;
+						break;
+					case "Polygon":
+						l._asLine = { type: "Feature", geometry: { type: "LineString", coordinates: l.feature.geometry.coordinates[0] } };
+						break;
+					default:
+						l._asLine = null;
+				}
+
+				return l;
+			})
+			.filter(l => l._asLine);
 
 		doorLayers.forEach(l => {
 			const width = parseFloat(l.feature.properties.tags.width);
 
 			if(width > 0) {
 				const doorlatlng = l.getLatLng();
+				const doorFeature = { type: "Feature", geometry: { type: "Point", coordinates: L.GeoJSON.latLngToCoords(doorlatlng) } };
+
 				let closestLayer = null;
-				try {
-					closestLayer = L.GeometryUtil.closestLayer(map, potentialLayers, doorlatlng);
-				}
-				catch(e) {
-					// Do nothing, is to avoid cyclic object value error from L.GeometryUtil.closest function
+				let closestDistance = null;
+
+				for(let i=0; i < potentialLayers.length; i++) {
+					const potentialLayer = potentialLayers[i];
+					if(potentialLayer._asLine && potentialLayer.getBounds().contains(doorlatlng)) {
+						const dist = pointToLineDistance(doorFeature, potentialLayer._asLine, { unit: "meters" });
+
+						if(dist < 0.1 && (!closestDistance || dist < closestDistance)) {
+							closestLayer = potentialLayer;
+							closestDistance = dist;
+						}
+					}
 				}
 
 				// Find correct segment
-				if(closestLayer && closestLayer.layer && closestLayer.latlng && doorlatlng.distanceTo(closestLayer.latlng) < 0.1) {
-					let latlngs = closestLayer.layer.getLatLngs();
+				if(closestLayer) {
+					let latlngs = closestLayer.getLatLngs();
 
 					if(latlngs.length > 0) {
 						if(!Array.isArray(latlngs[0])) {
@@ -804,7 +850,9 @@ class EditableLayer extends Path {
 
 						for(let r=0; r < latlngs.length; r++) {
 							const ring = latlngs[r];
-							ring.push(ring[0]);
+							if(!ring[0].equals(ring[ring.length-1])) {
+								ring.push(ring[0]);
+							}
 
 							for(let i=0; i < ring.length - 1; i++) {
 								if(
@@ -814,10 +862,10 @@ class EditableLayer extends Path {
 									foundSegment = [ ring[i], ring[i+1] ];
 
 									if(ring[i].equals(doorlatlng)) {
-										foundSegment[0] = i > 0 ? ring[i-1] : ring[ring.length-1];
+										foundSegment[0] = i > 0 ? ring[i-1] : ring[ring.length-2];
 									}
 									if(ring[i+1].equals(doorlatlng)) {
-										foundSegment[1] = i+2 <= ring.length-1 ? ring[i+2] : ring[0];
+										foundSegment[1] = i+2 <= ring.length-1 ? ring[i+2] : ring[1];
 									}
 
 									break;

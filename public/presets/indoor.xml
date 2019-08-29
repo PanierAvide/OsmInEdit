@@ -8,13 +8,25 @@
 	fr.description="Cartographie d'intérieur Simple Indoor"
 >
 
-	<chunk id="level">
-		<multiselect key="level" text="Level" fr.text="Etages desservis" values="5;4;3;2;1;0;-1;-2;-3;-4;-5" values_searchable="true" />
-	</chunk>
-
 	<chunk id="name_ref">
 		<text key="name" text="Name" />
 		<text key="ref" text="Reference" />
+	</chunk>
+
+	<chunk id="name">
+		<text key="name" text="Name" />
+	</chunk>
+
+	<chunk id="level">
+		<combo key="level" text="Level" values="5,4,3,2,1,0,-1,-2,-3,-4,-5" length="3" />
+	</chunk>
+
+	<chunk id="multi_level">
+		<multiselect key="level" text="Level" fr.text="Etages desservis" values="5;4;3;2;1;0;-1;-2;-3;-4;-5" values_searchable="true" />
+	</chunk>
+
+	<chunk id="wheelchair">
+		<combo key="wheelchair" text="Wheelchair access" values="yes,limited,no" />
 	</chunk>
 
 	<group name="Building structure" fr.name="Cartographie d'intérieur">
@@ -56,6 +68,24 @@
 			<reference ref="level" />
 		</item> <!-- Wall -->
 
+		<item name="Door" fr.name="Porte" type="node">
+			<key key="door" value="yes" match="key" />
+			<combo key="door" text="Type" values="hinged,sliding,revolving,folding,trapdoor,overhead,loadingdock,yes" use_last_as_default="force" />
+			<combo key="entrance" text="Building entrance" values_searchable="true" use_last_as_default="force">
+				<list_entry value="main" display_value="Main building entrance" />
+				<list_entry value="service" display_value="Backdoor entrance for employees" />
+				<list_entry value="exit" display_value="One-way only building exit" />
+				<list_entry value="emergency" display_value="Emergency only building exit" />
+				<list_entry value="staircase" display_value="Entrance leading to a staircase" />
+				<list_entry value="home" display_value="Entrance for a private house/apartment" />
+				<list_entry value="yes" display_value="Unspecified type of building entrance" />
+				<list_entry value="" display_value="Not a building entrance" />
+			</combo>
+			<text key="width" text="Width (meters)" />
+			<check key="automatic_door" text="Automatic door" />
+			<reference ref="wheelchair" />
+		</item>
+
 		<item name="Corridor" fr.name="Couloir" type="closedway" preset_name_label="true">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
 			<label text="Unwalled connecting passage" fr.text="Passage de raccordement sans murs" />
@@ -72,28 +102,70 @@
 			<reference ref="level" />
 		</item>
 
-		<item name="Elevator" fr.name="Ascenseur" type="node,closedway" preset_name_label="true">
-			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
-			<space />
-			<key key="highway" value="elevator" />
-			<reference ref="level" />
-		</item> <!-- Elevator -->
-
 		<item name="Stairs" fr.name="Escaliers/Escalator" type="way" preset_name_label="true">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
-			<space />
 			<key key="highway" value="steps" />
-			<key key="indoor" value="yes" />
-			<optional>
-				<combo key="conveying" text="Escalator" values_searchable="true">
-					<list_entry value="yes" short_description="escalator with unspecified direction" />
-					<list_entry value="forward" short_description="movement in way direction" />
-					<list_entry value="backward" short_description="movement opposite to way direction" />
-					<list_entry value="reversible" short_description="changing direction" />
-					<list_entry value="" short_description="not an escalator" />
-				</combo>
-			</optional>
-			<reference ref="level" />
-		</item> <!-- Stairs -->
+			<reference ref="multi_level" />
+			<reference ref="name" />
+			<combo key="incline" text="Incline" values_searchable="true">
+				<list_entry value="up" display_value="Going up in way direction" />
+				<list_entry value="down" display_value="Going down in way direction" />
+			</combo>
+			<combo key="conveying" text="Escalator" values_searchable="true">
+				<list_entry value="yes" display_value="escalator with unspecified direction" />
+				<list_entry value="forward" display_value="movement in way direction" />
+				<list_entry value="backward" display_value="movement opposite to way direction" />
+				<list_entry value="reversible" display_value="changing direction" />
+				<list_entry value="" display_value="not an escalator" />
+			</combo>
+		</item>
+
+		<item name="Elevator" fr.name="Ascenseur" type="node,closedway" preset_name_label="true">
+			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
+			<key key="highway" value="elevator" />
+			<reference ref="name" />
+			<reference ref="multi_level" />
+			<reference ref="wheelchair" />
+		</item>
+
+		<item name="Footway" type="way,closedway">
+			<link wiki="Tag:highway=footway" />
+			<key key="highway" value="footway" />
+			<reference ref="name" />
+			<reference ref="multi_level" />
+			<reference ref="wheelchair" />
+		</item>
+
+		<item name="Service road" type="way,closedway">
+			<link wiki="Tag:highway=service" />
+			<key key="highway" value="service" />
+			<combo key="service" text="Service way type" values="alley,driveway,parking_aisle,drive-through,emergency_access" />
+			<reference ref="name" />
+			<reference ref="multi_level" />
+			<check key="oneway" text="Oneway" />
+		</item>
+
+		<item name="Level connection" type="node">
+			<key key="door" value="no" />
+			<text key="width" text="Width (meters)" />
+		</item>
+	</group>
+
+	<group name="Furniture" fr.name="Mobilier">
+		<item name="Table" type="node">
+			<key key="amenity" value="table" />
+			<text key="width" text="Width (meters)" />
+			<text key="length" text="Length (meters)" />
+			<text key="height" text="Height (meters)" />
+		</item>
+
+		<item name="Chair" type="node">
+			<key key="amenity" value="chair" />
+		</item>
+
+		<item name="Shelf" type="closedway">
+			<key key="barrier" value="shelf" />
+			<text key="height" text="Height (meters)" />
+		</item>
 	</group>
 </presets>
