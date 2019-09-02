@@ -326,9 +326,27 @@ class VectorDataManager extends HistorizedManager {
 					&& (!floor || booleanIntersects(floorBuff, feature))
 				);
 
+			// Add custom rendering for doors on building contour
 			if(options.building) {
 				features = features.map(f => {
 					f.properties.own.onBuildingContour = ["Point", "LineString"].includes(f.geometry.type) && f.properties.tags.door && this.isOnContour(options.building, f);
+					return f;
+				});
+			}
+			else {
+				const buildings = this._cacheOsmGeojson.features.filter(f => ["Polygon","MultiPolygon"].includes(f.geometry.type) && f.properties.tags.building);
+
+				features = features.map(f => {
+					if(f.properties.tags.door && ["Point", "LineString"].includes(f.geometry.type)) {
+						let onContour = false;
+						for(let b of buildings) {
+							if(this.isOnContour(b, f)) {
+								onContour = true;
+								break;
+							}
+						}
+						f.properties.own.onBuildingContour = onContour;
+					}
 					return f;
 				});
 			}
