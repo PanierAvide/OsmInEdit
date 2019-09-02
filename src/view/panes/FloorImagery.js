@@ -12,16 +12,15 @@
 
 import React, { Component } from 'react';
 import { LatLng } from 'leaflet';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Dropzone from 'react-dropzone';
 import Eye from 'mdi-react/EyeIcon';
 import EyeOff from 'mdi-react/EyeOffIcon';
 import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 import Hash from 'object-hash';
+import InputGroup from 'react-bootstrap/InputGroup';
 import ListGroup from 'react-bootstrap/ListGroup';
 import PubSub from 'pubsub-js';
-import Row from 'react-bootstrap/Row';
 
 /**
  * Floor imagery component handles editing of floor plans
@@ -98,104 +97,119 @@ class FloorImageryPane extends Component {
 
 	render() {
 		const floorImgs = window.imageryManager.getFloorImages();
-		return <Container className="m-0 pl-2 pr-2 mt-2">
-			<Row className="d-flex align-items-center justify-content-between">
-				<Col>
-					<h3 className="m-0 p-0">{window.I18n.t("Floor plan")}</h3>
-				</Col>
-			</Row>
+		const selected = floorImgs && floorImgs.find(img => img.selected && img.visible);
 
-			<Row className="mt-3 mb-3 p-0 d-flex overflow-hidden">
-				<Col className="m-0">{window.I18n.t("Opacity")} <span className="font-weight-light">{(this.props.floorImageryOpacity*100).toFixed(0)+"%"}</span></Col>
-				<Col className="m-0">
-					<input
-						type="range"
+		if(selected && selected.opacity === undefined) { selected.opacity = 1; }
+
+		return <div className="m-0 pl-2 pr-2 mt-2">
+			<h3 className="m-0 p-0">{window.I18n.t("Floor plan")}</h3>
+
+			<Dropzone
+				accept="image/jpeg, image/png, application/json"
+				onDrop={files => this._onDropImages(files)}
+			>
+				{({getRootProps, getInputProps}) => (
+					<div className="dropzone m-0 mt-3 w-100" {...getRootProps()}>
+						<input {...getInputProps()} />
+						<p>
+							{window.I18n.t("Drag and drop your images here (or click to open file browser)")}<br />
+							<small>{window.I18n.t("Supported formats: JPEG, PNG, Imagery JSON")}</small>
+						</p>
+					</div>
+				)}
+			</Dropzone>
+
+			{selected &&
+				<InputGroup className="mt-3">
+					<InputGroup.Prepend>
+						<InputGroup.Text>{window.I18n.t("Opacity")}</InputGroup.Text>
+					</InputGroup.Prepend>
+
+					<div className="form-control" style={{flexGrow: 2}}>
+						<input
+							type="range"
+							min="0"
+							max="100"
+							step="5"
+							onChange={v => this._onOpacityChanged(v.target.value)}
+							value={selected.opacity*100}
+							style={{maxWidth: "100%"}}
+						/>
+					</div>
+
+					<FormControl
+						type="number"
 						min="0"
 						max="100"
 						onChange={v => this._onOpacityChanged(v.target.value)}
-						value={this.props.floorImageryOpacity*100}
-						style={{width: "100%"}}
-						className="p-0 m-0 w-100"
+						value={(selected.opacity*100).toFixed(0)}
 					/>
-				</Col>
-			</Row>
 
-			<Row className="m-0">
-				<Dropzone
-					accept="image/jpeg, image/png, application/json"
-					onDrop={files => this._onDropImages(files)}
-				>
-					{({getRootProps, getInputProps}) => (
-						<div className="dropzone m-0 mb-3 w-100" {...getRootProps()}>
-							<input {...getInputProps()} />
-							<p>
-								{window.I18n.t("Drag and drop your images here (or click to open file browser)")}<br />
-								<small>{window.I18n.t("Supported formats: JPEG, PNG, Imagery JSON")}</small>
-							</p>
-						</div>
-					)}
-				</Dropzone>
+					<InputGroup.Append>
+						<InputGroup.Text>%</InputGroup.Text>
+					</InputGroup.Append>
+				</InputGroup>
+			}
 
-				<ListGroup style={{width: "100%"}}>
-					{floorImgs.map((f, i) => {
-						const showHideClick = evt => {
-							evt.stopPropagation();
+			<ListGroup className="mt-3" style={{width: "100%"}}>
+				{floorImgs.map((f, i) => {
+					const showHideClick = evt => {
+						evt.stopPropagation();
 
+						PubSub.publish("body.floorimagery.update", {
+							imagery: floorImgs.map(d => {
+								const newD = Object.assign({}, d);
+								newD.visible = d.id === f.id ? !d.visible : d.visible;
+								return newD;
+							})
+						});
+					};
+
+					return <ListGroup.Item
+						key={i}
+						style={{display: "flex", alignItems: "center", paddingLeft: "0.5rem"}}
+						active={f.selected}
+						onClick={() => {
 							PubSub.publish("body.floorimagery.update", {
 								imagery: floorImgs.map(d => {
 									const newD = Object.assign({}, d);
-									newD.visible = d.id === f.id ? !d.visible : d.visible;
+									newD.selected = d.id === f.id ? true : false;
 									return newD;
 								})
 							});
-						};
+							if(!this.props.floorImageryMode) { PubSub.publish("body.floorimagery.mode", { mode: "scale" }); }
+						}}
+					>
+						{f.visible ?
+							<Eye size={28} onClick={e => showHideClick(e)} />
+							:
+							<EyeOff size={28} onClick={e => showHideClick(e)} />
+						}
 
-						return <ListGroup.Item
-							key={i}
-							style={{display: "flex", alignItems: "center", paddingLeft: "0.5rem"}}
-							active={f.selected}
-							onClick={() => {
-								PubSub.publish("body.floorimagery.update", {
-									imagery: floorImgs.map(d => {
-										const newD = Object.assign({}, d);
-										newD.selected = d.id === f.id ? true : false;
-										return newD;
-									})
-								});
-								if(!this.props.floorImageryMode) { PubSub.publish("body.floorimagery.mode", { mode: "scale" }); }
-							}}
-						>
-							{f.visible ?
-								<Eye size={28} onClick={e => showHideClick(e)} />
-								:
-								<EyeOff size={28} onClick={e => showHideClick(e)} />
-							}
+						<img src={f.image} style={{width: 30, height: 30, margin: "0 5px", border: "1px solid #ccc" }} alt="" />
 
-							<img src={f.image} style={{width: 30, height: 30, margin: "0 5px", border: "1px solid #ccc" }} alt="" />
+						{f.label.substring(0, f.label.lastIndexOf("."))}
 
-							{f.label.substring(0, f.label.lastIndexOf("."))}
+						<Form.Control
+							type="number"
+							placeholder={window.I18n.t("Level")}
+							value={f.level === null || isNaN(f.level) ? "" : f.level}
+							step="any"
+							onChange={e => PubSub.publish("body.floorimagery.update", {
+								imagery: [ Object.assign({}, f, { level: parseFloat(e.target.value) }) ]
+							})}
+							style={{width: 80, display: "inline-block", position: "absolute", right: 5}}
+							required
+							isInvalid={f.level === null || isNaN(f.level)}
+						/>
 
-							<Form.Control
-								type="number"
-								placeholder={window.I18n.t("Level")}
-								value={f.level === null || isNaN(f.level) ? "" : f.level}
-								step="any"
-								onChange={e => PubSub.publish("body.floorimagery.update", {
-									imagery: [ Object.assign({}, f, { level: parseFloat(e.target.value) }) ]
-								})}
-								style={{width: 80, display: "inline-block", position: "absolute", right: 5}}
-								required
-								isInvalid={f.level === null || isNaN(f.level)}
-							/>
-
-							<Form.Control.Feedback type="invalid" style={f.selected ? { color: "white" } : {}}>
-								{window.I18n.t("Please choose a level")}
-							</Form.Control.Feedback>
-						</ListGroup.Item>;
-					})}
-				</ListGroup>
-			</Row>
-		</Container>;
+						<Form.Control.Feedback type="invalid" style={f.selected ? { color: "white" } : {}}>
+							{window.I18n.t("Please choose a level")}
+						</Form.Control.Feedback>
+					</ListGroup.Item>;
+				})}
+			</ListGroup>
+		</div>;
 	}
 }
 

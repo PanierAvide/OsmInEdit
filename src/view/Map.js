@@ -191,7 +191,7 @@ class MyMap extends Component {
 			return <FloorImagery
 				data={floormap}
 				key={floormap.id}
-				opacity={this.props.floorImageryOpacity}
+				opacity={floormap.opacity !== undefined && !isNaN(parseFloat(floormap.opacity)) ? floormap.opacity : 1}
 				ref={"floormap_"+floormap.id}
 				level={this.props.level}
 				mode={this.props.mode}

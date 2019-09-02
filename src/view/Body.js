@@ -76,7 +76,6 @@ class Body extends Component {
 			selectedBaseImagery: null,
 			overlaysImageryOpacity: 1,
 			baseImageryOpacity: 1,
-			floorImageryOpacity: 1,
 			floorImageryMode: null,
 			floorImageryCopyPaste: null,
 			changeset: { tags: {} },
@@ -859,8 +858,17 @@ class Body extends Component {
 		 * @property {string} type The kind of layer concerned (background, overlay or floor)
 		 */
 		PubSub.subscribe("body.imagery.opacity", (msg, data) => {
-			const typeToVar = { "background": "baseImageryOpacity", "overlay": "overlaysImageryOpacity", "floor": "floorImageryOpacity" };
-			this.setState({ [typeToVar[data.type]]: data.opacity });
+			if(data.type !== "floor") {
+				const typeToVar = { "background": "baseImageryOpacity", "overlay": "overlaysImageryOpacity" };
+				this.setState({ [typeToVar[data.type]]: data.opacity });
+			}
+			else {
+				// Find selected layer
+				const selected = window.imageryManager.getFloorImages().find(img => img.selected && img.visible);
+				if(selected) {
+					PubSub.publish("body.floorimagery.update", { imagery: [ Object.assign({}, selected, { opacity: data.opacity }) ] });
+				}
+			}
 		});
 
 		/**
