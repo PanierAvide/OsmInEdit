@@ -70,7 +70,7 @@
 
 		<item name="Door" fr.name="Porte" type="node">
 			<key key="door" value="yes" match="key" />
-			<combo key="door" text="Type" values="hinged,sliding,revolving,folding,trapdoor,overhead,loadingdock,yes" use_last_as_default="force" />
+			<combo key="door" text="Type" values="hinged,sliding,revolving,folding,trapdoor,overhead,loadingdock,no,yes" use_last_as_default="force" />
 			<combo key="entrance" text="Building entrance" values_searchable="true" use_last_as_default="force">
 				<list_entry value="main" display_value="Main building entrance" />
 				<list_entry value="service" display_value="Backdoor entrance for employees" />
@@ -130,7 +130,7 @@
 			<reference ref="wheelchair" />
 		</item>
 
-		<item name="Footway" type="way,closedway">
+		<item name="Footway" type="way">
 			<link wiki="Tag:highway=footway" />
 			<key key="highway" value="footway" />
 			<reference ref="name" />
@@ -138,7 +138,7 @@
 			<reference ref="wheelchair" />
 		</item>
 
-		<item name="Service road" type="way,closedway">
+		<item name="Service road" type="way">
 			<link wiki="Tag:highway=service" />
 			<key key="highway" value="service" />
 			<combo key="service" text="Service way type" values="alley,driveway,parking_aisle,drive-through,emergency_access" />
