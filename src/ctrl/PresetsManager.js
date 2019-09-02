@@ -166,7 +166,7 @@ class PresetsManager {
 						let valid = true;
 
 						for(const k in item.tags) {
-							if(fTags[k] !== item.tags[k]) {
+							if(item.tagMatch[k] !== "none" && fTags[k] !== item.tags[k]) {
 								if(fTags[k] === undefined || item.tagMatch[k] !== "key") {
 									valid = false;
 									break;

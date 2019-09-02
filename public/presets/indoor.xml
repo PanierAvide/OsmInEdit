@@ -120,9 +120,11 @@
 			</combo>
 		</item>
 
-		<item name="Elevator" fr.name="Ascenseur" type="node,closedway" preset_name_label="true">
+		<item name="Elevator" fr.name="Ascenseur" type="closedway" preset_name_label="true">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging" />
 			<key key="highway" value="elevator" />
+			<key key="indoor" value="room" match="none" />
+			<key key="room" value="elevator" match="none" />
 			<reference ref="name" />
 			<reference ref="multi_level" />
 			<reference ref="wheelchair" />
