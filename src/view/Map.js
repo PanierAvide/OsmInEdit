@@ -252,7 +252,7 @@ class MyMap extends Component {
 					position="topright"
 				/>
 
-				{[Body.MODE_EXPLORE, Body.MODE_LEVELS].includes(this.props.mode) &&
+				{[Body.MODE_EXPLORE, Body.MODE_LEVELS].includes(this.props.mode) && !this.state.loading && this.state.dataready &&
 					<LevelSelector
 						position="topright"
 						levels={levelsList}

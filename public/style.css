@@ -227,7 +227,8 @@ svg.mdi-icon {
 .mode-explore .app-map-novector .leaflet-shadow-pane,
 .mode-editindoor .app-map-novector .leaflet-marker-pane,
 .mode-editindoor .app-map-novector .leaflet-overlay-pane,
-.mode-editindoor .app-map-novector .leaflet-shadow-pane {
+.mode-editindoor .app-map-novector .leaflet-shadow-pane,
+.app-map-novector .leaflet-control-levels {
 	visibility: hidden;
 }
 
