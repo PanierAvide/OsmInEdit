@@ -25,26 +25,28 @@ const LevelControl = Control.extend({
 
 	setAvailableLevels(lvls) {
 		this.container.innerHTML = "";
-		const levels = lvls || [ 0 ];
+		const levels = lvls.map(l => parseFloat(l)) || [ 0 ];
 
-		levels.sort((a,b) => parseInt(b) - parseInt(a));
+		levels.sort((a,b) => a - b);
+		const min = levels[0];
+		const max = levels[levels.length-1];
 
-		levels.forEach(lvl => {
-			const cLvl = DomUtil.create("a", "leaflet-control-level lvl"+lvl);
-			cLvl.innerHTML = lvl;
+		for(let lvl = max; lvl >= min; lvl--) {
+			const myLvl = parseInt(lvl.toString());
+			const cLvl = DomUtil.create("a", "leaflet-control-level lvl"+myLvl);
+			cLvl.innerHTML = myLvl;
 			cLvl.addEventListener("click", () => {
-				this.lastLevel = lvl;
-				PubSub.publish("body.level.set", { level: lvl });
+				PubSub.publish("body.level.set", { level: myLvl });
 			});
 
 			this.container.appendChild(cLvl);
-		});
+		}
 	},
 
 	setLevel(l) {
-		if(this.lastLevel) {
-			const last = this.container.getElementsByClassName("lvl"+this.lastLevel)[0];
-			if(last) {
+		const lasts = this.container.getElementsByClassName("leaflet-control-level-selected");
+		if(lasts) {
+			for(let last of lasts) {
 				last.classList.remove("leaflet-control-level-selected");
 			}
 		}
@@ -52,7 +54,6 @@ const LevelControl = Control.extend({
 		const next = this.container.getElementsByClassName("lvl"+l)[0];
 		if(next) {
 			next.classList.add("leaflet-control-level-selected");
-			this.lastLevel = l;
 		}
 	},
 

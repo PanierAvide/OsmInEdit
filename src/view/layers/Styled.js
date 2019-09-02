@@ -16,6 +16,16 @@ import deepEqual from 'fast-deep-equal';
 
 const existingIcons = {};
 
+// Icon handling load errors
+const MyIcon = Icon.extend({
+	_createImg: function (src, el) {
+		el = el || document.createElement('img');
+		el.src = src;
+		el.onerror = () => { el.style.display='none'; };
+		return el;
+	}
+});
+
 /**
  * Styled layer is an extension of GeoJSON layer in order to manage advanced styling of geometries.
  *
@@ -113,7 +123,7 @@ class StyledLayer extends Path {
 				let icon = existingIcons[iconUrl];
 
 				if(!icon) {
-					icon = new Icon({
+					icon = new MyIcon({
 						iconUrl: iconUrl,
 						iconSize: [iconSize,iconSize],
 						iconAnchor: [iconSize/2,iconSize/2]
@@ -126,13 +136,6 @@ class StyledLayer extends Path {
 		});
 
 		layer.addLayer(this._featureIcons);
-
-		layer.once("add", () => {
-			document.querySelectorAll('img').forEach(function(img){
-				img.onerror = function() { this.style.display='none'; };
-			})
-;
-		});
 	}
 
 	/**
