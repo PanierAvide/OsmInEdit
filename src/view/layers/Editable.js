@@ -58,6 +58,16 @@ const MyCircleMarker = L.CircleMarker.extend({
 	}
 });
 
+// Icon handling load errors
+const MyIcon = L.Icon.extend({
+	_createImg: function (src, el) {
+		el = el || document.createElement('img');
+		el.src = src;
+		el.onerror = () => { el.style.display='none'; };
+		return el;
+	}
+});
+
 
 /**
  * Editable layer is an extension of GeoJSON layer in order to manage editing of geometries.
@@ -235,8 +245,6 @@ class EditableLayer extends Path {
 						this._featureIcons.removeLayer(iconToRemove);
 					}
 				}
-
-				this._cleanMissingIcons();
 			}
 
 			// Select against non-nodes features
@@ -916,7 +924,6 @@ class EditableLayer extends Path {
 			l.options.iconImage
 		));
 		layer.addLayer(this._featureIcons);
-		this._cleanMissingIcons();
 	}
 
 	/**
@@ -929,7 +936,7 @@ class EditableLayer extends Path {
 			let icon = existingIcons[iconUrl];
 
 			if(!icon) {
-				icon = L.icon({
+				icon = new MyIcon({
 					iconUrl: iconUrl,
 					iconSize: [ICON_SIZE, ICON_SIZE],
 					iconAnchor: [ICON_SIZE/2, ICON_SIZE/2]
@@ -1024,17 +1031,6 @@ class EditableLayer extends Path {
 		}
 
 		return 0;
-	}
-
-	/**
-	 * Remove img markup when icon can't be loaded
-	 * @private
-	 */
-	_cleanMissingIcons() {
-		document.querySelectorAll('img').forEach(function(img){
-			img.onerror = function() { this.style.display='none'; };
-		})
-;
 	}
 
 	/**
