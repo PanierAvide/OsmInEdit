@@ -55,6 +55,14 @@ class HistorizedManager {
 	}
 
 	/**
+	 * Get the amount of edits currently taken into account
+	 * @return {int} Amount of edits
+	 */
+	getAmountEdits() {
+		return this._lastActionId + 1;
+	}
+
+	/**
 	 * Save an action into stack
 	 */
 	_do(action, noSave) {

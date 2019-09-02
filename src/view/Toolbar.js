@@ -35,17 +35,19 @@ class Toolbar extends Component {
 	}
 
 	render() {
-		let canUndo, canRedo, canSave;
+		let canUndo, canRedo, canSave, nbEdits;
 
 		if(this.props.mode === Body.MODE_FLOOR_IMAGERY) {
 			canUndo = window.imageryManager.canUndo();
 			canRedo = window.imageryManager.canRedo();
 			canSave = window.imageryManager.getFloorImages().length > 0;
+			nbEdits = window.imageryManager.getAmountEdits();
 		}
 		else {
 			canUndo = window.vectorDataManager.canUndo();
 			canRedo = window.vectorDataManager.canRedo();
 			canSave = canUndo;
+			nbEdits = window.vectorDataManager.getAmountEdits();
 		}
 
 		return <div className="app-toolbar p-2">
@@ -82,13 +84,15 @@ class Toolbar extends Component {
 					</ButtonGroup>
 
 					<Button
-						variant="success"
+						variant={nbEdits < 30 ? "success" : (nbEdits < 100 ? "warning" : "danger")}
 						size="sm"
 						disabled={!canSave}
 						title={this.props.mode === Body.MODE_FLOOR_IMAGERY ? window.I18n.t("Save positionning of floor plans") : window.I18n.t("Send your changes to OpenStreetMap")}
 						onClick={() => this._onSave()}
 					>
 						<ContentSave />
+						<span className="hide-mdDown">{window.I18n.t("Save")}</span>
+						{nbEdits > 0 && " ("+nbEdits+")"}
 					</Button>
 				</div>
 			</div>
