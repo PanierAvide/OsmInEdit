@@ -105,7 +105,14 @@ class MyMap extends Component {
 				this.setState(
 					{ loading: true },
 					async () => {
-						this.setState({ loading: false, dataready: await window.vectorDataManager.loadOSMData(bbox) });
+						try {
+							const result = await window.vectorDataManager.loadOSMData(bbox);
+							this.setState({ loading: false, dataready: result });
+						}
+						catch(e) {
+							alert(window.I18n.t("Can't download data from OSM server. Please retry later."));
+							this.setState({ loading: false, dataready: false });
+						}
 					}
 				);
 			}
