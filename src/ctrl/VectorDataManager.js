@@ -168,6 +168,19 @@ class VectorDataManager extends HistorizedManager {
 	}
 
 	/**
+	 * Cleans all data temporarily saved.
+	 * This is useful after successful upload.
+	 */
+	cleanUp() {
+		this._cacheOsmXml = null;
+		this._cacheOsmGeojson = null;
+		this._cacheBbox = null;
+		this._nextId = -1;
+		this._actions = [];
+		this._lastActionId = -1;
+	}
+
+	/**
 	 * Get buildings from cached OSM data
 	 * @return {Object} Buildings features, as GeoJSON feature collection
 	 */

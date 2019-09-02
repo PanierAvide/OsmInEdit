@@ -71,7 +71,7 @@ class ChangesetPane extends Component {
 									variant="outline-primary"
 									size="sm"
 									block
-									onClick={() => window.location.reload(true)}
+									onClick={() => PubSub.publish("body.action.cleanup")}
 								>
 									<Pencil size={24} /> {window.I18n.t("Go back to editing")}
 								</Button>

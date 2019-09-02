@@ -57,6 +57,14 @@ class MyMap extends Component {
 	}
 
 	/**
+	 * Clean up map after changeset upload
+	 */
+	cleanUp() {
+		this.loadedArea = null;
+		this.setState({ loading: false, dataready: false });
+	}
+
+	/**
 	 * Get the coordinates of map center
 	 * @return {LatLng} Coordinates of map center (or null if not ready)
 	 */

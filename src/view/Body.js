@@ -1085,6 +1085,19 @@ class Body extends Component {
 			}
 		});
 
+		/**
+		 * Event for cleaning up all data after changeset upload
+		 * @event body.action.cleanup
+		 * @memberof Body
+		 */
+		PubSub.subscribe("body.action.cleanup", (msg, data) => {
+			window.vectorDataManager.cleanUp();
+			if(this.map) {
+				this.map.cleanUp();
+			}
+			PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING });
+		});
+
 		// Map zoom changes
 		PubSub.subscribe("map.zoom.changed", (msg, data) => {
 			this.setState({ zoom: data.zoom });
