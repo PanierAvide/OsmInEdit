@@ -149,15 +149,22 @@ class ImageryManager extends HistorizedManager {
 			}
 
 			if(!existingIds.includes(img.id)) {
-				const onceDone = () => {
+				const onceDone = (approxMove) => {
 					this._floorImagery.push(img);
 					existingIds.push(img.id);
 					resolve();
+
+					if(approxMove) {
+						this.moveFloorImagery(map, lastExistingImg, img);
+					}
 				};
 
 				// Add default coordinates to imagery if necessary
 				if(!img.topleft) {
+					// Put at center of map
 					if(bbox) {
+						let approxMove = false;
+
 						// Compute size of image
 						const imgobj = new Image();
 						imgobj.src = img.image;
@@ -187,9 +194,14 @@ class ImageryManager extends HistorizedManager {
 								img.bottomright = [ imgSouthWest.lat, imgNorthEast.lng ];
 								img.origWidth = imgobj.width;
 								img.origHeight = imgobj.height;
+
+								// Reuse last positioned image coordinates as an approximation
+								if(map && lastExistingImg) {
+									approxMove = true;
+								}
 							}
 
-							onceDone();
+							onceDone(approxMove);
 						};
 					}
 				}
@@ -245,9 +257,10 @@ class ImageryManager extends HistorizedManager {
 	 * Moves currently selected image to a given destination (used for copy/paste)
 	 * @param {Object} map The Leaflet map
 	 * @param {Object} destination Coordinates of corners that should be used
+	 * @param {Object} [image] Imagery to use (by default currently selected one)
 	 */
-	moveFloorImagery(map, destination) {
-		const selected = this._floorImagery.find(img => img.selected && img.visible);
+	moveFloorImagery(map, destination, image) {
+		const selected = image || this._floorImagery.find(img => img.selected && img.visible);
 
 		if(selected && destination) {
 			const updated = Object.assign({}, selected);
