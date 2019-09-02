@@ -318,40 +318,30 @@ relation[type=multipolygon][building:part=tier] {
  */
 
 line[highway] {
-	color: #0044A0;
+	color: #9E8747; /*#FFF9B3;*/
 	opacity: 1;
-	width: 15;
+	width: 7;
+	linecap: none;
 }
 
 line[highway=footway] {
-	color: #2481FF;
+	color: #C97582; /*#998888;*/
+	dashes: 5,5;
 }
 
 line[highway=steps] {
-	color: #2A4378;
-	opacity: 1;
-	width: 15;
-	linecap: none;
-	dashes: 3,2;
-	z-index: -1;
+	color: #5B8D62; /*#A0DD84;*/
+	dashes: 4,4;
 }
 
 /** Escalator **/
 line[conveying=~/yes|forward|backward|reversible/] {
 	color: #848484;
-	opacity: 1;
-	width: 15;
-	linecap: none;
-	dashes: 3,1;
+	dashes: 4,3;
 }
 
 line[conveying=~/yes|forward|backward|reversible/][highway!=footway] {
 	icon-image: url('passage_escalator.png');
-}
-
-/** Flat escalator **/
-line[conveying=~/yes|forward|backward|reversible/][highway=footway] {
-	dashes: 3,2;
 }
 
 
