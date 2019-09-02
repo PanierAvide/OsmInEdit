@@ -102,7 +102,7 @@ class EditAllLevelsPane extends Component {
 						>
 							<InputGroup.Prepend>
 
-								<InputGroup.Text><ContentDuplicate /> {window.I18n.t("Copy level")}</InputGroup.Text>
+								<InputGroup.Text><ContentDuplicate size={18} /> {window.I18n.t("Copy level")}</InputGroup.Text>
 
 							</InputGroup.Prepend>
 
@@ -120,7 +120,7 @@ class EditAllLevelsPane extends Component {
 									title={window.I18n.t("Copy selected level data in the current level")}
 									onClick={() => PubSub.publish("body.level.copy", { use: this.refs.levelSelect.value })}
 								>
-									<Check />
+									<Check size={18} />
 								</Button>
 							</InputGroup.Append>
 						</InputGroup>
