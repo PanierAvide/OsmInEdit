@@ -1169,6 +1169,12 @@ class Body extends Component {
 		Mousetrap.bind("ctrl+v", () => {
 			PubSub.publish("body.paste.feature");
 		});
+
+		// Update after locale changes
+		I18n.on("change", locale => {
+			this.forceUpdate();
+			console.log("Loaded locale", locale);
+		});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
