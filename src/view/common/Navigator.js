@@ -52,11 +52,11 @@ class Navigator extends Component {
 					active={this.props.mode === Body.MODE_LEVELS && !this.props.floor}
 					title={I18n.t("Edit all levels of this building")}
 				>
-					{I18n.t("Level structure")}
+					{I18n.t("Levels structure")}
 				</Breadcrumb.Item>
 			}
 
-			{this.props.floor &&
+			{this.props.mode === Body.MODE_LEVELS && this.props.floor &&
 				<Breadcrumb.Item
 					onClick={e => PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS })}
 					active={this.props.mode === Body.MODE_LEVELS}
@@ -70,13 +70,13 @@ class Navigator extends Component {
 				</Breadcrumb.Item>
 			}
 
-			{this.props.floor &&
+			{[Body.MODE_FEATURES, Body.MODE_LEVELS].includes(this.props.mode) &&
 				<Breadcrumb.Item
 					onClick={e => PubSub.publish("body.mode.set", { mode: Body.MODE_FEATURES })}
 					active={this.props.mode === Body.MODE_FEATURES}
-					title={I18n.t("Edit features of this floor part")}
+					title={I18n.t("Edit features of this level")}
 				>
-					{I18n.t("Features")}
+					{I18n.t("Features of level %{lvl}", { lvl: this.props.level })}
 				</Breadcrumb.Item>
 			}
 		</Breadcrumb>;

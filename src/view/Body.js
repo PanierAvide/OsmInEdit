@@ -596,9 +596,20 @@ class Body extends Component {
 							}
 						}
 						else if(this.state.mode === Body.MODE_FEATURES && this.state.preset) {
-							newState.feature = window.vectorDataManager.createNewFeature(data.feature, this.state.level, this.state.preset);
-							newState.lastUsedPreset = this.state.preset;
-							newState.pane = LeftPanel.PANE_FEATURE_EDIT;
+							if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
+								newState.feature = window.vectorDataManager.createNewFeature(data.feature, this.state.level, this.state.preset);
+								newState.lastUsedPreset = this.state.preset;
+								newState.pane = LeftPanel.PANE_FEATURE_EDIT;
+							}
+							else {
+								newState.showDialogOutOfBoundsGeometry = true;
+								newState.feature = null;
+								newState.pane = LeftPanel.PANE_FEATURE_ADD;
+								newState.preset = null;
+								newState.lastUsedPreset = this.state.preset;
+								PubSub.publish("map.editablelayer.redraw");
+							}
+
 						}
 
 						this.setState(newState);
@@ -681,7 +692,7 @@ class Body extends Component {
 			}
 
 			if(data.feature && data.feature.id) {
-				if(this.state.mode !== Body.MODE_LEVELS || window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
+				if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
 					this.setState(
 						{ datalocked: true },
 						async () => {
@@ -1194,11 +1205,6 @@ class Body extends Component {
 		}
 
 		// Fallback modes if info is missing (undo/redo)
-		if(this.state.mode === Body.MODE_FEATURES && !this.state.floor) {
-			newState.mode = Body.MODE_LEVELS;
-			newState.pane = LeftPanel.PANE_LEVELS_ADD;
-			newState.leftPanelOpen = true;
-		}
 		if([ Body.MODE_FEATURES, Body.MODE_LEVELS ].includes(this.state.mode) && !this.state.building) {
 			newState.mode = Body.MODE_BUILDING;
 			newState.pane = null;

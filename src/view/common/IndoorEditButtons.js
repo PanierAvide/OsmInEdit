@@ -65,7 +65,7 @@ class IndoorEditButtons extends Component {
 								key={1}
 								title={I18n.t("Delete this building")}
 							>
-								<Delete /> <span className="hide-mdDown">{I18n.t("Delete this building")}</span>
+								<Delete />
 							</Button>
 						]}
 
@@ -77,7 +77,7 @@ class IndoorEditButtons extends Component {
 								className="mr-1"
 								title={I18n.t("Square this building")}
 							>
-								<VectorSquare /> <span className="hide-mdDown">{I18n.t("Square this building")}</span>
+								<VectorSquare />
 							</Button>
 						}
 
@@ -115,7 +115,7 @@ class IndoorEditButtons extends Component {
 								key={1}
 								title={I18n.t("Square this floor part")}
 							>
-								<VectorSquare /> <span className="hide-mdDown">{I18n.t("Square this floor part")}</span>
+								<VectorSquare />
 							</Button>
 							,
 							<Button
@@ -126,7 +126,7 @@ class IndoorEditButtons extends Component {
 								key={2}
 								title={I18n.t("Delete this floor part")}
 							>
-								<Delete /> <span className="hide-mdDown">{I18n.t("Delete this floor part")}</span>
+								<Delete />
 							</Button>
 						]}
 
@@ -172,7 +172,7 @@ class IndoorEditButtons extends Component {
 								className="mr-1"
 								title={I18n.t("Square this feature")}
 							>
-								<VectorSquare /> <span className="hide-mdDown">{I18n.t("Square this feature")}</span>
+								<VectorSquare />
 							</Button>
 						}
 
@@ -183,7 +183,7 @@ class IndoorEditButtons extends Component {
 								size="sm"
 								title={I18n.t("Delete this feature")}
 							>
-								<Delete /> <span className="hide-mdDown">{I18n.t("Delete this feature")}</span>
+								<Delete />
 							</Button>
 						}
 					</div>;

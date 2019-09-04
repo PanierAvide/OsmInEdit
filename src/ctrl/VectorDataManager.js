@@ -372,6 +372,41 @@ class VectorDataManager extends HistorizedManager {
 	}
 
 	/**
+	 * Retrieve the features being contained in a particular level of a building
+	 * @param {Object} building The GeoJSON feature for the building
+	 * @param {float} level The level being used
+	 * @return {Object} The GeoJSON feature collection of objects on this floor
+	 */
+	getFeaturesInLevel(building, level) {
+		let features = [];
+		const isNotExcludedFeature = (tags => tags.indoor !== "level" && !tags.building && !tags["building:part"]);
+
+		if(this._cacheOsmGeojson) {
+			const buildingBuff = building && buffer(building, 20, { units: "meters" });
+			features = this._cacheOsmGeojson
+				.features
+				.filter(feature =>
+					(this._listFeatureLevels(feature).properties.own.levels || []).includes(level)
+					&& feature.geometry.type !== "MultiPolygon"
+					&& isNotExcludedFeature(feature.properties.tags)
+					&& (!building || booleanIntersects(buildingBuff, feature))
+				);
+
+			// Add custom rendering for doors on building contour
+			if(building) {
+				features = features.map(f => {
+					f.properties.own.onBuildingContour = ["Point", "LineString"].includes(f.geometry.type) && f.properties.tags.door && this.isOnContour(building, f);
+					return f;
+				});
+			}
+
+			features.sort((a, b) => parseInt(a.geometry.type === "Point") - parseInt(b.geometry.type === "Point"));
+		}
+
+		return { type: "FeatureCollection", features: features };
+	}
+
+	/**
 	 * Check if a small geometry is within the boundary of a large geometry (boundary included)
 	 * @private
 	 */

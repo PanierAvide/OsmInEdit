@@ -20,12 +20,12 @@ import Styled from './Styled';
  */
 class FeaturesLayer extends Component {
 	render() {
-		const geojson = window.vectorDataManager.getFeaturesInFloor(this.props.floor, this.props.level, { building: this.props.building });
+		const geojson = window.vectorDataManager.getFeaturesInLevel(this.props.building, this.props.level);
 
-		if(this.props.floor) {
+		if(this.props.building) {
 			return <Editable
 				data={geojson}
-				shadowData={this.props.floor}
+				shadowData={this.props.building}
 				selection={this.props.feature}
 				onFeatureClick={feature => PubSub.publish("body.select.feature", { feature: feature })}
 				styler={this.props.styler}

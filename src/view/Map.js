@@ -223,7 +223,7 @@ class MyMap extends Component {
 		if(this.props.mode === Body.MODE_EXPLORE) {
 			levelsList = window.vectorDataManager.getAllLevels();
 		}
-		else if(this.props.mode === Body.MODE_LEVELS && this.props.building) {
+		else if([ Body.MODE_LEVELS, Body.MODE_FEATURES ].includes(this.props.mode) && this.props.building) {
 			levelsList = this.props.building.properties.own.levels.slice(0);
 			levelsList.sort();
 		}
@@ -268,7 +268,7 @@ class MyMap extends Component {
 					position="topright"
 				/>
 
-				{[Body.MODE_EXPLORE, Body.MODE_LEVELS].includes(this.props.mode) && !this.state.loading && this.state.dataready &&
+				{[Body.MODE_EXPLORE, Body.MODE_LEVELS, Body.MODE_FEATURES].includes(this.props.mode) && !this.state.loading && this.state.dataready &&
 					<LevelSelector
 						position="topright"
 						levels={levelsList}
@@ -300,12 +300,11 @@ class MyMap extends Component {
 					/>
 				}
 
-				{!this.state.loading && this.state.dataready && (this.props.mode === Body.MODE_EXPLORE || (this.props.mode === Body.MODE_FEATURES && this.props.floor && this.props.building )) &&
+				{!this.state.loading && this.state.dataready && (this.props.mode === Body.MODE_EXPLORE || (this.props.mode === Body.MODE_FEATURES && this.props.building)) &&
 					<Features
 						styler={this.mapStyler}
 						level={this.props.level}
 						building={this.props.building}
-						floor={this.props.floor}
 						feature={this.props.feature}
 						draw={this.props.draw}
 					/>
