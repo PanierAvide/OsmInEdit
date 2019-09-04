@@ -15,6 +15,7 @@ import Button from 'react-bootstrap/Button';
 import Close from 'mdi-react/CloseIcon';
 import Delete from 'mdi-react/DeleteIcon';
 import DeleteCircleOutline from 'mdi-react/DeleteCircleOutlineIcon';
+import I18n from '../../config/locales';
 import Modal from 'react-bootstrap/Modal';
 
 /**
@@ -24,18 +25,18 @@ class ConfirmDeletionDialog extends Component {
 	render() {
 		return <Modal show={this.props.show} onHide={this.props.onCancel} size="lg">
 			<Modal.Header closeButton>
-				<Modal.Title>{window.I18n.t("Confirm delete of %{f}", { f: this.props.name })}</Modal.Title>
+				<Modal.Title>{I18n.t("Confirm delete of %{f}", { f: this.props.name })}</Modal.Title>
 			</Modal.Header>
-			<Modal.Body>{window.I18n.t("Are you sure you want to delete this feature ? You can either cancel this operation, delete only the contour of the feature, or delete the feature and everything inside (quite dangerous).")}</Modal.Body>
+			<Modal.Body>{I18n.t("Are you sure you want to delete this feature ? You can either cancel this operation, delete only the contour of the feature, or delete the feature and everything inside (quite dangerous).")}</Modal.Body>
 			<Modal.Footer>
 				<Button variant="secondary" onClick={this.props.onCancel}>
-					<Close /> {window.I18n.t("Cancel")}
+					<Close /> {I18n.t("Cancel")}
 				</Button>
 				<Button variant="warning" onClick={() => this.props.onConfirm(false)}>
-					<DeleteCircleOutline /> {window.I18n.t("Delete only contour")}
+					<DeleteCircleOutline /> {I18n.t("Delete only contour")}
 				</Button>
 				<Button variant="danger" onClick={() => this.props.onConfirm(true)}>
-					<Delete /> {window.I18n.t("Delete everything")}
+					<Delete /> {I18n.t("Delete everything")}
 				</Button>
 			</Modal.Footer>
 		</Modal>;

@@ -17,6 +17,7 @@ import Check from 'mdi-react/CheckIcon';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import ContentDuplicate from 'mdi-react/ContentDuplicateIcon';
+import I18n from '../../../config/locales';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import PubSub from 'pubsub-js';
@@ -47,7 +48,7 @@ class EditAllLevelsPane extends Component {
 		return <Container className="m-0 pl-2 pr-2 mt-2">
 			<Row className="d-flex align-items-center justify-content-between">
 				<Col>
-					<h3 className="m-0 p-0">{window.I18n.t("Level %{lvl}", { lvl: this.props.level })}</h3>
+					<h3 className="m-0 p-0">{I18n.t("Level %{lvl}", { lvl: this.props.level })}</h3>
 				</Col>
 
 				{!this.props.draw &&
@@ -55,7 +56,7 @@ class EditAllLevelsPane extends Component {
 						<Button
 							variant="outline-secondary"
 							size="sm"
-							title={window.I18n.t("Done")}
+							title={I18n.t("Done")}
 							onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING })}
 						>
 							<Check />
@@ -67,15 +68,15 @@ class EditAllLevelsPane extends Component {
 			<Row className="mt-2">
 				<Col>
 					{this.props.draw &&
-						<p>{window.I18n.t("You can draw your feature on the map. Click on done button or click again on last node you created to finish.")}</p>
+						<p>{I18n.t("You can draw your feature on the map. Click on done button or click again on last node you created to finish.")}</p>
 					}
 
 					{!this.props.draw && !this.props.floor && floorParts.length > 0 &&
-						<p>{window.I18n.t("Please select the floor part to edit using the map.")}</p>
+						<p>{I18n.t("Please select the floor part to edit using the map.")}</p>
 					}
 
 					{!this.props.draw && !this.props.floor && floorParts.length === 0 && [
-						<p key={0}>{window.I18n.t("This level doesn't have a precise floor outline defined yet.")}</p>
+						<p key={0}>{I18n.t("This level doesn't have a precise floor outline defined yet.")}</p>
 						,
 						<Button
 							variant="outline-primary"
@@ -83,7 +84,7 @@ class EditAllLevelsPane extends Component {
 							key={1}
 							onClick={() => PubSub.publish("body.create.floor", { feature: this.props.building })}
 						>
-							<ShapePolygonPlus /> {window.I18n.t("Use the whole building footprint")}
+							<ShapePolygonPlus /> {I18n.t("Use the whole building footprint")}
 						</Button>
 						,
 						<Button
@@ -92,7 +93,7 @@ class EditAllLevelsPane extends Component {
 							key={2}
 							onClick={() => PubSub.publish("body.draw.floor")}
 						>
-							<SquareEditOutline /> {window.I18n.t("Draw this floor outline")}
+							<SquareEditOutline /> {I18n.t("Draw this floor outline")}
 						</Button>
 					]}
 
@@ -102,7 +103,7 @@ class EditAllLevelsPane extends Component {
 						>
 							<InputGroup.Prepend>
 
-								<InputGroup.Text><ContentDuplicate size={18} /> {window.I18n.t("Copy level")}</InputGroup.Text>
+								<InputGroup.Text><ContentDuplicate size={18} /> {I18n.t("Copy level")}</InputGroup.Text>
 
 							</InputGroup.Prepend>
 
@@ -117,7 +118,7 @@ class EditAllLevelsPane extends Component {
 
 								<Button
 									variant="outline-secondary"
-									title={window.I18n.t("Copy selected level data in the current level")}
+									title={I18n.t("Copy selected level data in the current level")}
 									onClick={() => PubSub.publish("body.level.copy", { use: this.refs.levelSelect.value })}
 								>
 									<Check size={18} />

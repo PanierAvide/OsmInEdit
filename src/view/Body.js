@@ -21,6 +21,7 @@ import Container from 'react-bootstrap/Container';
 import deepEqual from 'fast-deep-equal';
 import Editable from './layers/Editable';
 import Header from './Header';
+import I18n from '../config/locales';
 import LeftPanel from './LeftPanel';
 import Map from './Map';
 import Mousetrap from 'mousetrap';
@@ -98,16 +99,16 @@ class Body extends Component {
 			return t.name || t.ref;
 		}
 		else if(t.building) {
-			return feature.properties.own.new ? window.I18n.t("New building") : window.I18n.t("Building");
+			return feature.properties.own.new ? I18n.t("New building") : I18n.t("Building");
 		}
 		else if(t.indoor === "level" && feature.properties.own && feature.properties.own.levels) {
-			return window.I18n.t("New floor part (level %{lvl})", { lvl: feature.properties.own.levels.join(", ") });
+			return I18n.t("New floor part (level %{lvl})", { lvl: feature.properties.own.levels.join(", ") });
 		}
 		else if(fallback) {
 			return fallback;
 		}
 		else {
-			 return feature.properties.own.new ? window.I18n.t("New feature") : feature.id;
+			 return feature.properties.own.new ? I18n.t("New feature") : feature.id;
 		}
 	}
 
@@ -148,10 +149,10 @@ class Body extends Component {
 			<ConfirmDeletion
 				show={this.state.showDialogConfirmDeletion}
 				name={this.state.mode === Body.MODE_BUILDING && this.state.building ?
-					Body.GetFeatureName(this.state.building, window.I18n.t("Selected building"))
+					Body.GetFeatureName(this.state.building, I18n.t("Selected building"))
 					:
 					(this.state.mode === Body.MODE_LEVELS && this.state.floor ?
-						Body.GetFeatureName(this.state.floor, window.I18n.t("Selected floor"))
+						Body.GetFeatureName(this.state.floor, I18n.t("Selected floor"))
 						: ""
 					)
 				}
@@ -181,7 +182,7 @@ class Body extends Component {
 		.then(layers => {
 			// Adding "custom" entry for allowing user-defined background imagery
 			layers.push({ properties: {
-				id: "custom", type: "tms", url: null, name: window.I18n.t("Custom imagery")
+				id: "custom", type: "tms", url: null, name: I18n.t("Custom imagery")
 			}, geometry: null });
 
 			const newState = {};

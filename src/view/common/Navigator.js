@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import Body from '../Body';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import I18n from '../../config/locales';
 import PubSub from 'pubsub-js';
 
 /**
@@ -27,18 +28,18 @@ class Navigator extends Component {
 					PubSub.publish("body.unselect.feature");
 				}}
 				active={this.props.mode === Body.MODE_BUILDING && !this.props.building}
-				title={window.I18n.t("Go back to building selection")}
+				title={I18n.t("Go back to building selection")}
 			>
-				{window.I18n.t("All buildings")}
+				{I18n.t("All buildings")}
 			</Breadcrumb.Item>
 
 			{this.props.building &&
 				<Breadcrumb.Item
 					onClick={e => PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING })}
 					active={this.props.mode === Body.MODE_BUILDING}
-					title={window.I18n.t("Edit this single building")}
+					title={I18n.t("Edit this single building")}
 				>
-					{window.I18n.t("Building %{name}", { name: Body.GetFeatureName(this.props.building) })}
+					{I18n.t("Building %{name}", { name: Body.GetFeatureName(this.props.building) })}
 				</Breadcrumb.Item>
 			}
 
@@ -49,9 +50,9 @@ class Navigator extends Component {
 						PubSub.publish("body.unselect.feature");
 					}}
 					active={this.props.mode === Body.MODE_LEVELS && !this.props.floor}
-					title={window.I18n.t("Edit all levels of this building")}
+					title={I18n.t("Edit all levels of this building")}
 				>
-					{window.I18n.t("Level structure")}
+					{I18n.t("Level structure")}
 				</Breadcrumb.Item>
 			}
 
@@ -59,10 +60,10 @@ class Navigator extends Component {
 				<Breadcrumb.Item
 					onClick={e => PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS })}
 					active={this.props.mode === Body.MODE_LEVELS}
-					title={window.I18n.t("Edit this single floor part")}
+					title={I18n.t("Edit this single floor part")}
 				>
 					{this.props.building === this.props.floor ?
-						window.I18n.t("Level %{lvl}", { lvl: this.props.level })
+						I18n.t("Level %{lvl}", { lvl: this.props.level })
 						:
 						Body.GetFeatureName(this.props.floor)
 					}
@@ -73,9 +74,9 @@ class Navigator extends Component {
 				<Breadcrumb.Item
 					onClick={e => PubSub.publish("body.mode.set", { mode: Body.MODE_FEATURES })}
 					active={this.props.mode === Body.MODE_FEATURES}
-					title={window.I18n.t("Edit features of this floor part")}
+					title={I18n.t("Edit features of this floor part")}
 				>
-					{window.I18n.t("Features")}
+					{I18n.t("Features")}
 				</Breadcrumb.Item>
 			}
 		</Breadcrumb>;

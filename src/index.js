@@ -14,7 +14,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Body from './view/Body';
 import CONFIG from './config/config.json';
-import I18n from 'i18nline/lib/i18n';
+import I18n from './config/locales';
 import ImageryManager from './ctrl/ImageryManager';
 import OsmAuth from 'osm-auth';
 import PresetsManager from './ctrl/PresetsManager';
@@ -26,7 +26,6 @@ import VectorDataManager from './ctrl/VectorDataManager';
  * Global variables definition
  */
 window.EDITOR_NAME = CONFIG.editor_name;
-const LOCALES = [ "en", "fr" ];
 window.EDITOR_URL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + "/";
 
 /**
@@ -49,22 +48,14 @@ class App {
 		let locale = null;
 		if(window.navigator.languages) {
 			for(const l of window.navigator.languages) {
-				if(LOCALES.includes(l)) {
+				if(I18n.supportedLocales.includes(l)) {
 					locale = l;
 					break;
 				}
 			}
 		}
 
-		I18n.locale = locale || window.navigator.userLanguage || window.navigator.language;
-		I18n.fallbacks = true;
-
-		//Load translation files
-		for(const l of LOCALES) {
-			Object.assign(I18n.translations, require("./config/locales/"+l.replace("-", "_")+".json"));
-		}
-
-		window.I18n = I18n;
+		I18n.changeLocale(locale || window.navigator.userLanguage || window.navigator.language);
 	}
 
 	/**
@@ -138,7 +129,7 @@ class App {
 				window.editor_user_auth.authenticate((err, res) => {
 					if(err) {
 						console.error(err);
-						alert(window.I18n.t("Oops ! Something went wrong when trying to log you in"));
+						alert(I18n.t("Oops ! Something went wrong when trying to log you in"));
 						PubSub.publish("APP.USER.LOGOUT");
 					}
 					else {
@@ -164,7 +155,7 @@ class App {
 
 		setTimeout(() => {
 			if(!window.editor_user) {
-				alert(window.I18n.t("You will be redirected in order to login using your OpenStreetMap account."));
+				alert(I18n.t("You will be redirected in order to login using your OpenStreetMap account."));
 				PubSub.publish("APP.USER.LOGIN");
 			}
 		}, 5000);

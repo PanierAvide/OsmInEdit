@@ -15,6 +15,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import deepEqual from 'fast-deep-equal';
 import Form from 'react-bootstrap/Form';
+import I18n from '../../config/locales';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';
 import SelectList from '../common/SelectList';
@@ -99,13 +100,13 @@ class ImageryPane extends Component {
 
 	render() {
 		return <div className="m-2">
-			<h4>{window.I18n.t("Imagery")}</h4>
+			<h4>{I18n.t("Imagery")}</h4>
 
 			<Tabs defaultActiveKey="background" className="dense-tabs" id="imagery-tab">
-				<Tab eventKey="background" title={window.I18n.t("Background")}>
+				<Tab eventKey="background" title={I18n.t("Background")}>
 					<Container className="mt-3 mb-3 p-0 d-flex overflow-hidden">
 						<Row className="flex-nowrap">
-							<Col className="m-0">{window.I18n.t("Opacity")} <span className="font-weight-light">{(this.props.baseImageryOpacity*100).toFixed(0)+"%"}</span></Col>
+							<Col className="m-0">{I18n.t("Opacity")} <span className="font-weight-light">{(this.props.baseImageryOpacity*100).toFixed(0)+"%"}</span></Col>
 							<Col className="m-0">
 								<input
 									type="range"
@@ -126,12 +127,12 @@ class ImageryPane extends Component {
 							onChange={selection => this._onSelect(selection, "background")}
 						/>
 						:
-						<p>{window.I18n.t("Loading...")}</p>
+						<p>{I18n.t("Loading...")}</p>
 					}
 
 					{this.props.selectedBaseImagery && this.props.selectedBaseImagery.properties.id === "custom" &&
 						<Form.Group controlId="imagery-custom" className="mt-2">
-							<Form.Label>{window.I18n.t("Custom imagery URL")}</Form.Label>
+							<Form.Label>{I18n.t("Custom imagery URL")}</Form.Label>
 							<Form.Control
 								type="text"
 								placeholder="https://mytil.es/{z}/{x}/{y}.jpg"
@@ -139,16 +140,16 @@ class ImageryPane extends Component {
 								onChange={v => this._onCustomChanged(v.target.value)}
 							/>
 							<Form.Text className="text-muted">
-								{window.I18n.t("You can use any TMS-like URL")}
+								{I18n.t("You can use any TMS-like URL")}
 							</Form.Text>
 						</Form.Group>
 					}
 				</Tab>
 
-				<Tab eventKey="overlay" title={window.I18n.t("Overlay")}>
+				<Tab eventKey="overlay" title={I18n.t("Overlay")}>
 					<Container className="mt-3 mb-3 p-0 d-flex overflow-hidden">
 						<Row className="flex-nowrap">
-							<Col className="m-0">{window.I18n.t("Opacity")} <span className="font-weight-light">{(this.props.overlaysImageryOpacity*100).toFixed(0)+"%"}</span></Col>
+							<Col className="m-0">{I18n.t("Opacity")} <span className="font-weight-light">{(this.props.overlaysImageryOpacity*100).toFixed(0)+"%"}</span></Col>
 							<Col className="m-0">
 								<input
 									type="range"
@@ -170,7 +171,7 @@ class ImageryPane extends Component {
 							onChange={selection => this._onSelect(selection, "overlay")}
 						/>
 						:
-						<p>{window.I18n.t("Loading...")}</p>
+						<p>{I18n.t("Loading...")}</p>
 					}
 				</Tab>
 			</Tabs>

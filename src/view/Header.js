@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Layers from 'mdi-react/LayersIcon';
 import ArrowLeft from 'mdi-react/ArrowLeftIcon';
+import I18n from '../config/locales';
 import Navbar from 'react-bootstrap/Navbar';
 import Navigator from './common/Navigator';
 import Pencil from 'mdi-react/PencilIcon';
@@ -38,7 +39,7 @@ class Header extends Component {
 					:
 					<Button
 						variant="outline-secondary"
-						title={window.I18n.t("Go back to map explorer")}
+						title={I18n.t("Go back to map explorer")}
 						onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_EXPLORE })}
 					>
 						<ArrowLeft />
@@ -52,9 +53,9 @@ class Header extends Component {
 						active={this.props.mode === Body.MODE_FLOOR_IMAGERY}
 						disabled={this.props.mode === Body.MODE_FLOOR_IMAGERY}
 						onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_FLOOR_IMAGERY })}
-						title={window.I18n.t("Import floor plans")}
+						title={I18n.t("Import floor plans")}
 					>
-						<Layers /> <span className="hide-smDown">{window.I18n.t("Import floor plans")}</span>
+						<Layers /> <span className="hide-smDown">{I18n.t("Import floor plans")}</span>
 					</Button>
 
 					<Button
@@ -63,9 +64,9 @@ class Header extends Component {
 						disabled={isEditingIndoor || this.props.mode === Body.MODE_CHANGESET}
 						className="btn-mode-editindoor"
 						onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING })}
-						title={window.I18n.t("Edit map")}
+						title={I18n.t("Edit map")}
 					>
-						<Pencil /> <span className="hide-smDown">{window.I18n.t("Edit map")}</span>
+						<Pencil /> <span className="hide-smDown">{I18n.t("Edit map")}</span>
 					</Button>
 				</ButtonToolbar>
 			</div>

@@ -18,6 +18,7 @@ import Close from 'mdi-react/CloseIcon';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import GeometryTypeSelect from '../../common/GeometryTypeSelect';
+import I18n from '../../../config/locales';
 import PresetSelect from '../../common/PresetSelect';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';
@@ -39,7 +40,7 @@ class CreateFeaturePane extends Component {
 			<Container className="m-0 pl-2 pr-2 mt-2">
 				<Row className="d-flex align-items-center justify-content-between">
 					<Col>
-						<h3 className="m-0 p-0">{window.I18n.t("Add features")}</h3>
+						<h3 className="m-0 p-0">{I18n.t("Add features")}</h3>
 					</Col>
 
 					{!this.props.draw &&
@@ -47,7 +48,7 @@ class CreateFeaturePane extends Component {
 							<Button
 								variant="outline-secondary"
 								size="sm"
-								title={window.I18n.t("Done")}
+								title={I18n.t("Done")}
 								onClick={() => this._onDone()}
 							>
 								<Check />
@@ -68,7 +69,7 @@ class CreateFeaturePane extends Component {
 			{this.props.preset && !this.props.draw &&
 				<div className="m-2">
 					<p>
-						{window.I18n.t("Please select how you want to represent your feature.")}
+						{I18n.t("Please select how you want to represent your feature.")}
 					</p>
 					<GeometryTypeSelect
 						types={this.props.preset.type}
@@ -80,14 +81,14 @@ class CreateFeaturePane extends Component {
 						onClick={() => PubSub.publish("body.select.preset", { preset: null })}
 						block
 					>
-						<Close /> {window.I18n.t("Cancel")}
+						<Close /> {I18n.t("Cancel")}
 					</Button>
 				</div>
 			}
 
 			{this.props.preset && this.props.draw &&
 				<div className="m-2">
-					<p>{window.I18n.t("You can draw your feature on the map. Click on done button or click again on last node you created to finish.")}</p>
+					<p>{I18n.t("You can draw your feature on the map. Click on done button or click again on last node you created to finish.")}</p>
 				</div>
 			}
 		</div>;

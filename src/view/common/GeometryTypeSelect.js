@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import I18n from '../../config/locales';
 import MapMarker from 'mdi-react/MapMarkerIcon';
 import VectorLine from 'mdi-react/VectorLineIcon';
 import VectorSquare from 'mdi-react/VectorSquareIcon';
@@ -24,9 +25,9 @@ import Row from 'react-bootstrap/Row';
 class GeometryTypeSelect extends Component {
 	render() {
 		const availableTypes = [
-			{ id: "node", name: window.I18n.t("Point"), icon: <MapMarker />, desc: window.I18n.t("For small features (size less than 2 meters)") },
-			{ id: "way", name: window.I18n.t("Line"), icon: <VectorLine />, desc: window.I18n.t("For long but not large features") },
-			{ id: "closedway", name: window.I18n.t("Area"), icon: <VectorSquare />, desc: window.I18n.t("For wide features (surface of more than a few m²)") }
+			{ id: "node", name: I18n.t("Point"), icon: <MapMarker />, desc: I18n.t("For small features (size less than 2 meters)") },
+			{ id: "way", name: I18n.t("Line"), icon: <VectorLine />, desc: I18n.t("For long but not large features") },
+			{ id: "closedway", name: I18n.t("Area"), icon: <VectorSquare />, desc: I18n.t("For wide features (surface of more than a few m²)") }
 		].filter(t => !this.props.types || this.props.types.length === 0 || this.props.types.includes(t.id));
 
 		return <Container>

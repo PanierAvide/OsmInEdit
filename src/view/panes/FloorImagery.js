@@ -18,6 +18,7 @@ import EyeOff from 'mdi-react/EyeOffIcon';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Hash from 'object-hash';
+import I18n from '../../config/locales';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ListGroup from 'react-bootstrap/ListGroup';
 import PubSub from 'pubsub-js';
@@ -102,7 +103,7 @@ class FloorImageryPane extends Component {
 		if(selected && selected.opacity === undefined) { selected.opacity = 1; }
 
 		return <div className="m-0 pl-2 pr-2 mt-2">
-			<h3 className="m-0 p-0">{window.I18n.t("Floor plan")}</h3>
+			<h3 className="m-0 p-0">{I18n.t("Floor plan")}</h3>
 
 			<Dropzone
 				accept="image/jpeg, image/png, application/json"
@@ -112,8 +113,8 @@ class FloorImageryPane extends Component {
 					<div className="dropzone m-0 mt-3 w-100" {...getRootProps()}>
 						<input {...getInputProps()} />
 						<p>
-							{window.I18n.t("Drag and drop your images here (or click to open file browser)")}<br />
-							<small>{window.I18n.t("Supported formats: JPEG, PNG, Imagery JSON")}</small>
+							{I18n.t("Drag and drop your images here (or click to open file browser)")}<br />
+							<small>{I18n.t("Supported formats: JPEG, PNG, Imagery JSON")}</small>
 						</p>
 					</div>
 				)}
@@ -122,7 +123,7 @@ class FloorImageryPane extends Component {
 			{selected &&
 				<InputGroup className="mt-3">
 					<InputGroup.Prepend>
-						<InputGroup.Text>{window.I18n.t("Opacity")}</InputGroup.Text>
+						<InputGroup.Text>{I18n.t("Opacity")}</InputGroup.Text>
 					</InputGroup.Prepend>
 
 					<div className="form-control" style={{flexGrow: 2}}>
@@ -192,7 +193,7 @@ class FloorImageryPane extends Component {
 
 						<Form.Control
 							type="number"
-							placeholder={window.I18n.t("Level")}
+							placeholder={I18n.t("Level")}
 							value={f.level === null || isNaN(f.level) ? "" : f.level}
 							step="any"
 							onChange={e => PubSub.publish("body.floorimagery.update", {
@@ -204,7 +205,7 @@ class FloorImageryPane extends Component {
 						/>
 
 						<Form.Control.Feedback type="invalid" style={f.selected ? { color: "white" } : {}}>
-							{window.I18n.t("Please choose a level")}
+							{I18n.t("Please choose a level")}
 						</Form.Control.Feedback>
 					</ListGroup.Item>;
 				})}

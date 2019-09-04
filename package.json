@@ -10,11 +10,10 @@
     "doc": "npm run doc:js:check && npm run doc:js",
     "doc:js": "documentation build ./src -f html -o doc/",
     "doc:js:check": "documentation lint ./src",
-    "i18n:build": "i18nline export",
-    "i18n:upload": "tx push -s",
-    "i18n:status": "tx status",
-    "i18n:download": "tx pull -a --mode reviewed --minimum-perc=75 && node fix_i18n_files.js",
-    "i18n:clean": "find ./src/config/locales -type f -not -name 'en.json' -delete",
+    "i18n:build": "i18nline synch",
+    "i18n:push": "tx set --auto-local -r osminedit.ui 'src/config/locales/<lang>.json' --source-lang en --type KEYVALUEJSON && tx push -s",
+    "i18n:pull": "tx pull -a --minimum-perc=75 && i18nline index",
+    "i18n:clean": "rm -rf ./src/config/locales/*.js*",
     "preinstall": "if [ -d \"node_modules/leaflet-distortableimage/.git\" ]; then rm -rf node_modules/leaflet-distortableimage/.git; fi",
     "clean": "rm -rf build/* doc/*"
   },
@@ -94,10 +93,7 @@
     "not op_mini all"
   ],
   "i18n": {
-    "out": "src/config/locales/en.json",
-    "directories": [
-      "src/"
-    ]
+    "out": "src/config/locales"
   },
   "homepage": "."
 }

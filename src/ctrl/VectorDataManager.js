@@ -27,6 +27,7 @@ import { coordAll } from '@turf/meta';
 import deepEqual from 'fast-deep-equal';
 import GeoJSONValidation from 'geojson-validation';
 import HistorizedManager from './HistorizedManager';
+import I18n from '../config/locales';
 import intersect from '@turf/intersect';
 import osmtogeojson from 'osmtogeojson';
 import OsmRequest from 'osm-request';
@@ -888,7 +889,7 @@ class VectorDataManager extends HistorizedManager {
 			this._osmApi._auth = window.editor_user_auth;
 
 			// Create changeset
-			const mytags = Object.assign({ host: window.EDITOR_URL, locale: window.I18n.locale }, tags);
+			const mytags = Object.assign({ host: window.EDITOR_URL, locale: I18n.locale }, tags);
 			delete mytags.comment;
 
 			let changesetId = null;
@@ -896,7 +897,7 @@ class VectorDataManager extends HistorizedManager {
 			try {
 				changesetId = await this._osmApi.createChangeset(
 					window.EDITOR_NAME+' '+PACKAGE.version,
-					tags.comment || window.I18n.t("Edited building indoors"),
+					tags.comment || I18n.t("Edited building indoors"),
 					mytags
 				);
 			}
@@ -2048,7 +2049,7 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	_enableBeforeUnload() {
 		window.onbeforeunload = () => {
-			return window.I18n.t("Did you save all your changes ? If not, your changes will be lost.")
+			return I18n.t("Did you save all your changes ? If not, your changes will be lost.")
 		};
 	}
 

@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Check from 'mdi-react/CheckIcon';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import I18n from '../../../config/locales';
 import PresetInputField from '../../common/PresetInputField';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';
@@ -69,7 +70,7 @@ class EditFeaturePane extends Component {
 				type="multiselect"
 				data={{
 					key: "level",
-					text: window.I18n.t("Floors served"),
+					text: I18n.t("Floors served"),
 					values: [...new Set(levels)].map(a => parseFloat(a)).sort((a,b) => a-b).join(";")
 				}}
 				tags={Object.assign({}, this.props.feature.properties.tags, { level: this.props.feature.properties.own.levels.join(";") })}
@@ -142,7 +143,7 @@ class EditFeaturePane extends Component {
 						<Button
 							variant="outline-secondary"
 							size="sm"
-							title={window.I18n.t("Done")}
+							title={I18n.t("Done")}
 							onClick={() => this._onDone()}
 						>
 							<Check />

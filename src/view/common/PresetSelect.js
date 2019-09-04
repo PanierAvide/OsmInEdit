@@ -16,6 +16,7 @@ import ChevronLeft from 'mdi-react/ChevronLeftIcon';
 import Container from 'react-bootstrap/Container';
 import Close from 'mdi-react/CloseIcon';
 import FormControl from 'react-bootstrap/FormControl';
+import I18n from '../../config/locales';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Magnify from 'mdi-react/MagnifyIcon';
 import PresetCard from './PresetCard';
@@ -88,7 +89,7 @@ class PresetSelect extends Component {
 					}
 
 					<FormControl
-						placeholder={window.I18n.t("Search a type of feature...")}
+						placeholder={I18n.t("Search a type of feature...")}
 						value={this.state.text}
 						onChange={e => this.setState({ text: e.target.value })}
 					/>
@@ -113,7 +114,7 @@ class PresetSelect extends Component {
 						block
 						onClick={() => this._onBackClicked()}
 					>
-						<ChevronLeft style={{ float: "left" }} /> {window.I18n.t("Back")}
+						<ChevronLeft style={{ float: "left" }} /> {I18n.t("Back")}
 					</Button>
 				</Row>
 			}

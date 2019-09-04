@@ -21,6 +21,7 @@ import Building from './layers/Building';
 import CONFIG from '../config/config.json';
 import Features from './layers/Features';
 import FloorImagery from './layers/FloorImagery';
+import I18n from '../config/locales';
 import Levels from './layers/Levels';
 import LevelSelector from './common/LevelSelector';
 import MapStyler from '../model/mapcss/MapStyler';
@@ -118,7 +119,7 @@ class MyMap extends Component {
 							this.setState({ loading: false, dataready: result });
 						}
 						catch(e) {
-							alert(window.I18n.t("Can't download data from OSM server. Please retry later."));
+							alert(I18n.t("Can't download data from OSM server. Please retry later."));
 							this.setState({ loading: false, dataready: false });
 						}
 					}
