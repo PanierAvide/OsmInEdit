@@ -42,6 +42,7 @@ class BuildingEditPane extends Component {
 		const feature = this.props.building;
 		const tags = feature.properties.tags;
 		const infoLevels = <span>{I18n.t("Number of levels above ground (roof excluded), here B + C + D = 3 levels")}<img src='img/building_levels.png' style={{height: 200}} alt={I18n.t("Schema explaining how should be set amount of levels")} /></span>
+		const infoLevelsUndergound = <span>{I18n.t("Number of levels completely underground, here E = 1 level")}<img src='img/building_levels.png' style={{height: 200}} alt={I18n.t("Schema explaining how should be set amount of levels")} /></span>
 
 		return <div>
 			<Container className="m-0 pl-2 pr-2 mt-2">
@@ -85,6 +86,12 @@ class BuildingEditPane extends Component {
 				<PresetInputField
 					type="number"
 					data={{ text: I18n.t("Number of overground levels (roof excluded)"), info: infoLevels, key: "building:levels" }}
+					tags={tags}
+				/>
+
+				<PresetInputField
+					type="number"
+					data={{ text: I18n.t("Number of underground levels"), info: infoLevelsUndergound, key: "building:levels:underground" }}
 					tags={tags}
 				/>
 			</div>

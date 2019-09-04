@@ -70,7 +70,7 @@ class PresetInputField extends Component {
 		let infoTip = null;
 
 		if(d.info) {
-			const popover = <Popover id="popover-basic" title={I18n.t("Help")}>
+			const popover = <Popover id="popover-basic" title={I18n.t("Help")} style={{padding: "5px 0px 5px 6px"}}>
 				{d.info}
 			</Popover>;
 			infoTip = <OverlayTrigger placement="right" overlay={popover} popperConfig={{modifiers:{preventOverflow:{boundariesElement: "window"}}}}>
