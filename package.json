@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.navmob.ddnss.de/indoor/osm-indoor-editor.git"
+    "url": "https://framagit.org/PanierAvide/osminedit.git"
   },
   "keywords": [
     "openstreetmap",
