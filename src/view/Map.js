@@ -252,7 +252,7 @@ class MyMap extends Component {
 				boxZoom={false}
 			>
 				<AttributionControl
-					prefix={window.EDITOR_NAME+" v"+PACKAGE.version+" "+(CONFIG.hash === "GIT_HASH" ? "dev" : CONFIG.hash)}
+					prefix={"<a href='https://framagit.org/PanierAvide/osminedit' target='_blank'>"+window.EDITOR_NAME+"</a> v"+PACKAGE.version+" "+(CONFIG.hash === "GIT_HASH" ? "dev" : CONFIG.hash)}
 				/>
 
 				<ScaleControl

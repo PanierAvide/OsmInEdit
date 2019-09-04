@@ -14,7 +14,7 @@ fs.readdirSync(I18N_DIR).forEach((file) => {
 		try {
 			//Read file
 			const lngData = JSON.parse(fs.readFileSync(I18N_DIR+"/"+file, 'utf8'));
-			
+
 			//If not already fixed
 			if(lngData[lng] === undefined) {
 				//Check if en available
@@ -22,7 +22,7 @@ fs.readdirSync(I18N_DIR).forEach((file) => {
 					//Edit object, put en into lng locale
 					const outData = {};
 					outData[lng] = lngData.en;
-					
+
 					//Overwrite file
 					fs.writeFile(I18N_DIR+"/"+file, JSON.stringify(outData, null, 2), function(err) {
 						if(err) {
@@ -51,6 +51,6 @@ fs.readdirSync(I18N_DIR).forEach((file) => {
 		}
 	}
 	else {
-		throw new Error("Invalid file in "+I18N_DIR+": "+file);
+		console.log("[INFO] Ignored file "+file);
 	}
 });
