@@ -318,26 +318,26 @@ relation[type=multipolygon][building:part=tier] {
  */
 
 line[highway] {
-	color: #9E8747; /*#FFF9B3;*/
+	color: #9E8747;
 	opacity: 1;
-	width: 7;
+	width: 10;
 	linecap: none;
 }
 
 line[highway=footway] {
-	color: #C97582; /*#998888;*/
-	dashes: 5,5;
+	color: #C97582;
+	dashes: 10,3;
 }
 
 line[highway=steps] {
-	color: #5B8D62; /*#A0DD84;*/
-	dashes: 4,4;
+	color: #5B8D62;
+	dashes: 8,3;
 }
 
 /** Escalator **/
 line[conveying=~/yes|forward|backward|reversible/] {
 	color: #848484;
-	dashes: 4,3;
+	dashes: 8,3;
 }
 
 line[conveying=~/yes|forward|backward|reversible/][highway!=footway] {

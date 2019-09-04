@@ -964,9 +964,12 @@ class EditableLayer extends Path {
 	 * @private
 	 */
 	_setLayerStyle(l, props, selected, noSetStyle) {
+		const style = props.style || props.styler.getFeatureStyle.bind(props.styler);
+		let myStyle;
+
 		if(!noSetStyle) {
-			const style = props.style || props.styler.getFeatureStyle.bind(props.styler);
-			l.setStyle(style(l.feature, selected));
+			myStyle = style(l.feature, selected);
+			l.setStyle(myStyle);
 		}
 
 		// Show way direction
@@ -974,18 +977,22 @@ class EditableLayer extends Path {
 			const direction = this._getDirection(l.feature);
 
 			if(direction) {
+				if(!myStyle) {
+					myStyle = style(l.feature, selected) || {};
+				}
+
 				l.setText(null);
 
 				if(l.feature.properties.tags.highway === "steps") {
 					l.setText(
 						direction === 1 ? "   ⬋🚶   " : "   ⬉🚶   ",
-						{ offset: -10, repeat: true, attributes: { fill: '#333', clearable: true, "font-size": 18 } }
+						{ offset: -10, repeat: true, attributes: { fill: myStyle.color || '#333', clearable: true, "font-size": 18 } }
 					);
 				}
 				else {
 					l.setText(
 						"   ➡   ",
-						{ offset: 5, repeat: true, attributes: { fill: '#333', clearable: true }, orientation: direction === 1 ? undefined : "flip" }
+						{ offset: 5, repeat: true, attributes: { fill: '#333', clearable: true, "font-size": myStyle.width || 15 }, orientation: direction === 1 ? undefined : "flip" }
 					);
 				}
 			}
@@ -993,7 +1000,7 @@ class EditableLayer extends Path {
 				l.setText(null);
 				l.setText(
 					'        ►',
-					{ offset: 5, center: true, attributes: { fill: '#ddd', clearable: true }}
+					{ offset: 5, center: true, attributes: { fill: '#333', clearable: true }}
 				);
 			}
 			else {
