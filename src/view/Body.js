@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import { saveAs } from 'file-saver';
 import 'bootstrap/dist/css/bootstrap.css';
+import bbox from '@turf/bbox';
 import Col from 'react-bootstrap/Col';
 import CompleteFloorImagery from './dialogs/CompleteFloorImagery';
 import CONFIG from '../config/config.json';
@@ -27,6 +28,7 @@ import Map from './Map';
 import Mousetrap from 'mousetrap';
 import { makeSquare } from '../model/orthogonalize/orthogonalize';
 import OutOfBoundsGeometry from './dialogs/OutOfBoundsGeometry';
+import MissingLevelOutlines from './dialogs/MissingLevelOutlines';
 import PubSub from 'pubsub-js';
 import RightPanel from './RightPanel';
 import Row from 'react-bootstrap/Row';
@@ -177,7 +179,69 @@ class Body extends Component {
 				onClose={() => this.setState({ showDialogOutOfBoundsGeometry: false })}
 				mode={this.state.mode}
 			/>
+
+			<MissingLevelOutlines
+				missingOutlines={this.state.showDialogMissingLevelOutlines}
+				onIgnore={() => this.setState({ showDialogMissingLevelOutlines: null })}
+				onUseDefault={() => this._onMissingOutlineUseDefault()}
+				onEdit={() => this._onMissingOutlineGoEdit()}
+			/>
 		</Container>;
+	}
+
+	/**
+	 * Event handler for click on "use building outline" button in missing level outline dialog
+	 * @private
+	 */
+	_onMissingOutlineUseDefault() {
+		// Create outlines
+		if(Object.keys(this.state.showDialogMissingLevelOutlines).length > 0) {
+			Object.entries(this.state.showDialogMissingLevelOutlines).forEach(e => {
+				const [ buildingId, buildingData ] = e;
+				const building = window.vectorDataManager.findFeature(buildingId);
+
+				if(building && buildingData.levels.length > 0) {
+					buildingData.levels.forEach(lvl => {
+						PubSub.publish("body.create.floor", { feature: building, level: lvl });
+					});
+				}
+			});
+		}
+
+		// Hide dialog
+		this.setState({ showDialogMissingLevelOutlines: null });
+		PubSub.publish("body.mode.set", { mode: Body.MODE_CHANGESET });
+	}
+
+	/**
+	 * Event handler for click on "go back edit" in missing level outline dialog
+	 * @private
+	 */
+	_onMissingOutlineGoEdit() {
+		try {
+			// No buildings info
+			if(Object.keys(this.state.showDialogMissingLevelOutlines).length === 0) { throw new Error(); }
+
+			const [ buildingId, buildingData ] = Object.entries(this.state.showDialogMissingLevelOutlines)[0];
+			const building = window.vectorDataManager.findFeature(buildingId);
+
+			// Building not found
+			if(!building || buildingData.levels.length === 0) { throw new Error(); }
+
+			this.setState({
+				building: building,
+				level: buildingData.levels[0],
+				showDialogMissingLevelOutlines: null
+			}, () => {
+				PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS });
+				const [minX, minY, maxX, maxY] = bbox(building);
+				PubSub.publish("map.position.set", { bbox: [minY, maxY, minX, maxX] });
+			});
+		}
+		catch(e) {
+			this.setState({ showDialogMissingLevelOutlines: null });
+			PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING });
+		}
 	}
 
 	_updateImagery() {
@@ -322,10 +386,14 @@ class Body extends Component {
 					},
 					rightPanelOpen: false
 				}, async () => {
+					const diff = await window.vectorDataManager.computeDiff();
+					const missingOutlines = window.vectorDataManager.findMissingLevelOutlines(diff);
+
 					this.setState({
+						showDialogMissingLevelOutlines: missingOutlines,
 						changeset: {
 							tags: { comment: "" },
-							diff: await window.vectorDataManager.computeDiff(),
+							diff: diff,
 							status: "check"
 						}
 					});
@@ -678,6 +746,7 @@ class Body extends Component {
 		 * @event body.create.floor
 		 * @memberof Body
 		 * @property {Object} feature The GeoJSON feature to use
+		 * @property {int} [level] Which level floor should be created on (by default selected level)
 		 */
 		PubSub.subscribe("body.create.floor", (msg, data) => {
 			if(this.state.datalocked) {
@@ -685,13 +754,13 @@ class Body extends Component {
 				return null;
 			}
 
-			if(this.state.mode === Body.MODE_LEVELS) {
-				const newFeature = {
-					type: "Feature",
-					geometry: Object.assign({}, data.feature.geometry),
-					properties: {}
-				};
+			const newFeature = {
+				type: "Feature",
+				geometry: Object.assign({}, data.feature.geometry),
+				properties: {}
+			};
 
+			if(this.state.mode === Body.MODE_LEVELS) {
 				if(window.vectorDataManager.isOverlappingEnough(this.state.building, newFeature)) {
 					this.setState(
 						{ datalocked: true },
@@ -705,6 +774,9 @@ class Body extends Component {
 				else {
 					this.setState({ showDialogOutOfBoundsGeometry: true });
 				}
+			}
+			else if(this.state.mode === Body.MODE_CHANGESET && !isNaN(data.level)) {
+				window.vectorDataManager.createNewFloor(newFeature, data.level);
 			}
 		});
 

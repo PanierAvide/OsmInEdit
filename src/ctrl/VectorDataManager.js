@@ -407,6 +407,61 @@ class VectorDataManager extends HistorizedManager {
 	}
 
 	/**
+	 * Does this given building contain any indoor-related feature ?
+	 * @param {Object} building The building to check
+	 * @return {boolean} True if it has indoor features
+	 */
+	hasIndoorFeatures(building) {
+		let result = false;
+
+		if(building && this._cacheOsmGeojson) {
+			const isNotExcludedFeature = (tags => tags.indoor !== "level" && !tags.building && !tags["building:part"]);
+
+			for(let i=0; i < this._cacheOsmGeojson.features.length; i++) {
+				const feature = this._cacheOsmGeojson.features[i];
+
+				if(
+					!feature.id.startsWith("node/")
+					&& feature.geometry.type !== "MultiPolygon"
+					&& isNotExcludedFeature(feature.properties.tags)
+					&& booleanIntersects(building, feature)
+				) {
+					result = true;
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Search in edited data which buildings lacks an indoor=level outline.
+	 * @param {Object} diff The edits done by user (result of computeDiff function)
+	 * @return {Object} Missing level outlines in format { buildingId: { name: string, levels: int[] } }
+	 */
+	findMissingLevelOutlines(diff) {
+		const result = {};
+
+		if(!this._cacheOsmGeojson) { return null; }
+
+		this._cacheOsmGeojson.features.forEach(f => {
+			if(f.properties.tags && f.properties.tags.building) {
+				const name = f.properties.tags.name || f.properties.tags.ref || f.id;
+				let levels = this._listFeatureLevels(f, true).properties.own.levels;
+				const usedLevels = this.getCopiableLevels(f);
+				levels = levels.filter(lvl => !usedLevels.includes(lvl));
+
+				if(levels.length > 0 && this.hasIndoorFeatures(f)) {
+					result[f.id] = { name: name, levels: levels };
+				}
+			}
+		});
+
+		return result;
+	}
+
+	/**
 	 * Check if a small geometry is within the boundary of a large geometry (boundary included)
 	 * @private
 	 */
@@ -1918,9 +1973,7 @@ class VectorDataManager extends HistorizedManager {
 				feature.properties.own = {};
 			}
 
-			if(!feature.properties.own.levels) {
-				feature.properties.own.levels = [];
-			}
+			feature.properties.own.levels = [];
 
 			const tags = feature.properties.tags;
 
