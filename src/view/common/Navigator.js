@@ -39,44 +39,18 @@ class Navigator extends Component {
 					active={this.props.mode === Body.MODE_BUILDING}
 					title={I18n.t("Edit this single building")}
 				>
-					{I18n.t("Building %{name}", { name: Body.GetFeatureName(this.props.building) })}
+					{Body.GetFeatureName(this.props.building)}
 				</Breadcrumb.Item>
 			}
 
-			{this.props.building &&
+			{[Body.MODE_LEVELS, Body.MODE_FEATURES].includes(this.props.mode) &&
 				<Breadcrumb.Item
-					onClick={e => {
-						PubSub.publishSync("body.mode.set", { mode: Body.MODE_LEVELS });
-						PubSub.publish("body.unselect.feature");
-					}}
-					active={this.props.mode === Body.MODE_LEVELS && !this.props.floor}
-					title={I18n.t("Edit all levels of this building")}
+					onClick={e => PubSub.publish("body.unselect.feature")}
+					active={true}
 				>
-					{I18n.t("Levels structure")}
-				</Breadcrumb.Item>
-			}
-
-			{this.props.mode === Body.MODE_LEVELS && this.props.floor &&
-				<Breadcrumb.Item
-					onClick={e => PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS })}
-					active={this.props.mode === Body.MODE_LEVELS}
-					title={I18n.t("Edit this single floor part")}
-				>
-					{this.props.building === this.props.floor ?
-						I18n.t("Level %{lvl}", { lvl: this.props.level })
-						:
-						Body.GetFeatureName(this.props.floor)
-					}
-				</Breadcrumb.Item>
-			}
-
-			{[Body.MODE_FEATURES, Body.MODE_LEVELS].includes(this.props.mode) &&
-				<Breadcrumb.Item
-					onClick={e => PubSub.publish("body.mode.set", { mode: Body.MODE_FEATURES })}
-					active={this.props.mode === Body.MODE_FEATURES}
-					title={I18n.t("Edit features of this level")}
-				>
-					{I18n.t("Features of level %{lvl}", { lvl: this.props.level })}
+					{this.props.mode === Body.MODE_LEVELS ?
+						I18n.t("Levels structure (level %{lvl})", { lvl: this.props.level })
+						: I18n.t("Features (level %{lvl})", { lvl: this.props.level })}
 				</Breadcrumb.Item>
 			}
 		</Breadcrumb>;

@@ -18,6 +18,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Layers from 'mdi-react/LayersIcon';
 import I18n from '../config/locales';
 import Navbar from 'react-bootstrap/Navbar';
+import Navigator from './common/Navigator';
 import Pencil from 'mdi-react/PencilIcon';
 import PubSub from 'pubsub-js';
 import SearchPlace from './common/SearchPlace';
@@ -27,6 +28,8 @@ import SearchPlace from './common/SearchPlace';
  */
 class Header extends Component {
 	render() {
+		const isEditingIndoor = [Body.MODE_BUILDING, Body.MODE_LEVELS, Body.MODE_FEATURES].includes(this.props.mode);
+
 		return <Navbar className={this.props.className} bg="light" expand="xs">
 			<div className="d-flex">
 				<Navbar.Brand
@@ -84,6 +87,10 @@ class Header extends Component {
 					</Dropdown>
 				</ButtonToolbar>
 			</div>
+
+			{isEditingIndoor &&
+				<div className="hide-mdDown"><Navigator {...this.props} /></div>
+			}
 
 			{this.props.mode === Body.MODE_EXPLORE &&
 				<span className="hide-xsDown"><SearchPlace /></span>
