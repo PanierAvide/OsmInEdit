@@ -272,10 +272,15 @@ class Body extends Component {
 				});
 			}
 			else if(data.mode === Body.MODE_LEVELS) {
-				const theFloor = this.state.floor !== this.state.building ? this.state.floor : null;
+				let theFloor = this.state.floor !== this.state.building ? this.state.floor : null;
+
+				if(!theFloor) {
+					const floorParts = window.vectorDataManager.getLevelFootprint(this.state.building, this.state.level);
+					theFloor = floorParts.length === 1 ? floorParts[0] : null;
+				}
+
 				this.setState({
 					mode: data.mode,
-// 					level: 0,
 					floor: theFloor,
 					feature: null,
 					copyingFeature: null,
@@ -347,12 +352,33 @@ class Body extends Component {
 		 * @property {float} level The level to use
 		 */
 		PubSub.subscribe("body.level.set", (msg, data) => {
+			const newState = { level: data.level };
+
 			if(this.state.mode === Body.MODE_LEVELS) {
-				this.setState({ floor: null, level: data.level, pane: LeftPanel.PANE_LEVELS_ADD });
+				const floorParts = window.vectorDataManager.getLevelFootprint(this.state.building, data.level);
+
+				newState.floor = floorParts.length === 1 ? floorParts[0] : null;
+				newState.pane = floorParts.length === 1 ? LeftPanel.PANE_LEVELS_EDIT : LeftPanel.PANE_LEVELS_ADD;
+				newState.draw = null;
 			}
-			else {
-				this.setState({ level: data.level });
+			else if(this.state.mode === Body.MODE_FEATURES) {
+				// Do not keep selection if feature not present on next level
+				if(
+					!this.state.feature || !this.state.feature.properties.own
+					|| !this.state.feature.properties.own.levels
+					|| !this.state.feature.properties.own.levels.includes(data.level)
+				) {
+					newState.feature = null;
+					newState.pane = LeftPanel.PANE_FEATURE_ADD;
+				}
+
+				newState.floor = null;
+				newState.draw = null;
+				newState.preset = null;
+				newState.lastUsedPreset = this.state.preset
 			}
+
+			this.setState(newState);
 		});
 
 		/**
