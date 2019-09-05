@@ -32,7 +32,7 @@ class EditOneLevelPane extends Component {
 		const imgHeight = <span>{I18n.t("Relative floor level height in meters")}<img src='img/floor_height.jpg' style={{height: 200}} alt={I18n.t("Schema explaining how should be set level height")} /></span>;
 
 		return <Container className="m-0 pl-2 pr-2 mt-2">
-			<Row className="d-flex align-items-center justify-content-between">
+			<Row className="d-flex align-items-top justify-content-between">
 				<Col>
 					<h3 className="m-0 p-0">{Body.GetFeatureName(this.props.floor)}</h3>
 				</Col>

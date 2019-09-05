@@ -22,7 +22,6 @@ import GeometryButtons from './GeometryButtons';
 import I18n from '../../config/locales';
 import Layers from 'mdi-react/LayersIcon';
 import OfficeBuilding from 'mdi-react/OfficeBuildingIcon';
-import Pencil from 'mdi-react/PencilIcon';
 import PubSub from 'pubsub-js';
 import SquareEditOutline from 'mdi-react/SquareEditOutlineIcon';
 import VectorSquare from 'mdi-react/VectorSquareIcon';
@@ -48,13 +47,13 @@ class IndoorEditButtons extends Component {
 						{this.props.building && [
 							<Button
 								variant="primary"
-								title={I18n.t("Edit inside this building")}
-								onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS })}
+								title={I18n.t("Edit objects contained in this floor")}
+								onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_FEATURES })}
 								size="sm"
 								className="mr-1"
 								key={0}
 							>
-								<Layers /> {I18n.t("Edit levels")}
+								<Layers /> {I18n.t("Edit features")}
 							</Button>
 							,
 							<Button
@@ -97,22 +96,11 @@ class IndoorEditButtons extends Component {
 					return <div>
 						{this.props.floor && [
 							<Button
-								variant="primary"
-								title={I18n.t("Edit objects contained in this floor")}
-								onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_FEATURES })}
-								className="mr-1"
-								size="sm"
-								key={0}
-							>
-								<Pencil /> {I18n.t("Edit features")}
-							</Button>
-							,
-							<Button
 								variant="outline-secondary"
 								onClick={() => PubSub.publish("body.square.feature")}
 								size="sm"
 								className="mr-1"
-								key={1}
+								key={0}
 								title={I18n.t("Square this floor part")}
 							>
 								<VectorSquare />
@@ -123,7 +111,7 @@ class IndoorEditButtons extends Component {
 								onClick={() => PubSub.publish("body.delete.feature")}
 								size="sm"
 								className="mr-1"
-								key={2}
+								key={1}
 								title={I18n.t("Delete this floor part")}
 							>
 								<Delete />

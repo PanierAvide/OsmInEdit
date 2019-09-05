@@ -123,7 +123,11 @@ class Body extends Component {
 
 			<Row className="m-0 p-0 app-body">
 				{this.state.leftPanelOpen &&
-					<Col className="m-0 p-0 h-100" style={{overflowX: "hidden", overflowY: "auto"}} xs="6" sm="5" md="4" lg="4" xl="3">
+					<Col
+						className="m-0 p-0 h-100"
+						style={{overflowX: "hidden", overflowY: "auto", borderRight: "3px solid #d0d0d0"}}
+						xs="6" sm="5" md="4" lg="4" xl="3"
+					>
 						<LeftPanel {...this.state} />
 					</Col>
 				}
@@ -140,7 +144,7 @@ class Body extends Component {
 				</Col>
 
 				{this.state.rightPanelOpen &&
-					<Col className="m-0 p-0 h-100 overflow-auto" xs="6" sm="5" md="4" lg="4" xl="3">
+					<Col className="m-0 p-0 h-100 overflow-auto" style={{borderLeft: "3px solid #d0d0d0"}} xs="6" sm="5" md="4" lg="4" xl="3">
 						<RightPanel {...this.state} />
 					</Col>
 				}

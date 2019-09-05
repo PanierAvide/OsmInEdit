@@ -83,7 +83,7 @@ class PresetSelect extends Component {
 					{!hasSearch &&
 						<InputGroup.Prepend>
 							<InputGroup.Text>
-								<Magnify size={10} />
+								<Magnify size={18} />
 							</InputGroup.Text>
 						</InputGroup.Prepend>
 					}

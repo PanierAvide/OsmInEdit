@@ -14,11 +14,10 @@ import React, { Component } from 'react';
 import Body from './Body';
 import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Layers from 'mdi-react/LayersIcon';
-import ArrowLeft from 'mdi-react/ArrowLeftIcon';
 import I18n from '../config/locales';
 import Navbar from 'react-bootstrap/Navbar';
-import Navigator from './common/Navigator';
 import Pencil from 'mdi-react/PencilIcon';
 import PubSub from 'pubsub-js';
 import SearchPlace from './common/SearchPlace';
@@ -28,23 +27,16 @@ import SearchPlace from './common/SearchPlace';
  */
 class Header extends Component {
 	render() {
-		const isEditingIndoor = [Body.MODE_BUILDING, Body.MODE_LEVELS, Body.MODE_FEATURES].includes(this.props.mode);
-
 		return <Navbar className={this.props.className} bg="light" expand="xs">
 			<div className="d-flex">
-				{this.props.mode === Body.MODE_EXPLORE ?
-					<Navbar.Brand>
-						{window.EDITOR_NAME}
-					</Navbar.Brand>
-					:
-					<Button
-						variant="outline-secondary"
-						title={I18n.t("Go back to map explorer")}
-						onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_EXPLORE })}
-					>
-						<ArrowLeft />
-					</Button>
-				}
+				<Navbar.Brand
+					className="app-brand"
+					style={{cursor: "pointer"}}
+					title={I18n.t("Go back to map explorer")}
+					onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_EXPLORE })}
+				>
+					{window.EDITOR_NAME}
+				</Navbar.Brand>
 
 				<ButtonToolbar className="ml-2 hide-xsDown">
 					<Button
@@ -58,22 +50,40 @@ class Header extends Component {
 						<Layers /> <span className="hide-smDown">{I18n.t("Import floor plans")}</span>
 					</Button>
 
-					<Button
-						variant="primary"
-						active={isEditingIndoor || this.props.mode === Body.MODE_CHANGESET}
-						disabled={isEditingIndoor || this.props.mode === Body.MODE_CHANGESET}
-						className="btn-mode-editindoor"
-						onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING })}
-						title={I18n.t("Edit map")}
-					>
-						<Pencil /> <span className="hide-smDown">{I18n.t("Edit map")}</span>
-					</Button>
+					<Dropdown>
+						<Dropdown.Toggle
+							variant="primary"
+							className="btn-mode-editindoor"
+							title={I18n.t("Edit map")}
+						>
+							<Pencil /> <span className="hide-smDown">{I18n.t("Edit map")}</span>
+						</Dropdown.Toggle>
+
+						<Dropdown.Menu>
+							<Dropdown.Item
+								active={this.props.mode === Body.MODE_BUILDING}
+								onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING })}
+							>
+								{I18n.t("Edit buildings")}
+							</Dropdown.Item>
+							<Dropdown.Item
+								active={this.props.mode === Body.MODE_LEVELS}
+								disabled={!this.props.building}
+								onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS })}
+							>
+								{I18n.t("Edit levels outlines")}
+							</Dropdown.Item>
+							<Dropdown.Item
+								active={this.props.mode === Body.MODE_FEATURES}
+								disabled={!this.props.building}
+								onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_FEATURES })}
+							>
+								{I18n.t("Edit levels features")}
+							</Dropdown.Item>
+						</Dropdown.Menu>
+					</Dropdown>
 				</ButtonToolbar>
 			</div>
-
-			{isEditingIndoor &&
-				<div className="hide-mdDown"><Navigator {...this.props} /></div>
-			}
 
 			{this.props.mode === Body.MODE_EXPLORE &&
 				<span className="hide-xsDown"><SearchPlace /></span>

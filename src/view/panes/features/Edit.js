@@ -134,7 +134,7 @@ class EditFeaturePane extends Component {
 
 		return <div>
 			<Container className="m-0 pl-2 pr-2 mt-2">
-				<Row className="d-flex align-items-center justify-content-between">
+				<Row className="d-flex align-items-top justify-content-between">
 					<Col>
 						<h3 className="m-0 p-0">{preset.name}</h3>
 					</Col>

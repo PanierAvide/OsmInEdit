@@ -14,14 +14,11 @@ import React, { Component } from 'react';
 import Body from '../../Body';
 import Button from 'react-bootstrap/Button';
 import Check from 'mdi-react/CheckIcon';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import ContentDuplicate from 'mdi-react/ContentDuplicateIcon';
 import I18n from '../../../config/locales';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import PubSub from 'pubsub-js';
-import Row from 'react-bootstrap/Row';
 import ShapePolygonPlus from 'mdi-react/ShapePolygonPlusIcon';
 import SquareEditOutline from 'mdi-react/SquareEditOutlineIcon';
 
@@ -45,90 +42,69 @@ class EditAllLevelsPane extends Component {
 		const levelsForCopy = window.vectorDataManager.getCopiableLevels(this.props.building).filter(lvl => lvl !== this.props.level);
 		levelsForCopy.reverse();
 
-		return <Container className="m-0 pl-2 pr-2 mt-2">
-			<Row className="d-flex align-items-center justify-content-between">
-				<Col>
-					<h3 className="m-0 p-0">{I18n.t("Level %{lvl}", { lvl: this.props.level })}</h3>
-				</Col>
+		return <div className="m-0 pl-2 pr-2 mt-2">
+			<h3 className="m-0 mb-2 p-0">{I18n.t("Level %{lvl}", { lvl: this.props.level })}</h3>
 
-				{!this.props.draw &&
-					<Col className="text-right">
+			{this.props.draw &&
+				<p>{I18n.t("You can draw your feature on the map. Click on done button or click again on last node you created to finish.")}</p>
+			}
+
+			{!this.props.draw && !this.props.floor && floorParts.length > 0 &&
+				<p>{I18n.t("Please select the floor part to edit using the map.")}</p>
+			}
+
+			{!this.props.draw && !this.props.floor && floorParts.length === 0 && [
+				<p className="m-0" key={0}>{I18n.t("This level doesn't have a precise floor outline defined yet.")}</p>
+				,
+				<Button
+					variant="outline-primary"
+					className="mt-2 w-100"
+					key={1}
+					onClick={() => PubSub.publish("body.create.floor", { feature: this.props.building })}
+				>
+					<ShapePolygonPlus /> {I18n.t("Use the whole building footprint")}
+				</Button>
+				,
+				<Button
+					variant="outline-secondary"
+					className="mt-2 w-100"
+					key={2}
+					onClick={() => PubSub.publish("body.draw.floor")}
+				>
+					<SquareEditOutline /> {I18n.t("Draw this floor outline")}
+				</Button>
+			]}
+
+			{!this.props.draw && !this.props.floor && floorParts.length === 0 && levelsForCopy.length > 0 &&
+				<InputGroup
+					className="mt-2 w-100"
+				>
+					<InputGroup.Prepend>
+
+						<InputGroup.Text><ContentDuplicate size={18} /> {I18n.t("Copy level")}</InputGroup.Text>
+
+					</InputGroup.Prepend>
+
+					<Form.Control as="select" ref="levelSelect">
+
+						{levelsForCopy.map((lvl,i) => (
+							<option key={i}>{lvl}</option>
+						))}
+					</Form.Control>
+
+					<InputGroup.Append>
+
 						<Button
 							variant="outline-secondary"
-							size="sm"
-							title={I18n.t("Done")}
-							onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING })}
+							title={I18n.t("Copy selected level data in the current level")}
+							onClick={() => PubSub.publish("body.level.copy", { use: this.refs.levelSelect.value })}
 						>
-							<Check />
+							<Check size={18} />
 						</Button>
-					</Col>
-				}
-			</Row>
-
-			<Row className="mt-2">
-				<Col>
-					{this.props.draw &&
-						<p>{I18n.t("You can draw your feature on the map. Click on done button or click again on last node you created to finish.")}</p>
-					}
-
-					{!this.props.draw && !this.props.floor && floorParts.length > 0 &&
-						<p>{I18n.t("Please select the floor part to edit using the map.")}</p>
-					}
-
-					{!this.props.draw && !this.props.floor && floorParts.length === 0 && [
-						<p key={0}>{I18n.t("This level doesn't have a precise floor outline defined yet.")}</p>
-						,
-						<Button
-							variant="outline-primary"
-							className="mt-2 w-100"
-							key={1}
-							onClick={() => PubSub.publish("body.create.floor", { feature: this.props.building })}
-						>
-							<ShapePolygonPlus /> {I18n.t("Use the whole building footprint")}
-						</Button>
-						,
-						<Button
-							variant="outline-secondary"
-							className="mt-2 w-100"
-							key={2}
-							onClick={() => PubSub.publish("body.draw.floor")}
-						>
-							<SquareEditOutline /> {I18n.t("Draw this floor outline")}
-						</Button>
-					]}
-
-					{!this.props.draw && !this.props.floor && floorParts.length === 0 && levelsForCopy.length > 0 &&
-						<InputGroup
-							className="mt-2 w-100"
-						>
-							<InputGroup.Prepend>
-
-								<InputGroup.Text><ContentDuplicate size={18} /> {I18n.t("Copy level")}</InputGroup.Text>
-
-							</InputGroup.Prepend>
-
-							<Form.Control as="select" ref="levelSelect">
-
-								{levelsForCopy.map((lvl,i) => (
-									<option key={i}>{lvl}</option>
-								))}
-							</Form.Control>
-
-							<InputGroup.Append>
-
-								<Button
-									variant="outline-secondary"
-									title={I18n.t("Copy selected level data in the current level")}
-									onClick={() => PubSub.publish("body.level.copy", { use: this.refs.levelSelect.value })}
-								>
-									<Check size={18} />
-								</Button>
-							</InputGroup.Append>
-						</InputGroup>
-					}
-				</Col>
-			</Row>
-		</Container>;
+					</InputGroup.Append>
+				</InputGroup>
+			}
+		</div>;
 	}
 }
 

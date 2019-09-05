@@ -79,7 +79,7 @@ class PresetInputField extends Component {
 		}
 
 		if(["text", "number"].includes(this.props.type)) {
-			res = <Form.Group className="m-0">
+			res = <Form.Group className="m-0 mb-3">
 				<Form.Label>{d.text || d.key} {infoTip}</Form.Label>
 				<Form.Control
 					type={this.props.type}
@@ -91,7 +91,7 @@ class PresetInputField extends Component {
 			</Form.Group>;
 		}
 		else if(this.props.type === "textarea") {
-			res = <Form.Group className="m-0">
+			res = <Form.Group className="m-0 mb-3">
 				<Form.Label>{d.text || d.key} {infoTip}</Form.Label>
 				<Form.Control
 					as="textarea"
@@ -111,7 +111,7 @@ class PresetInputField extends Component {
 					d.display_values.split("," || d.delimiter)
 					: values);
 
-			res = <Form.Group className="m-0">
+			res = <Form.Group className="m-0 mb-3">
 				<Form.Label>{d.text || d.key} {infoTip}</Form.Label>
 				<Form.Control
 					as="select"
@@ -146,7 +146,7 @@ class PresetInputField extends Component {
 				this._onEdit(states[newState].val);
 			};
 
-			res = <Form.Group className="m-0 mb-1 form-group-check">
+			res = <Form.Group className="m-0 mb-3 form-group-check">
 				<p className="m-0">{d.text || d.key} {infoTip}</p>
 
 				<Checkbox
@@ -181,7 +181,7 @@ class PresetInputField extends Component {
 				}
 			}
 
-			res = <Form.Group className="m-0">
+			res = <Form.Group className="m-0 mb-3">
 				<Form.Label>{d.text || d.key} {infoTip}</Form.Label>
 				<Form.Control
 					as={Multiselect}
