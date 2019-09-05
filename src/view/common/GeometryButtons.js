@@ -24,7 +24,7 @@ import PubSub from 'pubsub-js';
 class GeometryButtons extends Component {
 	render() {
 		return <div>
-			{I18n.t("You can start drawing using the map")}
+			{I18n.t("Click on the map to start drawing the feature")}
 			<ButtonGroup style={{marginLeft: 10}}>
 				<Button
 					variant="success"
