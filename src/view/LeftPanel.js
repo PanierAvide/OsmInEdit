@@ -15,6 +15,7 @@ import BuildingEdit from './panes/BuildingEdit';
 import Changeset from './panes/Changeset';
 import FeatureCreate from './panes/features/Create';
 import FeatureEdit from './panes/features/Edit';
+import FeatureView from './panes/features/View';
 import FloorImagery from './panes/FloorImagery';
 import LevelsEditAll from './panes/levels/EditAll';
 import LevelsEditOne from './panes/levels/EditOne';
@@ -28,22 +29,25 @@ class LeftPanel extends Component {
 	static PANE_BUILDING_EDIT = 1;
 
 	/** ID for adding new levels contour pane **/
-	static PANE_LEVELS_ADD = 7;
+	static PANE_LEVELS_ADD = 2;
 
 	/** ID for all levels edit pane **/
-	static PANE_LEVELS_EDIT = 2;
+	static PANE_LEVELS_EDIT = 3;
 
 	/** ID for new feature pane **/
-	static PANE_FEATURE_ADD = 3;
+	static PANE_FEATURE_ADD = 4;
 
 	/** ID for feature edit pane **/
-	static PANE_FEATURE_EDIT = 4;
+	static PANE_FEATURE_EDIT = 5;
+
+	/** ID for feature view pane **/
+	static PANE_FEATURE_VIEW = 6;
 
 	/** ID for review changeset pane **/
-	static PANE_CHANGESET = 5;
+	static PANE_CHANGESET = 7;
 
 	/** ID for floor imagery pane **/
-	static PANE_FLOOR_IMAGERY = 6;
+	static PANE_FLOOR_IMAGERY = 8;
 
 	render() {
 		let component;
@@ -67,6 +71,10 @@ class LeftPanel extends Component {
 
 			case LeftPanel.PANE_FEATURE_EDIT:
 				component = <FeatureEdit {...this.props} />;
+				break;
+
+			case LeftPanel.PANE_FEATURE_VIEW:
+				component = <FeatureView {...this.props} />;
 				break;
 
 			case LeftPanel.PANE_CHANGESET:

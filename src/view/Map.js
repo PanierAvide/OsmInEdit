@@ -307,6 +307,7 @@ class MyMap extends Component {
 						building={this.props.building}
 						feature={this.props.feature}
 						draw={this.props.draw}
+						locked={this.props.mode === Body.MODE_EXPLORE}
 					/>
 				}
 			</Map>

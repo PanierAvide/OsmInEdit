@@ -74,14 +74,18 @@ class Header extends Component {
 								disabled={!this.props.building}
 								onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS })}
 							>
-								{I18n.t("Edit levels outlines")}
+								{I18n.t("Edit levels outlines (%{name})", {
+									name: this.props.building ? Body.GetFeatureName(this.props.building) : I18n.t("no selected building")
+								})}
 							</Dropdown.Item>
 							<Dropdown.Item
 								active={this.props.mode === Body.MODE_FEATURES}
 								disabled={!this.props.building}
 								onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_FEATURES })}
 							>
-								{I18n.t("Edit levels features")}
+								{I18n.t("Edit features (%{name})", {
+									name: this.props.building ? Body.GetFeatureName(this.props.building) : I18n.t("no selected building")
+								})}
 							</Dropdown.Item>
 						</Dropdown.Menu>
 					</Dropdown>

@@ -313,7 +313,7 @@ class Body extends Component {
 					mode: data.mode,
 					building: null,
 					floor: null,
-					level: 0,
+// 					level: 0,
 					feature: null,
 					copyingFeature: null,
 					draw: null,
@@ -546,11 +546,13 @@ class Body extends Component {
 		 * @property {Object} building The selected building GeoJSON feature
 		 */
 		PubSub.subscribe("body.select.building", (msg, data) => {
-			this.setState({
+			const newState = {
 				building: data.building ? window.vectorDataManager.getBuildingLevels(data.building) : null,
 				leftPanelOpen: data.building !== null,
 				pane: data.building ? LeftPanel.PANE_BUILDING_EDIT : null
-			});
+			};
+
+			this.setState(newState);
 		});
 
 		/**
@@ -560,10 +562,12 @@ class Body extends Component {
 		 * @property {Object} floor The selected floor GeoJSON feature (or eventually building if no floor was found)
 		 */
 		PubSub.subscribe("body.select.floor", (msg, data) => {
-			this.setState({
+			const newState = {
 				floor: data.floor,
 				pane: data.floor ? LeftPanel.PANE_LEVELS_EDIT : LeftPanel.PANE_LEVELS_ADD
-			});
+			};
+
+			this.setState(newState);
 		});
 
 		/**
@@ -573,12 +577,21 @@ class Body extends Component {
 		 * @property {Object} feature The selected feature as GeoJSON
 		 */
 		PubSub.subscribe("body.select.feature", (msg, data) => {
-			this.setState({
+			const newState = {
 				feature: data.feature,
-				leftPanelOpen: true,
-				pane: data.feature ? LeftPanel.PANE_FEATURE_EDIT : LeftPanel.PANE_FEATURE_ADD,
-				preset: data.feature ? this.state.preset : null
-			});
+				leftPanelOpen: data.feature ? true : false
+			};
+
+			if(this.state.mode === Body.MODE_EXPLORE) {
+				newState.pane = data.feature ? LeftPanel.PANE_FEATURE_VIEW : null;
+				newState.building = data.feature ? window.vectorDataManager.findAssociatedBuilding(data.feature) : null;
+			}
+			else {
+				newState.pane = data.feature ? LeftPanel.PANE_FEATURE_EDIT : LeftPanel.PANE_FEATURE_ADD;
+				newState.preset = data.feature ? this.state.preset : null;
+			}
+
+			this.setState(newState);
 		});
 
 		/**
@@ -616,6 +629,11 @@ class Body extends Component {
 			}
 			else if(this.state.mode === Body.MODE_FEATURES) {
 				PubSub.publish("body.select.feature", { feature: null });
+			}
+			else if(this.state.mode === Body.MODE_EXPLORE) {
+				PubSub.publish("body.select.feature", { feature: null });
+				PubSub.publish("body.select.floor", { floor: null });
+				PubSub.publish("body.select.building", { building: null });
 			}
 		});
 

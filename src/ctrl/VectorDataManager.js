@@ -274,6 +274,16 @@ class VectorDataManager extends HistorizedManager {
 	}
 
 	/**
+	 * Find the building which contains given feature
+	 * @param {Object} feature The feature to look for
+	 * @return {Object} The found building, or null if none or several
+	 */
+	findAssociatedBuilding(feature) {
+		const buildings = this.getOSMBuildings().features.filter(b => this._containsWithBoundary(b, feature));
+		return buildings.length === 1 ? buildings[0] : null;
+	}
+
+	/**
 	 * Retrieve the level feature in a specific building, at a given level.
 	 * @param {Object} building The GeoJSON feature of the building
 	 * @param {float} level The level value

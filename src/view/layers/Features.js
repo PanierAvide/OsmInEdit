@@ -22,7 +22,7 @@ class FeaturesLayer extends Component {
 	render() {
 		const geojson = window.vectorDataManager.getFeaturesInLevel(this.props.building, this.props.level);
 
-		if(this.props.building) {
+		if(!this.props.locked) {
 			return <Editable
 				data={geojson}
 				shadowData={this.props.building}
