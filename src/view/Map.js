@@ -36,7 +36,7 @@ const MAP_MAX_ZOOM = 26;
  * Extend leaflet hash for handling level value
  */
 
-L.Hash.prototype.parseHash = function(hash) {
+L.Hash.parseHash = function(hash) {
 	if(hash.indexOf('#') === 0) {
 		hash = hash.substr(1);
 	}
@@ -60,8 +60,9 @@ L.Hash.prototype.parseHash = function(hash) {
 		return false;
 	}
 };
+L.Hash.prototype.parseHash = L.Hash.parseHash;
 
-L.Hash.prototype.formatHash = function(map) {
+L.Hash.formatHash = function(map) {
 	var center = map.getCenter(),
 		zoom = map.getZoom(),
 		precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
@@ -72,6 +73,7 @@ L.Hash.prototype.formatHash = function(map) {
 		this._level || "0"
 	].join("/");
 };
+L.Hash.prototype.formatHash = L.Hash.formatHash;
 
 L.Hash.prototype.setLevel = function(lvl) {
 	if(this._level !== lvl) {
@@ -395,10 +397,25 @@ class MyMap extends Component {
 		// URL hash for map
 		this._mapHash = new L.Hash(this.elem.leafletElement);
 
-		// If no valid hash found, use default coordinates from CONFIG file
+		// If no valid hash found, use default coordinates from CONFIG file or stored cookie
 		if(!window.location.hash || !window.location.hash.match(/^#\d+\/-?\d+(.\d+)?\/-?\d+(.\d+)?(\/\d+)?$/)) {
-			window.history.pushState({}, "", window.location.href.split("#")[0]+"#"+CONFIG.map_initial_zoom+"/"+CONFIG.map_initial_latlng.join("/"));
+			// Has cookie ?
+			const cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)lasthash\s*=\s*([^;]*).*$)|^.*$/, "$1");
+			let newHash;
+
+			if(cookieHash && L.Hash.parseHash(cookieHash)) {
+				newHash = cookieHash;
+			}
+			else {
+				newHash = "#"+CONFIG.map_initial_zoom+"/"+CONFIG.map_initial_latlng.join("/");
+			}
+
+			window.history.pushState({}, "", window.location.href.split("#")[0] + newHash);
 		}
+
+		L.DomEvent.addListener(window, "hashchange", () => {
+			document.cookie = "lasthash="+window.location.hash;
+		});
 
 		this.elem.leafletElement.on("dblclick", e => {
 			if(!this.props.draw) {
