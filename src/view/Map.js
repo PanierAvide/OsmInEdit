@@ -32,6 +32,73 @@ import SidePanelButton from './common/SidePanelButton';
 
 const MAP_MAX_ZOOM = 26;
 
+/*
+ * Extend leaflet hash for handling level value
+ */
+
+L.Hash.prototype.parseHash = function(hash) {
+	if(hash.indexOf('#') === 0) {
+		hash = hash.substr(1);
+	}
+	var args = hash.split("/");
+	if (args.length >= 3 && args.length <= 4) {
+		var zoom = parseInt(args[0], 10),
+		lat = parseFloat(args[1]),
+		lon = parseFloat(args[2]),
+		level = args.length === 4 ? parseInt(args[3], 10) : 0;
+
+		if (isNaN(zoom) || isNaN(lat) || isNaN(lon) || isNaN(level)) {
+			return false;
+		} else {
+			return {
+				center: new L.LatLng(lat, lon),
+				zoom: zoom,
+				level: level
+			};
+		}
+	} else {
+		return false;
+	}
+};
+
+L.Hash.prototype.formatHash = function(map) {
+	var center = map.getCenter(),
+		zoom = map.getZoom(),
+		precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+
+	return "#" + [zoom,
+		center.lat.toFixed(precision),
+		center.lng.toFixed(precision),
+		this._level || "0"
+	].join("/");
+};
+
+L.Hash.prototype.setLevel = function(lvl) {
+	if(this._level !== lvl) {
+		this._level = lvl;
+		var hash = this.formatHash(this.map);
+		window.location.replace(hash);
+		this.lastHash = hash;
+	}
+};
+
+L.Hash.prototype.update = function() {
+	var hash = window.location.hash;
+	if (hash === this.lastHash) {
+		return;
+	}
+	var parsed = this.parseHash(hash);
+	if (parsed) {
+		this.movingMap = true;
+		this.map.setView(parsed.center, parsed.zoom);
+		this.movingMap = false;
+		PubSub.publish("body.level.set", { level: parsed.level });
+	} else {
+		this.onMapMove(this.map);
+	}
+};
+
+
 /**
  * Map component handles the whole map and associated widgets.
  */
@@ -238,8 +305,6 @@ class MyMap extends Component {
 				}}></div>
 			}
 			<Map
-				center={CONFIG.map_initial_latlng}
-				zoom={CONFIG.map_initial_zoom}
 				maxZoom={MAP_MAX_ZOOM}
 				className={"app-map"+(this.props.draw ? " leaflet-clickable" : "")}
 				ref={elem => this.elem = elem}
@@ -328,7 +393,12 @@ class MyMap extends Component {
 		}, 500);
 
 		// URL hash for map
-		new L.Hash(this.elem.leafletElement);
+		this._mapHash = new L.Hash(this.elem.leafletElement);
+
+		// If no valid hash found, use default coordinates from CONFIG file
+		if(!window.location.hash || !window.location.hash.match(/^#\d+\/-?\d+(.\d+)?\/-?\d+(.\d+)?(\/\d+)?$/)) {
+			window.history.pushState({}, "", window.location.href.split("#")[0]+"#"+CONFIG.map_initial_zoom+"/"+CONFIG.map_initial_latlng.join("/"));
+		}
 
 		this.elem.leafletElement.on("dblclick", e => {
 			if(!this.props.draw) {
@@ -394,6 +464,10 @@ class MyMap extends Component {
 	}
 
 	componentDidUpdate(fromProps) {
+		if(this.props.level !== fromProps.level) {
+			this._mapHash.setLevel(this.props.level);
+		}
+
 		const floorImgs = window.imageryManager.getFloorImages();
 
 		// Force update of floor imagery after mode change
