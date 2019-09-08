@@ -289,6 +289,8 @@ class Body extends Component {
 	 * @private
 	 */
 	_pushUsedPreset(preset) {
+		if(preset === null || preset === undefined) { return null; }
+
 		let newUsedPresets = this.state.lastUsedPresets.slice(0);
 
 		if(newUsedPresets.length === 0) {
