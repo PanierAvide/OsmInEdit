@@ -18,7 +18,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Close from 'mdi-react/CloseIcon';
 import ContentCopy from 'mdi-react/ContentCopyIcon';
 import ContentPaste from 'mdi-react/ContentPasteIcon';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import PubSub from 'pubsub-js';
 import RotateRight from 'mdi-react/RotateRightIcon';
 

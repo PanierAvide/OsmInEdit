@@ -15,7 +15,7 @@ import Body from '../../Body';
 import Button from 'react-bootstrap/Button';
 import Check from 'mdi-react/CheckIcon';
 import ContentDuplicate from 'mdi-react/ContentDuplicateIcon';
-import I18n from '../../../config/locales';
+import I18n from '../../../config/locales/ui';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import PubSub from 'pubsub-js';

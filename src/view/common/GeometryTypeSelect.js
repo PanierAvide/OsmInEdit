@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import MapMarker from 'mdi-react/MapMarkerIcon';
 import VectorLine from 'mdi-react/VectorLineIcon';
 import VectorSquare from 'mdi-react/VectorSquareIcon';

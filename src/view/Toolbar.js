@@ -16,7 +16,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ContentSave from 'mdi-react/ContentSaveIcon';
 import FloorImageryButtons from './common/FloorImageryButtons';
-import I18n from '../config/locales';
+import I18n from '../config/locales/ui';
 import IndoorEditButtons from './common/IndoorEditButtons';
 import PubSub from 'pubsub-js';
 import Undo from 'mdi-react/UndoIcon';

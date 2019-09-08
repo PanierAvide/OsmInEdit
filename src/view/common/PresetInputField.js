@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import Checkbox from 'react-three-state-checkbox';
 import Form from 'react-bootstrap/Form';
 import HelpCircle from 'mdi-react/HelpCircleIcon';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import Multiselect from 'react-bootstrap-multiselect';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';

@@ -14,7 +14,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Body from './view/Body';
 import CONFIG from './config/config.json';
-import I18n from './config/locales';
+import I18n from './config/locales/ui';
 import ImageryManager from './ctrl/ImageryManager';
 import OsmAuth from 'osm-auth';
 import PresetsManager from './ctrl/PresetsManager';

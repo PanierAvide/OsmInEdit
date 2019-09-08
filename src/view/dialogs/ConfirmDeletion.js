@@ -15,7 +15,7 @@ import Button from 'react-bootstrap/Button';
 import Close from 'mdi-react/CloseIcon';
 import Delete from 'mdi-react/DeleteIcon';
 import DeleteCircleOutline from 'mdi-react/DeleteCircleOutlineIcon';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import Modal from 'react-bootstrap/Modal';
 
 /**

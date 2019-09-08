@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import Alert from 'mdi-react/AlertIcon';
 import Button from 'react-bootstrap/Button';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import Modal from 'react-bootstrap/Modal';
 import OfficeBuilding from 'mdi-react/OfficeBuildingIcon';
 import Pencil from 'mdi-react/PencilIcon';

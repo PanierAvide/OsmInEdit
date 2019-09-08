@@ -13,7 +13,7 @@
     "i18n:build": "i18nline synch && node presets_extract_labels.js",
     "i18n:add": "tx set --auto-local -r osminedit.ui 'src/config/locales/ui/<lang>.json' --source-lang en --type KEYVALUEJSON",
     "i18n:push": "tx push -s",
-    "i18n:pull": "tx pull -a --minimum-perc=75 && node fix_i18n_files.js && i18nline index",
+    "i18n:pull": "tx pull -a --minimum-perc=75 && node fix_i18n_files.js && i18nline index && node presets_merge_labels.js",
     "i18n:clean": "rm -rf ./src/config/locales/**/*.js*",
     "preinstall": "if [ -d \"node_modules/leaflet-distortableimage/.git\" ]; then rm -rf node_modules/leaflet-distortableimage/.git; fi",
     "clean": "rm -rf build/* doc/*"

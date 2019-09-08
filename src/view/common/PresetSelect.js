@@ -16,7 +16,7 @@ import ChevronLeft from 'mdi-react/ChevronLeftIcon';
 import Container from 'react-bootstrap/Container';
 import Close from 'mdi-react/CloseIcon';
 import FormControl from 'react-bootstrap/FormControl';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Magnify from 'mdi-react/MagnifyIcon';
 import PresetCard from './PresetCard';

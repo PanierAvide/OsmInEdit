@@ -15,7 +15,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import deepEqual from 'fast-deep-equal';
 import Form from 'react-bootstrap/Form';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';
 import SelectList from '../common/SelectList';

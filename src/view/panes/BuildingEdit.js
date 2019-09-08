@@ -16,7 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Check from 'mdi-react/CheckIcon';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import PresetInputField from '../common/PresetInputField';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';

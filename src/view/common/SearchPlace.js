@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Nominatim from 'nominatim-browser';
 import Magnify from 'mdi-react/MagnifyIcon';

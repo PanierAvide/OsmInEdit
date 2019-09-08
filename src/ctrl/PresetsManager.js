@@ -14,7 +14,7 @@ import request from 'request-promise-native';
 import { parseString } from 'xml2js';
 import { mergeDeep } from '../utils';
 import Fuse from 'fuse.js';
-import I18n from '../config/locales';
+import I18n from '../config/locales/ui';
 
 /**
  * Presets manager handles loading, listing and filtering of presets for OSM features.

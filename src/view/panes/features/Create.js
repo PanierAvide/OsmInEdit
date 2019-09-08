@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Close from 'mdi-react/CloseIcon';
 import GeometryTypeSelect from '../../common/GeometryTypeSelect';
-import I18n from '../../../config/locales';
+import I18n from '../../../config/locales/ui';
 import PresetSelect from '../../common/PresetSelect';
 import PubSub from 'pubsub-js';
 

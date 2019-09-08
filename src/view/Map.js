@@ -21,7 +21,7 @@ import Building from './layers/Building';
 import CONFIG from '../config/config.json';
 import Features from './layers/Features';
 import FloorImagery from './layers/FloorImagery';
-import I18n from '../config/locales';
+import I18n from '../config/locales/ui';
 import Levels from './layers/Levels';
 import LevelSelector from './common/LevelSelector';
 import MapStyler from '../model/mapcss/MapStyler';
@@ -52,7 +52,8 @@ L.Hash.parseHash = function(hash) {
 		} else {
 			return {
 				center: new L.LatLng(lat, lon),
-				zoom: zoom,
+				zoom: zoom
+,
 				level: level
 			};
 		}
@@ -69,7 +70,8 @@ L.Hash.formatHash = function(map) {
 
 	return "#" + [zoom,
 		center.lat.toFixed(precision),
-		center.lng.toFixed(precision),
+		center.lng.toFixed(precision)
+,
 		this._level || "0"
 	].join("/");
 };

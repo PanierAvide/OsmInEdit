@@ -17,7 +17,7 @@ import CONFIG from '../../config/config.json';
 import ChangesetDiff from '../common/ChangesetDiff';
 import Check from 'mdi-react/CheckIcon';
 import CloseCircle from 'mdi-react/CloseCircleIcon';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import Magnify from 'mdi-react/MagnifyIcon';
 import Pencil from 'mdi-react/PencilIcon';
 import PresetInputField from '../common/PresetInputField';

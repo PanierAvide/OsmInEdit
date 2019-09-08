@@ -16,7 +16,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Layers from 'mdi-react/LayersIcon';
-import I18n from '../config/locales';
+import I18n from '../config/locales/ui';
 import Navbar from 'react-bootstrap/Navbar';
 import Navigator from './common/Navigator';
 import Pencil from 'mdi-react/PencilIcon';

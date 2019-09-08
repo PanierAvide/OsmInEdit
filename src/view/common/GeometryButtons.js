@@ -15,7 +15,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Check from 'mdi-react/CheckIcon';
 import Close from 'mdi-react/CloseIcon';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import PubSub from 'pubsub-js';
 
 /**

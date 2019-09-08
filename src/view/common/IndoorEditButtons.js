@@ -19,7 +19,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import CONFIG from '../../config/config.json';
 import Delete from 'mdi-react/DeleteIcon';
 import GeometryButtons from './GeometryButtons';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import Layers from 'mdi-react/LayersIcon';
 import OfficeBuilding from 'mdi-react/OfficeBuildingIcon';
 import PubSub from 'pubsub-js';

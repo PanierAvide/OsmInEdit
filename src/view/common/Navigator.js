@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import Body from '../Body';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import PubSub from 'pubsub-js';
 
 /**

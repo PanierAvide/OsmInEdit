@@ -18,7 +18,7 @@ import EyeOff from 'mdi-react/EyeOffIcon';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Hash from 'object-hash';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ListGroup from 'react-bootstrap/ListGroup';
 import PubSub from 'pubsub-js';

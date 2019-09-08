@@ -12,7 +12,7 @@ const XML_RGX = /^[A-Za-z0-9_\-]+\.xml$/;
 
 const foundLabels = {};
 
-entryToLabels = entry => {
+const entryToLabels = entry => {
 	Object.entries(entry).forEach(e => {
 		const [ k, v ] = e;
 

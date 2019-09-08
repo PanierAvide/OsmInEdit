@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import Body from '../Body';
 import Button from 'react-bootstrap/Button';
-import I18n from '../../config/locales';
+import I18n from '../../config/locales/ui';
 import Modal from 'react-bootstrap/Modal';
 
 /**

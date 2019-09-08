@@ -27,7 +27,7 @@ import { coordAll } from '@turf/meta';
 import deepEqual from 'fast-deep-equal';
 import GeoJSONValidation from 'geojson-validation';
 import HistorizedManager from './HistorizedManager';
-import I18n from '../config/locales';
+import I18n from '../config/locales/ui';
 import intersect from '@turf/intersect';
 import osmtogeojson from 'osmtogeojson';
 import OsmRequest from 'osm-request';

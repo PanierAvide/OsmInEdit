@@ -22,7 +22,7 @@ import Container from 'react-bootstrap/Container';
 import deepEqual from 'fast-deep-equal';
 import Editable from './layers/Editable';
 import Header from './Header';
-import I18n from '../config/locales';
+import I18n from '../config/locales/ui';
 import LeftPanel from './LeftPanel';
 import Map from './Map';
 import Mousetrap from 'mousetrap';
