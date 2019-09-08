@@ -1377,6 +1377,16 @@ class Body extends Component {
 			newState.leftPanelOpen = true;
 		}
 
+		// Auto-select single floor imagery if only 1 defined
+		// NOTE : should be kept as last check
+		if(this.state.mode === Body.MODE_FLOOR_IMAGERY && window.imageryManager.getFloorImages().length === 1 && !window.imageryManager.getFloorImages()[0].selected) {
+			window.imageryManager._updateSelectedImage();
+			if(Object.keys(newState).length === 0) {
+				this.forceUpdate();
+			}
+		}
+
+		// Finally, update if necessary
 		if(Object.keys(newState).length > 0) {
 			this.setState(newState);
 		}
