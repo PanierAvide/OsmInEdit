@@ -29,7 +29,7 @@ class CreateFeaturePane extends Component {
 			{!this.props.preset &&
 				<PresetSelect
 					key={1}
-					lastUsed={this.props.lastUsedPreset}
+					lastUsedPresets={this.props.lastUsedPresets}
 					onSelect={p => PubSub.publish("body.select.preset", { preset: p })}
 				/>
 			}

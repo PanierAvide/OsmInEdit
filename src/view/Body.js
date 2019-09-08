@@ -83,7 +83,7 @@ class Body extends Component {
 			floorImageryCopyPaste: null,
 			changeset: { tags: {} },
 			datalocked: false,
-			lastUsedPreset: null,
+			lastUsedPresets: [],
 			zoom: CONFIG.map_initial_zoom
 		};
 	}
@@ -284,6 +284,36 @@ class Body extends Component {
 		});
 	}
 
+	/**
+	 * Append last used preset into stack
+	 * @private
+	 */
+	_pushUsedPreset(preset) {
+		let newUsedPresets = this.state.lastUsedPresets.slice(0);
+
+		if(newUsedPresets.length === 0) {
+			newUsedPresets.push(preset);
+		}
+		else {
+			const pId = newUsedPresets.findIndex(p => deepEqual(p, preset));
+			if(pId < 0) {
+				if(newUsedPresets.length === 3) {
+					newUsedPresets.pop();
+				}
+
+				newUsedPresets.unshift(preset);
+			}
+			else {
+				newUsedPresets.splice(pId, 1);
+				newUsedPresets.unshift(preset);
+			}
+		}
+
+		if(!deepEqual(newUsedPresets, this.state.lastUsedPresets)) {
+			this.setState({ lastUsedPresets: newUsedPresets });
+		}
+	}
+
 	componentDidMount() {
 		this._timerImagery = setInterval(() => this._updateImagery(), 1000);
 
@@ -447,7 +477,7 @@ class Body extends Component {
 				newState.floor = null;
 				newState.draw = null;
 				newState.preset = null;
-				newState.lastUsedPreset = this.state.preset
+				this._pushUsedPreset(this.state.preset);
 			}
 
 			this.setState(newState);
@@ -714,15 +744,15 @@ class Body extends Component {
 						else if(this.state.mode === Body.MODE_FEATURES && this.state.preset) {
 							if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
 								newState.feature = window.vectorDataManager.createNewFeature(data.feature, this.state.level, this.state.preset);
-								newState.lastUsedPreset = this.state.preset;
 								newState.pane = LeftPanel.PANE_FEATURE_EDIT;
+								this._pushUsedPreset(this.state.preset);
 							}
 							else {
 								newState.showDialogOutOfBoundsGeometry = true;
 								newState.feature = null;
 								newState.pane = LeftPanel.PANE_FEATURE_ADD;
 								newState.preset = null;
-								newState.lastUsedPreset = this.state.preset;
+								this._pushUsedPreset(this.state.preset);
 								PubSub.publish("map.editablelayer.redraw");
 							}
 

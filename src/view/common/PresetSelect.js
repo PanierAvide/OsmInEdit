@@ -119,7 +119,9 @@ class PresetSelect extends Component {
 				</Row>
 			}
 
-			{this.state.path === "/" && !hasSearch && this.props.lastUsed && this._createEntry("lu", this.props.lastUsed)}
+			{this.state.path === "/" && !hasSearch && this.props.lastUsedPresets && this.props.lastUsedPresets.length > 0 &&
+				this.props.lastUsedPresets.map((p,i) => this._createEntry("lu"+i, p))
+			}
 			{presets && presets.groups && presets.groups.map((g,i) => this._createEntry("g"+i, g))}
 			{presets && presets.items && presets.items.map((it,i) => this._createEntry("i"+i, it))}
 		</Container>;
