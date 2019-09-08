@@ -10,11 +10,11 @@
     "doc": "npm run doc:js:check && npm run doc:js",
     "doc:js": "documentation build ./src/*.js ./src/ctrl ./src/model ./src/view -f html -o doc/ --shallow",
     "doc:js:check": "documentation lint ./src/*.js ./src/ctrl ./src/model ./src/view --shallow",
-    "i18n:build": "i18nline synch",
-    "i18n:add": "tx set --auto-local -r osminedit.ui 'src/config/locales/<lang>.json' --source-lang en --type KEYVALUEJSON",
+    "i18n:build": "i18nline synch && node presets_extract_labels.js",
+    "i18n:add": "tx set --auto-local -r osminedit.ui 'src/config/locales/ui/<lang>.json' --source-lang en --type KEYVALUEJSON",
     "i18n:push": "tx push -s",
     "i18n:pull": "tx pull -a --minimum-perc=75 && node fix_i18n_files.js && i18nline index",
-    "i18n:clean": "rm -rf ./src/config/locales/*.js*",
+    "i18n:clean": "rm -rf ./src/config/locales/**/*.js*",
     "preinstall": "if [ -d \"node_modules/leaflet-distortableimage/.git\" ]; then rm -rf node_modules/leaflet-distortableimage/.git; fi",
     "clean": "rm -rf build/* doc/*"
   },
@@ -94,7 +94,7 @@
     "not op_mini all"
   ],
   "i18n": {
-    "out": "src/config/locales"
+    "out": "src/config/locales/ui"
   },
   "homepage": "."
 }
