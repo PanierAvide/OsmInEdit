@@ -29,6 +29,7 @@ import NorthPointer from './common/NorthPointer';
 import PACKAGE from '../../package.json';
 import PubSub from 'pubsub-js';
 import SidePanelButton from './common/SidePanelButton';
+import Spinner from 'react-bootstrap/Spinner';
 
 const MAP_MAX_ZOOM = 26;
 
@@ -305,8 +306,18 @@ class MyMap extends Component {
 					zIndex: 20000,
 					background: "rgba(0,0,0,0.5)",
 					position: "absolute",
-					top: 0, right: 0, left: 0, bottom: 0
-				}}></div>
+					top: 0, right: 0, left: 0, bottom: 0,
+					textAlign: "center", display: "flex", alignItems: "center"
+				}}>
+					{this.state.loading &&
+						<Spinner
+							animation="grow"
+							variant="light"
+							size="lg"
+							style={{ margin: "auto", width: "5rem", height: "5rem" }}
+						/>
+					}
+				</div>
 			}
 			<Map
 				maxZoom={MAP_MAX_ZOOM}
