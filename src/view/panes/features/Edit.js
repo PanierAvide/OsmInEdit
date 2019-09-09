@@ -15,7 +15,9 @@ import Body from '../../Body';
 import Button from 'react-bootstrap/Button';
 import Check from 'mdi-react/CheckIcon';
 import Col from 'react-bootstrap/Col';
+import CONFIG from '../../../config/config.json';
 import Container from 'react-bootstrap/Container';
+import History from 'mdi-react/HistoryIcon';
 import I18n from '../../../config/locales/ui';
 import PresetInputField from '../../common/PresetInputField';
 import PubSub from 'pubsub-js';
@@ -160,6 +162,17 @@ class EditFeaturePane extends Component {
 				<TagsTable
 					tags={tags}
 				/>
+
+				<Button
+					className="mb-3 mt-3"
+					variant="outline-secondary"
+					block
+					size="sm"
+					href={CONFIG.osm_api_url+"/"+feature.id+"/history"}
+					target="_blank"
+				>
+					<History size={20} /> {I18n.t("See feature history on OpenStreetMap")}
+				</Button>
 			</div>
 		</div>;
 	}

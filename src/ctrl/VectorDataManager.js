@@ -477,7 +477,7 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	_containsWithBoundary(large, small) {
 		if(deepEqual(small.geometry, large.geometry)) { return true; }
-		else if(booleanContains(large, small)) { return true; }
+		else if(this._booleanContains(large, small)) { return true; }
 		else if(booleanIntersects(large, small)) {
 			const coords = coordAll(small);
 			const wider = buffer(large, 0.01, { units: 'meters' }); // Fix for lack of precision on drawn geometries
@@ -955,7 +955,7 @@ class VectorDataManager extends HistorizedManager {
 	 * @return {boolean} True if on contour
 	 */
 	isOnContour(wide, small) {
-		return !booleanContains(wide, small) && this._containsWithBoundary(wide, small);
+		return !this._booleanContains(wide, small) && this._containsWithBoundary(wide, small);
 	}
 
 	/**
@@ -2068,6 +2068,20 @@ class VectorDataManager extends HistorizedManager {
 	_isLanduse(feature) {
 		const t = feature.properties.tags;
 		return t.landuse || ["school","university","college","hospital"].includes(t.amenity) || t.boundary;
+	}
+
+	/**
+	 * Failsafe wrapper around booleanContains
+	 * @private
+	 */
+	_booleanContains(wide, small) {
+		try {
+			return booleanContains(wide, small);
+		}
+		catch(e) {
+			console.error("Unsupported operation for multipolygon", wide.id, small.id);
+			return false;
+		}
 	}
 
 	/**
