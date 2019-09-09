@@ -31,7 +31,7 @@ const GUIDE_LINES_ANGLE_KEY = "a";
 const ICON_SIZE = 20;
 
 // Default styles
-const stShadow = { color: "black", fillColor: "black", opacity: 0.3, fillOpacity: 0.2, zIndex: -10 };
+const stShadow = { color: "purple", fillColor: "black", opacity: 0.5, fillOpacity: 0.2, zIndex: -10 };
 const existingIcons = {};
 
 // Fix for excluding selected geometry from snapping guides
@@ -896,6 +896,7 @@ class EditableLayer extends Path {
 							);
 							const line = L.polyline([extlatlng1, doorlatlng, extlatlng2], { color: "green", weight: 12, lineCap: "butt" });
 							line._isDoorLine = true;
+							line.on("click", () => PubSub.publish("body.select.feature", { feature: l.feature }));
 							this._doorLines.addLayer(line);
 						}
 					}

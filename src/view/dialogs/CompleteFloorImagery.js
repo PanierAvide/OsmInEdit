@@ -12,6 +12,7 @@
 
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
+import I18n from '../../config/locales/ui';
 import Modal from 'react-bootstrap/Modal';
 
 /**
@@ -21,12 +22,12 @@ class CompleteFloorImageryDialog extends Component {
 	render() {
 		return <Modal show={this.props.show} onHide={this.props.onClose} size="lg">
 			<Modal.Header closeButton>
-				<Modal.Title>{window.I18n.t("Add level information")}</Modal.Title>
+				<Modal.Title>{I18n.t("Add level information")}</Modal.Title>
 			</Modal.Header>
-			<Modal.Body>{window.I18n.t("To make your floor plans appear correctly when editing indoors, please make sure you set on which level they should show up on the left panel.")}</Modal.Body>
+			<Modal.Body>{I18n.t("To make your floor plans appear correctly when editing indoors, please make sure you set on which level they should show up on the left panel.")}</Modal.Body>
 			<Modal.Footer>
 				<Button variant="secondary" onClick={this.props.onClose}>
-					{window.I18n.t("OK")}
+					{I18n.t("OK")}
 				</Button>
 			</Modal.Footer>
 		</Modal>;

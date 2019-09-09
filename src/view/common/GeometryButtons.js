@@ -15,6 +15,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Check from 'mdi-react/CheckIcon';
 import Close from 'mdi-react/CloseIcon';
+import I18n from '../../config/locales/ui';
 import PubSub from 'pubsub-js';
 
 /**
@@ -23,21 +24,21 @@ import PubSub from 'pubsub-js';
 class GeometryButtons extends Component {
 	render() {
 		return <div>
-			{window.I18n.t("You can start drawing using the map")}
+			{I18n.t("Click on the map to start drawing the feature")}
 			<ButtonGroup style={{marginLeft: 10}}>
 				<Button
 					variant="success"
 					size="sm"
 					onClick={() => PubSub.publish("body.draw.stop")}
 				>
-					<Check size={24} /> {window.I18n.t("Done")}
+					<Check size={24} /> {I18n.t("Done")}
 				</Button>
 				<Button
 					variant="outline-danger"
 					size="sm"
 					onClick={() => PubSub.publish("body.draw.cancel")}
 				>
-					<Close size={24} /> {window.I18n.t("Cancel")}
+					<Close size={24} /> {I18n.t("Cancel")}
 				</Button>
 			</ButtonGroup>
 		</div>;

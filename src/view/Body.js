@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import { saveAs } from 'file-saver';
 import 'bootstrap/dist/css/bootstrap.css';
+import bbox from '@turf/bbox';
 import Col from 'react-bootstrap/Col';
 import CompleteFloorImagery from './dialogs/CompleteFloorImagery';
 import CONFIG from '../config/config.json';
@@ -21,11 +22,13 @@ import Container from 'react-bootstrap/Container';
 import deepEqual from 'fast-deep-equal';
 import Editable from './layers/Editable';
 import Header from './Header';
+import I18n from '../config/locales/ui';
 import LeftPanel from './LeftPanel';
 import Map from './Map';
 import Mousetrap from 'mousetrap';
 import { makeSquare } from '../model/orthogonalize/orthogonalize';
 import OutOfBoundsGeometry from './dialogs/OutOfBoundsGeometry';
+import MissingLevelOutlines from './dialogs/MissingLevelOutlines';
 import PubSub from 'pubsub-js';
 import RightPanel from './RightPanel';
 import Row from 'react-bootstrap/Row';
@@ -80,7 +83,7 @@ class Body extends Component {
 			floorImageryCopyPaste: null,
 			changeset: { tags: {} },
 			datalocked: false,
-			lastUsedPreset: null,
+			lastUsedPresets: [],
 			zoom: CONFIG.map_initial_zoom
 		};
 	}
@@ -98,16 +101,16 @@ class Body extends Component {
 			return t.name || t.ref;
 		}
 		else if(t.building) {
-			return feature.properties.own.new ? window.I18n.t("New building") : window.I18n.t("Building");
+			return feature.properties.own.new ? I18n.t("New building") : I18n.t("Building");
 		}
 		else if(t.indoor === "level" && feature.properties.own && feature.properties.own.levels) {
-			return window.I18n.t("New floor part (level %{lvl})", { lvl: feature.properties.own.levels.join(", ") });
+			return I18n.t("New floor part (level %{lvl})", { lvl: feature.properties.own.levels.join(", ") });
 		}
 		else if(fallback) {
 			return fallback;
 		}
 		else {
-			 return feature.properties.own.new ? window.I18n.t("New feature") : feature.id;
+			 return feature.properties.own.new ? I18n.t("New feature") : feature.id;
 		}
 	}
 
@@ -122,7 +125,11 @@ class Body extends Component {
 
 			<Row className="m-0 p-0 app-body">
 				{this.state.leftPanelOpen &&
-					<Col className="m-0 p-0 h-100" style={{overflowX: "hidden", overflowY: "auto"}} xs="6" sm="5" md="4" lg="4" xl="3">
+					<Col
+						className="m-0 p-0 h-100"
+						style={{overflowX: "hidden", overflowY: "auto", borderRight: "3px solid #d0d0d0"}}
+						xs="6" sm="5" md="4" lg="4" xl="3"
+					>
 						<LeftPanel {...this.state} />
 					</Col>
 				}
@@ -139,7 +146,7 @@ class Body extends Component {
 				</Col>
 
 				{this.state.rightPanelOpen &&
-					<Col className="m-0 p-0 h-100 overflow-auto" xs="6" sm="5" md="4" lg="4" xl="3">
+					<Col className="m-0 p-0 h-100 overflow-auto" style={{borderLeft: "3px solid #d0d0d0"}} xs="6" sm="5" md="4" lg="4" xl="3">
 						<RightPanel {...this.state} />
 					</Col>
 				}
@@ -148,10 +155,10 @@ class Body extends Component {
 			<ConfirmDeletion
 				show={this.state.showDialogConfirmDeletion}
 				name={this.state.mode === Body.MODE_BUILDING && this.state.building ?
-					Body.GetFeatureName(this.state.building, window.I18n.t("Selected building"))
+					Body.GetFeatureName(this.state.building, I18n.t("Selected building"))
 					:
 					(this.state.mode === Body.MODE_LEVELS && this.state.floor ?
-						Body.GetFeatureName(this.state.floor, window.I18n.t("Selected floor"))
+						Body.GetFeatureName(this.state.floor, I18n.t("Selected floor"))
 						: ""
 					)
 				}
@@ -172,7 +179,69 @@ class Body extends Component {
 				onClose={() => this.setState({ showDialogOutOfBoundsGeometry: false })}
 				mode={this.state.mode}
 			/>
+
+			<MissingLevelOutlines
+				missingOutlines={this.state.showDialogMissingLevelOutlines}
+				onIgnore={() => this.setState({ showDialogMissingLevelOutlines: null })}
+				onUseDefault={() => this._onMissingOutlineUseDefault()}
+				onEdit={() => this._onMissingOutlineGoEdit()}
+			/>
 		</Container>;
+	}
+
+	/**
+	 * Event handler for click on "use building outline" button in missing level outline dialog
+	 * @private
+	 */
+	_onMissingOutlineUseDefault() {
+		// Create outlines
+		if(Object.keys(this.state.showDialogMissingLevelOutlines).length > 0) {
+			Object.entries(this.state.showDialogMissingLevelOutlines).forEach(e => {
+				const [ buildingId, buildingData ] = e;
+				const building = window.vectorDataManager.findFeature(buildingId);
+
+				if(building && buildingData.levels.length > 0) {
+					buildingData.levels.forEach(lvl => {
+						PubSub.publish("body.create.floor", { feature: building, level: lvl });
+					});
+				}
+			});
+		}
+
+		// Hide dialog
+		this.setState({ showDialogMissingLevelOutlines: null });
+		PubSub.publish("body.mode.set", { mode: Body.MODE_CHANGESET });
+	}
+
+	/**
+	 * Event handler for click on "go back edit" in missing level outline dialog
+	 * @private
+	 */
+	_onMissingOutlineGoEdit() {
+		try {
+			// No buildings info
+			if(Object.keys(this.state.showDialogMissingLevelOutlines).length === 0) { throw new Error(); }
+
+			const [ buildingId, buildingData ] = Object.entries(this.state.showDialogMissingLevelOutlines)[0];
+			const building = window.vectorDataManager.findFeature(buildingId);
+
+			// Building not found
+			if(!building || buildingData.levels.length === 0) { throw new Error(); }
+
+			this.setState({
+				building: building,
+				level: buildingData.levels[0],
+				showDialogMissingLevelOutlines: null
+			}, () => {
+				PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS });
+				const [minX, minY, maxX, maxY] = bbox(building);
+				PubSub.publish("map.position.set", { bbox: [minY, maxY, minX, maxX] });
+			});
+		}
+		catch(e) {
+			this.setState({ showDialogMissingLevelOutlines: null });
+			PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING });
+		}
 	}
 
 	_updateImagery() {
@@ -181,7 +250,7 @@ class Body extends Component {
 		.then(layers => {
 			// Adding "custom" entry for allowing user-defined background imagery
 			layers.push({ properties: {
-				id: "custom", type: "tms", url: null, name: window.I18n.t("Custom imagery")
+				id: "custom", type: "tms", url: null, name: I18n.t("Custom imagery")
 			}, geometry: null });
 
 			const newState = {};
@@ -215,6 +284,38 @@ class Body extends Component {
 		});
 	}
 
+	/**
+	 * Append last used preset into stack
+	 * @private
+	 */
+	_pushUsedPreset(preset) {
+		if(preset === null || preset === undefined) { return null; }
+
+		let newUsedPresets = this.state.lastUsedPresets.slice(0);
+
+		if(newUsedPresets.length === 0) {
+			newUsedPresets.push(preset);
+		}
+		else {
+			const pId = newUsedPresets.findIndex(p => deepEqual(p, preset));
+			if(pId < 0) {
+				if(newUsedPresets.length === 3) {
+					newUsedPresets.pop();
+				}
+
+				newUsedPresets.unshift(preset);
+			}
+			else {
+				newUsedPresets.splice(pId, 1);
+				newUsedPresets.unshift(preset);
+			}
+		}
+
+		if(!deepEqual(newUsedPresets, this.state.lastUsedPresets)) {
+			this.setState({ lastUsedPresets: newUsedPresets });
+		}
+	}
+
 	componentDidMount() {
 		this._timerImagery = setInterval(() => this._updateImagery(), 1000);
 
@@ -244,7 +345,7 @@ class Body extends Component {
 					mode: data.mode,
 					building: null,
 					floor: null,
-					level: 0,
+// 					level: 0,
 					feature: null,
 					copyingFeature: null,
 					draw: null,
@@ -271,10 +372,15 @@ class Body extends Component {
 				});
 			}
 			else if(data.mode === Body.MODE_LEVELS) {
-				const theFloor = this.state.floor !== this.state.building ? this.state.floor : null;
+				let theFloor = this.state.floor !== this.state.building ? this.state.floor : null;
+
+				if(!theFloor) {
+					const floorParts = window.vectorDataManager.getLevelFootprint(this.state.building, this.state.level);
+					theFloor = floorParts.length === 1 ? floorParts[0] : null;
+				}
+
 				this.setState({
 					mode: data.mode,
-// 					level: 0,
 					floor: theFloor,
 					feature: null,
 					copyingFeature: null,
@@ -312,10 +418,14 @@ class Body extends Component {
 					},
 					rightPanelOpen: false
 				}, async () => {
+					const diff = await window.vectorDataManager.computeDiff();
+					const missingOutlines = window.vectorDataManager.findMissingLevelOutlines(diff);
+
 					this.setState({
+						showDialogMissingLevelOutlines: missingOutlines,
 						changeset: {
 							tags: { comment: "" },
-							diff: await window.vectorDataManager.computeDiff(),
+							diff: diff,
 							status: "check"
 						}
 					});
@@ -346,12 +456,33 @@ class Body extends Component {
 		 * @property {float} level The level to use
 		 */
 		PubSub.subscribe("body.level.set", (msg, data) => {
+			const newState = { level: data.level };
+
 			if(this.state.mode === Body.MODE_LEVELS) {
-				this.setState({ floor: null, level: data.level, pane: LeftPanel.PANE_LEVELS_ADD });
+				const floorParts = window.vectorDataManager.getLevelFootprint(this.state.building, data.level);
+
+				newState.floor = floorParts.length === 1 ? floorParts[0] : null;
+				newState.pane = floorParts.length === 1 ? LeftPanel.PANE_LEVELS_EDIT : LeftPanel.PANE_LEVELS_ADD;
+				newState.draw = null;
 			}
-			else {
-				this.setState({ level: data.level });
+			else if(this.state.mode === Body.MODE_FEATURES) {
+				// Do not keep selection if feature not present on next level
+				if(
+					!this.state.feature || !this.state.feature.properties.own
+					|| !this.state.feature.properties.own.levels
+					|| !this.state.feature.properties.own.levels.includes(data.level)
+				) {
+					newState.feature = null;
+					newState.pane = LeftPanel.PANE_FEATURE_ADD;
+				}
+
+				newState.floor = null;
+				newState.draw = null;
+				newState.preset = null;
+				this._pushUsedPreset(this.state.preset);
 			}
+
+			this.setState(newState);
 		});
 
 		/**
@@ -447,11 +578,13 @@ class Body extends Component {
 		 * @property {Object} building The selected building GeoJSON feature
 		 */
 		PubSub.subscribe("body.select.building", (msg, data) => {
-			this.setState({
+			const newState = {
 				building: data.building ? window.vectorDataManager.getBuildingLevels(data.building) : null,
 				leftPanelOpen: data.building !== null,
 				pane: data.building ? LeftPanel.PANE_BUILDING_EDIT : null
-			});
+			};
+
+			this.setState(newState);
 		});
 
 		/**
@@ -461,10 +594,12 @@ class Body extends Component {
 		 * @property {Object} floor The selected floor GeoJSON feature (or eventually building if no floor was found)
 		 */
 		PubSub.subscribe("body.select.floor", (msg, data) => {
-			this.setState({
+			const newState = {
 				floor: data.floor,
 				pane: data.floor ? LeftPanel.PANE_LEVELS_EDIT : LeftPanel.PANE_LEVELS_ADD
-			});
+			};
+
+			this.setState(newState);
 		});
 
 		/**
@@ -474,12 +609,21 @@ class Body extends Component {
 		 * @property {Object} feature The selected feature as GeoJSON
 		 */
 		PubSub.subscribe("body.select.feature", (msg, data) => {
-			this.setState({
+			const newState = {
 				feature: data.feature,
-				leftPanelOpen: true,
-				pane: data.feature ? LeftPanel.PANE_FEATURE_EDIT : LeftPanel.PANE_FEATURE_ADD,
-				preset: data.feature ? this.state.preset : null
-			});
+				leftPanelOpen: data.feature ? true : false
+			};
+
+			if(this.state.mode === Body.MODE_EXPLORE) {
+				newState.pane = data.feature ? LeftPanel.PANE_FEATURE_VIEW : null;
+				newState.building = data.feature ? window.vectorDataManager.findAssociatedBuilding(data.feature) : null;
+			}
+			else {
+				newState.pane = data.feature ? LeftPanel.PANE_FEATURE_EDIT : LeftPanel.PANE_FEATURE_ADD;
+				newState.preset = data.feature ? this.state.preset : null;
+			}
+
+			this.setState(newState);
 		});
 
 		/**
@@ -517,6 +661,11 @@ class Body extends Component {
 			}
 			else if(this.state.mode === Body.MODE_FEATURES) {
 				PubSub.publish("body.select.feature", { feature: null });
+			}
+			else if(this.state.mode === Body.MODE_EXPLORE) {
+				PubSub.publish("body.select.feature", { feature: null });
+				PubSub.publish("body.select.floor", { floor: null });
+				PubSub.publish("body.select.building", { building: null });
 			}
 		});
 
@@ -595,9 +744,20 @@ class Body extends Component {
 							}
 						}
 						else if(this.state.mode === Body.MODE_FEATURES && this.state.preset) {
-							newState.feature = window.vectorDataManager.createNewFeature(data.feature, this.state.level, this.state.preset);
-							newState.lastUsedPreset = this.state.preset;
-							newState.pane = LeftPanel.PANE_FEATURE_EDIT;
+							if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
+								newState.feature = window.vectorDataManager.createNewFeature(data.feature, this.state.level, this.state.preset);
+								newState.pane = LeftPanel.PANE_FEATURE_EDIT;
+								this._pushUsedPreset(this.state.preset);
+							}
+							else {
+								newState.showDialogOutOfBoundsGeometry = true;
+								newState.feature = null;
+								newState.pane = LeftPanel.PANE_FEATURE_ADD;
+								newState.preset = null;
+								this._pushUsedPreset(this.state.preset);
+								PubSub.publish("map.editablelayer.redraw");
+							}
+
 						}
 
 						this.setState(newState);
@@ -636,6 +796,7 @@ class Body extends Component {
 		 * @event body.create.floor
 		 * @memberof Body
 		 * @property {Object} feature The GeoJSON feature to use
+		 * @property {int} [level] Which level floor should be created on (by default selected level)
 		 */
 		PubSub.subscribe("body.create.floor", (msg, data) => {
 			if(this.state.datalocked) {
@@ -643,13 +804,13 @@ class Body extends Component {
 				return null;
 			}
 
-			if(this.state.mode === Body.MODE_LEVELS) {
-				const newFeature = {
-					type: "Feature",
-					geometry: Object.assign({}, data.feature.geometry),
-					properties: {}
-				};
+			const newFeature = {
+				type: "Feature",
+				geometry: Object.assign({}, data.feature.geometry),
+				properties: {}
+			};
 
+			if(this.state.mode === Body.MODE_LEVELS) {
 				if(window.vectorDataManager.isOverlappingEnough(this.state.building, newFeature)) {
 					this.setState(
 						{ datalocked: true },
@@ -663,6 +824,9 @@ class Body extends Component {
 				else {
 					this.setState({ showDialogOutOfBoundsGeometry: true });
 				}
+			}
+			else if(this.state.mode === Body.MODE_CHANGESET && !isNaN(data.level)) {
+				window.vectorDataManager.createNewFloor(newFeature, data.level);
 			}
 		});
 
@@ -680,7 +844,7 @@ class Body extends Component {
 			}
 
 			if(data.feature && data.feature.id) {
-				if(this.state.mode !== Body.MODE_LEVELS || window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
+				if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
 					this.setState(
 						{ datalocked: true },
 						async () => {
@@ -1168,6 +1332,12 @@ class Body extends Component {
 		Mousetrap.bind("ctrl+v", () => {
 			PubSub.publish("body.paste.feature");
 		});
+
+		// Update after locale changes
+		I18n.on("change", locale => {
+			this.forceUpdate();
+			console.log("Loaded locale", locale);
+		});
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -1187,11 +1357,6 @@ class Body extends Component {
 		}
 
 		// Fallback modes if info is missing (undo/redo)
-		if(this.state.mode === Body.MODE_FEATURES && !this.state.floor) {
-			newState.mode = Body.MODE_LEVELS;
-			newState.pane = LeftPanel.PANE_LEVELS_ADD;
-			newState.leftPanelOpen = true;
-		}
 		if([ Body.MODE_FEATURES, Body.MODE_LEVELS ].includes(this.state.mode) && !this.state.building) {
 			newState.mode = Body.MODE_BUILDING;
 			newState.pane = null;
@@ -1212,6 +1377,16 @@ class Body extends Component {
 			newState.leftPanelOpen = true;
 		}
 
+		// Auto-select single floor imagery if only 1 defined
+		// NOTE : should be kept as last check
+		if(this.state.mode === Body.MODE_FLOOR_IMAGERY && window.imageryManager.getFloorImages().length === 1 && !window.imageryManager.getFloorImages()[0].selected) {
+			window.imageryManager._updateSelectedImage();
+			if(Object.keys(newState).length === 0) {
+				this.forceUpdate();
+			}
+		}
+
+		// Finally, update if necessary
 		if(Object.keys(newState).length > 0) {
 			this.setState(newState);
 		}

@@ -27,6 +27,7 @@ import { coordAll } from '@turf/meta';
 import deepEqual from 'fast-deep-equal';
 import GeoJSONValidation from 'geojson-validation';
 import HistorizedManager from './HistorizedManager';
+import I18n from '../config/locales/ui';
 import intersect from '@turf/intersect';
 import osmtogeojson from 'osmtogeojson';
 import OsmRequest from 'osm-request';
@@ -273,6 +274,16 @@ class VectorDataManager extends HistorizedManager {
 	}
 
 	/**
+	 * Find the building which contains given feature
+	 * @param {Object} feature The feature to look for
+	 * @return {Object} The found building, or null if none or several
+	 */
+	findAssociatedBuilding(feature) {
+		const buildings = this.getOSMBuildings().features.filter(b => this._containsWithBoundary(b, feature));
+		return buildings.length === 1 ? buildings[0] : null;
+	}
+
+	/**
 	 * Retrieve the level feature in a specific building, at a given level.
 	 * @param {Object} building The GeoJSON feature of the building
 	 * @param {float} level The level value
@@ -368,6 +379,96 @@ class VectorDataManager extends HistorizedManager {
 		}
 
 		return { type: "FeatureCollection", features: features };
+	}
+
+	/**
+	 * Retrieve the features being contained in a particular level of a building
+	 * @param {Object} building The GeoJSON feature for the building
+	 * @param {float} level The level being used
+	 * @return {Object} The GeoJSON feature collection of objects on this floor
+	 */
+	getFeaturesInLevel(building, level) {
+		let features = [];
+		const isNotExcludedFeature = (tags => tags.indoor !== "level" && !tags.building && !tags["building:part"]);
+
+		if(this._cacheOsmGeojson) {
+			const buildingBuff = building && buffer(building, 20, { units: "meters" });
+			features = this._cacheOsmGeojson
+				.features
+				.filter(feature =>
+					(this._listFeatureLevels(feature).properties.own.levels || []).includes(level)
+					&& feature.geometry.type !== "MultiPolygon"
+					&& isNotExcludedFeature(feature.properties.tags)
+					&& (!building || booleanIntersects(buildingBuff, feature))
+				);
+
+			// Add custom rendering for doors on building contour
+			if(building) {
+				features = features.map(f => {
+					f.properties.own.onBuildingContour = ["Point", "LineString"].includes(f.geometry.type) && f.properties.tags.door && this.isOnContour(building, f);
+					return f;
+				});
+			}
+
+			features.sort((a, b) => parseInt(a.geometry.type === "Point") - parseInt(b.geometry.type === "Point"));
+		}
+
+		return { type: "FeatureCollection", features: features };
+	}
+
+	/**
+	 * Does this given building contain any indoor-related feature ?
+	 * @param {Object} building The building to check
+	 * @return {boolean} True if it has indoor features
+	 */
+	hasIndoorFeatures(building) {
+		let result = false;
+
+		if(building && this._cacheOsmGeojson) {
+			const isNotExcludedFeature = (tags => tags.indoor !== "level" && !tags.building && !tags["building:part"]);
+
+			for(let i=0; i < this._cacheOsmGeojson.features.length; i++) {
+				const feature = this._cacheOsmGeojson.features[i];
+
+				if(
+					!feature.id.startsWith("node/")
+					&& feature.geometry.type !== "MultiPolygon"
+					&& isNotExcludedFeature(feature.properties.tags)
+					&& booleanIntersects(building, feature)
+				) {
+					result = true;
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Search in edited data which buildings lacks an indoor=level outline.
+	 * @param {Object} diff The edits done by user (result of computeDiff function)
+	 * @return {Object} Missing level outlines in format { buildingId: { name: string, levels: int[] } }
+	 */
+	findMissingLevelOutlines(diff) {
+		const result = {};
+
+		if(!this._cacheOsmGeojson) { return null; }
+
+		this._cacheOsmGeojson.features.forEach(f => {
+			if(f.properties.tags && f.properties.tags.building) {
+				const name = f.properties.tags.name || f.properties.tags.ref || f.id;
+				let levels = this._listFeatureLevels(f, true).properties.own.levels;
+				const usedLevels = this.getCopiableLevels(f);
+				levels = levels.filter(lvl => !usedLevels.includes(lvl));
+
+				if(levels.length > 0 && this.hasIndoorFeatures(f)) {
+					result[f.id] = { name: name, levels: levels };
+				}
+			}
+		});
+
+		return result;
 	}
 
 	/**
@@ -888,7 +989,7 @@ class VectorDataManager extends HistorizedManager {
 			this._osmApi._auth = window.editor_user_auth;
 
 			// Create changeset
-			const mytags = Object.assign({ host: window.EDITOR_URL, locale: window.I18n.locale }, tags);
+			const mytags = Object.assign({ host: window.EDITOR_URL, locale: I18n.locale }, tags);
 			delete mytags.comment;
 
 			let changesetId = null;
@@ -896,7 +997,7 @@ class VectorDataManager extends HistorizedManager {
 			try {
 				changesetId = await this._osmApi.createChangeset(
 					window.EDITOR_NAME+' '+PACKAGE.version,
-					tags.comment || window.I18n.t("Edited building indoors"),
+					tags.comment || I18n.t("Edited building indoors"),
 					mytags
 				);
 			}
@@ -1882,9 +1983,7 @@ class VectorDataManager extends HistorizedManager {
 				feature.properties.own = {};
 			}
 
-			if(!feature.properties.own.levels) {
-				feature.properties.own.levels = [];
-			}
+			feature.properties.own.levels = [];
 
 			const tags = feature.properties.tags;
 
@@ -2048,7 +2147,7 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	_enableBeforeUnload() {
 		window.onbeforeunload = () => {
-			return window.I18n.t("Did you save all your changes ? If not, your changes will be lost.")
+			return I18n.t("Did you save all your changes ? If not, your changes will be lost.")
 		};
 	}
 

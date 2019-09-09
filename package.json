@@ -8,19 +8,19 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "doc": "npm run doc:js:check && npm run doc:js",
-    "doc:js": "documentation build ./src -f html -o doc/",
-    "doc:js:check": "documentation lint ./src",
-    "i18n:build": "i18nline export",
-    "i18n:upload": "tx push -s",
-    "i18n:status": "tx status",
-    "i18n:download": "tx pull -a --mode reviewed --minimum-perc=75 && node fix_i18n_files.js",
-    "i18n:clean": "find ./src/config/locales -type f -not -name 'en.json' -delete",
+    "doc:js": "documentation build ./src/*.js ./src/ctrl ./src/model ./src/view -f html -o doc/ --shallow",
+    "doc:js:check": "documentation lint ./src/*.js ./src/ctrl ./src/model ./src/view --shallow",
+    "i18n:build": "i18nline synch && node presets_extract_labels.js",
+    "i18n:add": "tx set --auto-local -r osminedit.ui 'src/config/locales/ui/<lang>.json' --source-lang en --type KEYVALUEJSON",
+    "i18n:push": "tx push -s",
+    "i18n:pull": "tx pull -a --minimum-perc=75 && node fix_i18n_files.js && i18nline index && node presets_merge_labels.js",
+    "i18n:clean": "rm -rf ./src/config/locales/**/*.js*",
     "preinstall": "if [ -d \"node_modules/leaflet-distortableimage/.git\" ]; then rm -rf node_modules/leaflet-distortableimage/.git; fi",
     "clean": "rm -rf build/* doc/*"
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.navmob.ddnss.de/indoor/osm-indoor-editor.git"
+    "url": "https://framagit.org/PanierAvide/osminedit.git"
   },
   "keywords": [
     "openstreetmap",
@@ -94,10 +94,7 @@
     "not op_mini all"
   ],
   "i18n": {
-    "out": "src/config/locales/en.json",
-    "directories": [
-      "src/"
-    ]
+    "out": "src/config/locales/ui"
   },
   "homepage": "."
 }

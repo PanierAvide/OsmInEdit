@@ -14,13 +14,14 @@ import request from 'request-promise-native';
 import { parseString } from 'xml2js';
 import { mergeDeep } from '../utils';
 import Fuse from 'fuse.js';
+import I18n from '../config/locales/ui';
 
 /**
  * Presets manager handles loading, listing and filtering of presets for OSM features.
  */
 class PresetsManager {
 	constructor() {
-		this._presetsURL = [ './presets/indoor.xml', './presets/routing.xml', './presets/default.xml' ];
+		this._presetsURL = [ './presets/indoor.xml', './presets/default.xml' ];
 		this._presets = null;
 		this._loading = false;
 	}
@@ -257,6 +258,22 @@ class PresetsManager {
 		].forEach(prop => {
 			if(p.$ && p.$[prop]) { res[prop] = p.$[prop]; }
 		});
+
+		// Replace some properties by their translation (if available)
+		if(
+			I18n.locale && I18n.locale !== "en"
+			&& [ "group", "item", "label", "text", "combo", "multiselect", "list_entry", "check" ].includes(type)
+		) {
+			if(p.$[I18n.locale+".name"]) {
+				res.name = p.$[I18n.locale+".name"];
+			}
+			if(p.$[I18n.locale+".text"]) {
+				res.text = p.$[I18n.locale+".text"];
+			}
+			if(p.$[I18n.locale+".display_values"]) {
+				res.display_values = p.$[I18n.locale+".display_values"];
+			}
+		}
 
 		// Object types
 		if(res.type) {

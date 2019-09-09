@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import Body from '../Body';
 import Button from 'react-bootstrap/Button';
+import I18n from '../../config/locales/ui';
 import Modal from 'react-bootstrap/Modal';
 
 /**
@@ -22,15 +23,15 @@ class OutOfBoundsGeometryDialog extends Component {
 	render() {
 		return <Modal show={this.props.show} onHide={this.props.onClose} size="lg">
 			<Modal.Header closeButton>
-				<Modal.Title>{window.I18n.t("Geometry outside of the bounds")}</Modal.Title>
+				<Modal.Title>{I18n.t("Geometry outside of the bounds")}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{this.props.mode === Body.MODE_LEVELS && window.I18n.t("The level contour you just edited is partially or completely outside of the building contour. Please make sure that the level contour is mostly contained in the building.")}
-				{this.props.mode === Body.MODE_FEATURES && window.I18n.t("The feature contour you just edited is partially or completely outside of the level contour. Please make sure that the feature contour is mostly contained in the floor.")}
+				{this.props.mode === Body.MODE_LEVELS && I18n.t("The level contour you just edited is partially or completely outside of the building contour. Please make sure that the level contour is mostly contained in the building.")}
+				{this.props.mode === Body.MODE_FEATURES && I18n.t("The feature contour you just edited is partially or completely outside of the level contour. Please make sure that the feature contour is mostly contained in the floor.")}
 			</Modal.Body>
 			<Modal.Footer>
 				<Button variant="secondary" onClick={this.props.onClose}>
-					{window.I18n.t("OK")}
+					{I18n.t("OK")}
 				</Button>
 			</Modal.Footer>
 		</Modal>;

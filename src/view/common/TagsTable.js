@@ -139,6 +139,7 @@ class TagsTable extends Component {
 							type="text"
 							size="sm"
 							value={e[0]}
+							disabled={this.props.locked}
 							onChange={e => this._onTagsChanged()}
 							autoFocus={(this.state.newline && i === entries.length-1) || this.state.focusKey === e[0]}
 						/>
@@ -148,19 +149,22 @@ class TagsTable extends Component {
 							type="text"
 							size="sm"
 							value={e[1]}
+							disabled={this.props.locked}
 							onChange={e => this._onTagsChanged()}
 							autoFocus={!this.state.newline && this.state.focusVal === e[1]}
 						/>
 
 						<InputGroup.Append>
-							<Button
-								variant="outline-danger"
-								tabIndex="-1"
-								disabled={this.props.noDelete && this.props.noDelete.includes(e[0])}
-								onClick={() => this._onTagDeleted(e[0])}
-							>
-								<Close size={16} />
-							</Button>
+							{!this.props.locked &&
+								<Button
+									variant="outline-danger"
+									tabIndex="-1"
+									disabled={this.props.noDelete && this.props.noDelete.includes(e[0])}
+									onClick={() => this._onTagDeleted(e[0])}
+								>
+									<Close size={16} />
+								</Button>
+							}
 							<Button
 								variant="outline-info"
 								href={this._getWikiURL(e[0], e[1])}
@@ -173,16 +177,18 @@ class TagsTable extends Component {
 					</InputGroup>
 				))}
 			</div>
-			<Button
-				variant="secondary"
-				className="app-tags-add"
-				size="sm"
-				block
-				onClick={() => this.setState({ newline: true })}
-				tabIndex="-1"
-			>
-				<Plus size={16} />
-			</Button>
+			{!this.props.locked &&
+				<Button
+					variant="secondary"
+					className="app-tags-add"
+					size="sm"
+					block
+					onClick={() => this.setState({ newline: true })}
+					tabIndex="-1"
+				>
+					<Plus size={16} />
+				</Button>
+			}
 		</div>;
 	}
 

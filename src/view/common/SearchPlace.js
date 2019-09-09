@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
+import I18n from '../../config/locales/ui';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Nominatim from 'nominatim-browser';
 import Magnify from 'mdi-react/MagnifyIcon';
@@ -53,7 +54,7 @@ class SearchPlace extends Component {
 			this._searchTimer = setTimeout(() => {
 				Nominatim.geocode({
 					q: text,
-					"accept-language": window.I18n.locale
+					"accept-language": I18n.locale
 				})
 				.then(results => {
 					results = results.map(r => ({ label: r.display_name, coordinates: [ r.lat, r.lon ], bbox: r.boundingbox }));
@@ -113,7 +114,7 @@ class SearchPlace extends Component {
 								style={{fontSize: "0.8em"}}
 							/>
 							:
-							<p>{window.I18n.t("An error happened when searching address. Please retry.")}</p>
+							<p>{I18n.t("An error happened when searching address. Please retry.")}</p>
 						}
 
 						{this.state.loading &&
@@ -126,7 +127,7 @@ class SearchPlace extends Component {
 									padding: "0.5rem"
 								}}
 							>
-								<Spinner animation="grow" className="align-middle" /> {window.I18n.t("Searching address...")}
+								<Spinner animation="grow" className="align-middle" /> {I18n.t("Searching address...")}
 							</div>
 						}
 					</div>;
@@ -135,7 +136,7 @@ class SearchPlace extends Component {
 
 			<InputGroup className="mw-25" style={{width: 300}} ref="input">
 				<FormControl
-					placeholder={window.I18n.t("Search a city, street...")}
+					placeholder={I18n.t("Search a city, street...")}
 					value={this.state.text}
 					onChange={e => this._search(e.target.value, false)}
 				/>

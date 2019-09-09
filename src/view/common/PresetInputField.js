@@ -14,6 +14,7 @@ import React, { Component } from 'react';
 import Checkbox from 'react-three-state-checkbox';
 import Form from 'react-bootstrap/Form';
 import HelpCircle from 'mdi-react/HelpCircleIcon';
+import I18n from '../../config/locales/ui';
 import Multiselect from 'react-bootstrap-multiselect';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -69,7 +70,7 @@ class PresetInputField extends Component {
 		let infoTip = null;
 
 		if(d.info) {
-			const popover = <Popover id="popover-basic" title={window.I18n.t("Help")}>
+			const popover = <Popover id="popover-basic" title={I18n.t("Help")} style={{padding: "5px 0px 5px 6px"}}>
 				{d.info}
 			</Popover>;
 			infoTip = <OverlayTrigger placement="right" overlay={popover} popperConfig={{modifiers:{preventOverflow:{boundariesElement: "window"}}}}>
@@ -78,7 +79,7 @@ class PresetInputField extends Component {
 		}
 
 		if(["text", "number"].includes(this.props.type)) {
-			res = <Form.Group className="m-0">
+			res = <Form.Group className="m-0 mb-3">
 				<Form.Label>{d.text || d.key} {infoTip}</Form.Label>
 				<Form.Control
 					type={this.props.type}
@@ -90,7 +91,7 @@ class PresetInputField extends Component {
 			</Form.Group>;
 		}
 		else if(this.props.type === "textarea") {
-			res = <Form.Group className="m-0">
+			res = <Form.Group className="m-0 mb-3">
 				<Form.Label>{d.text || d.key} {infoTip}</Form.Label>
 				<Form.Control
 					as="textarea"
@@ -110,7 +111,7 @@ class PresetInputField extends Component {
 					d.display_values.split("," || d.delimiter)
 					: values);
 
-			res = <Form.Group className="m-0">
+			res = <Form.Group className="m-0 mb-3">
 				<Form.Label>{d.text || d.key} {infoTip}</Form.Label>
 				<Form.Control
 					as="select"
@@ -129,9 +130,9 @@ class PresetInputField extends Component {
 		}
 		else if(this.props.type === "check") {
 			const states = [
-				{ id: 0, val: d.value_on || "yes", label: window.I18n.t("Yes") },
-				{ id: 1, val: d.value_off || "no", label: window.I18n.t("No") },
-				{ id: 2, val: "null", label: window.I18n.t("Unknown") }
+				{ id: 0, val: d.value_on || "yes", label: I18n.t("Yes") },
+				{ id: 1, val: d.value_off || "no", label: I18n.t("No") },
+				{ id: 2, val: "null", label: I18n.t("Unknown") }
 			];
 
 			let currentState = 2;
@@ -145,7 +146,7 @@ class PresetInputField extends Component {
 				this._onEdit(states[newState].val);
 			};
 
-			res = <Form.Group className="m-0 mb-1 form-group-check">
+			res = <Form.Group className="m-0 mb-3 form-group-check">
 				<p className="m-0">{d.text || d.key} {infoTip}</p>
 
 				<Checkbox
@@ -180,7 +181,7 @@ class PresetInputField extends Component {
 				}
 			}
 
-			res = <Form.Group className="m-0">
+			res = <Form.Group className="m-0 mb-3">
 				<Form.Label>{d.text || d.key} {infoTip}</Form.Label>
 				<Form.Control
 					as={Multiselect}

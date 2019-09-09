@@ -13,6 +13,7 @@
 import { Path, withLeaflet } from 'react-leaflet';
 import { CircleMarker, GeoJSON, Icon, LayerGroup, Marker, Polygon, Polyline } from 'leaflet';
 import deepEqual from 'fast-deep-equal';
+import PubSub from 'pubsub-js';
 
 const existingIcons = {};
 
@@ -41,6 +42,11 @@ class StyledLayer extends Path {
 				return marker;
 			},
 			onFeatureClick: (() => {}),
+			onEachFeature: (feature, layer) => {
+				layer.on("click", () => {
+					PubSub.publish("body.select.feature", { feature: feature });
+				});
+			},
 			style: thatStyler
 		}, props);
 

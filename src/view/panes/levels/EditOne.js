@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Check from 'mdi-react/CheckIcon';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import I18n from '../../../config/locales/ui';
 import PresetInputField from '../../common/PresetInputField';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';
@@ -28,10 +29,10 @@ class EditOneLevelPane extends Component {
 	render() {
 		if(!this.props.floor) { return <div></div>; }
 
-		const imgHeight = <span>{window.I18n.t("Relative floor level height in meters")}<img src='img/floor_height.jpg' style={{height: 200}} alt={window.I18n.t("Schema explaining how should be set level height")} /></span>;
+		const imgHeight = <span>{I18n.t("Relative floor level height in meters")}<img src='img/floor_height.jpg' style={{height: 200}} alt={I18n.t("Schema explaining how should be set level height")} /></span>;
 
 		return <Container className="m-0 pl-2 pr-2 mt-2">
-			<Row className="d-flex align-items-center justify-content-between">
+			<Row className="d-flex align-items-top justify-content-between">
 				<Col>
 					<h3 className="m-0 p-0">{Body.GetFeatureName(this.props.floor)}</h3>
 				</Col>
@@ -40,7 +41,7 @@ class EditOneLevelPane extends Component {
 					<Button
 						variant="outline-secondary"
 						size="sm"
-						title={window.I18n.t("Done")}
+						title={I18n.t("Done")}
 						onClick={() => PubSub.publish("body.unselect.feature")}
 					>
 						<Check />
@@ -52,19 +53,19 @@ class EditOneLevelPane extends Component {
 					<div className="m-2 mb-4">
 						<PresetInputField
 							type="text"
-							data={{ text: window.I18n.t("Name"), key: "name" }}
+							data={{ text: I18n.t("Name"), key: "name" }}
 							tags={this.props.floor.properties.tags}
 						/>
 
 						<PresetInputField
 							type="text"
-							data={{ text: window.I18n.t("Height (in meters)"), key: "height", info: imgHeight }}
+							data={{ text: I18n.t("Height (in meters)"), key: "height", info: imgHeight }}
 							tags={this.props.floor.properties.tags}
 						/>
 
 						<PresetInputField
 							type="check"
-							data={{ text: window.I18n.t("Surrounded by walls"), key: "wall" }}
+							data={{ text: I18n.t("Surrounded by walls"), key: "wall" }}
 							tags={this.props.floor.properties.tags}
 						/>
 					</div>

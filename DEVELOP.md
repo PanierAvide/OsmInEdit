@@ -44,6 +44,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Translations of user interface labels are managed using JSON configuration files, automatically generated using `i18nline` tool. When editing code, launch manually `npm run i18n:build` to update these configuration files.
 
+To retrieve translated labels from Transifex, run command `npm run i18n:pull`.
+
 
 ## Documentation
 

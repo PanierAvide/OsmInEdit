@@ -11,56 +11,25 @@
  */
 
 import React, { Component } from 'react';
-import Body from '../../Body';
 import Button from 'react-bootstrap/Button';
-import Check from 'mdi-react/CheckIcon';
 import Close from 'mdi-react/CloseIcon';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import GeometryTypeSelect from '../../common/GeometryTypeSelect';
+import I18n from '../../../config/locales/ui';
 import PresetSelect from '../../common/PresetSelect';
 import PubSub from 'pubsub-js';
-import Row from 'react-bootstrap/Row';
 
 /**
  * Create feature pane allows user to choose the kind of feature to create.
  */
 class CreateFeaturePane extends Component {
-	/**
-	 * Event handler when "Done" button is clicked
-	 * @private
-	 */
-	_onDone() {
-		PubSub.publish("body.mode.set", { mode: Body.MODE_LEVELS });
-	}
-
 	render() {
 		return <div>
-			<Container className="m-0 pl-2 pr-2 mt-2">
-				<Row className="d-flex align-items-center justify-content-between">
-					<Col>
-						<h3 className="m-0 p-0">{window.I18n.t("Add features")}</h3>
-					</Col>
-
-					{!this.props.draw &&
-						<Col className="text-right">
-							<Button
-								variant="outline-secondary"
-								size="sm"
-								title={window.I18n.t("Done")}
-								onClick={() => this._onDone()}
-							>
-								<Check />
-							</Button>
-						</Col>
-					}
-				</Row>
-			</Container>
+			<h3 className="m-2">{I18n.t("Add features")}</h3>
 
 			{!this.props.preset &&
 				<PresetSelect
 					key={1}
-					lastUsed={this.props.lastUsedPreset}
+					lastUsedPresets={this.props.lastUsedPresets}
 					onSelect={p => PubSub.publish("body.select.preset", { preset: p })}
 				/>
 			}
@@ -68,7 +37,7 @@ class CreateFeaturePane extends Component {
 			{this.props.preset && !this.props.draw &&
 				<div className="m-2">
 					<p>
-						{window.I18n.t("Please select how you want to represent your feature.")}
+						{I18n.t("Please select how you want to represent your feature.")}
 					</p>
 					<GeometryTypeSelect
 						types={this.props.preset.type}
@@ -80,14 +49,14 @@ class CreateFeaturePane extends Component {
 						onClick={() => PubSub.publish("body.select.preset", { preset: null })}
 						block
 					>
-						<Close /> {window.I18n.t("Cancel")}
+						<Close /> {I18n.t("Cancel")}
 					</Button>
 				</div>
 			}
 
 			{this.props.preset && this.props.draw &&
 				<div className="m-2">
-					<p>{window.I18n.t("You can draw your feature on the map. Click on done button or click again on last node you created to finish.")}</p>
+					<p>{I18n.t("You can draw your feature on the map. Click on done button or click again on last node you created to finish.")}</p>
 				</div>
 			}
 		</div>;

@@ -16,6 +16,7 @@ import ChevronLeft from 'mdi-react/ChevronLeftIcon';
 import Container from 'react-bootstrap/Container';
 import Close from 'mdi-react/CloseIcon';
 import FormControl from 'react-bootstrap/FormControl';
+import I18n from '../../config/locales/ui';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Magnify from 'mdi-react/MagnifyIcon';
 import PresetCard from './PresetCard';
@@ -82,13 +83,13 @@ class PresetSelect extends Component {
 					{!hasSearch &&
 						<InputGroup.Prepend>
 							<InputGroup.Text>
-								<Magnify size={10} />
+								<Magnify size={18} />
 							</InputGroup.Text>
 						</InputGroup.Prepend>
 					}
 
 					<FormControl
-						placeholder={window.I18n.t("Search a type of feature...")}
+						placeholder={I18n.t("Search a type of feature...")}
 						value={this.state.text}
 						onChange={e => this.setState({ text: e.target.value })}
 					/>
@@ -113,12 +114,14 @@ class PresetSelect extends Component {
 						block
 						onClick={() => this._onBackClicked()}
 					>
-						<ChevronLeft style={{ float: "left" }} /> {window.I18n.t("Back")}
+						<ChevronLeft style={{ float: "left" }} /> {I18n.t("Back")}
 					</Button>
 				</Row>
 			}
 
-			{this.state.path === "/" && !hasSearch && this.props.lastUsed && this._createEntry("lu", this.props.lastUsed)}
+			{this.state.path === "/" && !hasSearch && this.props.lastUsedPresets && this.props.lastUsedPresets.length > 0 &&
+				this.props.lastUsedPresets.map((p,i) => this._createEntry("lu"+i, p))
+			}
 			{presets && presets.groups && presets.groups.map((g,i) => this._createEntry("g"+i, g))}
 			{presets && presets.items && presets.items.map((it,i) => this._createEntry("i"+i, it))}
 		</Container>;

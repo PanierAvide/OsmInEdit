@@ -17,6 +17,7 @@ import CONFIG from '../../config/config.json';
 import ChangesetDiff from '../common/ChangesetDiff';
 import Check from 'mdi-react/CheckIcon';
 import CloseCircle from 'mdi-react/CloseCircleIcon';
+import I18n from '../../config/locales/ui';
 import Magnify from 'mdi-react/MagnifyIcon';
 import Pencil from 'mdi-react/PencilIcon';
 import PresetInputField from '../common/PresetInputField';
@@ -33,28 +34,28 @@ class ChangesetPane extends Component {
 
 		return <div>
 			<div className="m-2 mb-4">
-				<h3 className="m-0 p-0 mb-1">{window.I18n.t("Send changes to OpenStreetMap")}</h3>
+				<h3 className="m-0 p-0 mb-1">{I18n.t("Send changes to OpenStreetMap")}</h3>
 
 				{this.props.changeset.status === "preparing" &&
 					<div className="text-center">
-						<Spinner animation="grow" variant="secondary" className="align-middle" /> {window.I18n.t("Analyzing your changes...")}
+						<Spinner animation="grow" variant="secondary" className="align-middle" /> {I18n.t("Analyzing your changes...")}
 					</div>
 				}
 
 				{this.props.changeset.status === "check" ?
 					<PresetInputField
 						type="textarea"
-						data={{ text: window.I18n.t("Changeset comment"), key: "comment", default: window.I18n.t("Describe briefly but explicitely your edits (required)") }}
+						data={{ text: I18n.t("Changeset comment"), key: "comment", default: I18n.t("Describe briefly but explicitely your edits (required)") }}
 						tags={this.props.changeset.tags}
 					/>
 					:
 					<div className="text-center">
 						{this.props.changeset.status === "upload" &&
-							<div><Spinner animation="grow" variant="success" className="align-middle" /> {window.I18n.t("Uploading your changes...")}</div>
+							<div><Spinner animation="grow" variant="success" className="align-middle" /> {I18n.t("Uploading your changes...")}</div>
 						}
 						{this.props.changeset.status === "sent" &&
 							<div>
-								<Check size={42} style={{color: "green"}} /> {window.I18n.t("Thanks for your contribution !")}<br />
+								<Check size={42} style={{color: "green"}} /> {I18n.t("Thanks for your contribution !")}<br />
 
 								<Button
 									variant="outline-success"
@@ -64,7 +65,7 @@ class ChangesetPane extends Component {
 									target="_blank"
 									rel="noopener noreferrer"
 								>
-									<Magnify size={24} /> {window.I18n.t("See your changes on OpenStreetMap")}
+									<Magnify size={24} /> {I18n.t("See your changes on OpenStreetMap")}
 								</Button>
 
 								<Button
@@ -73,18 +74,18 @@ class ChangesetPane extends Component {
 									block
 									onClick={() => PubSub.publish("body.action.cleanup")}
 								>
-									<Pencil size={24} /> {window.I18n.t("Go back to editing")}
+									<Pencil size={24} /> {I18n.t("Go back to editing")}
 								</Button>
 							</div>
 						}
 						{this.props.changeset.status === "error" &&
 							<div>
-								<CloseCircle size={42} style={{color: "red"}} /> {window.I18n.t("Oops ! There was an error during upload...")}<br />
+								<CloseCircle size={42} style={{color: "red"}} /> {I18n.t("Oops ! There was an error during upload...")}<br />
 
 								{this.props.changeset.reason === "changeset_failed" ?
-									window.I18n.t("OpenStreetMap server can't be contacted. Check your Internet connection and retry in a few minutes.")
+									I18n.t("OpenStreetMap server can't be contacted. Check your Internet connection and retry in a few minutes.")
 									:
-									window.I18n.t("Some of your edits could have been lost, please reload and retry.")
+									I18n.t("Some of your edits could have been lost, please reload and retry.")
 								}
 
 								{this.props.changeset.reason === "changeset_failed" &&
@@ -94,7 +95,7 @@ class ChangesetPane extends Component {
 										onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING })}
 										block
 									>
-										{window.I18n.t("Go back to editing")}
+										{I18n.t("Go back to editing")}
 									</Button>
 								}
 							</div>
@@ -113,12 +114,12 @@ class ChangesetPane extends Component {
 								PubSub.publish("body.action.save");
 							}
 							else {
-								alert(window.I18n.t("You have to give us more details about your changes using Changeset comment text field."));
+								alert(I18n.t("You have to give us more details about your changes using Changeset comment text field."));
 							}
 						}}
 						className="flex-grow-1 mr-1"
 					>
-						{window.I18n.t("Send")}
+						{I18n.t("Send")}
 					</Button>
 					<Button
 						variant="secondary"
@@ -126,19 +127,19 @@ class ChangesetPane extends Component {
 						onClick={() => PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING })}
 						className="flex-grow-1 ml-1"
 					>
-						{window.I18n.t("Cancel")}
+						{I18n.t("Cancel")}
 					</Button>
 				</div>
 			}
 
 			{this.props.changeset.status === "check" &&
 				<div className="m-2">
-					<h5 className="m-0 mt-2 p-0 mb-2">{window.I18n.t("Changeset tags")}</h5>
+					<h5 className="m-0 mt-2 p-0 mb-2">{I18n.t("Changeset tags")}</h5>
 					<TagsTable
 						tags={this.props.changeset.tags}
 					/>
 
-					<h5 className="m-0 mt-4 p-0 mb-2">{window.I18n.t("Your edits")}</h5>
+					<h5 className="m-0 mt-4 p-0 mb-2">{I18n.t("Your edits")}</h5>
 					<ChangesetDiff diff={this.props.changeset.diff} />
 				</div>
 			}

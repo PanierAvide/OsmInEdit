@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ContentSave from 'mdi-react/ContentSaveIcon';
 import FloorImageryButtons from './common/FloorImageryButtons';
+import I18n from '../config/locales/ui';
 import IndoorEditButtons from './common/IndoorEditButtons';
 import PubSub from 'pubsub-js';
 import Undo from 'mdi-react/UndoIcon';
@@ -66,7 +67,7 @@ class Toolbar extends Component {
 							variant="outline-secondary"
 							size="sm"
 							disabled={!canUndo}
-							title={window.I18n.t("Cancel last operation")}
+							title={I18n.t("Cancel last operation")}
 							onClick={() => PubSub.publish("body.action.undo")}
 						>
 							<Undo />
@@ -76,7 +77,7 @@ class Toolbar extends Component {
 							variant="outline-secondary"
 							size="sm"
 							disabled={!canRedo}
-							title={window.I18n.t("Apply again last cancelled operation")}
+							title={I18n.t("Apply again last cancelled operation")}
 							onClick={() => PubSub.publish("body.action.redo")}
 						>
 							<Redo />
@@ -87,11 +88,11 @@ class Toolbar extends Component {
 						variant={nbEdits < 30 ? "success" : (nbEdits < 100 ? "warning" : "danger")}
 						size="sm"
 						disabled={!canSave}
-						title={this.props.mode === Body.MODE_FLOOR_IMAGERY ? window.I18n.t("Save positionning of floor plans") : window.I18n.t("Send your changes to OpenStreetMap")}
+						title={this.props.mode === Body.MODE_FLOOR_IMAGERY ? I18n.t("Save positionning of floor plans") : I18n.t("Send your changes to OpenStreetMap")}
 						onClick={() => this._onSave()}
 					>
 						<ContentSave />
-						<span className="hide-mdDown">{window.I18n.t("Save")}</span>
+						<span className="hide-mdDown">{I18n.t("Save")}</span>
 						{nbEdits > 0 && " ("+nbEdits+")"}
 					</Button>
 				</div>

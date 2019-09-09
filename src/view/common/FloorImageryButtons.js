@@ -18,6 +18,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Close from 'mdi-react/CloseIcon';
 import ContentCopy from 'mdi-react/ContentCopyIcon';
 import ContentPaste from 'mdi-react/ContentPasteIcon';
+import I18n from '../../config/locales/ui';
 import PubSub from 'pubsub-js';
 import RotateRight from 'mdi-react/RotateRightIcon';
 
@@ -36,7 +37,7 @@ class FloorImageryButtons extends Component {
 					variant={this.props.floorImageryMode === "distort" ? "primary" : "outline-secondary"}
 					onClick={() => PubSub.publish("body.floorimagery.mode", { mode: this.props.floorImageryMode === "distort" ? null : "distort" })}
 					disabled={!f.visible}
-					title={window.I18n.t("Distort this plan")}
+					title={I18n.t("Distort this plan")}
 				>
 					<AxisArrow />
 				</Button>
@@ -46,7 +47,7 @@ class FloorImageryButtons extends Component {
 					variant={this.props.floorImageryMode === "scale" ? "primary" : "outline-secondary"}
 					onClick={() => PubSub.publish("body.floorimagery.mode", { mode: this.props.floorImageryMode === "scale" ? null : "scale" })}
 					disabled={!f.visible}
-					title={window.I18n.t("Scale this plan")}
+					title={I18n.t("Scale this plan")}
 				>
 					<ArrowExpand />
 				</Button>
@@ -56,7 +57,7 @@ class FloorImageryButtons extends Component {
 					variant={this.props.floorImageryMode === "rotate" ? "primary" : "outline-secondary"}
 					onClick={() => PubSub.publish("body.floorimagery.mode", { mode: this.props.floorImageryMode === "rotate" ? null : "rotate" })}
 					disabled={!f.visible}
-					title={window.I18n.t("Rotate this plan")}
+					title={I18n.t("Rotate this plan")}
 				>
 					<RotateRight />
 				</Button>
@@ -69,7 +70,7 @@ class FloorImageryButtons extends Component {
 					className="ml-1"
 					onClick={() => PubSub.publish("body.floorimagery.copyposition")}
 					disabled={!f.visible}
-					title={window.I18n.t("Copy position of this plan")}
+					title={I18n.t("Copy position of this plan")}
 				>
 					<ContentCopy />
 				</Button>
@@ -79,7 +80,7 @@ class FloorImageryButtons extends Component {
 					variant="outline-secondary"
 					onClick={() => PubSub.publish("body.floorimagery.pasteposition")}
 					disabled={!f.visible || !this.props.floorImageryCopyPaste}
-					title={window.I18n.t("Move this plan to copied position")}
+					title={I18n.t("Move this plan to copied position")}
 				>
 					<ContentPaste />
 				</Button>
@@ -90,9 +91,9 @@ class FloorImageryButtons extends Component {
 				onClick={() => PubSub.publish("body.floorimagery.remove", { id: f.id })}
 				className="ml-1"
 				size="sm"
-				title={window.I18n.t("Delete this plan")}
+				title={I18n.t("Delete this plan")}
 			>
-				<Close /> <span className="hide-mdDown">{window.I18n.t("Delete this plan")}</span>
+				<Close /> <span className="hide-mdDown">{I18n.t("Delete this plan")}</span>
 			</Button>
 		</div> : <div></div>;
 	}

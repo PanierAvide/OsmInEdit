@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Check from 'mdi-react/CheckIcon';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import I18n from '../../config/locales/ui';
 import PresetInputField from '../common/PresetInputField';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';
@@ -40,11 +41,13 @@ class BuildingEditPane extends Component {
 
 		const feature = this.props.building;
 		const tags = feature.properties.tags;
-		const infoLevels = <span>{window.I18n.t("Number of levels above ground (roof excluded), here B + C + D = 3 levels")}<img src='img/building_levels.png' style={{height: 200}} alt={window.I18n.t("Schema explaining how should be set amount of levels")} /></span>
+		const infoLevels = <span>{I18n.t("Number of levels above ground (roof excluded), here B + C + D = 3 levels")}<img src='img/building_levels.png' style={{height: 200}} alt={I18n.t("Schema explaining how should be set amount of levels")} /></span>;
+		const infoLevelsUndergound = <span>{I18n.t("Number of levels completely underground, here E = 1 level")}<img src='img/building_levels.png' style={{height: 200}} alt={I18n.t("Schema explaining how should be set amount of levels")} /></span>;
+		const infoLevelsRoof = <span>{I18n.t("Number of levels under the roof, here A = 1 level")}<img src='img/building_levels.png' style={{height: 200}} alt={I18n.t("Schema explaining how should be set amount of levels")} /></span>;
 
 		return <div>
 			<Container className="m-0 pl-2 pr-2 mt-2">
-				<Row className="d-flex align-items-center justify-content-between">
+				<Row className="d-flex align-items-top justify-content-between">
 					<Col>
 						<h3 className="m-0 p-0">{Body.GetFeatureName(feature)}</h3>
 					</Col>
@@ -53,7 +56,7 @@ class BuildingEditPane extends Component {
 						<Button
 							variant="outline-secondary"
 							size="sm"
-							title={window.I18n.t("Done")}
+							title={I18n.t("Done")}
 							onClick={() => this._onDone()}
 						>
 							<Check />
@@ -65,25 +68,37 @@ class BuildingEditPane extends Component {
 			<div className="m-2 mb-4">
 				<PresetInputField
 					type="text"
-					data={{ text: window.I18n.t("Name"), key: "name" }}
+					data={{ text: I18n.t("Name"), key: "name" }}
 					tags={tags}
 				/>
 
 				<PresetInputField
 					type="combo"
-					data={{ text: window.I18n.t("Type of building"), key: "building", values: "retail,commercial,parking,industrial,apartments,garage,school,church,warehouse,university,office,hospital,hotel,train_station,college,civic,public,yes" , use_last_as_default: "force" }}
+					data={{ text: I18n.t("Type of building"), key: "building", values: "retail,commercial,parking,industrial,apartments,garage,school,church,warehouse,university,office,hospital,hotel,train_station,college,civic,public,yes" , use_last_as_default: "force" }}
 					tags={tags}
 				/>
 
 				<PresetInputField
 					type="text"
-					data={{ text: window.I18n.t("Total height (in meters)"), key: "building:height" }}
+					data={{ text: I18n.t("Total height (in meters)"), key: "building:height" }}
 					tags={tags}
 				/>
 
 				<PresetInputField
 					type="number"
-					data={{ text: window.I18n.t("Number of overground levels (roof excluded)"), info: infoLevels, key: "building:levels" }}
+					data={{ text: I18n.t("Number of overground levels (roof excluded)"), info: infoLevels, key: "building:levels" }}
+					tags={tags}
+				/>
+
+				<PresetInputField
+					type="number"
+					data={{ text: I18n.t("Number of underground levels"), info: infoLevelsUndergound, key: "building:levels:underground" }}
+					tags={tags}
+				/>
+
+				<PresetInputField
+					type="number"
+					data={{ text: I18n.t("Number of levels under roof"), info: infoLevelsRoof, key: "roof:levels" }}
 					tags={tags}
 				/>
 			</div>
