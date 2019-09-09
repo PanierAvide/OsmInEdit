@@ -362,11 +362,12 @@ class MyMap extends Component {
 
 				{this.props.mode !== Body.MODE_EXPLORE && floorImgs && floorImgs.map(fi => this._getFloorMapLayer(fi))}
 
-				{!this.state.loading && this.state.dataready && this.props.mode === Body.MODE_BUILDING &&
+				{!this.state.loading && this.state.dataready && [Body.MODE_BUILDING, Body.MODE_FLOOR_IMAGERY].includes(this.props.mode) &&
 					<Building
 						styler={this.mapStyler}
 						building={this.props.building}
 						draw={this.props.draw}
+						locked={this.props.mode === Body.MODE_FLOOR_IMAGERY}
 					/>
 				}
 

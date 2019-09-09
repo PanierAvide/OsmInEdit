@@ -90,7 +90,7 @@ svg.mdi-icon {
 }
 
 .dropdown-menu.show {
-	z-index: 10001 !important;
+	z-index: 20001 !important;
 }
 
 

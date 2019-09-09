@@ -12,6 +12,7 @@
 
 import React, { Component } from 'react';
 import Editable from './Editable';
+import { GeoJSON } from 'react-leaflet';
 import PubSub from 'pubsub-js';
 
 /**
@@ -19,13 +20,21 @@ import PubSub from 'pubsub-js';
  */
 class BuildingLayer extends Component {
 	render() {
-		return <Editable
-			data={window.vectorDataManager.getOSMBuildings()}
-			onFeatureClick={feature => PubSub.publish("body.select.building", { building: feature })}
-			selection={this.props.building}
-			styler={this.props.styler}
-			draw={this.props.draw}
-		/>;
+		if(this.props.locked) {
+			return <GeoJSON
+				data={window.vectorDataManager.getOSMBuildings()}
+				style={{ color: "purple", fillColor: "black", opacity: 0.5, fillOpacity: 0.2 }}
+			/>;
+		}
+		else {
+			return <Editable
+				data={window.vectorDataManager.getOSMBuildings()}
+				onFeatureClick={feature => PubSub.publish("body.select.building", { building: feature })}
+				selection={this.props.building}
+				styler={this.props.styler}
+				draw={this.props.draw}
+			/>;
+		}
 	}
 }
 
