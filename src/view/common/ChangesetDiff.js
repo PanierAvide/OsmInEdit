@@ -51,6 +51,7 @@ class ChangesetDiff extends Component {
 						className="p-1"
 						key={elemId}
 						style={{color: color}}
+						title={Object.entries(element.properties.tags).map(e => e.join(" = ")).join("\n")}
 					>
 						{typeIcon[element.geometry.type] || <DotsHorizontal />}
 						{Body.GetFeatureName(element, [...new Set(presets.map(p => p.name))].join(", "))}

@@ -36,7 +36,7 @@ import PubSub from 'pubsub-js';
 import transformTranslate from '@turf/transform-translate';
 
 const sortNumberArray = (a, b) => a-b;
-const MAIN_TAGS = [ "building", "highway", "natural", "surface", "landuse", "power", "waterway", "amenity", "barrier", "place", "leisure", "railway", "shop", "man_made", "public_transport", "tourism", "emergency", "historic", "indoor", "door", "name", "ref", "addr:housenumber", "addr:street", "advertising" ];
+const IGNORED_TAGS = [ "level", "repeat_on", "created_by", "source" ];
 
 /**
  * Vector data manager allows to retrieve and save vector data from external providers.
@@ -812,7 +812,7 @@ class VectorDataManager extends HistorizedManager {
 	 * @return {boolean} True if it has important tags
 	 */
 	hasMainTags(tags) {
-		return Object.keys(tags).filter(t => MAIN_TAGS.includes(t)).length > 0;
+		return Object.keys(tags).filter(t => !IGNORED_TAGS.includes(t)).length > 0;
 	}
 
 	/**
