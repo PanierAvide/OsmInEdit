@@ -27,7 +27,7 @@ class PresetCard extends Component {
 	render() {
 		if(!this.props.preset) {
 			return <Media
-				className="p-1 app-preset-card"
+				className={(this.props.className || "")+" p-1 app-preset-card"}
 				onClick={() => this.props.onClick()}
 			>
 				<MapMarkerPlus size={32} className="align-self-center mr-2" style={{color: "gray"}} />
@@ -52,7 +52,7 @@ class PresetCard extends Component {
 			}
 
 			return <Media
-				className="p-1 app-preset-card"
+				className={(this.props.className || "")+" p-1 app-preset-card"}
 				onClick={() => this.props.onClick(this.props.preset)}
 			>
 				{icon &&

@@ -19,7 +19,7 @@
 			<label text="Conventional room with walls" fr.text="Pièce classique avec des murs"/>
 			<space/>
 			<key key="indoor" value="room"/>
-			<combo key="room" text="Type of room" fr.text="Type de pièce" values="shop,office,class,stairs,toilets,corridor,restaurant,entrance,toilet,technical,conference,laboratory,elevator,storage,collection,hall,waiting,library,lecture,gallery,computer,kitchen,utility,guest,bathroom,terrace,workshop,meeting,archive,reception,dressing,bedroom,lounge,lobby,amphitheatre,sport" values_searchable="true" />
+			<combo key="room" text="Type of room" fr.text="Type de pièce" values="shop,office,class,stairs,toilets,corridor,restaurant,entrance,toilet,technical,conference,laboratory,elevator,storage,collection,hall,waiting,library,lecture,gallery,computer,kitchen,utility,guest,bathroom,terrace,workshop,meeting,archive,reception,dressing,bedroom,lounge,lobby,amphitheatre,sport" values_searchable="true"/>
 			<reference ref="name_ref"/>
 		</item>
 		<item name="Area" fr.name="Zone" type="closedway" preset_name_label="true" indoor_structure="yes">

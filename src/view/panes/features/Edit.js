@@ -21,11 +21,14 @@ import History from 'mdi-react/HistoryIcon';
 import I18n from '../../../config/locales/ui';
 import PresetCard from '../../common/PresetCard';
 import PresetInputField from '../../common/PresetInputField';
+import PresetSelect from '../../common/PresetSelect';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import TagsTable from '../../common/TagsTable';
+
+const GEOM_TO_OSM = { "Point": "node", "LineString": "way", "Polygon": "closedway", "MultiPolygon": "closedway" };
 
 /**
  * Edit feature pane allows user to change one feature description
@@ -35,7 +38,8 @@ class EditFeaturePane extends Component {
 		super();
 
 		this.state = {
-			tab: "functional"
+			tab: "functional",
+			showPresetSelect: false
 		};
 	}
 
@@ -140,6 +144,36 @@ class EditFeaturePane extends Component {
 		return result;
 	}
 
+	/**
+	 * @private
+	 */
+	_lookForPreset() {
+		this.setState({ showPresetSelect: true });
+	}
+
+	/**
+	 * @private
+	 */
+	_onChangePreset(prev, next) {
+		if(prev && next && this.props.feature) {
+			let newTags = Object.assign({}, this.props.feature.properties.tags);
+
+			// Remove hard tags from previous preset
+			if(prev.tags) {
+				Object.keys(prev.tags).forEach(k => delete newTags[k]);
+			}
+
+			// Add hard tags from new preset
+			if(next.tags) {
+				newTags = Object.assign(newTags, next.tags);
+			}
+
+			PubSub.publish("body.tags.set", { tags: newTags });
+		}
+
+		this.setState({ showPresetSelect: false });
+	}
+
 	render() {
 		if(!this.props.feature) { return <div></div>; }
 
@@ -171,7 +205,7 @@ class EditFeaturePane extends Component {
 			<Container className="m-0 pl-2 pr-2 mt-2">
 				<Row className="d-flex align-items-top justify-content-between">
 					<Col>
-						<h3 className="m-0 p-0">{globalPreset.name}</h3>
+						<h3 className="m-0 p-0">{Body.GetFeatureName(feature)}</h3>
 					</Col>
 
 					<Col className="text-right">
@@ -192,19 +226,22 @@ class EditFeaturePane extends Component {
 					activeKey={tabShown}
 					id="preset-tabs"
 					className="mb-2"
-					onSelect={k => this.setState({ tab: k })}
+					onSelect={k => this.setState({ showPresetSelect: false, tab: k })}
 				>
 					<Tab
 						eventKey="functional"
 						title={I18n.t("Usage")}
 						disabled={this._tabFunDisabled}
 					>
-						<PresetCard
-							preset={mightBeStructure ? functionalPreset : globalPreset}
-							onClick={() => console.log("change")}
-						/>
+						{!this.state.showPresetSelect &&
+							<PresetCard
+								preset={mightBeStructure ? functionalPreset : globalPreset}
+								onClick={this._lookForPreset.bind(this)}
+								className="mb-2"
+							/>
+						}
 
-						{this._presetToComponent(mightBeStructure ? functionalPreset : globalPreset)}
+						{!this.state.showPresetSelect && this._presetToComponent(mightBeStructure ? functionalPreset : globalPreset)}
 					</Tab>
 
 					<Tab
@@ -212,36 +249,59 @@ class EditFeaturePane extends Component {
 						title={I18n.t("Structure")}
 						disabled={this._tabStrDisabled}
 					>
-						<PresetCard
-							preset={structurePreset}
-							onClick={() => console.log("change")}
-						/>
+						{!this.state.showPresetSelect &&
+							<PresetCard
+								preset={structurePreset}
+								onClick={this._lookForPreset.bind(this)}
+								className="mb-2"
+							/>
+						}
 
-						{this._presetToComponent(structurePreset)}
+						{!this.state.showPresetSelect && this._presetToComponent(structurePreset)}
 					</Tab>
 				</Tabs>
 
-				<TagsTable
-					className="mt-3"
-					tags={tags}
-				/>
+				{this.state.showPresetSelect &&
+					<PresetSelect
+						onSelect={preset => this._onChangePreset(tabShown === "functional" ? functionalPreset : structurePreset, preset)}
+						onBack={() => this.setState({ showPresetSelect: false })}
+						filter={p => (
+							(
+								!p.type
+								|| p.type.includes(GEOM_TO_OSM[feature.geometry.type])
+							) && (
+								tabShown === "functional"
+								|| ["yes","only"].includes(p.indoor_structure)
+							)
+						)}
+					/>
+				}
 
-				<Button
-					className="mb-3 mt-3"
-					variant="outline-secondary"
-					block
-					size="sm"
-					href={CONFIG.osm_api_url+"/"+feature.id+"/history"}
-					target="_blank"
-				>
-					<History size={20} /> {I18n.t("See feature history on OpenStreetMap")}
-				</Button>
+				{!this.state.showPresetSelect &&
+					<TagsTable
+						className="mt-3"
+						tags={tags}
+					/>
+				}
+
+				{!this.state.showPresetSelect &&
+					<Button
+						className="mb-3 mt-3"
+						variant="outline-secondary"
+						block
+						size="sm"
+						href={CONFIG.osm_api_url+"/"+feature.id+"/history"}
+						target="_blank"
+					>
+						<History size={20} /> {I18n.t("See feature history on OpenStreetMap")}
+					</Button>
+				}
 			</div>
 		</div>;
 	}
 
-	componentDidUpdate(prevProps) {
-		if(prevProps.feature && this.props.feature && prevProps.feature.id !== this.props.feature.id) {
+	componentDidMount() {
+		if(this.props.feature) {
 			const newTabVal =
 				(this._tabFunDisabled && !this._tabStrDisabled)
 				|| (!this._tabFunDisabled && !this._tabStrDisabled && !this._hasFunPreset && this._hasStrPreset) ?
@@ -251,6 +311,23 @@ class EditFeaturePane extends Component {
 			if(newTabVal !== this.state.tab) {
 				this.setState({ tab: newTabVal });
 			}
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		if(prevProps.feature && this.props.feature && prevProps.feature.id !== this.props.feature.id) {
+			const newState = { showPresetSelect: false };
+			const newTabVal =
+				(this._tabFunDisabled && !this._tabStrDisabled)
+				|| (!this._tabFunDisabled && !this._tabStrDisabled && !this._hasFunPreset && this._hasStrPreset) ?
+					"structural"
+					: "functional";
+
+			if(newTabVal !== this.state.tab) {
+				newState.tab = newTabVal;
+			}
+
+			this.setState(newState);
 		}
 	}
 }

@@ -13,14 +13,12 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import ChevronLeft from 'mdi-react/ChevronLeftIcon';
-import Container from 'react-bootstrap/Container';
 import Close from 'mdi-react/CloseIcon';
 import FormControl from 'react-bootstrap/FormControl';
 import I18n from '../../config/locales/ui';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Magnify from 'mdi-react/MagnifyIcon';
 import PresetCard from './PresetCard';
-import Row from 'react-bootstrap/Row';
 
 /**
  * Preset select allows user to choose one preset between a structured list of presets.
@@ -53,9 +51,14 @@ class PresetSelect extends Component {
 	 * @private
 	 */
 	_onBackClicked() {
-		const entries = this.state.path.split("/").filter(e => e !== "");
-		entries.pop();
-		this.setState({ path: entries.length > 0 ? "/"+entries.join("/")+"/" : "/" });
+		if(this.state.path === "/" && this.props.onBack) {
+			this.props.onBack();
+		}
+		else {
+			const entries = this.state.path.split("/").filter(e => e !== "");
+			entries.pop();
+			this.setState({ path: entries.length > 0 ? "/"+entries.join("/")+"/" : "/" });
+		}
 	}
 
 	/**
@@ -63,7 +66,12 @@ class PresetSelect extends Component {
 	 * @private
 	 */
 	_createEntry(key, item) {
-		return <Row className="m-2" key={key}><PresetCard preset={item} onClick={this._onPresetClicked.bind(this)} /></Row>
+		return <PresetCard
+			key={key}
+			className="mb-2"
+			preset={item}
+			onClick={this._onPresetClicked.bind(this)}
+		/>;
 	}
 
 	render() {
@@ -71,52 +79,49 @@ class PresetSelect extends Component {
 		const hasSearch = this.state.text.trim().length > 0;
 
 		if(hasSearch) {
-			presets = window.presetsManager.findPresetsByName(this.state.text);
+			presets = window.presetsManager.findPresetsByName(this.state.text, this.props.filter);
 		}
 		else {
-			presets = window.presetsManager.getPresets(this.state.path);
+			presets = window.presetsManager.getPresets(this.state.path, this.props.filter);
 		}
 
-		return <Container className="m-0 p-0">
-			<Row className="m-2">
-				<InputGroup>
-					{!hasSearch &&
-						<InputGroup.Prepend>
-							<InputGroup.Text>
-								<Magnify size={18} />
-							</InputGroup.Text>
-						</InputGroup.Prepend>
-					}
+		return <div className={this.props.className}>
+			<InputGroup className="mb-2">
+				{!hasSearch &&
+					<InputGroup.Prepend>
+						<InputGroup.Text>
+							<Magnify size={18} />
+						</InputGroup.Text>
+					</InputGroup.Prepend>
+				}
 
-					<FormControl
-						placeholder={I18n.t("Search a type of feature...")}
-						value={this.state.text}
-						onChange={e => this.setState({ text: e.target.value })}
-					/>
+				<FormControl
+					placeholder={I18n.t("Search a type of feature...")}
+					value={this.state.text}
+					onChange={e => this.setState({ text: e.target.value })}
+				/>
 
-					{hasSearch &&
-						<InputGroup.Append>
-							<Button
-								variant="outline-secondary"
-								onClick={() => this.setState({ text: "" })}
-							>
-								<Close size={16} />
-							</Button>
-						</InputGroup.Append>
-					}
-				</InputGroup>
-			</Row>
+				{hasSearch &&
+					<InputGroup.Append>
+						<Button
+							variant="outline-secondary"
+							onClick={() => this.setState({ text: "" })}
+						>
+							<Close size={16} />
+						</Button>
+					</InputGroup.Append>
+				}
+			</InputGroup>
 
-			{this.state.path !== "/" &&
-				<Row className="m-2">
-					<Button
-						variant="outline-secondary"
-						block
-						onClick={() => this._onBackClicked()}
-					>
-						<ChevronLeft style={{ float: "left" }} /> {I18n.t("Back")}
-					</Button>
-				</Row>
+			{(this.state.path !== "/" || this.props.onBack) &&
+				<Button
+					variant="outline-secondary"
+					block
+					className="mb-2"
+					onClick={() => this._onBackClicked()}
+				>
+					<ChevronLeft style={{ float: "left" }} /> {I18n.t("Back")}
+				</Button>
 			}
 
 			{this.state.path === "/" && !hasSearch && this.props.lastUsedPresets && this.props.lastUsedPresets.length > 0 &&
@@ -124,7 +129,7 @@ class PresetSelect extends Component {
 			}
 			{presets && presets.groups && presets.groups.map((g,i) => this._createEntry("g"+i, g))}
 			{presets && presets.items && presets.items.map((it,i) => this._createEntry("i"+i, it))}
-		</Container>;
+		</div>;
 	}
 
 	componentDidMount() {

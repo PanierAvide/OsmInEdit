@@ -94,12 +94,15 @@ class PresetsManager {
 	/**
 	 * Get the list of available presets
 	 * @param {string} path The access path (list of groups separated by /, example "/root/highways/unpaved")
+	 * @param {function} [filter] Function filtering presets
 	 * @return {Object[]} The presets, possibly organised by groups
 	 */
-	getPresets(path) {
+	getPresets(path, filter) {
 		if(this._presets) {
+			let result;
+
 			if(path === "/") {
-				return this._presets;
+				result = this._presets;
 			}
 			else {
 				const entries = path.split("/").filter(p => p !== "");
@@ -119,8 +122,10 @@ class PresetsManager {
 					}
 				}
 
-				return last;
+				result = last;
 			}
+
+			return this._applyFiltering(result, filter);
 		}
 		else {
 			return null;
@@ -130,19 +135,51 @@ class PresetsManager {
 	/**
 	 * Search for presets by text.
 	 * @param {string} text The search text
+	 * @param {function} [filter] Function filtering presets
 	 * @return {Object[]} List of matching presets
 	 */
-	findPresetsByName(text) {
+	findPresetsByName(text, filter) {
 		if(!text || text.trim().length === 0) {
 			return null;
 		}
 		else if(this._presets) {
 			const res = this._searcher.search(text);
-			return { items: res };
+			return this._applyFiltering({ items: res }, filter);
 		}
 		else {
 			return null;
 		}
+	}
+
+	/**
+	 * @private
+	 */
+	_applyFiltering(presets, filter) {
+		// Filter presets if necessary
+		if(presets && filter) {
+			// Function to process one preset/group at a time
+			const recursiveFilter = g => {
+				let res = Object.assign({}, g);
+
+				// Filter list of items
+				if(g.items) { res.items = g.items.filter(filter); }
+
+				// Filter list of groups (recursively)
+				if(g.groups) { res.groups = g.groups.map(gr => recursiveFilter(gr)).filter(g => g !== null); }
+
+				// If empty list of groups and items, send null
+				if((!res.groups || res.groups.length === 0) && (!res.items || res.items.length === 0)) { res = null; }
+
+				// If entry has a single group and no items, just send the group itself
+				if(res && res.groups && res.groups.length === 1 && (!res.items || res.items.length === 0)) { res = res.groups[0]; }
+
+				return res;
+			};
+
+			presets = recursiveFilter(presets);
+		}
+
+		return presets;
 	}
 
 	/**
