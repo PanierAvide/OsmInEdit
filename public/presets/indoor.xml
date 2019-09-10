@@ -7,9 +7,6 @@
 	<chunk id="name">
 		<text key="name" text="Name" fr.text="Nom"/>
 	</chunk>
-	<chunk id="level">
-		<combo key="level" text="Level" values="5,4,3,2,1,0,-1,-2,-3,-4,-5" length="3"/>
-	</chunk>
 	<chunk id="multi_level">
 		<multiselect key="level" text="Level" fr.text="Etages desservis" values="5;4;3;2;1;0;-1;-2;-3;-4;-5" values_searchable="true"/>
 	</chunk>
@@ -17,42 +14,29 @@
 		<combo key="wheelchair" text="Wheelchair access" values="yes,limited,no"/>
 	</chunk>
 	<group name="Building structure" fr.name="Cartographie d'intérieur">
-		<item name="Room" fr.name="Pièce" type="closedway" preset_name_label="true">
+		<item name="Room" fr.name="Pièce" type="closedway" preset_name_label="true" indoor_structure="yes">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<label text="Conventional room with walls" fr.text="Pièce classique avec des murs"/>
 			<space/>
 			<key key="indoor" value="room"/>
-			<combo key="room" text="Type of room" fr.text="Type de pièce" values_searchable="true">
-				<list_entry value="yes"/>
-				<list_entry value="shop"/>
-				<list_entry value="entrance" short_description="Typically the first room on the way into a building"/>
-				<list_entry value="toilets"/>
-				<list_entry value="restaurant"/>
-				<list_entry value="office"/>
-				<list_entry value="storage"/>
-				<list_entry value="corridor"/>
-				<list_entry value="stairs"/>
-				<list_entry value="utility"/>
-			</combo>
+			<combo key="room" text="Type of room" fr.text="Type de pièce" values="shop,office,class,stairs,toilets,corridor,restaurant,entrance,toilet,technical,conference,laboratory,elevator,storage,collection,hall,waiting,library,lecture,gallery,computer,kitchen,utility,guest,bathroom,terrace,workshop,meeting,archive,reception,dressing,bedroom,lounge,lobby,amphitheatre,sport" values_searchable="true" />
 			<reference ref="name_ref"/>
-			<reference ref="level"/>
 		</item>
-		<item name="Area" fr.name="Zone" type="closedway" preset_name_label="true">
+		<item name="Area" fr.name="Zone" type="closedway" preset_name_label="true" indoor_structure="yes">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<label text="Area without walls" fr.text="Zone intérieure sans murs"/>
 			<space/>
 			<key key="indoor" value="area"/>
 			<reference ref="name_ref"/>
 		</item>
-		<item name="Wall" fr.name="Mur" type="way,closedway" preset_name_label="true">
+		<item name="Wall" fr.name="Mur" type="way,closedway" preset_name_label="true" indoor_structure="only">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<label text="Individual (non-passable) wall element, when not already defined by indoor=room" fr.text="Mur non franchissable qui n'est pas défini par une pièce"/>
 			<space/>
 			<key key="indoor" value="wall"/>
 			<check key="area" text="Solid wall"/>
-			<reference ref="level"/>
 		</item>
-		<item name="Door" fr.name="Porte" type="node">
+		<item name="Door" fr.name="Porte" type="node" indoor_structure="only">
 			<key key="door" value="yes" match="key"/>
 			<combo key="door" text="Type" values="hinged,sliding,revolving,folding,trapdoor,overhead,loadingdock,no,yes" use_last_as_default="force"/>
 			<combo key="entrance" text="Building entrance" values_searchable="true" use_last_as_default="force">
@@ -69,21 +53,19 @@
 			<check key="automatic_door" text="Automatic door"/>
 			<reference ref="wheelchair"/>
 		</item>
-		<item name="Corridor" fr.name="Couloir" type="closedway" preset_name_label="true">
+		<item name="Corridor" fr.name="Couloir" type="closedway" preset_name_label="true" indoor_structure="only">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<label text="Unwalled connecting passage" fr.text="Passage de raccordement sans murs"/>
 			<space/>
 			<key key="indoor" value="corridor"/>
 			<reference ref="name_ref"/>
-			<reference ref="level"/>
 		</item>
-		<item name="Staircase" fr.name="Cage d'escalier" type="closedway" preset_name_label="true">
+		<item name="Staircase" fr.name="Cage d'escalier" type="closedway" preset_name_label="true" indoor_structure="only">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="indoor" value="room"/>
 			<key key="room" value="stairs"/>
-			<reference ref="level"/>
 		</item>
-		<item name="Stairs" fr.name="Escaliers/Escalator" type="way" preset_name_label="true">
+		<item name="Stairs" fr.name="Escaliers/Escalator" type="way" preset_name_label="true" indoor_structure="only">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="highway" value="steps"/>
 			<reference ref="multi_level"/>
@@ -100,7 +82,7 @@
 				<list_entry value="" display_value="not an escalator"/>
 			</combo>
 		</item>
-		<item name="Elevator" fr.name="Ascenseur" type="closedway" preset_name_label="true">
+		<item name="Elevator" fr.name="Ascenseur" type="closedway" preset_name_label="true" indoor_structure="only">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="highway" value="elevator"/>
 			<key key="indoor" value="room" match="none"/>
@@ -109,14 +91,14 @@
 			<reference ref="multi_level"/>
 			<reference ref="wheelchair"/>
 		</item>
-		<item name="Footway" type="way">
+		<item name="Footway" type="way" indoor_structure="only">
 			<link wiki="Tag:highway=footway"/>
 			<key key="highway" value="footway"/>
 			<reference ref="name"/>
 			<reference ref="multi_level"/>
 			<reference ref="wheelchair"/>
 		</item>
-		<item name="Service road" type="way">
+		<item name="Service road" type="way" indoor_structure="only">
 			<link wiki="Tag:highway=service"/>
 			<key key="highway" value="service"/>
 			<combo key="service" text="Service way type" values="alley,driveway,parking_aisle,drive-through,emergency_access"/>
@@ -124,7 +106,7 @@
 			<reference ref="multi_level"/>
 			<check key="oneway" text="Oneway" fr.text="Sens unique"/>
 		</item>
-		<item name="Level connection" type="node">
+		<item name="Level connection" type="node" indoor_structure="only">
 			<key key="door" value="no"/>
 			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>
 		</item>

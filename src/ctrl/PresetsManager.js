@@ -252,7 +252,7 @@ class PresetsManager {
 		[
 			"icon", "name", "key", "value", "type", "wiki", "id", "ref", "href",
 			"text", "default", "use_last_as_default", "auto_increment", "length",
-			"alternative_autocomplete_keys", "match", "values", "editable", "delimiter",
+			"alternative_autocomplete_keys", "match", "values", "editable", "delimiter", "indoor_structure",
 			"values_from", "display_values", "short_descriptions", "values_searchable", "use_last_as_default",
 			"values_no_i18n", "values_sort", "rows", "short_description", "icon_size", "display_value"
 		].forEach(prop => {

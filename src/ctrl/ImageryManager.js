@@ -38,6 +38,7 @@ class ImageryManager extends HistorizedManager {
 		super();
 		this._rawLayers = null;
 		this._floorImagery = [];
+		this._isLoading = false;
 	}
 
 	/**
@@ -46,7 +47,12 @@ class ImageryManager extends HistorizedManager {
 	 * @return {Promise} A promise resolveing on the list of layers available at this place (sorted by pertinence)
 	 */
 	getAvailableImagery(coordinates) {
-		if(this._rawLayers) {
+		if(this._isLoading) {
+			return new Promise(resolve => {
+				setTimeout(() => resolve(this.getAvailableImagery(coordinates)), 200);
+			});
+		}
+		else if(this._rawLayers) {
 			const location = coordinates ? { type: "Point", coordinates: [ coordinates.lng, coordinates.lat ] } : null;
 
 			return new Promise(resolve => resolve(
@@ -68,6 +74,7 @@ class ImageryManager extends HistorizedManager {
 		}
 		else {
 			// Load the GeoJSON containing layers data
+			this._isLoading = true;
 			return request(LAYERS_URL)
 			.then(result => {
 				result = JSON.parse(result);
@@ -100,6 +107,8 @@ class ImageryManager extends HistorizedManager {
 						this._rawLayers.push(layer);
 					}
 				});
+
+				this._isLoading = false;
 
 				return this.getAvailableImagery(coordinates);
 			});

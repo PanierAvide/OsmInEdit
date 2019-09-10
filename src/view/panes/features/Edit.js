@@ -19,15 +19,26 @@ import CONFIG from '../../../config/config.json';
 import Container from 'react-bootstrap/Container';
 import History from 'mdi-react/HistoryIcon';
 import I18n from '../../../config/locales/ui';
+import PresetCard from '../../common/PresetCard';
 import PresetInputField from '../../common/PresetInputField';
 import PubSub from 'pubsub-js';
 import Row from 'react-bootstrap/Row';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import TagsTable from '../../common/TagsTable';
 
 /**
  * Edit feature pane allows user to change one feature description
  */
 class EditFeaturePane extends Component {
+	constructor() {
+		super();
+
+		this.state = {
+			tab: "functional"
+		};
+	}
+
 	/**
 	 * Event handler when "Done" button is clicked
 	 * @private
@@ -42,6 +53,8 @@ class EditFeaturePane extends Component {
 	 */
 	_presetToComponent(p) {
 		let res = [];
+
+		if(!p) { return res; }
 
 		if(p.combos) {
 			res = res.concat(p.combos.map((c,i) => <PresetInputField type="combo" data={c} tags={this.props.feature.properties.tags} key={"c"+i} />));
@@ -132,13 +145,33 @@ class EditFeaturePane extends Component {
 
 		const feature = this.props.feature;
 		const tags = feature.properties.tags;
-		const preset = this._combinePresets(window.presetsManager.findPresetsForFeature(feature));
+		let mightBeStructure = ["Polygon","MultiPolygon"].includes(feature.geometry.type);
+		const presets = window.presetsManager.findPresetsForFeature(feature);
+		const globalPreset = this._combinePresets(presets);
+
+		// Find functional presets (not structural ones)
+		let functionalPreset = presets.filter(p => !p.indoor_structure || p.indoor_structure === "no");
+		if(functionalPreset.length > 0) { functionalPreset = functionalPreset[functionalPreset.length-1]; }
+		else { functionalPreset = null; }
+
+		// Find structural presets (room, area, corridor...)
+		let structurePreset = presets.filter(p => ["only", "yes"].includes(p.indoor_structure));
+		if(structurePreset.length > 0) { structurePreset = structurePreset[structurePreset.length-1]; }
+		else { structurePreset = null; }
+
+		// Tabs management
+		this._tabFunDisabled = structurePreset && structurePreset.indoor_structure === "only";
+		this._tabStrDisabled = !mightBeStructure || (functionalPreset && functionalPreset.indoor_structure === "no");
+		this._hasFunPreset = functionalPreset !== null && functionalPreset !== undefined;
+		this._hasStrPreset = structurePreset !== null && structurePreset !== undefined;
+
+		const tabShown = this.state.tab === "functional" && !this._tabFunDisabled ? "functional" : "structural";
 
 		return <div>
 			<Container className="m-0 pl-2 pr-2 mt-2">
 				<Row className="d-flex align-items-top justify-content-between">
 					<Col>
-						<h3 className="m-0 p-0">{preset.name}</h3>
+						<h3 className="m-0 p-0">{globalPreset.name}</h3>
 					</Col>
 
 					<Col className="text-right">
@@ -154,12 +187,42 @@ class EditFeaturePane extends Component {
 				</Row>
 			</Container>
 
-			<div className="m-2 mb-4">
-				{this._presetToComponent(preset)}
-			</div>
-
 			<div className="m-2">
+				<Tabs
+					activeKey={tabShown}
+					id="preset-tabs"
+					className="mb-2"
+					onSelect={k => this.setState({ tab: k })}
+				>
+					<Tab
+						eventKey="functional"
+						title={I18n.t("Usage")}
+						disabled={this._tabFunDisabled}
+					>
+						<PresetCard
+							preset={mightBeStructure ? functionalPreset : globalPreset}
+							onClick={() => console.log("change")}
+						/>
+
+						{this._presetToComponent(mightBeStructure ? functionalPreset : globalPreset)}
+					</Tab>
+
+					<Tab
+						eventKey="structural"
+						title={I18n.t("Structure")}
+						disabled={this._tabStrDisabled}
+					>
+						<PresetCard
+							preset={structurePreset}
+							onClick={() => console.log("change")}
+						/>
+
+						{this._presetToComponent(structurePreset)}
+					</Tab>
+				</Tabs>
+
 				<TagsTable
+					className="mt-3"
 					tags={tags}
 				/>
 
@@ -175,6 +238,20 @@ class EditFeaturePane extends Component {
 				</Button>
 			</div>
 		</div>;
+	}
+
+	componentDidUpdate(prevProps) {
+		if(prevProps.feature && this.props.feature && prevProps.feature.id !== this.props.feature.id) {
+			const newTabVal =
+				(this._tabFunDisabled && !this._tabStrDisabled)
+				|| (!this._tabFunDisabled && !this._tabStrDisabled && !this._hasFunPreset && this._hasStrPreset) ?
+					"structural"
+					: "functional";
+
+			if(newTabVal !== this.state.tab) {
+				this.setState({ tab: newTabVal });
+			}
+		}
 	}
 }
 

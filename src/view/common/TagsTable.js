@@ -130,7 +130,7 @@ class TagsTable extends Component {
 			entries.push([ "", "" ]);
 		}
 
-		return <div>
+		return <div className={this.props.className}>
 			<div className="app-tags">
 				{entries.map((e,i) => (
 					<InputGroup size="sm" className="m-0 app-tags-row" key={i}>
