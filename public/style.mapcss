@@ -259,14 +259,14 @@ area[stairs=yes] {
 *[buildingpart:verticalpassage=elevator],
 *[indoor=elevator],
 *[highway=~/elevator|lift/] {
-	icon-image: url('passage_elevator.png');
+	icon-image: url('highway_elevator.png');
 }
 
 *[buildingpart:verticalpassage=stairway],
 *[room=stairs],
 *[stairs=yes],
 area[highway=steps] {
-	icon-image: url('passage_stairs.png');
+	icon-image: url('highway_steps.png');
 }
 
 *[buildingpart:verticalpassage=escalator],
@@ -487,7 +487,7 @@ area[amenity=~/school|college|university|hospital|parking/] {
  */
 
 *[shop] {
-	icon-image: url('shopping_$[shop].png');
+	icon-image: url('shop_$[shop].png');
 	icon-width: 16;
 	icon-height: 16;
 	icon-opacity: 1;

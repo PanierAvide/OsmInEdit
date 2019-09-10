@@ -27,6 +27,7 @@ import VectorDataManager from './ctrl/VectorDataManager';
  */
 window.EDITOR_NAME = CONFIG.editor_name;
 window.EDITOR_URL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + "/";
+window.UNUSABLE_ICONS = new Set();
 
 /**
  * App is the application starter.

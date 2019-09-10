@@ -22,7 +22,10 @@ const MyIcon = Icon.extend({
 	_createImg: function (src, el) {
 		el = el || document.createElement('img');
 		el.src = src;
-		el.onerror = () => { el.style.display='none'; };
+		el.onerror = () => {
+			window.UNUSABLE_ICONS.add(el.src);
+			el.style.display='none';
+		};
 		return el;
 	}
 });
@@ -122,10 +125,10 @@ class StyledLayer extends Path {
 		const iconSize = 20;
 
 		featuresWithIcons.forEach(l => {
-			const iconUrl = "img/icons/"+l.options.iconImage;
+			const iconUrl = window.EDITOR_URL + "img/icons/"+l.options.iconImage;
 			const coords = l.getLatLng ? l.getLatLng() : (l.getBounds ? l.getBounds().getCenter() : null);
 
-			if(coords) {
+			if(coords && !window.UNUSABLE_ICONS.has(iconUrl)) {
 				let icon = existingIcons[iconUrl];
 
 				if(!icon) {

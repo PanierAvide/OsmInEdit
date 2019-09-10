@@ -63,7 +63,10 @@ const MyIcon = L.Icon.extend({
 	_createImg: function (src, el) {
 		el = el || document.createElement('img');
 		el.src = src;
-		el.onerror = () => { el.style.display='none'; };
+		el.onerror = () => {
+			window.UNUSABLE_ICONS.add(el.src);
+			el.style.display='none';
+		};
 		return el;
 	}
 });
@@ -933,19 +936,22 @@ class EditableLayer extends Path {
 	 */
 	_addIconForLayer(f, iconImage) {
 		if(f && iconImage) {
-			const iconUrl = "img/icons/"+iconImage;
-			let icon = existingIcons[iconUrl];
+			const iconUrl = window.EDITOR_URL + "img/icons/"+iconImage;
 
-			if(!icon) {
-				icon = new MyIcon({
-					iconUrl: iconUrl,
-					iconSize: [ICON_SIZE, ICON_SIZE],
-					iconAnchor: [ICON_SIZE/2, ICON_SIZE/2]
-				});
-				existingIcons[iconUrl] = icon;
+			if(!window.UNUSABLE_ICONS.has(iconUrl)) {
+				let icon = existingIcons[iconUrl];
+
+				if(!icon) {
+					icon = new MyIcon({
+						iconUrl: iconUrl,
+						iconSize: [ICON_SIZE, ICON_SIZE],
+						iconAnchor: [ICON_SIZE/2, ICON_SIZE/2]
+					});
+					existingIcons[iconUrl] = icon;
+				}
+
+				this._featureIcons.addLayer(new L.marker(L.GeoJSON.coordsToLatLng(pointOnFeature(f).geometry.coordinates), { icon: icon, interactive: false, fid: f.id }));
 			}
-
-			this._featureIcons.addLayer(new L.marker(L.GeoJSON.coordsToLatLng(pointOnFeature(f).geometry.coordinates), { icon: icon, interactive: false, fid: f.id }));
 		}
 	}
 
