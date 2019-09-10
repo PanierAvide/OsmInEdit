@@ -155,11 +155,11 @@ class EditFeaturePane extends Component {
 	 * @private
 	 */
 	_onChangePreset(prev, next) {
-		if(prev && next && this.props.feature) {
+		if(next && this.props.feature) {
 			let newTags = Object.assign({}, this.props.feature.properties.tags);
 
 			// Remove hard tags from previous preset
-			if(prev.tags) {
+			if(prev && prev.tags) {
 				Object.keys(prev.tags).forEach(k => delete newTags[k]);
 			}
 

@@ -97,8 +97,8 @@ class Body extends Component {
 	static GetFeatureName(feature, fallback) {
 		const t = feature.properties.tags;
 
-		if(t.name || t.ref) {
-			return t.name || t.ref;
+		if(t.name || t.ref || t.brand) {
+			return t.name || t.ref || t.brand;
 		}
 		else if(t.building) {
 			return feature.properties.own.new ? I18n.t("New building") : I18n.t("Building");
