@@ -34,6 +34,29 @@ line[ref] {
 
 
 /****************************************************************************
+ * Default rules
+ */
+
+node, way {
+	symbol-size: 24;
+	color: #8EBEFF;
+	opacity: 1;
+	fill-color: white;
+	fill-opacity: 0.7;
+}
+
+line {
+	color: #8EBEFF;
+	opacity: 1;
+}
+
+relation[type=multipolygon] way {
+	width: 0;
+	opacity: 0;
+}
+
+
+/****************************************************************************
  * Indoor structures
  */
 
@@ -141,10 +164,12 @@ area[buildingpart=corridor],
 area[railway=platform],
 area[public_transport=platform],
 area[indoor=level],
+area[highway=~/pedestrian|footway|corridor/],
 relation[type=multipolygon][indoor=~/area|corridor/],
 relation[type=multipolygon][railway=platform],
 relation[type=multipolygon][public_transport=platform],
-relation[type=multipolygon][indoor=level] {
+relation[type=multipolygon][indoor=level],
+relation[type=multipolygon][highway=~/pedestrian|footway|corridor/] {
 	color: #AAAAAA;
 	opacity: 1;
 	width: 0.5;
@@ -194,7 +219,7 @@ node[entrance] {
 	opacity: 1;
 	fill-opacity: 1;
 	width: 5;
-	symbol-size: 7;
+	symbol-size: 14;
 }
 
 line[door][door!=no],
@@ -211,7 +236,7 @@ node[door=no] {
 	fill-color: #EEEEEE;
 	opacity: 1;
 	width: 1;
-	symbol-size: 7;
+	symbol-size: 14;
 	icon-opacity: 0;
 }
 
@@ -355,8 +380,16 @@ line[conveying=~/yes|forward|backward|reversible/][highway!=footway] {
 	opacity: 1;
 	fill-opacity: 0.5;
 	fill-color: #5B5B5B;
-	width: 15;
 	linecap: none;
+}
+
+node[barrier] {
+	fill-color: white;
+	fill-opacity: 0.7;
+}
+
+way[barrier] {
+	width: 15;
 }
 
 
@@ -379,6 +412,10 @@ way[railway=~/rail|subway|light_rail|monorail|narrow_gauge|tram/] {
 	icon-opacity: 1;
 }
 
+node[railway] {
+	color: #888888;
+}
+
 
 /****************************************************************************
  * Aeroways
@@ -389,6 +426,10 @@ way[railway=~/rail|subway|light_rail|monorail|narrow_gauge|tram/] {
 	icon-width: 16;
 	icon-height: 16;
 	icon-opacity: 1;
+}
+
+node[aeroway] {
+	color: #0092DA;
 }
 
 
@@ -418,6 +459,7 @@ way[railway=~/rail|subway|light_rail|monorail|narrow_gauge|tram/] {
 	icon-width: 16;
 	icon-height: 16;
 	icon-opacity: 1;
+	color: #0092DA;
 }
 
 
@@ -434,6 +476,10 @@ way[railway=~/rail|subway|light_rail|monorail|narrow_gauge|tram/] {
 	icon-height: 16;
 	icon-opacity: 1;
 	text: name;
+}
+
+node[amenity] {
+	color: #734A08;
 }
 
 /** Comfort amenities **/
@@ -493,6 +539,10 @@ area[amenity=~/school|college|university|hospital|parking/] {
 	icon-opacity: 1;
 	opacity: 1;
 	text: name;
+}
+
+node[shop] {
+	color: #AC39AC;
 }
 
 *[shop][!name][brand] {
@@ -555,6 +605,10 @@ area[shop] {
 /** Historic elements **/
 *[historic] {
 	text: name;
+}
+
+node[historic] {
+	color: #8E7409;
 }
 
 way[historic],
@@ -653,6 +707,10 @@ relation[type=multipolygon][landuse=grass] {
 	icon-opacity: 1;
 }
 
+node[emergency] {
+	color: #FA0032;
+}
+
 
 /****************************************************************************
  * Man made
@@ -666,6 +724,25 @@ relation[type=multipolygon][landuse=grass] {
 	icon-opacity: 1;
 }
 
+/****************************************************************************
+ * Natural
+ */
+
+*[natural=~/tree/] {
+	icon-image: url('natural_$[natural].png');
+	icon-width: 16;
+	icon-height: 16;
+	icon-opacity: 1;
+}
+
+way[natural] {
+	color: #1E6B00;
+	width: 5;
+}
+
+node[natural] {
+	color: #1F6C02;
+}
 
 /****************************************************************************
  * Signaletics

@@ -86,6 +86,7 @@ class MapStyler {
 				stl.radius = get_property(styles, [
 					"symbol_size"
 				]);
+				if(stl.radius) { stl.radius = stl.radius/2; }
 
 				stl.fillColor = get_property(styles, [
 					"fill_color",

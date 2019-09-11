@@ -2067,7 +2067,7 @@ class VectorDataManager extends HistorizedManager {
 
 	_isLanduse(feature) {
 		const t = feature.properties.tags;
-		return t.landuse || ["school","university","college","hospital"].includes(t.amenity) || t.boundary;
+		return t.landuse || ["school","university","college","hospital"].includes(t.amenity) || t.boundary || t["disused:boundary"];
 	}
 
 	/**
