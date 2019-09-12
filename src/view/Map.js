@@ -166,7 +166,7 @@ class MyMap extends Component {
 	 * @private
 	 */
 	async _loadData(bounds) {
-		if(this.props.datalocked) {
+		if(this.props.datalocked || (CONFIG.always_authenticated && !window.editor_user)) {
 			return new Promise(resolve => {
 				setTimeout(() => resolve(this._loadData(bounds)), 100);
 			});
