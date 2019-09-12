@@ -1224,6 +1224,105 @@ describe("ctrl > VectorDataManager", () => {
 			assert.ok(deepEqual(res["node/6"].newCoords, [0.95,0.96]));
 		});
 
+		it("handle changes on polygon geoms represented as relations, but nodes also used elsewhere", async () => {
+			const vdm = new VectorDataManager();
+			const prev = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [0,0] } },
+				{ type: "Feature", id: "node/2", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [0,1] } },
+				{ type: "Feature", id: "node/3", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [1,1] } },
+				{ type: "Feature", id: "node/4", properties: { tags: {}, own: { ways: ["way/2"] } }, geometry: { type: "Point", coordinates: [0.2,0.1] } },
+				{ type: "Feature", id: "node/5", properties: { tags: {}, own: { ways: ["way/2"] } }, geometry: { type: "Point", coordinates: [0.1,0.9] } },
+				{ type: "Feature", id: "node/6", properties: { tags: {}, own: { ways: ["way/2"] } }, geometry: { type: "Point", coordinates: [0.8,0.9] } },
+				{ type: "Feature", id: "node/7", properties: { tags: {}, own: { ways: ["way/3"] } }, geometry: { type: "Point", coordinates: [1,2] } },
+				{ type: "Feature", id: "node/8", properties: { tags: {}, own: { ways: ["way/3"] } }, geometry: { type: "Point", coordinates: [2,2] } },
+				{
+					type: "Feature", id: "way/1",
+					properties: {
+						tags: {},
+						own: { nodes: [ "node/1", "node/2", "node/3", "node/1" ] }
+					},
+					geometry: { type: "Polygon", coordinates: [[ [0,0], [0,1], [1,1], [0,0] ]] }
+				},
+				{
+					type: "Feature", id: "way/2",
+					properties: {
+						tags: {},
+						own: { nodes: [ "node/4", "node/5", "node/6", "node/4" ] }
+					},
+					geometry: { type: "Polygon", coordinates: [[ [0.2,0.1], [0.1,0.9], [0.8,0.9], [0.2,0.1] ]] }
+				},
+				{
+					type: "Feature", id: "way/3",
+					properties: {
+						tags: { highway: "footway" },
+						own: { nodes: [ "node/3", "node/7", "node/8", "node/3" ] }
+					},
+					geometry: { type: "Polygon", coordinates: [[ [1,1], [1,2], [2,2], [1,1] ]] }
+				},
+				{
+					type: "Feature", id: "relation/1",
+					properties: {
+						tags: { indoor: "level", level: "0", type: "multipolygon" },
+						own: { members: [ { role: "outer", feature: "way/1" }, { role: "inner", feature: "way/2" } ] }
+					},
+					geometry: { type: "Polygon", coordinates: [ [ [0,0], [0,1], [1,1], [0,0] ], [ [0.2,0.1], [0.1,0.9], [0.8,0.9], [0.2,0.1] ] ] }
+				}
+			] };
+			const next = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [0,0] } },
+				{ type: "Feature", id: "node/2", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [0,1] } },
+				{ type: "Feature", id: "node/3", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [1,1] } },
+				{ type: "Feature", id: "node/4", properties: { tags: {}, own: { ways: ["way/2"] } }, geometry: { type: "Point", coordinates: [0.2,0.1] } },
+				{ type: "Feature", id: "node/5", properties: { tags: {}, own: { ways: ["way/2"] } }, geometry: { type: "Point", coordinates: [0.1,0.9] } },
+				{ type: "Feature", id: "node/6", properties: { tags: {}, own: { ways: ["way/2"] } }, geometry: { type: "Point", coordinates: [0.8,0.9] } },
+				{ type: "Feature", id: "node/7", properties: { tags: {}, own: { ways: ["way/3"] } }, geometry: { type: "Point", coordinates: [1,2] } },
+				{ type: "Feature", id: "node/8", properties: { tags: {}, own: { ways: ["way/3"] } }, geometry: { type: "Point", coordinates: [2,2] } },
+				{
+					type: "Feature", id: "way/1",
+					properties: {
+						tags: {},
+						own: { nodes: [ "node/1", "node/2", "node/3", "node/1" ] }
+					},
+					geometry: { type: "Polygon", coordinates: [[ [0,0], [0,1], [1,1], [0,0] ]] }
+				},
+				{
+					type: "Feature", id: "way/2",
+					properties: {
+						tags: {},
+						own: { nodes: [ "node/4", "node/5", "node/6", "node/4" ] }
+					},
+					geometry: { type: "Polygon", coordinates: [[ [0.2,0.1], [0.1,0.9], [0.8,0.9], [0.2,0.1] ]] }
+				},
+				{
+					type: "Feature", id: "way/3",
+					properties: {
+						tags: { highway: "footway" },
+						own: { nodes: [ "node/3", "node/7", "node/8", "node/3" ] }
+					},
+					geometry: { type: "Polygon", coordinates: [[ [1,1], [1,2], [2,2], [1,1] ]] }
+				},
+				{
+					type: "Feature", id: "relation/1",
+					properties: {
+						tags: { indoor: "level", level: "0", type: "multipolygon" },
+						own: { members: [ { role: "outer", feature: "way/1" }, { role: "inner", feature: "way/2" } ] }
+					},
+					geometry: { type: "Polygon", coordinates: [ [ [0,0], [0,1], [0.95,0.95], [0,0] ], [ [0.2,0.1], [0.1,0.9], [0.8,0.9], [0.2,0.1] ] ] }
+				}
+			] };
+
+			const res = await vdm._analyzeDiff(prev, next);
+
+			assert.equal(Object.keys(res).length, 2);
+			assert.equal(Object.keys(res["node/-1"]).length, 3);
+			assert.equal(Object.keys(res["way/1"]).length, 1);
+
+			assert.ok(deepEqual(res["node/-1"].newCoords, [0.95,0.95]));
+			assert.ok(deepEqual(res["node/-1"].newTags, {}));
+			assert.ok(res["node/-1"].created);
+			assert.ok(deepEqual(res["way/1"].newNodes, ["node/1", "node/2", "node/-1", "node/1"]));
+		});
+
 		it("handles deletion of elements from relation", async () => {
 			const vdm = new VectorDataManager();
 			const prev = { type: "FeatureCollection", features: [

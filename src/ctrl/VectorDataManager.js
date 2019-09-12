@@ -1442,7 +1442,7 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	async _analyzeDiff(prev, next) {
 		return new Promise(resolve => { setTimeout(() => {
-// 			const startTs = Date.now();
+			const startTs = Date.now();
 
 			let diff = {};
 			const nodeNegativeIds = next.features.filter(f => f.id.startsWith("node/-")).map(f => parseInt(f.id.substring(5)));
@@ -1450,6 +1450,50 @@ class VectorDataManager extends HistorizedManager {
 			let nextNodeId = { val: nodeNegativeIds.length > 0 ? nodeNegativeIds[0] - 1 : -1 };
 			next.features = next.features.map(f => this._listFeatureLevels(f));
 
+			// Fix nodes that should not change
+			const fixedNodesIds = new Set();
+
+			next.features.forEach(fNext => {
+				let fPrev;
+
+				switch(fNext.id.split("/")[0]) {
+					case "node":
+						if(!fNext.properties.own) { fNext.properties.own = {}; }
+						fNext.properties.own.fixed = fNext.properties.own.fixed || this.hasMainTags(fNext.properties.tags);
+						if(fNext.properties.own.fixed) { fixedNodesIds.add(fNext.id); }
+						break;
+
+					case "way":
+						// If it hasn't changed, fix nodes
+						fPrev = this.findFeature(fNext.id, prev);
+						if(fPrev && deepEqual(fPrev.geometry, fNext.geometry) && this.hasMainTags(fNext.properties.tags)) {
+							fNext.properties.own.nodes.filter(nId => !fixedNodesIds.has(nId)).forEach(nId => {
+								const nNext = this.findFeature(nId, next);
+								if(nNext) {
+									nNext.properties.own.fixed = true;
+									fixedNodesIds.add(nId);
+								}
+							});
+						}
+						break;
+
+// 					case "relation":
+// 						// If it hasn't changed, fix nodes
+// 						fPrev = this.findFeature(fNext.id, prev);
+// 						if(fPrev && fPrev.properties.tags.type === "multipolygon" && deepEqual(fPrev.geometry, fNext.geometry)) {
+// 							// Fix nodes of each way if they haven't changed
+// 							fPrev.properties.own.members.forEach(m => {
+// 								if(m.feature.startsWith("way/")) {
+// 									const wPrev = this.findFeature(m.feature, prev);
+// 									const wNext = this.findFeature(m.feature, next);
+// 									if(deepEqual
+// 								}
+// 							});
+// 						}
+// 						break;
+					default:
+				}
+			});
 
 			// Updates on existing features
 			prev.features.forEach(fPrev => {
@@ -1488,7 +1532,7 @@ class VectorDataManager extends HistorizedManager {
 						if(fPrev.id.startsWith("node/")) {
 							diff[fPrev.id].newCoords = fNext.geometry.coordinates;
 							if(!fNext.properties.own) { fNext.properties.own = {}; }
-							fNext.properties.own.fixed = true;
+							fNext.properties.own.fixed = this.hasMainTags(fNext.properties.tags);
 						}
 						// Way
 						else if(fPrev.id.startsWith("way/")) {
@@ -1772,6 +1816,7 @@ class VectorDataManager extends HistorizedManager {
 							|| !f.properties.own.ways
 							|| f.properties.own.ways.filter(w => (diff[w] === undefined || (!diff[w].newNodes && !diff[w].deleted))).length === 0
 						)
+						&& !f.properties.own.fixed
 					)
 				)
 			))
@@ -1825,10 +1870,10 @@ class VectorDataManager extends HistorizedManager {
 				delete diff[e[0]];
 			});
 
-// 			console.log("Processed in", Date.now() - startTs, "ms");
+			console.log("Processed in", Date.now() - startTs, "ms");
 // 			console.log("prev", prev);
-// 			console.log("next", next);
-// 			console.log("diff", diff);
+			console.log("next", next);
+			console.log("diff", diff);
 
 			resolve(diff);
 		}, 0); });
