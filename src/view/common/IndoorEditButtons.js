@@ -16,7 +16,6 @@ import ArrowExpandUp from 'mdi-react/ArrowExpandUpIcon';
 import Body from '../Body';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import CONFIG from '../../config/config.json';
 import Delete from 'mdi-react/DeleteIcon';
 import GeometryButtons from './GeometryButtons';
 import I18n from '../../config/locales/ui';
@@ -37,7 +36,7 @@ class IndoorEditButtons extends Component {
 		}
 		else {
 			// Not zoomed enough
-			if(this.props.zoom && this.props.zoom < CONFIG.data_min_zoom) {
+			if(this.props.zoom && this.props.zoom < window.CONFIG.data_min_zoom) {
 				return <p>{I18n.t("Please zoom-in to edit data")}</p>;
 			}
 			// Zoomed enough

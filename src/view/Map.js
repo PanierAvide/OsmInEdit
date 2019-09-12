@@ -18,7 +18,6 @@ import { Map, TileLayer, WMSTileLayer, AttributionControl, ScaleControl } from '
 import { BingLayer } from 'react-leaflet-bing';
 import Body from './Body';
 import Building from './layers/Building';
-import CONFIG from '../config/config.json';
 import Features from './layers/Features';
 import FloorImagery from './layers/FloorImagery';
 import I18n from '../config/locales/ui';
@@ -166,12 +165,12 @@ class MyMap extends Component {
 	 * @private
 	 */
 	async _loadData(bounds) {
-		if(this.props.datalocked || (CONFIG.always_authenticated && !window.editor_user)) {
+		if(this.props.datalocked || (window.CONFIG.always_authenticated && !window.editor_user)) {
 			return new Promise(resolve => {
 				setTimeout(() => resolve(this._loadData(bounds)), 100);
 			});
 		}
-		else if(!this.props.draw && this.getBounds() && this.elem.leafletElement.getZoom() >= CONFIG.data_min_zoom) {
+		else if(!this.props.draw && this.getBounds() && this.elem.leafletElement.getZoom() >= window.CONFIG.data_min_zoom) {
 			let bbox = bounds || this.getBounds();
 
 			// Only load data if bbox is valid and not in an already downloaded area
@@ -254,9 +253,9 @@ class MyMap extends Component {
 				{...params}
 			/>;
 		}
-		else if(l.properties.type === "bing" && CONFIG.providers && CONFIG.providers.bing) {
+		else if(l.properties.type === "bing" && window.CONFIG.providers && window.CONFIG.providers.bing) {
 			return <BingLayer
-				bingkey={CONFIG.providers.bing}
+				bingkey={window.CONFIG.providers.bing}
 				type="Aerial"
 				maxNativeZoom={20}
 				maxZoom={MAP_MAX_ZOOM}
@@ -332,7 +331,7 @@ class MyMap extends Component {
 				boxZoom={false}
 			>
 				<AttributionControl
-					prefix={"<a href='https://framagit.org/PanierAvide/osminedit' target='_blank'>"+window.EDITOR_NAME+"</a> v"+PACKAGE.version+" "+(CONFIG.hash === "GIT_HASH" ? "dev" : CONFIG.hash)}
+					prefix={"<a href='https://framagit.org/PanierAvide/osminedit' target='_blank'>"+window.EDITOR_NAME+"</a> v"+PACKAGE.version+" "+(window.CONFIG.hash === "GIT_HASH" ? "dev" : window.CONFIG.hash)}
 				/>
 
 				<ScaleControl
@@ -411,7 +410,7 @@ class MyMap extends Component {
 		// URL hash for map
 		this._mapHash = new L.Hash(this.elem.leafletElement);
 
-		// If no valid hash found, use default coordinates from CONFIG file or stored cookie
+		// If no valid hash found, use default coordinates from config file or stored cookie
 		if(!window.location.hash || !window.location.hash.match(/^#\d+\/-?\d+(.\d+)?\/-?\d+(.\d+)?(\/\d+)?$/)) {
 			// Has cookie ?
 			const cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)lasthash\s*=\s*([^;]*).*$)|^.*$/, "$1");
@@ -421,7 +420,7 @@ class MyMap extends Component {
 				newHash = cookieHash;
 			}
 			else {
-				newHash = "#"+CONFIG.map_initial_zoom+"/"+CONFIG.map_initial_latlng.join("/");
+				newHash = "#"+window.CONFIG.map_initial_zoom+"/"+window.CONFIG.map_initial_latlng.join("/");
 			}
 
 			window.history.pushState({}, "", window.location.href.split("#")[0] + newHash);
@@ -443,12 +442,12 @@ class MyMap extends Component {
 
 				const zoom = this.elem.leafletElement.getZoom();
 
-				if(zoom < CONFIG.data_min_zoom && (!this._lastZoom || this._lastZoom >= CONFIG.data_min_zoom)) {
+				if(zoom < window.CONFIG.data_min_zoom && (!this._lastZoom || this._lastZoom >= window.CONFIG.data_min_zoom)) {
 					this.elem.container.classList.add("app-map-novector");
 					PubSub.publishSync("body.unselect.feature");
 // 					PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING });
 				}
-				else if(zoom >= CONFIG.data_min_zoom && (!this._lastZoom || this._lastZoom < CONFIG.data_min_zoom)) {
+				else if(zoom >= window.CONFIG.data_min_zoom && (!this._lastZoom || this._lastZoom < window.CONFIG.data_min_zoom)) {
 					this.elem.container.classList.remove("app-map-novector");
 				}
 

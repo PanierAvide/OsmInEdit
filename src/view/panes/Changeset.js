@@ -13,7 +13,6 @@
 import React, { Component } from 'react';
 import Body from '../Body';
 import Button from 'react-bootstrap/Button';
-import CONFIG from '../../config/config.json';
 import ChangesetDiff from '../common/ChangesetDiff';
 import Check from 'mdi-react/CheckIcon';
 import CloseCircle from 'mdi-react/CloseCircleIcon';
@@ -61,7 +60,7 @@ class ChangesetPane extends Component {
 									variant="outline-success"
 									size="sm"
 									block
-									href={CONFIG.osm_api_url+"/changeset/"+this.props.changeset.id}
+									href={window.CONFIG.osm_api_url+"/changeset/"+this.props.changeset.id}
 									target="_blank"
 									rel="noopener noreferrer"
 								>

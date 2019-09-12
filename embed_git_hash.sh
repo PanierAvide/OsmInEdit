@@ -4,4 +4,4 @@
 # This should be run only on production pipelines
 # config.json source file should have a "GIT_HASH" label properly defined
 
-sed -i "s/GIT_HASH/`git rev-parse --short HEAD`/g" src/config/config.json
+sed -i "s/GIT_HASH/`git rev-parse --short HEAD`/g" ./public/config.json

@@ -13,21 +13,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Body from './view/Body';
-import CONFIG from './config/config.json';
 import I18n from './config/locales/ui';
 import ImageryManager from './ctrl/ImageryManager';
 import OsmAuth from 'osm-auth';
 import PresetsManager from './ctrl/PresetsManager';
 import PubSub from 'pubsub-js';
+import request from 'request-promise-native';
 import VectorDataManager from './ctrl/VectorDataManager';
-
-
-/*
- * Global variables definition
- */
-window.EDITOR_NAME = CONFIG.editor_name;
-window.EDITOR_URL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + "/";
-window.UNUSABLE_ICONS = new Set();
 
 /**
  * App is the application starter.
@@ -93,9 +85,9 @@ class App {
 	 */
 	_initAuth() {
 		const opts = {
-			url: CONFIG.osm_api_url,
-			oauth_consumer_key: CONFIG.oauth_consumer_key,
-			oauth_secret: CONFIG.oauth_secret,
+			url: window.CONFIG.osm_api_url,
+			oauth_consumer_key: window.CONFIG.oauth_consumer_key,
+			oauth_secret: window.CONFIG.oauth_secret,
 			landing: window.EDITOR_URL + window.location.hash,
 			singlepage: true
 		};
@@ -231,5 +223,24 @@ class App {
 	}
 }
 
-// Create app
-new App();
+
+/*
+ * Global variables definition
+ */
+
+window.EDITOR_URL = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + "/";
+window.UNUSABLE_ICONS = new Set();
+
+// Dynamically load config file
+request(window.EDITOR_URL + "/config.json")
+.then(configTxt => {
+	window.CONFIG = JSON.parse(configTxt);
+	window.EDITOR_NAME = window.CONFIG.editor_name;
+
+	// Create app
+	new App();
+})
+.catch(e => {
+	console.error(e);
+	alert("Can't load configuration file, please report this issue.");
+});

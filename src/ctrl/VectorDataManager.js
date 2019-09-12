@@ -22,7 +22,6 @@ import booleanIntersects from '@turf/boolean-intersects';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import buffer from '@turf/buffer';
 import centerOfMass from '@turf/center-of-mass';
-import CONFIG from '../config/config.json';
 import { coordAll } from '@turf/meta';
 import deepEqual from 'fast-deep-equal';
 import GeoJSONValidation from 'geojson-validation';
@@ -52,10 +51,10 @@ class VectorDataManager extends HistorizedManager {
 
 		// Create OSM Request
 		this._osmApi = new OsmRequest({
-			endpoint: CONFIG.osm_api_url,
-			always_authenticated: CONFIG.always_authenticated,
-			oauthConsumerKey: CONFIG.oauth_consumer_key,
-			oauthSecret: CONFIG.oauth_secret
+			endpoint: window.CONFIG.osm_api_url,
+			always_authenticated: window.CONFIG.always_authenticated,
+			oauthConsumerKey: window.CONFIG.oauth_consumer_key,
+			oauthSecret: window.CONFIG.oauth_secret
 		});
 	}
 

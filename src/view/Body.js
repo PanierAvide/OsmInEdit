@@ -16,7 +16,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import bbox from '@turf/bbox';
 import Col from 'react-bootstrap/Col';
 import CompleteFloorImagery from './dialogs/CompleteFloorImagery';
-import CONFIG from '../config/config.json';
 import ConfirmDeletion from './dialogs/ConfirmDeletion';
 import Container from 'react-bootstrap/Container';
 import deepEqual from 'fast-deep-equal';
@@ -84,7 +83,7 @@ class Body extends Component {
 			changeset: { tags: {} },
 			datalocked: false,
 			lastUsedPresets: [],
-			zoom: CONFIG.map_initial_zoom
+			zoom: window.CONFIG.map_initial_zoom
 		};
 	}
 

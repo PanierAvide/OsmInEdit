@@ -31,7 +31,7 @@ deploy:master:
   only:
     - master
   script:
-    - echo "{\"editor_name\":\"OsmInEdit\",\"hash\":\"GIT_HASH\",\"data_min_zoom\":18,\"map_initial_zoom\":18,\"map_initial_latlng\":[48.13678,-1.69533],\"providers\":{\"bing\":\"AhsSQakuHuX3ozMBXC60w-hPk0KD_smZZbHLjb7mBFfeIwDKJnJn2_qK3qQfYfPZ\"},\"osm_api_url\":\"https://www.openstreetmap.org\",\"oauth_consumer_key\":\"3lzD17wk8BNT22p5M2HE261mV4gbziyA7W2mbB1l\",\"oauth_secret\":\"n2TgSEakcg46eQWDXyCwlrWwIxMrWdbYV7Yw4xmm\",\"always_authenticated\":false}" > ./src/config/config.json
+    - echo "{\"editor_name\":\"OsmInEdit\",\"hash\":\"GIT_HASH\",\"data_min_zoom\":18,\"map_initial_zoom\":18,\"map_initial_latlng\":[48.13678,-1.69533],\"providers\":{\"bing\":\"AhsSQakuHuX3ozMBXC60w-hPk0KD_smZZbHLjb7mBFfeIwDKJnJn2_qK3qQfYfPZ\"},\"osm_api_url\":\"https://www.openstreetmap.org\",\"oauth_consumer_key\":\"3lzD17wk8BNT22p5M2HE261mV4gbziyA7W2mbB1l\",\"oauth_secret\":\"n2TgSEakcg46eQWDXyCwlrWwIxMrWdbYV7Yw4xmm\",\"always_authenticated\":false}" > ./public/config.json
     - ./embed_git_hash.sh
     - npm run build
     - npm run doc
