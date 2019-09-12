@@ -23,6 +23,7 @@ import Editable from './layers/Editable';
 import Header from './Header';
 import I18n from '../config/locales/ui';
 import LeftPanel from './LeftPanel';
+import Login from './dialogs/Login';
 import Map from './Map';
 import Mousetrap from 'mousetrap';
 import { makeSquare } from '../model/orthogonalize/orthogonalize';
@@ -185,6 +186,17 @@ class Body extends Component {
 				onUseDefault={() => this._onMissingOutlineUseDefault()}
 				onEdit={() => this._onMissingOutlineGoEdit()}
 			/>
+
+			<Login
+				show={this.state.showDialogLogin}
+				onLogin={() => PubSub.publish("app.user.login")}
+				onClose={() => {
+					if(!window.CONFIG.always_authenticated) {
+						PubSub.publishSync("body.mode.set", { mode: Body.MODE_EXPLORE });
+						this.setState({ showDialogLogin: false });
+					}
+				}}
+			/>
 		</Container>;
 	}
 
@@ -315,8 +327,53 @@ class Body extends Component {
 		}
 	}
 
+	/**
+	 * Checks if user is logged in before performing an action, if not shows login dialog
+	 * @return {boolean} true if logged in
+	 * @private
+	 */
+	_checkUserLoggedIn() {
+		if(!window.editor_user || !window.editor_user_auth || !window.editor_user_auth.authenticated()) {
+			if(
+				!this.state.showDialogLogin
+				&& (
+					window.CONFIG.always_authenticated
+					|| [Body.MODE_FLOOR_IMAGERY, Body.MODE_BUILDING, Body.MODE_FEATURES, Body.MODE_LEVELS, Body.MODE_CHANGESET].includes(this.state.mode)
+				)
+			) {
+				// Delay display to not be annoying
+				if(this._timerLogin) {
+					clearTimeout(this._timerLogin);
+					this._timerLogin = null;
+				}
+
+				this._timerLogin = setTimeout(() => this.setState({ showDialogLogin: true }), 1000);
+			}
+
+			return false;
+		}
+		else {
+			if(this.state.showDialogLogin) {
+				this.setState({ showDialogLogin: false });
+			}
+
+			return true;
+		}
+	}
+
 	componentDidMount() {
 		this._timerImagery = setInterval(() => this._updateImagery(), 1000);
+		this._checkUserLoggedIn();
+
+		// Hide login dialog when user logs in if previously shown
+		PubSub.subscribe("app.user.ready", (msg, data) => {
+			this._checkUserLoggedIn();
+		});
+
+		// Show login dialog after logout if necessary
+		PubSub.subscribe("app.user.left", (msg, data) => {
+			this._checkUserLoggedIn();
+		});
 
 		/**
 		 * Event for changing view mode (what kind of features is shown)
@@ -1376,6 +1433,9 @@ class Body extends Component {
 			newState.leftPanelOpen = true;
 		}
 
+		// Check user status
+		this._checkUserLoggedIn();
+
 		// Auto-select single floor imagery if only 1 defined
 		// NOTE : should be kept as last check
 		if(this.state.mode === Body.MODE_FLOOR_IMAGERY && window.imageryManager.getFloorImages().length === 1 && !window.imageryManager.getFloorImages()[0].selected) {
@@ -1394,6 +1454,7 @@ class Body extends Component {
 	componentWillUnmount() {
 		PubSub.unsubscribe("body.*");
 		PubSub.unsubscribe("map.zoom.changed");
+		PubSub.unsubscribe("app.user.*");
 		Mousetrap.unbind("esc");
 		Mousetrap.unbind("ctrl+z");
 		Mousetrap.unbind("ctrl+shift+z");

@@ -111,10 +111,10 @@ class App {
 
 		/**
 		 * Event for logging in user
-		 * @event APP.USER.LOGIN
+		 * @event app.user.login
 		 * @memberof App
 		 */
-		PubSub.subscribe("APP.USER.LOGIN", (msg, data) => {
+		PubSub.subscribe("app.user.login", (msg, data) => {
 			opts.landing = window.EDITOR_URL + window.location.hash;
 			window.editor_user_auth.options(opts);
 
@@ -123,7 +123,7 @@ class App {
 					if(err) {
 						console.error(err);
 						alert(I18n.t("Oops ! Something went wrong when trying to log you in"));
-						PubSub.publish("APP.USER.LOGOUT");
+						PubSub.publish("app.user.logout");
 					}
 					else {
 						this._checkAuth();
@@ -133,25 +133,25 @@ class App {
 		});
 
 		/**
-		 * Event for logging out user
-		 * @event APP.USER.LOGOUT
+		 * Event for logging out user (not done yet)
+		 * @event app.user.logout
 		 * @memberof App
 		 */
-		PubSub.subscribe("APP.USER.LOGOUT", (msg, data) => {
+		PubSub.subscribe("app.user.logout", (msg, data) => {
 			if(window.editor_user_auth && window.editor_user_auth.authenticated()) {
 				window.editor_user_auth.logout();
 			}
 
 			window.editor_user = null;
 			localStorage.removeItem("oauth_token");
-		});
 
-		setTimeout(() => {
-			if(!window.editor_user) {
-				alert(I18n.t("You will be redirected in order to login using your OpenStreetMap account."));
-				PubSub.publish("APP.USER.LOGIN");
-			}
-		}, 5000);
+			/**
+			 * Event when user has been successfully logged out
+			 * @event app.user.left
+			 * @memberof App
+			 */
+			PubSub.publish("app.user.left");
+		});
 	}
 
 	/**
@@ -183,15 +183,15 @@ class App {
 
 						/**
 						 * Event when user has been successfully logged in
-						 * @event APP.USER.READY
+						 * @event app.user.ready
 						 * @memberof App
 						 */
-						PubSub.publish("APP.USER.READY", { username: window.editor_user.name });
+						PubSub.publish("app.user.ready", { username: window.editor_user.name });
 						console.log("Logged in as", window.editor_user.name);
 					}
 					catch(e) {
 						console.error(e);
-						PubSub.publish("APP.USER.LOGOUT");
+						PubSub.publish("app.user.logout");
 					}
 				}
 			});
