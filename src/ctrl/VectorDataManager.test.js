@@ -14,6 +14,8 @@ import VectorDataManager from './VectorDataManager';
 import assert from 'assert';
 import { LatLng } from 'leaflet';
 import deepEqual from 'fast-deep-equal';
+import CONFIG from '../../public/config.json';
+window.CONFIG = CONFIG;
 
 describe("ctrl > VectorDataManager", () => {
 	it("can be created", () => {

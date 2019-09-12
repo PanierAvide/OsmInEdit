@@ -1673,7 +1673,7 @@ class VectorDataManager extends HistorizedManager {
 				delete diff[e[0]];
 			});
 
-			console.log("Processed in", Date.now() - startTs, "ms");
+// 			console.log("Processed in", Date.now() - startTs, "ms");
 // 			console.log("prev", prev);
 // 			console.log("next", next);
 // 			console.log("diff", diff);
