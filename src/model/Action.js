@@ -26,6 +26,8 @@ class Action {
 	static FEATURE_GEOM_EDIT = 1;
 	/** Type for creating new feature **/
 	static FEATURE_NEW = 2;
+	/** Type for making feature square **/
+	static FEATURE_GEOM_SQUARE = 11;
 	/** Type for creating new floor **/
 	static FLOOR_NEW = 3;
 	/** Type for copying floor **/

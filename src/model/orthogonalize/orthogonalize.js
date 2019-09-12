@@ -1,6 +1,7 @@
 import deepEqual from 'fast-deep-equal';
 import { geoVecAdd, geoVecEqual, geoVecInterp, geoVecLength, geoVecNormalize, geoVecProject, geoVecScale, geoVecSubtract } from './vector';
 import { geoOrthoNormalizedDotProduct, geoOrthoCalcScore } from './ortho';
+import { fixPrecision } from '../../utils';
 
 /*
  * Constants
@@ -45,14 +46,14 @@ export function makeSquare(feature, map) {
 	const lowerThreshold = Math.cos((90 - THRESHOLD) * Math.PI / 180);
 	const upperThreshold = Math.cos(THRESHOLD * Math.PI / 180);
 	const t = 1;
-	
+
 	const isClosed = feature.geometry.type === "Polygon"
 					|| deepEqual(feature.geometry.coordinates[0], feature.geometry.coordinates[feature.geometry.coordinates.length -1]);
-	
+
 	let nodes = cloneNodes(
 		(feature.geometry.type === "Polygon" ? feature.geometry.coordinates[0] : feature.geometry.coordinates).map((n,i) => ({ id: i, loc: n.slice() }))
 	);
-	
+
 	// Remove nearly duplicates
 	for(let i=0; i < nodes.length - 1; i++) {
 		if(geoVecLength(nodes[i].loc, nodes[i+1].loc) < 1e-6) {
@@ -60,29 +61,29 @@ export function makeSquare(feature, map) {
 			i--;
 		}
 	}
-	
+
 	const originalNodes = cloneNodes(nodes);
-	
+
 	if (isClosed) {
 		nodes.pop();
 	}
-	
+
 	// note: all geometry functions here use the unclosed node/point/coord list
 	const nodeCount = {};
 	const points = [];
 	const corner = { i: 0, dotp: 1 };
 	let node, point, loc, score, motions, i, j;
-	
+
 	const project = (point) => {
 		const res = map.latLngToLayerPoint([ point[1], point[0] ]);
 		return [ res.x, res.y ];
 	};
-	
+
 	const invert = (point) => {
 		const res = map.layerPointToLatLng(point);
 		return [ res.lng, res.lat ];
 	};
-	
+
 	const calcMotion = (point, i, array) => {
 		// don't try to move the endpoints of a non-closed way.
 		if (!isClosed && (i === 0 || i === array.length - 1)) {
@@ -182,7 +183,7 @@ export function makeSquare(feature, map) {
 		}
 
 		const bestCoords = bestPoints.map(function(p) { return p.coord; });
-		
+
 		if(isClosed) {
 			bestCoords.push(bestCoords[0]);
 		}
@@ -190,7 +191,7 @@ export function makeSquare(feature, map) {
 		// move the nodes that should move
 		for (i = 0; i < bestPoints.length; i++) {
 			point = bestPoints[i];
-			
+
 			if (!geoVecEqual(originalPoints[i].coord, point.coord)) {
 				node = findNode(originalNodes, point.id);
 				loc = invert(point.coord);
@@ -217,15 +218,15 @@ export function makeSquare(feature, map) {
 	if(isClosed) {
 		nodes.push(nodes[0]);
 	}
-	
+
 	// Create clean feature for sending back
 	const newFeature = { type: "Feature", geometry: { type: feature.geometry.type } };
 	if(feature.geometry.type === "Polygon") {
-		newFeature.geometry.coordinates = [ nodes.map(n => n.loc) ];
+		newFeature.geometry.coordinates = [ nodes.map(n => fixPrecision(n.loc)) ];
 	}
 	else {
-		newFeature.geometry.coordinates = nodes.map(n => n.loc);
+		newFeature.geometry.coordinates = nodes.map(n => fixPrecision(n.loc));
 	}
-	
+
 	return newFeature;
 };

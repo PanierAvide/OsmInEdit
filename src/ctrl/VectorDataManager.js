@@ -18,19 +18,25 @@ import bbox from '@turf/bbox';
 import bearing from '@turf/bearing';
 import { bearingToAzimuth } from '@turf/helpers';
 import booleanContains from '@turf/boolean-contains';
+import booleanDisjoint from '@turf/boolean-disjoint';
 import booleanIntersects from '@turf/boolean-intersects';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import booleanPointOnLine from '@turf/boolean-point-on-line';
 import buffer from '@turf/buffer';
 import centerOfMass from '@turf/center-of-mass';
 import { coordAll } from '@turf/meta';
 import deepEqual from 'fast-deep-equal';
+import { fixPrecision } from '../utils';
 import GeoJSONValidation from 'geojson-validation';
 import HistorizedManager from './HistorizedManager';
 import I18n from '../config/locales/ui';
 import intersect from '@turf/intersect';
+import { makeSquare } from '../model/orthogonalize/orthogonalize';
+import nearestPoint from '@turf/nearest-point';
 import osmtogeojson from 'osmtogeojson';
 import OsmRequest from 'osm-request';
 import PACKAGE from '../../package.json';
+import polygonToLine from '@turf/polygon-to-line';
 import PubSub from 'pubsub-js';
 import transformTranslate from '@turf/transform-translate';
 
@@ -706,6 +712,139 @@ class VectorDataManager extends HistorizedManager {
 	}
 
 	/**
+	 * Edits feature geometry to make it rectangular
+	 * @param {string} featureId The feature ID
+	 * @param {Object} map The Leaflet map
+	 * @return {Object} The edited feature
+	 */
+	makeFeatureSquare(featureId, map) {
+		const featureCacheId = this._findCacheId(featureId);
+
+		return this._do(new Action(
+			Action.FEATURE_GEOM_SQUARE,
+			[
+				featureId,
+				featureCacheId !== -1 ? this._cacheOsmGeojson.features[featureCacheId].geometry : null
+			],
+			arguments
+		));
+	}
+
+	/**
+	 * Raw feature geometry editing
+	 * @private
+	 */
+	_makeFeatureSquare(featureId, map) {
+		// Find index of this feature in GeoJSON cache
+		const featureCacheId = this._findCacheId(featureId);
+
+		// If found
+		if(featureCacheId !== -1) {
+			const feature = this._listFeatureLevels(this._cacheOsmGeojson.features[featureCacheId]);
+
+			// Look for possibly connected features
+			let connectedFeatures = [];
+			let connectedFeaturesCacheIds = [];
+			const updatedFeaturesPrev = [];
+
+			if(feature.properties.own && feature.properties.own.levels && feature.properties.own.levels.length > 0) {
+				connectedFeatures = this._cacheOsmGeojson.features.filter((f,i) => {
+					if(!f || f.id === feature.id || !f.properties.own || !f.properties.own.levels) {
+						return false;
+					}
+					// Check levels
+					else {
+						let hasSharedLevels = false;
+						for(let i=0; i < feature.properties.own.levels.length; i++) {
+							let lvl = feature.properties.own.levels[i];
+							if(f.properties.own.levels.includes(lvl)) {
+								hasSharedLevels = true;
+								break;
+							}
+						}
+
+						if(hasSharedLevels && !booleanDisjoint(feature, f) && !this._booleanContains(f, feature)) {
+							connectedFeaturesCacheIds.push(i);
+							return true;
+						}
+
+						return false;
+					}
+				});
+			}
+
+			const newFeature = Object.assign({}, this._cacheOsmGeojson.features[featureCacheId]);
+			const geometry = makeSquare(newFeature, map).geometry;
+
+			if(!deepEqual(feature.geometry, geometry)) {
+				// Save geometry
+				newFeature.geometry = geometry;
+				this._cacheOsmGeojson.features[featureCacheId] = newFeature;
+				updatedFeaturesPrev.push(feature);
+
+				// Function to get nearest point on new geometry
+				const ftNearest = geometry.type === "LineString" ? newFeature : polygonToLine(newFeature);
+				const oldFtAsLine = feature.geometry.type === "LineString" ? feature : polygonToLine(feature);
+				const ftNodesNearest = { type: "FeatureCollection", features: ftNearest.geometry.coordinates.map(c => (
+					{ type: "Feature", properties: {}, geometry: { type: "Point", coordinates: fixPrecision(c) } }
+				)) };
+
+				const getNearestCoords = coords => {
+					return nearestPoint({ type: "Point", coordinates: coords }, ftNodesNearest).geometry.coordinates;
+				};
+				const snapToFeature = coordsList => (
+					coordsList.map(coord => {
+						return booleanPointOnLine(coord, oldFtAsLine) ? getNearestCoords(coord) : coord;
+					})
+				);
+
+				// Update connected features geometries
+				connectedFeaturesCacheIds.forEach((cacheId, i) => {
+					const connectedFeature = Object.assign({}, connectedFeatures[i]);
+					connectedFeature.geometry = Object.assign({}, connectedFeature.geometry);
+
+					try {
+						switch(connectedFeature.geometry.type) {
+							case "Point":
+								connectedFeature.geometry.coordinates = getNearestCoords(connectedFeature.geometry.coordinates);
+								break;
+
+							case "LineString":
+								connectedFeature.geometry.coordinates = snapToFeature(connectedFeature.geometry.coordinates);
+								break;
+
+							case "Polygon":
+								connectedFeature.geometry.coordinates = connectedFeature.geometry.coordinates.map(ct => snapToFeature(ct));
+								break;
+
+							default:
+								console.log("Ignored snapping of feature", connectedFeature.id);
+						}
+
+						// Save if snapped version is different of existing one
+						if(!deepEqual(connectedFeatures[i].geometry, connectedFeature.geometry)) {
+							this._cacheOsmGeojson.features[cacheId] = connectedFeature;
+							updatedFeaturesPrev.push(connectedFeatures[i]);
+						}
+					}
+					catch(e) {
+						console.error("Can't snap for feature", connectedFeature.id, e);
+					}
+				});
+			}
+
+			// Save features in stack to allow restoring
+			this._actions[this._lastActionId].prev = updatedFeaturesPrev;
+
+			return newFeature;
+		}
+		else {
+			console.error("Can't find feature in cache");
+			return null;
+		}
+	}
+
+	/**
 	 * Changes the geometry of a given feature
 	 * @param {string} featureId The feature ID
 	 * @param {Object} geometry The new GeoJSON geometry
@@ -1185,6 +1324,16 @@ class VectorDataManager extends HistorizedManager {
 					this._editFeatureGeometry(...revert.prev);
 					break;
 
+				// Restore every previous geometries
+				case Action.FEATURE_GEOM_SQUARE:
+					revert.prev.forEach(f => {
+						const cacheId = this._findCacheId(f.id);
+						if(cacheId >= 0) {
+							this._cacheOsmGeojson.features[cacheId] = f;
+						}
+					});
+					break;
+
 				// Restore deleted feature
 				case Action.FEATURE_DELETE:
 					this._cacheOsmGeojson.features.push(revert.next[0]);
@@ -1272,6 +1421,9 @@ class VectorDataManager extends HistorizedManager {
 
 			case Action.FEATURE_GEOM_EDIT:
 				return this._editFeatureGeometry(...action.next);
+
+			case Action.FEATURE_GEOM_SQUARE:
+				return this._makeFeatureSquare(...action.next);
 
 			case Action.FEATURE_DELETE:
 				return this._deleteFeature(...action.next);
@@ -1372,7 +1524,7 @@ class VectorDataManager extends HistorizedManager {
 									const fNextWayId = fPrev.properties.own.members[rid].feature;
 									const fNextWay = this.findFeature(fNextWayId, next);
 
-									if(!deepEqual(
+									if(fNextWay && !deepEqual(
 										fNextWay.geometry.type === "LineString" ?
 											fNextWay.geometry.coordinates
 											: fNextWay.geometry.coordinates[0],
@@ -2075,10 +2227,18 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	_booleanContains(wide, small) {
 		try {
-			return booleanContains(wide, small);
+			// Check types
+			const types = {
+				"MultiPolygon": [ "MultiPolygon", "Polygon", "LineString", "Point" ],
+				"Polygon": [ "Polygon", "LineString", "Point" ],
+				"LineString": [ "LineString", "Point" ],
+				"Point": [ "Point" ]
+			};
+
+			return types[wide.geometry.type].includes(small.geometry.type) && booleanContains(wide, small);
 		}
 		catch(e) {
-			console.error("Unsupported operation for multipolygon", wide.id, small.id);
+			console.error("Unsupported operation for ", wide.id, small.id);
 			return false;
 		}
 	}

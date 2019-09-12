@@ -26,7 +26,6 @@ import LeftPanel from './LeftPanel';
 import Login from './dialogs/Login';
 import Map from './Map';
 import Mousetrap from 'mousetrap';
-import { makeSquare } from '../model/orthogonalize/orthogonalize';
 import OutOfBoundsGeometry from './dialogs/OutOfBoundsGeometry';
 import MissingLevelOutlines from './dialogs/MissingLevelOutlines';
 import PubSub from 'pubsub-js';
@@ -995,7 +994,7 @@ class Body extends Component {
 				{ datalocked: true },
 				async () => {
 					const squarify = async (feature) => {
-						return await window.vectorDataManager.editFeatureGeometry(feature.id, makeSquare(feature, this.map.elem.leafletElement).geometry);
+						return await window.vectorDataManager.makeFeatureSquare(feature.id, this.map.elem.leafletElement);
 					};
 
 					if(this.state.mode === Body.MODE_BUILDING && this.state.building) {

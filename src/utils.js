@@ -43,4 +43,9 @@ const mergeDeep = (target, ...sources) => {
 	return mergeDeep(target, ...sources);
 };
 
-export { mergeDeep };
+/**
+ * Return array of coordinates with a precision of 8 digits (OSM)
+ */
+const fixPrecision = coords => coords.map(c => parseFloat(c.toFixed(8)));
+
+export { mergeDeep, fixPrecision };
