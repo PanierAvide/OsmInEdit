@@ -1290,7 +1290,7 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	async _analyzeDiff(prev, next) {
 		return new Promise(resolve => { setTimeout(() => {
-			const startTs = Date.now();
+// 			const startTs = Date.now();
 
 			let diff = {};
 			const nodeNegativeIds = next.features.filter(f => f.id.startsWith("node/-")).map(f => parseInt(f.id.substring(5)));

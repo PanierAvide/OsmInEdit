@@ -56,8 +56,8 @@ Documentation of the source code uses [JSDoc syntax](http://usejsdoc.org/). Read
 
 Various components of the editor can be configured for the instance manager. Main files you can edit are :
 
-* `src/config/config.json` : various configurations, in particular [OAuth tokens](https://wiki.openstreetmap.org/wiki/Oauth) and [OSM API URL](https://wiki.openstreetmap.org/wiki/API_v0.6#URL_.2B_authentication) to use
+* `public/config.json` : various configurations, in particular [OAuth tokens](https://wiki.openstreetmap.org/wiki/Oauth) and [OSM API URL](https://wiki.openstreetmap.org/wiki/API_v0.6#URL_.2B_authentication) to use
 * `public/style.mapcss` : [MapCSS](https://wiki.openstreetmap.org/wiki/MapCSS) stylesheet for map features
 * `public/presets/*.xml` : [JOSM tagging presets](https://josm.openstreetmap.de/wiki/TaggingPresets) for simple creation and editing of features
 
-You can either make temporary changes by editing these files in your `build/` folder, or making changes permanent by editing in `public/` folder (and rebuild using described procedure above). Note that to take into account changes made in `src/` subfolders, you have to rebuild code (using `npm run build`, see above).
+You can either make temporary changes by editing these files in your `build/` folder, or making changes permanent by editing in `public/` folder (and rebuild using described procedure above).
