@@ -5,7 +5,7 @@
 	</chunk>
 	<chunk id="surface_smoothness">
 		<reference ref="surface"/>
-		<combo key="smoothness" text="Smoothness" values_searchable="true" values_sort="false">
+		<combo key="smoothness" text="Smoothness" values_searchable="true" values_sort="false" fr.text="Lissage">
 			<list_entry value="excellent" short_description="Thin Rollers: rollerblade, skateboard"/>
 			<list_entry value="good" short_description="Thin Wheels: racing bike"/>
 			<list_entry value="intermediate" short_description="Wheels: city bike, wheelchair, scooter"/>
@@ -15,23 +15,6 @@
 			<list_entry value="very_horrible" short_description="Specialized off-road: tractor, ATV"/>
 			<list_entry value="impassable" short_description="No wheeled vehicle"/>
 		</combo>
-	</chunk>
-	<chunk id="riding_surface">
-		<combo key="leisure" text="Type" values="horse_riding,pitch,sports_centre,stadium,track" values_context="riding"/>
-		<combo key="surface" text="Surface" values="grass,sand,clay,dirt,fine_gravel,ground,mud,unpaved,compacted"/>
-	</chunk>
-	<chunk id="highway_base">
-		<space/>
-		<space/>
-		<space/>
-		<combo key="lanes" text="Lanes" values="1,2,3,4,5,6" length="3" fr.text="Voies"/>
-		<combo key="lanes:forward" text="Lanes in way direction" values="1,2,3,4,5" length="3" fr.text="Voies dans le sens du chemin"/>
-		<combo key="lanes:backward" text="Lanes opposed to way direction" values="1,2,3,4,5" length="3" fr.text="Voies dans le sens opposé du chemin"/>
-		<combo key="layer" text="Layer" values="5,4,3,2,1,0,-1,-2,-3,-4,-5" length="3" fr.text="Couche"/>
-		<text key="maxspeed" text="Max. speed (km/h)" fr.text="Vitesse limite (km/h)"/>
-		<text key="maxspeed:forward" text="Max. speed in way direction" fr.text="Vitesse limite dans le sens du chemin"/>
-		<text key="maxspeed:backward" text="Max. speed opposed to way direction" fr.text="Vitesse limite dans le sens opposé du chemin"/>
-		<reference ref="surface_smoothness"/>
 	</chunk>
 	<chunk id="highway_yesno_incline">
 		<check key="bridge" text="Bridge" disable_off="true" fr.text="Pont"/>
@@ -67,31 +50,8 @@
 	<chunk id="railway_service_gauge_electrified">
 		<reference ref="railway_service"/>
 		<reference ref="railway_electrified"/>
-		<combo key="tracks" text="Tracks" text_context="railway" values="1,2,3,4" length="4"/>
+		<combo key="tracks" text="Tracks" text_context="railway" values="1,2,3,4" length="4" fr.text="Voies"/>
 		<combo key="gauge" text="Gauge (mm)" values="1668,1676,1674,1600,1524,1520,1495,1435,1067,1000,914,762,760,750" length="4" fr.text="Écartement (mm)"/>
-	</chunk>
-	<chunk id="barrier_5">
-		<optional text="Allowed traffic:" fr.text="Trafic autorisé :">
-			<check key="foot" text="Foot" fr.text="Piéton"/>
-			<check key="bicycle" text="Bicycle" fr.text="Vélo"/>
-			<check key="horse" text="Horse" fr.text="À cheval"/>
-			<check key="motorcycle" text="Motorcycle" fr.text="Moto"/>
-			<check key="motorcar" text="Motorcar" fr.text="Voiture"/>
-		</optional>
-	</chunk>
-	<chunk id="barrier_4">
-		<optional text="Allowed traffic:" fr.text="Trafic autorisé :">
-			<check key="foot" text="Foot" fr.text="Piéton"/>
-			<check key="bicycle" text="Bicycle" fr.text="Vélo"/>
-			<check key="horse" text="Horse" fr.text="À cheval"/>
-			<check key="motorcycle" text="Motorcycle" fr.text="Moto"/>
-		</optional>
-	</chunk>
-	<chunk id="barrier_2">
-		<optional text="Allowed traffic:" fr.text="Trafic autorisé :">
-			<check key="foot" text="Foot" fr.text="Piéton"/>
-			<check key="bicycle" text="Bicycle" fr.text="Vélo"/>
-		</optional>
 	</chunk>
 	<chunk id="min_age">
 		<text key="min_age" text="Minimum age" fr.text="Âge minimal"/>
@@ -159,37 +119,6 @@
 		<reference ref="internet"/>
 		<combo key="smoking" text="Smoking" values="yes,dedicated,separated,isolated,outside,no" fr.text="Fumeur"/>
 	</chunk>
-	<chunk id="optional_height">
-		<optional>
-			<text key="height" text="Height (meters)" length="7" fr.text="Hauteur (mètres)"/>
-		</optional>
-	</chunk>
-	<chunk id="optional_maxwidth">
-		<optional>
-			<text key="maxwidth" text="Max. width (meters)" length="7" fr.text="Largeur max. (mètres)"/>
-		</optional>
-	</chunk>
-	<chunk id="optional_maxheight_maxwidth">
-		<optional>
-			<text key="maxheight" text="Max. height (meters)" length="7" fr.text="Hauteur max. (mètres)"/>
-			<text key="maxwidth" text="Max. width (meters)" length="7" fr.text="Largeur max. (mètres)"/>
-		</optional>
-	</chunk>
-	<chunk id="optional_name">
-		<optional>
-			<text key="name" text="Name" fr.text="Nom"/>
-		</optional>
-	</chunk>
-	<chunk id="optional_name_operator">
-		<optional>
-			<text key="name" text="Name" fr.text="Nom"/>
-			<text key="operator" text="Operator" fr.text="Opérateur"/>
-		</optional>
-	</chunk>
-	<chunk id="name_leisure_pitch">
-		<text key="name" text="Name" fr.text="Nom"/>
-		<combo key="leisure" text="Type" values="pitch,sports_centre,stadium" default="pitch"/>
-	</chunk>
 	<chunk id="sport">
 		<combo key="sport" text="Sport" values="multi,archery,athletics,american_football,australian_football,baseball,basketball,beachvolleyball,billiards,boules,bowls,canadian_football,canoe,climbing,cricket,croquet,cycling,dog_racing,equestrian,field_hockey,gaelic_games,golf,gymnastics,handball,horse_racing,ice_hockey,karting,model_aerodrome,motocross,motor,pelota,racquet,rc_car,rowing,rugby_league,rugby_union,running,safety_training,shooting,skateboard,ice_skating,roller_skating,soccer,swimming,table_tennis,tennis,volleyball,9pin,10pin" values_context="sport"/>
 	</chunk>
@@ -205,7 +134,6 @@
 		<combo key="parking" text="Type" values="multi-storey,surface,underground,rooftop" values_context="parking"/>
 	</chunk>
 	<chunk id="parking_access_fee_operator_surface_smoothness">
-		<space/>
 		<combo key="access" text="Access" values="yes,private,customers,permissive,no" fr.text="Accès"/>
 		<reference ref="fee_interval"/>
 		<reference ref="surface_smoothness"/>
@@ -222,51 +150,9 @@
 		<reference ref="oh"/>
 		<combo key="lit" text="Lit" delimiter="|" values="yes|no|06:00-20:00|Mo-Fr 09:00-18:00,Sa 08:00-14:00|May-Sep 09:30-12:30,14:15-19:30" fr.text="Éclairage"/>
 	</chunk>
-	<chunk id="general_access">
-		<combo key="access" text="General Access" values="yes,destination,delivery,permissive,private,customers,agricultural,forestry,no" values_searchable="true" fr.text="Accès général"/>
-	</chunk>
 	<chunk id="name_wikipedia">
 		<text key="name" text="Name" fr.text="Nom"/>
 		<text key="wikipedia" text="Wikipedia" fr.text="Wikipédia"/>
-	</chunk>
-	<chunk id="population_postcode_website">
-		<text key="population" text="Population" fr.text="Populatio"/>
-		<text key="postal_code" text="Postal Code" fr.text="Code postal"/>
-		<text key="website" text="Website" fr.text="Site web"/>
-	</chunk>
-	<chunk id="route_hikebike_optionals">
-		<text key="ref" text="Reference" fr.text="Référence"/>
-		<text key="operator" text="Operator" fr.text="Opérateur"/>
-		<text key="distance" text="Distance (km)"/>
-		<text key="ascent" text="Ascent (m)"/>
-		<text key="descent" text="Descent (m)"/>
-		<text key="symbol" text="Symbol description" fr.text="Description du symbole"/>
-		<text key="description" text="Description"/>
-		<check key="roundtrip" text="Roundtrip" fr.text="Trajet formant une boucle"/>
-	</chunk>
-	<chunk id="genus_species_taxon">
-		<text key="genus" text="Genus"/>
-		<text key="species" text="Species" fr.text="Espèce"/>
-		<text key="taxon" text="Taxon"/>
-	</chunk>
-	<chunk id="leaf">
-		<combo key="leaf_type" text="Leaf type" values="broadleaved,needleleaved,mixed,leafless" values_searchable="true" fr.text="Type de feuille"/>
-		<combo key="leaf_cycle" text="Leaf cycle" values_searchable="true">
-			<list_entry value="deciduous" short_description="Plants that are leafless for a certain period during the year."/>
-			<list_entry value="evergreen" short_description="Plants that are never entirely without green foliage."/>
-			<list_entry value="semi_deciduous" short_description="Plants that lose their foliage for a very short period, when old leaves fall off and new foliage growth is starting."/>
-			<list_entry value="semi_evergreen" short_description="Plants that lose most, but not all, of their foliage for a fraction of the year."/>
-			<list_entry value="mixed" short_description="Habitat with evergreen and deciduous vegetation."/>
-		</combo>
-	</chunk>
-	<chunk id="leaf_without_mixed">
-		<combo key="leaf_type" text="Leaf type" values="broadleaved,needleleaved,leafless" values_searchable="true" fr.text="Type de feuille"/>
-		<combo key="leaf_cycle" text="Leaf cycle" values_searchable="true">
-			<list_entry value="deciduous" short_description="Plants that are leafless for a certain period during the year."/>
-			<list_entry value="evergreen" short_description="Plants that are never entirely without green foliage."/>
-			<list_entry value="semi_deciduous" short_description="Plants that lose their foliage for a very short period, when old leaves fall off and new foliage growth is starting."/>
-			<list_entry value="semi_evergreen" short_description="Plants that lose most, but not all, of their foliage for a fraction of the year."/>
-		</combo>
 	</chunk>
 	<chunk id="religious">
 		<combo key="religion" text="Religion" values="bahai,buddhist,caodaism,christian,confucian,hindu,jain,jewish,muslim,shinto,sikh,spiritualist,taoist,tenrikyo,unitarian_universalist,zoroastrian" values_searchable="true"/>
@@ -297,127 +183,10 @@
 	<chunk id="voltage">
 		<combo key="voltage" text="Voltage in Volts (V)" values="1150000,765000,750000,735000,500000,450000,420000,400000,380000,350000,345000,330000,315000,300000,275000,238000,230000,225000,220000,200000,161000,154000,150000,138000,132000,120000,115000,110000,100000,90000,69000,66000,65000,63000,60000,55000,49000,45000,35000,33000,30000,22000,20000,15000;200000,110000;20000" fr.text="Voltage (en Volts)"/>
 	</chunk>
-	<chunk id="frequency">
-		<combo key="frequency" text="Frequency in Hertz (Hz)" values="0,16.67,16.7,50,60" length="5" fr.text="Fréquence (en Hertz)"/>
-	</chunk>
-	<chunk id="voltage_frequency">
-		<reference ref="voltage"/>
-		<reference ref="frequency"/>
-	</chunk>
-	<chunk id="transformer_voltage_frequency">
-		<combo key="voltage:primary" text="Primary voltage in Volts (V)" values="765000,750000,735000,500000,450000,420000,400000,380000,350000,345000,330000,315000,300000,275000,238000,230000,225000,220000,200000,161000,154000,150000,138000,132000,120000,115000,110000,100000,90000,69000,66000,65000,63000,60000,55000,49000,45000,35000,33000,30000,20000,15000" fr.text="Voltage principal (en Volts)"/>
-		<combo key="voltage:secondary" text="Secondary voltage in Volts (V)" values="765000,750000,735000,500000,450000,420000,400000,380000,350000,345000,330000,315000,300000,275000,238000,230000,225000,220000,200000,161000,154000,150000,138000,132000,120000,115000,110000,100000,90000,69000,66000,65000,63000,60000,55000,49000,45000,35000,33000,30000,20000,15000" fr.text="Voltage secondaire (en Volts)"/>
-		<combo key="voltage:tertiary" text="Tertiary voltage in Volts (V)" values="765000,750000,735000,500000,450000,420000,400000,380000,350000,345000,330000,315000,300000,275000,238000,230000,225000,220000,200000,161000,154000,150000,138000,132000,120000,115000,110000,100000,90000,69000,66000,65000,63000,60000,55000,49000,45000,35000,33000,30000,20000,15000" fr.text="Voltage tertiaire (en Volts)"/>
-		<reference ref="frequency"/>
-	</chunk>
 	<chunk id="ref_operator_branch">
 		<text key="ref" text="Reference" fr.text="Référence"/>
 		<text key="operator" text="Operator" fr.text="Opérateur"/>
 		<text key="branch" text="Branch operator" fr.text="Opérateur de la branche"/>
-	</chunk>
-	<chunk id="cables">
-		<combo key="cables" text="Amount of Cables" values="1,2,3,4,6,9,12" fr.text="Nombre de cables"/>
-	</chunk>
-	<chunk id="cables_circuits">
-		<reference ref="cables"/>
-		<combo key="circuits" text="Amount of circuits" values="1,2,3,4" fr.text="Nombre de circuits"/>
-	</chunk>
-	<chunk id="power_loc">
-		<combo key="location" text="Location" values="outdoor,indoor,underground,platform,rooftop" values_context="power" fr.text="Localisation"/>
-	</chunk>
-	<chunk id="power_extra">
-		<reference ref="power_loc"/>
-		<reference ref="voltage_frequency"/>
-		<reference ref="ref_operator_branch"/>
-	</chunk>
-	<chunk id="power_line_extra">
-		<reference ref="cables_circuits"/>
-		<reference ref="voltage_frequency"/>
-	</chunk>
-	<chunk id="power_generator">
-		<link wiki="Tag:power=generator"/>
-		<space/>
-		<key key="power" value="generator"/>
-		<reference ref="name_ref_operator"/>
-		<text key="branch" text="Branch operator" fr.text="Opérateur de la branche"/>
-		<text key="start_date" text="Start date" fr.text="Date de début"/>
-	</chunk>
-	<chunk id="power_output">
-		<optional text="Output forms of energy:" fr.text="Formes d'énergie en sortie :">
-			<combo key="generator:output:biogas" text="biogas" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="biomasse"/>
-			<combo key="generator:output:electricity" text="electricity" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="électricité"/>
-			<combo key="generator:output:hot_water" text="hot water" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="eau chaude"/>
-			<combo key="generator:output:hot_air" text="hot air" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="air chaud"/>
-			<combo key="generator:output:cold_water" text="cold water" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="eau froide"/>
-			<combo key="generator:output:cold_air" text="cold air" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="air froid"/>
-			<combo key="generator:output:compressed_air" text="compressed air" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="air comprimé"/>
-			<combo key="generator:output:steam" text="steam" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="vapeur"/>
-			<combo key="generator:output:vacuum" text="vacuum" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="vide"/>
-			<space/>
-			<reference ref="voltage_frequency"/>
-		</optional>
-	</chunk>
-	<chunk id="power_pole">
-		<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
-		<combo key="material" text="Material" values="metal,plastic,steel,stone,wood,concrete" fr.text="Matériau"/>
-		<check key="location:transition" text="Location transition" disable_off="true"/>
-		<reference ref="ref_operator_branch"/>
-	</chunk>
-	<chunk id="rating_phases">
-		<combo key="rating" text="Power rating (kVA/MVA)" values="2700 kVA,12500 kVA,15 MVA,50 MVA,100 MVA"/>
-		<combo key="phases" text="Phases" values="1,3" length="1"/>
-	</chunk>
-	<chunk id="optional_rating_phases">
-		<optional>
-			<reference ref="rating_phases"/>
-		</optional>
-	</chunk>
-	<chunk id="optional_transformer_rating_phases_devices_windings">
-		<optional>
-			<reference ref="rating_phases"/>
-			<combo key="devices" text="Number of devices" values="1,2,3,4" fr.text="Nombre d'appareils"/>
-			<combo key="windings" text="Number of windings" values="1,2,3,4"/>
-			<combo key="windings:configuration" text="Windings configuration" values="star,delta,open-delta,zigzag,open,scott,leblanc" values_context="power_windings"/>
-		</optional>
-	</chunk>
-	<chunk id="optional_bridge">
-		<optional>
-			<text key="name" text="Name" fr.text="Nom"/>
-			<text key="maxspeed" text="Max. speed (km/h)" fr.text="Vitesse limite (km/h)"/>
-			<text key="maxspeed:forward" text="Max. speed in way direction" fr.text="Vitesse limite dans le sens du chemin"/>
-			<text key="maxspeed:backward" text="Max. speed opposed to way direction" fr.text="Vitesse limite dans le sens opposé du chemin"/>
-			<text key="maxweight" text="Max. weight (tonnes)" fr.text="Poids maximal (tonnes)"/>
-			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>
-			<combo key="layer" text="Layer" values="5,4,3,2,1,0,-1,-2,-3,-4,-5" default="1" length="3" fr.text="Couche"/>
-			<combo key="incline" text="Incline" values="10%,-10%,10°,-10°,up,down" fr.text="Inclinaison"/>
-			<space/>
-			<space/>
-			<check key="toll" text="Toll" fr.text="Péage"/>
-		</optional>
-	</chunk>
-	<chunk id="waterway">
-		<combo key="layer" text="Layer" values="5,4,3,2,1,0,-1,-2,-3,-4,-5" length="3" fr.text="Couche"/>
-		<combo key="tunnel" text="Tunnel" values="culvert,yes"/>
-		<check key="intermittent" text="Intermittent" disable_off="true"/>
-		<check key="seasonal" text="Seasonal" disable_off="true" fr.text="Saisonnier"/>
-		<check key="tidal" text="In the tidal range" disable_off="true"/>
-		<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>
-	</chunk>
-	<chunk id="waterway_wikipedia">
-		<reference ref="waterway"/>
-		<text key="wikipedia" text="Wikipedia" fr.text="Wikipédia"/>
-	</chunk>
-	<chunk id="water_access">
-		<optional text="Water access rules:" fr.text="Règles d'accès à l'eau :">
-			<combo key="ship" text="Ship" values="yes,designated,destination,delivery,permissive,private,no"/>
-			<combo key="boat" text="Boat" values="yes,designated,destination,delivery,permissive,private,no"/>
-			<combo key="motorboat" text="Motorboat" values="yes,designated,destination,delivery,permissive,private,no"/>
-			<combo key="canoe" text="Canoe" values="yes,designated,destination,delivery,permissive,private,no" fr.text="Canöe"/>
-		</optional>
-	</chunk>
-	<chunk id="operator_substance">
-		<text key="operator" text="Operator" fr.text="Opérateur"/>
-		<combo key="substance" text="Substance" values="water,gas,heat,oil,sewage"/>
 	</chunk>
 	<chunk id="support">
 		<combo key="support" text="Support" values="pole,wall_mounted,billboard,ground" values_context="mounting/support"/>
@@ -426,8 +195,8 @@
 		<key key="aeroway" value="aerodrome" match="keyvalue"/>
 		<text key="name" text="Name" fr.text="Nom"/>
 		<optional>
-			<text key="iata" text="IATA"/>
-			<text key="icao" text="ICAO"/>
+			<text key="iata" text="IATA" fr.text="Code IATA"/>
+			<text key="icao" text="ICAO" fr.text="Code ICAO"/>
 			<text key="wikipedia" text="Wikipedia" fr.text="Wikipédia"/>
 		</optional>
 	</chunk>
@@ -437,14 +206,6 @@
 	<chunk id="motorcycle_brands">
 		<multiselect key="brand" text="Motorcycle brand" values="Aprillia;BMW;Ducati;Gilera;Harley-Davidson;Honda;Kawasaki;KTM;Kymco;Piaggio;Peugeot;Piaggio;Suzuki;Triumph;Vespa;Yamaha" values_no_i18n="true" fr.text="Marque de moto"/>
 	</chunk>
-	<chunk id="walking_routes_roles">
-		<roles>
-			<role key="" text="route segment" requisite="required" type="way,closedway" member_expression="highway|route=ferry" fr.text="portion d'itinéraire"/>
-			<role key="" text="infrastructure" requisite="optional" type="node,closedway" member_expression="tourism OR amenity"/>
-			<role key="" text="natural" requisite="optional" type="node,closedway" member_expression="natural=peak OR natural=volcano OR mountain_pass=yes OR natural=water OR tourism=viewpoint OR amenity=drinking_water OR natural=spring OR place=locality" fr.text="naturel"/>
-			<role key="guidepost" text="guidepost" requisite="optional" type="node" member_expression="information=guidepost" fr.text="poteau"/>
-		</roles>
-	</chunk>
 	<chunk id="link_contact_address">
 		<preset_link preset_name="Contact (Common Schema)"/>
 		<preset_link preset_name="Address"/>
@@ -453,44 +214,6 @@
 		<preset_link preset_name="Contact (Common Schema)"/>
 		<preset_link preset_name="Address"/>
 		<preset_link preset_name="Payment Methods"/>
-	</chunk>
-	<chunk id="public_transport_route_optionals">
-		<text key="from" text="From (initial stop)" fr.text="Depuis (arrêt de départ)"/>
-		<text key="to" text="To (terminal stop)" fr.text="Vers (arrêt de destination)"/>
-		<text key="via" text="Via (intermediate stops)" fr.text="Via (arrêts intermédiaires)"/>
-		<text key="operator" text="Operator" fr.text="Opérateur"/>
-		<text key="network" text="Network" fr.text="Réseau"/>
-		<text key="description" text="Description"/>
-		<combo key="colour" text="Color (HTML name or hexadecimal code)" values_context="color" values="black,brown,green,red,blue,gray,white,#CD853F" fr.text="Couleur (nom HTML ou code hexadécimal)"/>
-		<combo key="interval" text="Interval (M, MM, HH:MM, or HH:MM:SS)" values="5,10,15,20,30,60,120" values_no_i18n="true" fr.text="Fréquence (format M, MM, HH:MM ou HH:MM:SS)"/>
-	</chunk>
-	<chunk id="climbing_styles">
-		<label text="Climbing styles:"/>
-		<checkgroup columns="2">
-			<check key="climbing:boulder" text="Boulders"/>
-			<check key="climbing:sport" text="Sport climbing"/>
-			<check key="climbing:toprope" text="Top rope (approach at the route top + letting the rope down)"/>
-			<check key="climbing:trad" text="Traditional climbing (no fixed anchors)"/>
-			<check key="climbing:multipitch" text="Multi-pitch climbing"/>
-			<check key="climbing:ice" text="Ice climbing"/>
-			<check key="climbing:mixed" text="Mixed climbing"/>
-			<check key="climbing:deepwater" text="Deep Water Soloing"/>
-		</checkgroup>
-	</chunk>
-	<chunk id="climbing_optional_attributes">
-		<optional>
-			<combo key="climbing:orientation" text="Orientation" values="N,NE,E,SE,S,SW,W,NW" values_no_i18n="true" values_sort="false"/>
-			<combo key="climbing:quality" text="Rock/ice quality" values="fragile,medium,solid" fr.text="Qualité de la roche/glace"/>
-			<combo key="climbing:rock" text="Rock type" rows="3" values="limestone,sandstone,granite,basalt,slate" fr.text="Type de roche"/>
-			<combo key="opening_hours" text="Opening Hours" delimiter="|" values="24/7|sunset-sunrise open; sunrise-sunset closed|Mar-Jun closed; Jul-Feb Mo-Su,PH sunrise-sunset|Mo-Fr 15:00-22:00; Sa-Su 11:00-22:00" values_no_i18n="true" fr.text="Horaires d'ouverture"/>
-			<combo key="fee" text="Fee" values="yes,no,Sa-Su 08:00-20:00" fr.text="Payant"/>
-			<combo key="access" text="Access" values="yes,no,customers,private" fr.text="Accès"/>
-			<check key="climbing:summit_log" text="Summit/route log/register"/>
-			<check key="indoor" text="Climbing routes indoor"/>
-			<check key="outdoor" text="Climbing routes outdoor"/>
-			<text key="website" text="Official web site (e.g. operator)" fr.text="Site web officiel (par exemple du gestionnaire)"/>
-			<text key="url" text="Unofficial web site" fr.text="Site web non-officiel"/>
-		</optional>
 	</chunk>
 	<group name="Transport">
 		<group name="Railway" fr.name="Voie ferrée">
@@ -565,30 +288,6 @@
 					<combo key="layer" text="Layer" values="5,4,3,2,1,0,-1,-2,-3,-4,-5" length="3" fr.text="Couche"/>
 				</optional>
 			</item>
-			<item name="Disused Rail" type="way" fr.name="Rail inutilisée">
-				<link wiki="Tag:railway=disused"/>
-				<key key="railway" value="disused"/>
-				<optional>
-					<reference ref="railway_service"/>
-				</optional>
-			</item>
-			<item name="Abandoned Rail" type="way" fr.name="Rail abandonné">
-				<link wiki="Tag:railway=abandoned"/>
-				<key key="railway" value="abandoned"/>
-				<optional>
-					<reference ref="railway_service"/>
-				</optional>
-			</item>
-			<item name="Level Crossing" type="node" fr.name="Passage à niveau">
-				<link wiki="Tag:railway=level_crossing"/>
-				<key key="railway" value="level_crossing"/>
-				<optional>
-					<reference ref="supervised"/>
-					<check key="crossing:light" text="Traffic lights" fr.text="Feux de signalisation"/>
-					<check key="crossing:bell" text="Sound signals" fr.text="Signaux sonores"/>
-					<combo key="crossing:barrier" text="Barrier" values="yes,no,half,full,double_half" values_context="crossing:barrier" fr.text="Barrière"/>
-				</optional>
-			</item>
 			<item name="Crossing" type="node" fr.name="Passage piéton">
 				<link wiki="Tag:railway=crossing"/>
 				<key key="railway" value="crossing"/>
@@ -602,41 +301,14 @@
 					<check key="crossing:bell" text="Sound signals" fr.text="Signaux sonores"/>
 				</optional>
 			</item>
-			<item name="Turntable">
-				<link wiki="Tag:railway=turntable"/>
-				<key key="railway" value="turntable"/>
-			</item>
-			<item name="Buffer Stop" type="node">
+			<item name="Buffer Stop" type="node" fr.name="Butée">
 				<link wiki="Tag:railway=buffer_stop"/>
 				<key key="railway" value="buffer_stop"/>
 			</item>
-			<item name="Railway Switch">
-				<link wiki="Tag:railway=switch"/>
-				<key key="railway" value="switch"/>
-				<text key="ref" text="Reference" fr.text="Référence"/>
-				<text key="operator" text="Operator" fr.text="Opérateur"/>
-			</item>
-			<item name="Railway Signal" fr.name="Signal de voie ferrée">
-				<link wiki="Tag:railway=signal"/>
-				<key key="railway" value="signal"/>
-				<text key="ref" text="Reference" fr.text="Référence"/>
-				<text key="operator" text="Operator" fr.text="Opérateur"/>
-			</item>
-			<item name="Railway milestone" fr.name="Pierre kilométrique de voie ferrée">
-				<link wiki="Tag:railway=milestone"/>
-				<key key="railway" value="milestone"/>
-				<text key="distance" text="Distance (kilometers)" fr.text="Distance (km)"/>
-				<text key="ref" text="Reference" fr.text="Référence"/>
-			</item>
-			<separator/>
-			<separator/>
 		</group>
 		<group name="Car" fr.name="Voiture">
 			<item name="Parking" type="closedway">
 				<link wiki="Tag:amenity=parking"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="parking"/>
 				<reference ref="parking_name_type_ref"/>
 				<reference ref="parking_access_fee_operator_surface_smoothness"/>
@@ -648,11 +320,10 @@
 				<combo key="capacity:disabled" text="Spaces for Disabled" values="yes,no,1,2,3" fr.text="Places pour PMR"/>
 				<combo key="capacity:women" text="Spaces for Women" values="yes,no,1,2,3" fr.text="Places pour femmes"/>
 				<combo key="capacity:parent" text="Spaces for Parents" values="yes,no,1,2,3" fr.text="Places pour parents"/>
-				<label text="See the Wiki for other capacity:[types]=*."/>
+				<label text="See the Wiki for other capacity:[types]=*." fr.text="Voir le wiki pour d'autres valeurs de capacity:[types]=*."/>
 			</item>
 			<item name="Parking Space" type="node,closedway" fr.name="Place de parking">
 				<link wiki="Tag:amenity=parking_space"/>
-				<space/>
 				<key key="amenity" value="parking_space"/>
 				<reference ref="parking_name_type_ref"/>
 				<reference ref="parking_access_fee_operator_surface_smoothness"/>
@@ -663,7 +334,6 @@
 			</item>
 			<item name="Parking Entrance" type="node" fr.name="Entrée de parking">
 				<link wiki="Tag:amenity=parking_entrance"/>
-				<space/>
 				<key key="amenity" value="parking_entrance"/>
 				<reference ref="parking_name_type_ref"/>
 				<reference ref="parking_access_fee_operator_surface_smoothness"/>
@@ -673,7 +343,6 @@
 			</item>
 			<item name="Fuel" type="node,closedway" fr.name="Essence">
 				<link wiki="Tag:amenity=fuel"/>
-				<space/>
 				<key key="amenity" value="fuel"/>
 				<combo key="brand" text="Brand" values="Agip,Aral,Avia,BP,Chevron,Citgo,Eni,Esso,Exxon,Gulf,Mobil,OMV,Petro-Canada,Pioneer,Q8,Repsol,Shell,Socar,Statoil,Sunoco,Tamoil,Texaco,Total,Independent" values_searchable="true" fr.text="Marque"/>
 				<optional>
@@ -681,9 +350,6 @@
 					<text key="operator" text="Operator" fr.text="Opérateur"/>
 					<reference ref="oh_wheelchair"/>
 					<combo key="shop" text="With shop" values="yes,convenience,kiosk,no" fr.text="Avec boutique"/>
-					<space/>
-					<space/>
-					<space/>
 					<label text="Fuel types:" fr.text="Types de carburants :"/>
 					<label text="Additives:" fr.text="Additifs :"/>
 					<label text="Fuel cards:" fr.text="Cartes carburants :"/>
@@ -720,11 +386,6 @@
 			</item>
 			<item name="Charging Station" type="node,closedway" fr.name="Station de recharge">
 				<link wiki="Tag:amenity=charging_station"/>
-				<space/>
-				<space/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="charging_station"/>
 				<reference ref="name_ref_operator"/>
 				<reference ref="oh"/>
@@ -765,7 +426,6 @@
 			</item>
 			<item name="Wash" type="node,closedway" fr.name="Lavage">
 				<link wiki="Tag:amenity=car_wash"/>
-				<space/>
 				<key key="amenity" value="car_wash"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
@@ -773,7 +433,6 @@
 			</item>
 			<item name="Car Dealer" type="node,closedway" fr.name="Vendeur de voitures">
 				<link wiki="Tag:shop=car"/>
-				<space/>
 				<key key="shop" value="car"/>
 				<reference ref="car_brands"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -782,7 +441,6 @@
 			</item>
 			<item name="Repair" type="node,closedway" fr.name="Réparation">
 				<link wiki="Tag:shop=car_repair"/>
-				<space/>
 				<key key="shop" value="car_repair"/>
 				<reference ref="car_brands"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -791,7 +449,6 @@
 			</item>
 			<item name="Parts" type="node,closedway" fr.name="Pièces détachées">
 				<link wiki="Tag:shop=car_parts"/>
-				<space/>
 				<key key="shop" value="car_parts"/>
 				<reference ref="car_brands"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -799,35 +456,28 @@
 			</item>
 			<item name="Tires" type="node,closedway" fr.name="Pneus">
 				<link wiki="Tag:shop=tyres"/>
-				<space/>
 				<key key="shop" value="tyres"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Rental" type="node,closedway" fr.name="Location">
 				<link wiki="Tag:amenity=car_rental"/>
-				<space/>
 				<key key="amenity" value="car_rental"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Sharing" type="node,closedway" fr.name="Partage">
 				<link wiki="Tag:amenity=car_sharing"/>
-				<space/>
 				<key key="amenity" value="car_sharing"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 				<text key="capacity" text="Capacity" fr.text="Capacité"/>
 				<text key="website" text="Website" fr.text="Site web"/>
 				<reference ref="name_oh_wheelchair"/>
 			</item>
-			<separator/>
-			<separator/>
-			<separator/>
 		</group>
 		<group name="Motorcycle" fr.name="Moto">
 			<item name="Parking" type="node,closedway">
 				<link wiki="Tag:amenity=motorcycle_parking"/>
-				<space/>
 				<key key="amenity" value="motorcycle_parking"/>
 				<reference ref="parking_name_type_ref"/>
 				<reference ref="parking_access_fee_operator_surface_smoothness"/>
@@ -837,7 +487,6 @@
 			</item>
 			<item name="Motorcycle Dealer" type="node,closedway" fr.name="Vendeur de motos">
 				<link wiki="Tag:shop=motorcycle"/>
-				<space/>
 				<key key="shop" value="motorcycle"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
@@ -859,7 +508,6 @@
 		<group name="Bicycle" fr.name="Vélo">
 			<item name="Parking" type="node,closedway">
 				<link wiki="Tag:amenity=bicycle_parking"/>
-				<space/>
 				<key key="amenity" value="bicycle_parking"/>
 				<combo key="bicycle_parking" text="Type" values="anchors,bollard,building,ground_slots,informal,lockers,rack,shed,stands,wall_loops"/>
 				<text key="name" text="Name" fr.text="Nom"/>
@@ -870,7 +518,6 @@
 			</item>
 			<item name="Bike Dealer" type="node,closedway" fr.name="Vendeur de vélos">
 				<link wiki="Tag:shop=bicycle"/>
-				<space/>
 				<key key="shop" value="bicycle"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
@@ -884,14 +531,12 @@
 			</item>
 			<item name="Rental" type="node,closedway" fr.name="Location">
 				<link wiki="Tag:amenity=bicycle_rental"/>
-				<space/>
 				<key key="amenity" value="bicycle_rental"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Public Bicycle Repair Station" type="node" fr.name="Station de réparation vélo publique">
 				<link wiki="Tag:amenity=bicycle_repair_station"/>
-				<space/>
 				<key key="amenity" value="bicycle_repair_station"/>
 				<optional>
 					<text key="name" text="Name" fr.text="Nom"/>
@@ -906,8 +551,6 @@
 		<group name="Public Transport" fr.name="Transport public">
 			<item name="Stop Position" type="node" fr.name="Point d'arrêt">
 				<link wiki="Tag:public_transport=stop_position"/>
-				<space/>
-				<space/>
 				<key key="public_transport" value="stop_position"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<optional>
@@ -937,7 +580,6 @@
 			</item>
 			<item name="Platform" type="node,way,closedway,multipolygon" fr.name="Plateforme">
 				<link wiki="Tag:public_transport=platform"/>
-				<space/>
 				<key key="public_transport" value="platform"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<check key="bench" text="Bench" fr.text="Banc"/>
@@ -949,7 +591,6 @@
 			</item>
 			<item name="Station" name_context="railway" type="node,closedway,multipolygon">
 				<link wiki="Tag:public_transport=station"/>
-				<space/>
 				<key key="public_transport" value="station"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
@@ -968,22 +609,19 @@
 			</item>
 			<item name="Ticket Machine" type="node" fr.name="Distributeur de tickets">
 				<link wiki="Tag:amenity=vending_machine"/>
-				<space/>
 				<key key="amenity" value="vending_machine"/>
 				<key key="vending" value="public_transport_tickets"/>
 				<reference ref="name_operator"/>
 				<text key="ref" text="Reference number" fr.text="Numéro de référence"/>
 				<preset_link preset_name="Payment Methods"/>
 			</item>
-			<separator/>
 		</group>
 		<group name="Airport" fr.name="Aéroport">
-			<item name="Airport Ground" type="closedway">
+			<item name="Airport Ground" type="closedway" fr.name="Terrain d'aéroport">
 				<link wiki="Tag:aeroway=aerodrome"/>
-				<space/>
 				<reference ref="aerodrome"/>
 			</item>
-			<item name="Runway" type="way,closedway">
+			<item name="Runway" type="way,closedway" fr.name="Piste">
 				<link wiki="Tag:aeroway=runway"/>
 				<key key="aeroway" value="runway"/>
 				<optional>
@@ -991,16 +629,9 @@
 					<reference ref="surface"/>
 				</optional>
 			</item>
-			<item name="Taxiway" type="way,closedway">
+			<item name="Taxiway" type="way,closedway" fr.name="Voie de circulation">
 				<link wiki="Tag:aeroway=taxiway"/>
 				<key key="aeroway" value="taxiway"/>
-				<optional>
-					<text key="ref" text="Reference" fr.text="Référence"/>
-				</optional>
-			</item>
-			<item name="Holding Position">
-				<link wiki="Tag:aeroway=holding_position"/>
-				<key key="aeroway" value="holding_position"/>
 				<optional>
 					<text key="ref" text="Reference" fr.text="Référence"/>
 				</optional>
@@ -1012,35 +643,17 @@
 					<text key="ref" text="Reference" fr.text="Référence"/>
 				</optional>
 			</item>
-			<item name="Apron">
+			<item name="Apron" fr.name="Aire de stationnement">
 				<link wiki="Tag:aeroway=apron"/>
 				<key key="aeroway" value="apron"/>
 			</item>
-			<item name="Plane Parking Position">
+			<item name="Plane Parking Position" fr.name="Stationnement pour avion">
 				<link wiki="Tag:aeroway=parking_position"/>
 				<key key="aeroway" value="parking_position"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
 			</item>
-			<item name="Hangar" type="node,closedway">
-				<link wiki="Tag:aeroway=hangar"/>
-				<key key="aeroway" value="hangar"/>
-				<combo key="building" text="Building" values="hangar,yes" values_context="building" default="hangar" values_searchable="true" fr.text="Bâtiment"/>
-			</item>
-			<item name="Beacon">
-				<link wiki="Tag:airmark=beacon"/>
-				<key key="airmark" value="beacon"/>
-			</item>
-			<item name="Navigation aid" fr.name="Aide à la navigation">
-				<link wiki="Tag:aeroway=navigationaid"/>
-				<key key="aeroway" value="navigationaid"/>
-			</item>
-			<item name="Windsock">
-				<link wiki="Tag:aeroway=windsock"/>
-				<key key="aeroway" value="windsock"/>
-			</item>
 			<item name="Terminal" type="node,closedway">
 				<link wiki="Tag:aeroway=terminal"/>
-				<space/>
 				<key key="aeroway" value="terminal"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<reference ref="internet"/>
@@ -1048,18 +661,12 @@
 			</item>
 			<item name="Gate" name_context="airport" type="node" fr.name="Porte">
 				<link wiki="Tag:aeroway=gate"/>
-				<space/>
 				<key key="aeroway" value="gate"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
 			</item>
-			<separator/>
-			<separator/>
 		</group>
-		<separator/>
-		<separator/>
 		<item name="Taxi" type="node,closedway">
 			<link wiki="Tag:amenity=taxi"/>
-			<space/>
 			<key key="amenity" value="taxi"/>
 			<text key="name" text="Name" fr.text="Nom"/>
 		</item>
@@ -1068,9 +675,6 @@
 		<group name="Accommodation" fr.name="Hébergement">
 			<item name="Hotel" type="node,closedway" fr.name="Hôtel">
 				<link wiki="Tag:tourism=hotel"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="tourism" value="hotel"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
@@ -1083,9 +687,6 @@
 			</item>
 			<item name="Motel" type="node,closedway">
 				<link wiki="Tag:tourism=motel"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="tourism" value="motel"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
@@ -1098,9 +699,6 @@
 			</item>
 			<item name="Guest House/Bed &amp; Breakfast" type="node,closedway" fr.name="Maison d'hôtes / B&amp;B">
 				<link wiki="Tag:tourism=guest_house"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="tourism" value="guest_house"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
@@ -1113,9 +711,6 @@
 			</item>
 			<item name="Apartment" type="node,closedway" fr.name="Appartement">
 				<link wiki="Tag:tourism=apartment"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="tourism" value="apartment"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
@@ -1126,9 +721,6 @@
 			</item>
 			<item name="Chalet" type="node,closedway" fr.name="Châlet">
 				<link wiki="Tag:tourism=chalet"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="tourism" value="chalet"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
@@ -1141,9 +733,6 @@
 			</item>
 			<item name="Hostel" type="node,closedway" fr.name="Auberge de jeunesse">
 				<link wiki="Tag:tourism=hostel"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="tourism" value="hostel"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
@@ -1158,9 +747,6 @@
 		<group name="Food+Drinks" fr.name="Nourriture + boissons">
 			<item name="Restaurant" type="node,closedway">
 				<link wiki="Tag:amenity=restaurant"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="restaurant"/>
 				<reference ref="name_operator"/>
 				<reference ref="cuisine"/>
@@ -1175,9 +761,6 @@
 			</item>
 			<item name="Fast Food" type="node,closedway" fr.name="Restauration rapide">
 				<link wiki="Tag:amenity=fast_food"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="fast_food"/>
 				<reference ref="name_operator"/>
 				<reference ref="cuisine"/>
@@ -1189,11 +772,8 @@
 				<combo key="delivery" text="Delivery" values="yes,no,only,Mo-Su 12:00-22:00" fr.text="Livraison à domicile"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Food Court" type="node,closedway">
+			<item name="Food Court" type="node,closedway" fr.name="Aire de restauration">
 				<link wiki="Tag:amenity=food_court"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="food_court"/>
 				<reference ref="name_operator"/>
 				<reference ref="oh_wheelchair"/>
@@ -1203,9 +783,6 @@
 			</item>
 			<item name="Cafe" type="node,closedway" fr.name="Café">
 				<link wiki="Tag:amenity=cafe"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="cafe"/>
 				<reference ref="name_operator"/>
 				<reference ref="oh_wheelchair"/>
@@ -1218,9 +795,6 @@
 			</item>
 			<item name="Ice cream" type="node,closedway" fr.name="Glacier">
 				<link wiki="Tag:amenity=ice_cream"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="ice_cream"/>
 				<reference ref="name_operator"/>
 				<reference ref="oh_wheelchair"/>
@@ -1232,9 +806,6 @@
 			</item>
 			<item name="Pub" type="node,closedway" fr.name="Bistro">
 				<link wiki="Tag:amenity=pub"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="pub"/>
 				<reference ref="name_operator"/>
 				<reference ref="oh_wheelchair"/>
@@ -1247,9 +818,6 @@
 			</item>
 			<item name="Beer Garden" type="node,closedway">
 				<link wiki="Tag:amenity=biergarten"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="biergarten"/>
 				<reference ref="name_operator"/>
 				<reference ref="oh_wheelchair"/>
@@ -1259,9 +827,6 @@
 			</item>
 			<item name="Bar" type="node,closedway">
 				<link wiki="Tag:amenity=bar"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="bar"/>
 				<reference ref="name_operator"/>
 				<reference ref="oh_wheelchair"/>
@@ -1273,144 +838,127 @@
 		<group name="Tourism" fr.name="Tourisme">
 			<item name="Attraction" type="node,closedway">
 				<link wiki="Tag:tourism=attraction"/>
-				<space/>
 				<key key="tourism" value="attraction"/>
 				<reference ref="name_oh_wheelchair"/>
 			</item>
 			<item name="Information Office" type="node,closedway" fr.name="Office de Tourisme">
 				<link wiki="Tag:information=office"/>
-				<label text="An office where you can get information about a town or region."/>
-				<space/>
+				<label text="An office where you can get information about a town or region." fr.text="Un lieu où l'on peut trouver des informations touristiques à propos d'une ville ou région."/>
 				<key key="tourism" value="information"/>
 				<key key="information" value="office"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="internet"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Map" type="node">
+			<item name="Map" type="node" fr.name="Carte">
 				<link wiki="Tag:information=map"/>
-				<label text="A board with a map."/>
-				<space/>
+				<label text="A board with a map." fr.text="Un panneau avec une carte"/>
 				<key key="tourism" value="information"/>
 				<key key="information" value="map"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<text key="description" text="Closer description"/>
-				<combo key="map_type" text="Detail Grade" values="topo,street,scheme,toposcope"/>
-				<combo key="map_size" text="Shown Area" values="site,city,region" values_sort="false"/>
-				<optional text="Routes shown for:">
-					<check key="hiking" text="Hiking"/>
-					<check key="bicycle" text="Cycling"/>
-					<check key="mtb" text="Mountainbiking"/>
-					<check key="ski" text="Skiing"/>
+				<text key="description" text="Closer description" fr.text="Description détaillée"/>
+				<combo key="map_type" text="Detail Grade" values="topo,street,scheme,toposcope" fr.text="Niveau de détail"/>
+				<combo key="map_size" text="Shown Area" values="site,city,region" values_sort="false" fr.text="Zone visible"/>
+				<optional text="Routes shown for:" fr.text="Itinéraires montrés pour :">
+					<check key="hiking" text="Hiking" fr.text="Randonnée pédestre"/>
+					<check key="bicycle" text="Cycling" fr.text="Vélo"/>
+					<check key="mtb" text="Mountainbiking" fr.text="VTT"/>
+					<check key="ski" text="Skiing" fr.text="Ski"/>
 					<check key="horse" text="Riding"/>
-					<space/>
-					<label text="... other transportation modes possible"/>
+					<label text="... other transportation modes possible" fr.text="D'autres modes de transport possibles"/>
 				</optional>
 			</item>
-			<item name="Information Board" type="node">
+			<item name="Information Board" type="node" fr.name="Panneau d'information">
 				<link wiki="Tag:information=board"/>
-				<space/>
-				<label text="A board with information."/>
+				<label text="A board with information." fr.text="Un panneau avec des informations"/>
 				<key key="tourism" value="information"/>
 				<key key="information" value="board"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<text key="description" text="Closer description"/>
-				<combo key="board_type" text="Board Content" values="notice,history,nature,wildlife,plants,geology"/>
+				<text key="description" text="Closer description" fr.text="Description détaillée"/>
+				<combo key="board_type" text="Board Content" values="notice,history,nature,wildlife,plants,geology" fr.text="Contenu du panneau"/>
 			</item>
-			<item name="Guidepost" type="node">
+			<item name="Guidepost" type="node" fr.name="Panneau directionnel">
 				<link wiki="Tag:information=guidepost"/>
-				<label text="A Signpost/Guidepost to indicate the directions to different destinations."/>
-				<space/>
+				<label text="A Signpost/Guidepost to indicate the directions to different destinations." fr.text="Un panneau pour indiquer les directions vers différentes destinations"/>
 				<key key="tourism" value="information"/>
 				<key key="information" value="guidepost"/>
 				<reference ref="name_ref_operator"/>
-				<text key="ele" text="Elevation"/>
-				<optional text="Routes shown for:">
-					<check key="hiking" text="Hiking"/>
-					<check key="bicycle" text="Cycling"/>
-					<check key="mtb" text="Mountainbiking"/>
-					<check key="ski" text="Skiing"/>
+				<text key="ele" text="Elevation" fr.text="Élévation"/>
+				<optional text="Routes shown for:" fr.text="Itinéraires montrés pour :">
+					<check key="hiking" text="Hiking" fr.text="Randonnée pédestre"/>
+					<check key="bicycle" text="Cycling" fr.text="Vélo"/>
+					<check key="mtb" text="Mountainbiking" fr.text="VTT"/>
+					<check key="ski" text="Skiing" fr.text="Ski"/>
 					<check key="horse" text="Riding"/>
-					<space/>
-					<label text="... other transportation modes possible"/>
+					<label text="... other transportation modes possible" fr.text="D'autres modes de transport possibles"/>
 				</optional>
 			</item>
-			<item name="Information Terminal" type="node">
+			<item name="Information Terminal" type="node" fr.name="Terminal d'information">
 				<link wiki="Tag:information=terminal"/>
-				<label text="Information access via electronic methods."/>
-				<space/>
+				<label text="Information access via electronic methods." fr.text="Accès à des informations à l'aide d'un appareil électronique"/>
 				<key key="tourism" value="information"/>
 				<key key="information" value="terminal"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
 				<reference ref="fee"/>
 				<reference ref="internet"/>
-				<text key="description" text="Closer description"/>
+				<text key="description" text="Closer description" fr.text="Description détaillée"/>
 				<text key="ref" text="Reference number" fr.text="Numéro de référence"/>
 			</item>
-			<item name="Audio Guide" type="node">
+			<item name="Audio Guide" type="node" fr.name="Guide audio">
 				<link wiki="Tag:information=audioguide"/>
-				<label text="Information using headphones or a mobile phone."/>
-				<label text="Audioguide via mobile phone?"/>
-				<label text="Use E.123 format, e.g. +49 11223 456 7890"/>
-				<space/>
-				<space/>
+				<label text="Information using headphones or a mobile phone." fr.text="Informations accessibles à l'aide de haut-parleur ou d'un téléphone"/>
+				<label text="Audioguide via mobile phone?" fr.text="Utilisable via un téléphone portable ?"/>
+				<label text="Use E.123 format, e.g. +49 11223 456 7890" fr.text="Utilisez le format international, exemple +33 123456789"/>
 				<key key="tourism" value="information"/>
 				<key key="information" value="audioguide"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
 				<reference ref="fee"/>
-				<text key="description" text="Closer description"/>
+				<text key="description" text="Closer description" fr.text="Description détaillée"/>
 				<text key="ref" text="Reference number" fr.text="Numéro de référence"/>
-				<text key="phone" text="Phone number"/>
+				<text key="phone" text="Phone number" fr.text="Numéro de téléphone"/>
 			</item>
-			<item name="Other Information Point" type="node">
+			<item name="Other Information Point" type="node" fr.name="Autre point d'information">
 				<link wiki="Tag:tourism=information"/>
-				<space/>
 				<key key="tourism" value="information"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<text key="description" text="Closer description"/>
+				<text key="description" text="Closer description" fr.text="Description détaillée"/>
 			</item>
 		</group>
-		<group name="Leisure">
-			<item name="Movie Theater/Cinema" type="node,closedway">
+		<group name="Leisure" fr.name="Loisirs">
+			<item name="Movie Theater/Cinema" type="node,closedway" fr.name="Cinéma">
 				<link wiki="Tag:amenity=cinema"/>
-				<space/>
 				<key key="amenity" value="cinema"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="min_age"/>
 				<reference ref="link_contact_address_payment"/>
-				<check key="drive_in" text="Drive-in theater"/>
+				<check key="drive_in" text="Drive-in theater" fr.text="Cinéma drive"/>
 				<check key="cinema:3D" text="3D"/>
-				<text key="screen" text="Number of screens"/>
+				<text key="screen" text="Number of screens" fr.text="Nombre d'écrans"/>
 				<preset_link preset_name="Building"/>
 			</item>
 			<item name="Bandstand" type="node,closedway">
 				<link wiki="Tag:leisure=bandstand"/>
-				<space/>
 				<key key="leisure" value="bandstand"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<combo key="access" text="Access" values="yes,permissive,private" fr.text="Accès"/>
 			</item>
 			<item name="Zoo" type="node,closedway">
 				<link wiki="Tag:tourism=zoo"/>
-				<space/>
-				<space/>
 				<key key="tourism" value="zoo"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<combo key="zoo" text="Type" values="aviary,birds,butterfly,enclosure,falconry,petting_zoo,reptile,safari_park,wildlife_park"/>
 				<text key="wikipedia" text="Wikipedia" fr.text="Wikipédia"/>
 			</item>
-			<item name="Animal enclosure" type="node,closedway">
+			<item name="Animal enclosure" type="node,closedway" fr.name="Enclos pour animaux">
 				<link wiki="Tag:attraction=animal"/>
-				<space/>
 				<key key="attraction" value="animal"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
-			<item name="Dog Park" type="node,closedway">
+			<item name="Dog Park" type="node,closedway" fr.name="Parc à chien">
 				<link wiki="Tag:leisure=dog_park"/>
-				<space/>
 				<key key="leisure" value="dog_park"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<check key="area" text="Area" fr.text="Zone"/>
@@ -1418,51 +966,33 @@
 				<combo key="barrier" text="Barrier" values="fence,wall" fr.text="Barrière"/>
 				<reference ref="oh_wheelchair"/>
 			</item>
-			<item name="Amusement/Theme Park" type="node,closedway">
+			<item name="Amusement/Theme Park" type="node,closedway" fr.name="Parc d'attractions">
 				<link wiki="Tag:tourism=theme_park"/>
-				<space/>
-				<space/>
 				<key key="tourism" value="theme_park"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Water Park" type="node,closedway">
+			<item name="Water Park" type="node,closedway" fr.name="Parc aquatique">
 				<link wiki="Tag:leisure=water_park"/>
-				<space/>
-				<space/>
 				<key key="leisure" value="water_park"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Resort" type="node,closedway">
 				<link wiki="Tag:leisure=resort"/>
-				<space/>
-				<space/>
 				<key key="leisure" value="resort"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="fee_interval"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Beach Resort" type="node,closedway">
-				<link wiki="Tag:leisure=beach_resort"/>
-				<space/>
-				<space/>
-				<key key="leisure" value="beach_resort"/>
-				<reference ref="name_operator_oh_wheelchair"/>
-				<reference ref="fee_interval"/>
-				<reference ref="link_contact_address_payment"/>
-			</item>
-			<item name="Swimming Pool" type="node,closedway">
+			<item name="Swimming Pool" type="node,closedway" fr.name="Piscine">
 				<link wiki="Tag:leisure=swimming_pool"/>
 				<key key="leisure" value="swimming_pool"/>
-				<space/>
-				<space/>
-				<label text="Used for the water area only."/>
+				<label text="Used for the water area only." fr.text="À utiliser uniquement pour le bassin"/>
 				<combo key="access" text="Access" values="yes,customers,private" fr.text="Accès"/>
 			</item>
-			<item name="Fitness Station" type="node,closedway">
+			<item name="Fitness Station" type="node,closedway" fr.name="Station de fitness">
 				<link wiki="Tag:leisure=fitness_station"/>
-				<space/>
 				<key key="leisure" value="fitness_station"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
@@ -1470,45 +1000,30 @@
 			</item>
 			<item name="Sauna" type="node,closedway">
 				<link wiki="Tag:amenity=sauna"/>
-				<space/>
-				<space/>
 				<key key="leisure" value="sauna"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<combo key="access" text="Access" values="yes,permissive,private" fr.text="Accès"/>
 			</item>
-			<item name="Horse Riding" type="node,closedway">
-				<link wiki="Tag:leisure=horse_riding"/>
-				<space/>
-				<space/>
-				<key key="leisure" value="horse_riding"/>
-				<reference ref="name_operator_oh_wheelchair"/>
-				<reference ref="fee"/>
-				<reference ref="link_contact_address_payment"/>
-			</item>
-			<item name="Playground" type="node,closedway">
+			<item name="Playground" type="node,closedway" fr.name="Aire de jeux">
 				<link wiki="Tag:leisure=playground"/>
-				<space/>
 				<key key="leisure" value="playground"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="max_age"/>
 			</item>
-			<item name="Picnic Site" type="node,closedway">
+			<item name="Picnic Site" type="node,closedway" fr.name="Aire de pique-nique">
 				<link wiki="Tag:tourism=picnic_site"/>
-				<space/>
 				<key key="tourism" value="picnic_site"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<check key="fireplace" text="Fireplace"/>
 			</item>
-			<item name="Picnic Table" type="node">
+			<item name="Picnic Table" type="node" fr.name="Table de pique-nique">
 				<link wiki="Tag:leisure=picnic_table"/>
-				<space/>
 				<key key="leisure" value="picnic_table"/>
 				<check key="covered" text="Covered" fr.text="Couvert"/>
 			</item>
-			<item name="Public Grill" type="node">
+			<item name="Public Grill" type="node" fr.name="Grill public">
 				<link wiki="Tag:amenity=bbq"/>
-				<space/>
 				<key key="amenity" value="bbq"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<combo key="fuel" text="Fuel" text_context="grill" values="charcoal,electric,wood" fr.text="Essence"/>
@@ -1516,27 +1031,11 @@
 			</item>
 			<item name="Firepit" type="node,closedway">
 				<link wiki="Tag:leisure=firepit"/>
-				<space/>
 				<key key="leisure" value="firepit"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
-			<item name="Fishing" type="node,closedway">
-				<link wiki="Tag:leisure=fishing"/>
-				<space/>
-				<key key="leisure" value="fishing"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Bird Hide" type="node,closedway">
-				<link wiki="Tag:leisure=bird_hide"/>
-				<space/>
-				<key key="leisure" value="bird_hide"/>
-				<reference ref="name_ref_operator"/>
-			</item>
-			<item name="Night Club" type="node,closedway">
+			<item name="Night Club" type="node,closedway" fr.name="Boîte de nuit">
 				<link wiki="Tag:amenity=nightclub"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="nightclub"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="min_age"/>
@@ -1545,86 +1044,69 @@
 			</item>
 			<item name="Casino" type="node,closedway">
 				<link wiki="Tag:amenity=casino"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="casino"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="internet_smoking"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Strip Club" type="node,closedway">
+			<item name="Strip Club" type="node,closedway" fr.name="Club de strip-tease">
 				<link wiki="Tag:amenity=stripclub"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="stripclub"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="internet_smoking"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Brothel" type="node,closedway">
+			<item name="Brothel" type="node,closedway" fr.name="Bordel">
 				<link wiki="Tag:amenity=brothel"/>
-				<space/>
-				<space/>
-				<space/>
 				<key key="amenity" value="brothel"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="internet_smoking"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<separator/>
-			<separator/>
 		</group>
 		<group name="Culture">
-			<item name="Museum" type="node,closedway">
+			<item name="Museum" type="node,closedway" fr.name="Musée">
 				<link wiki="Tag:tourism=museum"/>
-				<space/>
 				<key key="tourism" value="museum"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<text key="wikipedia" text="Wikipedia" fr.text="Wikipédia"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Theatre" type="node,closedway">
+			<item name="Theatre" type="node,closedway" fr.name="Théâtre">
 				<link wiki="Tag:amenity=theatre"/>
-				<space/>
 				<key key="amenity" value="theatre"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Library" type="node,closedway">
+			<item name="Library" type="node,closedway" fr.name="Bibliothèque">
 				<link wiki="Tag:amenity=library"/>
-				<space/>
 				<key key="amenity" value="library"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Arts Centre" type="node,closedway">
+			<item name="Arts Centre" type="node,closedway" fr.name="Centre artistique">
 				<link wiki="Tag:amenity=arts_centre"/>
-				<space/>
 				<key key="amenity" value="arts_centre"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<reference ref="link_contact_address_payment"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Artwork" type="node">
+			<item name="Artwork" type="node" fr.name="Œuvres d'art">
 				<link wiki="Tag:tourism=artwork"/>
-				<space/>
 				<key key="tourism" value="artwork"/>
 				<combo key="artwork_type" text="Type" values="architecture,mural,painting,sculpture,statue,bust,stone,installation,graffiti" values_searchable="true"/>
 				<combo key="material" text="Material" values="metal,plastic,steel,stone,wood,concrete" fr.text="Matériau"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<text key="artwork_subject" text="Subject"/>
-				<text key="artist_name" text="Artist Name"/>
+				<text key="artwork_subject" text="Subject" fr.text="Sujet"/>
+				<text key="artist_name" text="Artist Name" fr.text="Nom de l'artiste"/>
 				<text key="start_date" text="Start date" fr.text="Date de début"/>
 			</item>
 			<item name="Studio" type="node,closedway">
 				<link wiki="Tag:amenity=studio"/>
-				<space/>
 				<key key="amenity" value="studio"/>
 				<reference ref="name_operator"/>
 				<reference ref="wheelchair"/>
@@ -1632,27 +1114,25 @@
 				<combo key="studio" text="Type" values="audio,radio,television,video"/>
 			</item>
 		</group>
-		<group name="Place of Worship">
-			<item name="Church" type="node,closedway">
+		<group name="Place of Worship" fr.name="Centre religieux">
+			<item name="Church" type="node,closedway" fr.name="Église">
 				<link wiki="Tag:amenity=place_of_worship"/>
-				<space/>
 				<key key="amenity" value="place_of_worship"/>
 				<key key="religion" value="christian"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<combo key="building" text="Building type" values="basilica,cathedral,chapel,church,temple" values_searchable="true"/>
+				<combo key="building" text="Building type" values="basilica,cathedral,chapel,church,temple" values_searchable="true" fr.text="Type de bâtiment"/>
 				<reference ref="christian_denominations"/>
 				<reference ref="service_times"/>
 				<reference ref="oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Mosque" type="node,closedway">
+			<item name="Mosque" type="node,closedway" fr.name="Mosquée">
 				<link wiki="Tag:amenity=place_of_worship"/>
-				<space/>
 				<key key="amenity" value="place_of_worship"/>
 				<key key="religion" value="muslim"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<combo key="building" text="Building type" values="mosque" values_searchable="true"/>
+				<combo key="building" text="Building type" values="mosque" values_searchable="true" fr.text="Type de bâtiment"/>
 				<reference ref="muslim_denominations"/>
 				<reference ref="service_times"/>
 				<reference ref="oh_wheelchair"/>
@@ -1661,20 +1141,18 @@
 			</item>
 			<item name="Synagogue" type="node,closedway">
 				<link wiki="Tag:amenity=place_of_worship"/>
-				<space/>
 				<key key="amenity" value="place_of_worship"/>
 				<key key="religion" value="jewish"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<combo key="building" text="Building type" values="synagogue" values_searchable="true"/>
+				<combo key="building" text="Building type" values="synagogue" values_searchable="true" fr.text="Type de bâtiment"/>
 				<reference ref="jewish_denominations"/>
 				<reference ref="service_times"/>
 				<reference ref="oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Buddhist Temple" type="node,closedway">
+			<item name="Buddhist Temple" type="node,closedway" fr.name="Temple boudhiste">
 				<link wiki="Tag:amenity=place_of_worship"/>
-				<space/>
 				<key key="amenity" value="place_of_worship"/>
 				<key key="religion" value="buddhist"/>
 				<text key="name" text="Name" fr.text="Nom"/>
@@ -1684,9 +1162,8 @@
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Hindu Temple" type="node,closedway">
+			<item name="Hindu Temple" type="node,closedway" fr.name="Temple hindu">
 				<link wiki="Tag:amenity=place_of_worship"/>
-				<space/>
 				<key key="amenity" value="place_of_worship"/>
 				<key key="religion" value="hindu"/>
 				<text key="name" text="Name" fr.text="Nom"/>
@@ -1696,9 +1173,8 @@
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Shinto Shrine" type="node,closedway">
+			<item name="Shinto Shrine" type="node,closedway" fr.name="Temple Shinto">
 				<link wiki="Tag:amenity=place_of_worship"/>
-				<space/>
 				<key key="amenity" value="place_of_worship"/>
 				<key key="religion" value="shinto"/>
 				<text key="name" text="Name" fr.text="Nom"/>
@@ -1707,9 +1183,8 @@
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Other Place of Worship" type="node,closedway">
+			<item name="Other Place of Worship" type="node,closedway" fr.name="Autre centre religieux">
 				<link wiki="Tag:amenity=place_of_worship"/>
-				<space/>
 				<key key="amenity" value="place_of_worship"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<reference ref="other_religions"/>
@@ -1719,34 +1194,30 @@
 				<preset_link preset_name="Building"/>
 			</item>
 		</group>
-		<group name="Public Building">
-			<item name="Town Hall" type="node,closedway">
+		<group name="Public Building" fr.name="Bâtiment public">
+			<item name="Town Hall" type="node,closedway" fr.name="Hôtel de ville">
 				<link wiki="Tag:amenity=townhall"/>
-				<space/>
 				<key key="amenity" value="townhall"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Community Centre" type="node,closedway">
+			<item name="Community Centre" type="node,closedway" fr.name="Centre communautaire">
 				<link wiki="Tag:amenity=community_centre"/>
-				<label text="Community Centre"/>
-				<space/>
+				<label text="Community Centre" fr.text="Centre communautaire"/>
 				<key key="amenity" value="community_centre"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Embassy" type="node,closedway">
+			<item name="Embassy" type="node,closedway" fr.name="Embassade">
 				<link wiki="Tag:amenity=embassy"/>
-				<space/>
 				<key key="amenity" value="embassy"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 			</item>
-			<item name="Courthouse" type="node,closedway">
+			<item name="Courthouse" type="node,closedway" fr.name="Palais de Justice">
 				<link wiki="Tag:amenity=courthouse"/>
-				<space/>
 				<key key="amenity" value="courthouse"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
@@ -1754,47 +1225,41 @@
 			</item>
 			<item name="Prison" type="node,closedway">
 				<link wiki="Tag:amenity=prison"/>
-				<space/>
 				<key key="amenity" value="prison"/>
 				<reference ref="name_operator"/>
 				<reference ref="link_contact_address"/>
 			</item>
 			<item name="Police" type="node,closedway">
 				<link wiki="Tag:amenity=police"/>
-				<space/>
 				<key key="amenity" value="police"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Ranger Station" type="node,closedway">
+			<item name="Ranger Station" type="node,closedway" fr.name="Station de Ranger">
 				<link wiki="Tag:amenity=ranger_station"/>
-				<space/>
 				<key key="amenity" value="ranger_station"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 			</item>
-			<item name="Fire Station" type="node,closedway">
+			<item name="Fire Station" type="node,closedway" fr.name="Caserne de pompiers">
 				<link wiki="Tag:amenity=fire_station"/>
-				<space/>
 				<key key="amenity" value="fire_station"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Post Office" type="node,closedway">
+			<item name="Post Office" type="node,closedway" fr.name="Bureau de poste">
 				<link wiki="Tag:amenity=post_office"/>
-				<space/>
 				<key key="amenity" value="post_office"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
 			</item>
 		</group>
-		<group name="Education">
+		<group name="Education" fr.name="Enseignement">
 			<item name="Kindergarten" type="node,closedway">
 				<link wiki="Tag:amenity=kindergarten"/>
-				<space/>
 				<key key="amenity" value="kindergarten"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="min_age"/>
@@ -1802,151 +1267,130 @@
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="School" type="node,closedway">
+			<item name="School" type="node,closedway" fr.name="École">
 				<link wiki="Tag:amenity=school"/>
-				<space/>
 				<key key="amenity" value="school"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="min_age"/>
 				<reference ref="link_contact_address"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="University" type="node,closedway">
+			<item name="University" type="node,closedway" fr.name="Université">
 				<link wiki="Tag:amenity=university"/>
-				<space/>
 				<key key="amenity" value="university"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 			</item>
 			<item name="College" type="node,closedway">
 				<link wiki="Tag:amenity=college"/>
-				<space/>
 				<key key="amenity" value="college"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 			</item>
-			<item name="Driving School" type="node,closedway">
+			<item name="Driving School" type="node,closedway" fr.name="Auto-école">
 				<link wiki="Tag:amenity=driving_school"/>
-				<space/>
 				<key key="amenity" value="driving_school"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 				<combo key="license_classes" text="License Classes" values="A;A1;B;BE;C,A;A1;B;B1;C;C1;D;D1;BE;CE;C1E;DE;D1E"/>
 			</item>
 		</group>
-		<group name="Health">
-			<item name="Hospital" type="node,closedway">
+		<group name="Health" fr.name="Santé">
+			<item name="Hospital" type="node,closedway" fr.name="Hôpital">
 				<link wiki="Tag:amenity=hospital"/>
-				<space/>
 				<key key="amenity" value="hospital"/>
 				<reference ref="name_operator"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Clinic" type="node,closedway">
+			<item name="Clinic" type="node,closedway" fr.name="Clinique">
 				<link wiki="Tag:amenity=clinic"/>
-				<space/>
 				<key key="amenity" value="clinic"/>
 				<reference ref="name_operator"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Doctor's Office" type="node,closedway">
+			<item name="Doctor's Office" type="node,closedway" fr.name="Cabinet de médecin">
 				<link wiki="Tag:amenity=doctors"/>
-				<space/>
 				<key key="amenity" value="doctors"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Dentist" type="node,closedway">
+			<item name="Dentist" type="node,closedway" fr.name="Dentiste">
 				<link wiki="Tag:amenity=dentist"/>
-				<space/>
 				<key key="amenity" value="dentist"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Pharmacy" type="node,closedway">
+			<item name="Pharmacy" type="node,closedway" fr.name="Pharmacie">
 				<link wiki="Tag:amenity=pharmacy"/>
-				<space/>
 				<key key="amenity" value="pharmacy"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
-				<check key="dispensing" text="Dispensing"/>
+				<check key="dispensing" text="Dispensing" fr.text="Délivre des médicaments avec ordonnance"/>
 			</item>
 			<item name="Baby Hatch/Safe Haven" type="node">
 				<link wiki="Tag:amenity=baby_hatch"/>
-				<space/>
 				<key key="amenity" value="baby_hatch"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 			</item>
-			<item name="Emergency Access Point" type="node">
+			<item name="Emergency Access Point" type="node" fr.name="Point de rassemblement">
 				<link wiki="Tag:highway=emergency_access_point"/>
-				<space/>
-				<space/>
 				<key key="highway" value="emergency_access_point"/>
-				<text key="ref" text="Point Number"/>
-				<text key="name" text="Point Name"/>
+				<text key="ref" text="Point Number" fr.text="Numéro du point"/>
+				<text key="name" text="Point Name" fr.text="Nom du point"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
-				<text key="emergency_telephone_code" text="Emergency Phone Number"/>
-				<label text="(Use number as shown on plate.)"/>
+				<text key="emergency_telephone_code" text="Emergency Phone Number" fr.text="Téléphone d'urgence"/>
+				<label text="(Use number as shown on plate.)" fr.text="(utilisez le numéro tel qu'affiché sur la plaque)"/>
 			</item>
-			<item name="Veterinary" type="node,closedway">
+			<item name="Veterinary" type="node,closedway" fr.name="Vétérinaire">
 				<link wiki="Tag:amenity=veterinary"/>
-				<space/>
 				<key key="amenity" value="veterinary"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<separator/>
-			<separator/>
-			<separator/>
 		</group>
-		<group name="Emergency">
-			<item name="Ambulance Station" type="node,closedway">
+		<group name="Emergency" fr.name="Urgence">
+			<item name="Ambulance Station" type="node,closedway" fr.name="Station d'ambulances">
 				<link wiki="Tag:emergency=ambulance_station"/>
-				<space/>
 				<key key="emergency" value="ambulance_station"/>
 				<reference ref="name_operator"/>
 				<reference ref="link_contact_address"/>
 			</item>
-			<item name="Automated Defibrillator" type="node">
+			<item name="Automated Defibrillator" type="node" fr.name="Défibrillateur automatique">
 				<link wiki="Tag:emergency=defibrillator"/>
-				<space/>
 				<key key="emergency" value="defibrillator"/>
 				<reference ref="oh_wheelchair"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
-				<text key="defibrillator:location" text="Location description"/>
-				<text key="phone" text="Phone number"/>
-				<label text="Use E.123 format, e.g. +49 11223 456 7890"/>
+				<text key="defibrillator:location" text="Location description" fr.text="Localisation"/>
+				<text key="phone" text="Phone number" fr.text="Numéro de téléphone"/>
+				<label text="Use E.123 format, e.g. +49 11223 456 7890" fr.text="Utilisez le format international, exemple +33 123456789"/>
 				<combo key="access" text="Access" values="yes,private,customers,permissive,no" fr.text="Accès"/>
-				<check key="indoor" text="Located inside a building?"/>
+				<check key="indoor" text="Located inside a building?" fr.text="À l'intérieur d'un bâtiment ?"/>
 			</item>
-			<item name="Fire Extinguisher" type="node">
+			<item name="Fire Extinguisher" type="node" fr.name="Extincteur">
 				<link wiki="Tag:emergency=fire_extinguisher"/>
-				<space/>
 				<key key="emergency" value="fire_extinguisher"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
-				<check key="indoor" text="Indoor"/>
+				<check key="indoor" text="Indoor" fr.text="Intérieur"/>
 			</item>
 			<item name="Fire Hose" type="node">
 				<link wiki="Tag:emergency=fire_hose"/>
-				<space/>
 				<key key="emergency" value="fire_hose"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 			</item>
-			<item name="Fire Hydrant" type="node">
+			<item name="Fire Hydrant" type="node" fr.name="Borne incendie">
 				<link wiki="Tag:emergency=fire_hydrant"/>
-				<space/>
 				<key key="emergency" value="fire_hydrant"/>
-				<combo key="fire_hydrant:type" text="Shape" values_searchable="true" values_context="pipeline">
+				<combo key="fire_hydrant:type" text="Shape" values_searchable="true" values_context="pipeline" fr.text="Forme">
 					<list_entry value="pillar" short_description="A pillar type hydrant."/>
 					<list_entry value="underground" short_description="A fire hydrant simple outlet located underground."/>
 					<list_entry value="wall" short_description="A wall-mounted fire hydrant."/>
 					<list_entry value="pipe" short_description="A simple capped pipe, without the usual hydrant shape."/>
 				</combo>
-				<combo key="fire_hydrant:diameter" text="Diameter (mm)" values="50,70,75,80,100,110,125,150,200,250,300,400"/>
-				<combo key="fire_hydrant:pressure" text="Pressure (bar) or suction" values_searchable="true" values_sort="false">
+				<combo key="fire_hydrant:diameter" text="Diameter (mm)" values="50,70,75,80,100,110,125,150,200,250,300,400" fr.text="Diamètre (mm)"/>
+				<combo key="fire_hydrant:pressure" text="Pressure (bar) or suction" values_searchable="true" values_sort="false" fr.text="Pression (bar)">
 					<list_entry value="#" short_description="Pressure in bar."/>
 					<list_entry value="yes" short_description="Pressure but value unknown."/>
 					<list_entry value="suction" short_description="Water is not pressurized, a pump is needed."/>
@@ -1954,11 +1398,11 @@
 				<optional>
 					<text key="ref" text="Reference" fr.text="Référence"/>
 					<text key="flow_rate" text="Flow rate with unit of measure"/>
-					<text key="couplings:diameters" text="Each coupling diameter (separated by ;)"/>
-					<text key="manufacturer" text="Manufacturer"/>
+					<text key="couplings:diameters" text="Each coupling diameter (separated by ;)" fr.text="Diamètres de couplage (séparés par un ; )"/>
+					<text key="manufacturer" text="Manufacturer" fr.text="Fabriquant"/>
 					<text key="operator" text="Operator" fr.text="Opérateur"/>
 					<text key="name" text="Name" fr.text="Nom"/>
-					<combo key="water_source" text="Water source">
+					<combo key="water_source" text="Water source" fr.text="Source de l'eau">
 						<list_entry value="main" short_description="Hydrant is fed by the local distribution network."/>
 						<list_entry value="groundwater" short_description="A water well."/>
 						<list_entry value="stream"/>
@@ -1971,62 +1415,52 @@
 						<list_entry value="water_tank"/>
 						<list_entry value="swimming_pool"/>
 					</combo>
-					<combo key="fire_hydrant:position" text="Hydrant Position" values_context="hydrant position">
+					<combo key="fire_hydrant:position" text="Hydrant Position" values_context="hydrant position" fr.text="Position">
 						<list_entry value="lane" short_description="on the side of a road lane"/>
 						<list_entry value="parking_lot" short_description="in a parking lot"/>
 						<list_entry value="sidewalk" short_description="on a sidewalk"/>
 						<list_entry value="green" short_description="in a grassy area"/>
 					</combo>
-					<combo key="pillar:type" text="Pillar type">
+					<combo key="pillar:type" text="Pillar type" fr.text="Type de poteau">
 						<list_entry value="dry_barrel" short_description="A style of pillar hydrant where the water shutoff valve is below ground."/>
 						<list_entry value="wet_barrel" short_description="A style of pillar hydrant where the barrel is pressurized at all times, with individual valves for each outlet."/>
 					</combo>
-					<combo key="couplings" text="Number of couplings" values="1,2,3"/>
-					<combo key="colour" text="Colour" values="blue,green,red,yellow,grey" values_context="color"/>
-					<combo key="bonnet:colour" text="Colour of the top section (bonnet)" values="blue,green,red,yellow,grey" values_context="color"/>
+					<combo key="couplings" text="Number of couplings" values="1,2,3" fr.text="Nombre de couplages"/>
+					<combo key="colour" text="Colour" values="blue,green,red,yellow,grey" values_context="color" fr.text="Couleur"/>
+					<combo key="bonnet:colour" text="Colour of the top section (bonnet)" values="blue,green,red,yellow,grey" values_context="color" fr.text="Couleur de la partie supérieure (bonnet)"/>
 					<combo key="cap:colour" text="Colour of the caps" values="blue,green,red,yellow,grey" values_context="color"/>
-					<space/>
-					<space/>
-					<space/>
 				</optional>
 			</item>
-			<item name="Water Tank" type="node,closedway">
+			<item name="Water Tank" type="node,closedway" fr.name="Réservoir d'eau">
 				<link wiki="Tag:emergency=water_tank"/>
-				<space/>
-				<space/>
 				<key key="emergency" value="water_tank"/>
 				<reference ref="name_ref_operator"/>
-				<text key="water_tank:volume" text="Volume (in liters)"/>
+				<text key="water_tank:volume" text="Volume (in liters)" fr.text="Volume (en litres)"/>
 			</item>
-			<item name="Assembly Point" type="node">
+			<item name="Assembly Point" type="node" fr.name="Point de rassemblent">
 				<link wiki="Tag:emergency=assembly_point"/>
-				<space/>
 				<key key="emergency" value="assembly_point"/>
 				<reference ref="name_ref_operator"/>
 			</item>
-			<item name="Emergency Phone" type="node">
+			<item name="Emergency Phone" type="node" fr.name="Téléphone d'urgence">
 				<link wiki="Tag:emergency=phone"/>
 				<key key="emergency" value="phone"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 			</item>
-			<item name="Siren" type="node">
+			<item name="Siren" type="node" fr.name="Sirène">
 				<link wiki="Tag:emergency=siren"/>
 				<key key="emergency" value="siren"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
-				<text key="siren:range" text="Range (in meters)"/>
-				<space/>
+				<text key="siren:range" text="Range (in meters)" fr.text="Portée (en mètres)"/>
 				<combo key="siren:type" text="Type" values="pneumatic,electronic,mechanical"/>
-				<combo key="siren:purpose" text="Purpose" values="tornado,fire,air_raid,civil_defense"/>
+				<combo key="siren:purpose" text="Purpose" values="tornado,fire,air_raid,civil_defense" fr.text="But"/>
 			</item>
-			<separator/>
-			<separator/>
 		</group>
-		<group name="Social Facility">
+		<group name="Social Facility" fr.name="Centre social">
 			<item name="Nursing Home" type="node,closedway">
 				<link wiki="Key:social_facility"/>
-				<space/>
 				<key key="amenity" value="social_facility"/>
 				<key key="social_facility" value="nursing_home"/>
 				<reference ref="name_operator"/>
@@ -2035,27 +1469,24 @@
 			</item>
 			<item name="Group Home" type="node,closedway">
 				<link wiki="Key:social_facility"/>
-				<space/>
 				<key key="amenity" value="social_facility"/>
 				<key key="social_facility" value="group_home"/>
 				<reference ref="name_operator"/>
 				<reference ref="link_contact_address"/>
-				<combo key="social_facility:for" text="For" value="senior" default="senior"/>
+				<combo key="social_facility:for" text="For" value="senior" default="senior" fr.text="Pour"/>
 				<text key="capacity" text="Capacity" fr.text="Capacité"/>
 			</item>
 			<item name="Assisted Living" type="node,closedway">
 				<link wiki="Key:social_facility"/>
-				<space/>
 				<key key="amenity" value="social_facility"/>
 				<key key="social_facility" value="assisted_living"/>
 				<reference ref="name_operator"/>
 				<reference ref="link_contact_address"/>
-				<combo key="social_facility:for" text="For" value="senior" default="senior"/>
+				<combo key="social_facility:for" text="For" value="senior" default="senior" fr.text="Pour"/>
 				<text key="capacity" text="Capacity" fr.text="Capacité"/>
 			</item>
 			<item name="Outreach" type="node,closedway">
 				<link wiki="Key:social_facility"/>
-				<space/>
 				<key key="amenity" value="social_facility"/>
 				<key key="social_facility" value="outreach"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2063,16 +1494,14 @@
 			</item>
 			<item name="Shelter" name_context="social_facility" type="node,closedway" fr.name="Abri">
 				<link wiki="Key:social_facility"/>
-				<space/>
 				<key key="amenity" value="social_facility"/>
 				<key key="social_facility" value="shelter"/>
 				<reference ref="name_operator"/>
 				<reference ref="link_contact_address"/>
 				<text key="capacity" text="Capacity" fr.text="Capacité"/>
 			</item>
-			<item name="Food Bank" type="node,closedway">
+			<item name="Food Bank" type="node,closedway" fr.name="Banque alimentaire">
 				<link wiki="Key:social_facility"/>
-				<space/>
 				<key key="amenity" value="social_facility"/>
 				<key key="social_facility" value="food_bank"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2080,37 +1509,35 @@
 			</item>
 		</group>
 		<group name="Facilities" fr.name="Équipements">
-			<item name="Toilets/Restrooms" type="node,closedway">
+			<item name="Toilets/Restrooms" type="node,closedway" fr.name="Toilettes">
 				<link wiki="Tag:amenity=toilets"/>
-				<space/>
 				<key key="amenity" value="toilets"/>
 				<optional>
-					<combo key="access" text="Access rights" values="yes,permissive,customers"/>
+					<combo key="access" text="Access rights" values="yes,permissive,customers" fr.text="Droits d'accès"/>
 					<combo key="toilets:disposal" text="Type" values="flush,pitlatrine,chemical,bucket"/>
-					<combo key="toilets:position" text="Usage Position" values="seated,seated;urinal,squat,urinal"/>
-					<combo key="diaper" text="Diaper" values="yes,no,room,1,2,3,4,5" text_context="toilets"/>
+					<combo key="toilets:position" text="Usage Position" values="seated,seated;urinal,squat,urinal" fr.text="Position d'utilisation"/>
+					<combo key="diaper" text="Diaper" values="yes,no,room,1,2,3,4,5" text_context="toilets" fr.text="Table à langer"/>
 					<checkgroup columns="3">
-						<check key="female" text="Female" text_context="restroom"/>
-						<check key="male" text="Male" text_context="restroom"/>
-						<check key="unisex" text="Unisex" text_context="restroom"/>
+						<check key="female" text="Female" text_context="restroom" fr.text="Femme"/>
+						<check key="male" text="Male" text_context="restroom" fr.text="Homme"/>
+						<check key="unisex" text="Unisex" text_context="restroom" fr.text="Unisexe"/>
 					</checkgroup>
 					<text key="description" text="Description"/>
 					<text key="operator" text="Operator" fr.text="Opérateur"/>
 					<reference ref="fee"/>
 					<reference ref="wheelchair"/>
-					<check key="drinking_water" text="Drinking Water"/>
+					<check key="drinking_water" text="Drinking Water" fr.text="Eau potable"/>
 				</optional>
 			</item>
-			<item name="Shower" type="node,closedway">
+			<item name="Shower" type="node,closedway" fr.name="Douche">
 				<link wiki="Tag:amenity=shower"/>
-				<space/>
 				<key key="amenity" value="shower"/>
-				<combo key="access" text="Access rights" values="yes,permissive,customers"/>
+				<combo key="access" text="Access rights" values="yes,permissive,customers" fr.text="Droits d'accès"/>
 				<optional>
 					<checkgroup columns="3">
-						<check key="female" text="Female" text_context="restroom"/>
-						<check key="male" text="Male" text_context="restroom"/>
-						<check key="unisex" text="Unisex" text_context="restroom"/>
+						<check key="female" text="Female" text_context="restroom" fr.text="Femme"/>
+						<check key="male" text="Male" text_context="restroom" fr.text="Homme"/>
+						<check key="unisex" text="Unisex" text_context="restroom" fr.text="Unisexe"/>
 					</checkgroup>
 					<text key="description" text="Description"/>
 					<text key="operator" text="Operator" fr.text="Opérateur"/>
@@ -2118,147 +1545,110 @@
 					<reference ref="oh_wheelchair"/>
 				</optional>
 			</item>
-			<item name="Post Box" type="node">
+			<item name="Post Box" type="node" fr.name="Boîte aux lettres">
 				<link wiki="Tag:amenity=post_box"/>
-				<space/>
 				<key key="amenity" value="post_box"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 				<text key="ref" text="Reference number" fr.text="Numéro de référence"/>
-				<combo key="collection_times" text="Collection times" delimiter="|" values="Mo-Sa 09:00|Mo-Fr 17:30; Sa 12:00|Mo-Fr 15:00,19:00; Sa 15:10; Su 10:30" values_no_i18n="true"/>
+				<combo key="collection_times" text="Collection times" delimiter="|" values="Mo-Sa 09:00|Mo-Fr 17:30; Sa 12:00|Mo-Fr 15:00,19:00; Sa 15:10; Su 10:30" values_no_i18n="true" fr.text="Heures de levée"/>
 				<combo key="post_box:type" text="Type" values="pillar,lamp,wall,meter" values_context="post_box"/>
-				<check key="drive_through" text="Drive through"/>
+				<check key="drive_through" text="Drive through" fr.text="Drive"/>
 			</item>
-			<item name="Telephone" type="node">
+			<item name="Telephone" type="node" fr.name="Téléphone">
 				<link wiki="Tag:amenity=telephone"/>
-				<space/>
-				<space/>
 				<key key="amenity" value="telephone"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 				<combo key="covered" text="Covered" values="yes,no,booth" fr.text="Couvert"/>
-				<check key="payment:coins" text="Coins"/>
-				<check key="payment:notes" text="Notes" text_context="payment"/>
-				<check key="payment:telephone_cards" text="Telephone cards"/>
+				<check key="payment:coins" text="Coins" fr.text="Pièces"/>
+				<check key="payment:notes" text="Notes" text_context="payment" fr.text="Billets"/>
+				<check key="payment:telephone_cards" text="Telephone cards" fr.text="Cartes téléphoniques"/>
 				<preset_link preset_name="Payment Methods"/>
 			</item>
-			<item name="Internet Cafe" type="node,closedway">
+			<item name="Internet Cafe" type="node,closedway" fr.name="Cybercafé">
 				<link wiki="Tag:amenity=internet_cafe"/>
-				<space/>
 				<key key="amenity" value="internet_cafe"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Clock" type="node,closedway">
+			<item name="Clock" type="node,closedway" fr.name="Horloge">
 				<link wiki="Tag:amenity=clock"/>
 				<key key="amenity" value="clock"/>
 				<optional>
-					<combo key="display" text="Display" values="analog,digital,sundial,unorthodox"/>
-					<combo key="faces" text="Faces" text_context="clock" values="1,2,3,4"/>
-					<combo key="visibility" text="Visibility/readability" values="house,street,area" display_values="house (up to 5m),street (up to 20m),area (more than 20m)" values_sort="false"/>
+					<combo key="display" text="Display" values="analog,digital,sundial,unorthodox" fr.text="Affichage"/>
+					<combo key="faces" text="Faces" text_context="clock" values="1,2,3,4" fr.text="Nombre de côtés"/>
+					<combo key="visibility" text="Visibility/readability" values="house,street,area" display_values="house (up to 5m),street (up to 20m),area (more than 20m)" values_sort="false" fr.text="Visibilité" fr.display_values="maison (jusque 5m),rue (jusque 20m),zone (plus de 20m)"/>
 					<reference ref="support"/>
-					<check key="date" text="Shows current date"/>
-					<check key="thermometer" text="Shows temperature"/>
-					<check key="barometer" text="Shows barometric pressure"/>
-					<check key="hygrometer" text="Shows humidity"/>
+					<check key="date" text="Shows current date" fr.text="Affiche la date actuelle"/>
+					<check key="thermometer" text="Shows temperature" fr.text="Affiche la température"/>
+					<check key="barometer" text="Shows barometric pressure" fr.text="Affiche la pression barométrique"/>
+					<check key="hygrometer" text="Shows humidity" fr.text="Affiche l'humidité"/>
 				</optional>
 			</item>
-			<item name="Photo booth" type="node,closedway">
+			<item name="Photo booth" type="node,closedway" fr.name="Photomaton">
 				<link wiki="Tag:amenity=photo_booth"/>
-				<space/>
 				<key key="amenity" value="photo_booth"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 			</item>
-			<item name="Recycling Container" type="node">
+			<item name="Recycling Container" type="node" fr.name="Container de recyclage">
 				<link wiki="Tag:amenity=recycling"/>
-				<space/>
-				<space/>
 				<key key="amenity" value="recycling"/>
 				<key key="recycling_type" value="container"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 				<reference ref="oh_wheelchair"/>
 				<checkgroup columns="4">
 					<check key="recycling:batteries" text="Batteries"/>
-					<check key="recycling:cans" text="Cans"/>
-					<check key="recycling:cardboard" text="Cardboard"/>
+					<check key="recycling:cans" text="Cans" fr.text="Canettes"/>
+					<check key="recycling:cardboard" text="Cardboard" fr.text="Carton épais"/>
 					<check key="recycling:clothes" text="Clothes" fr.text="Vêtements"/>
-					<check key="recycling:electrical_appliances" text="Electrical Appliances"/>
-					<check key="recycling:glass" text="Glass"/>
-					<check key="recycling:glass_bottles" text="Glass Bottles"/>
-					<check key="recycling:green_waste" text="Green Waste"/>
-					<check key="recycling:paper" text="Paper"/>
-					<check key="recycling:plastic" text="Plastic"/>
-					<check key="recycling:plastic_bottles" text="Plastic Bottles"/>
-					<check key="recycling:plastic_packaging" text="Plastic Packaging"/>
-					<check key="recycling:scrap_metal" text="Scrap Metal"/>
-					<check key="recycling:shoes" text="Shoes"/>
-					<check key="recycling:small_appliances" text="Small Appliances"/>
-					<check key="recycling:waste" text="Waste"/>
-				</checkgroup>
-			</item>
-			<item name="Recycling Centre" type="node,closedway">
-				<link wiki="Tag:amenity=recycling"/>
-				<space/>
-				<space/>
-				<key key="amenity" value="recycling"/>
-				<key key="recycling_type" value="centre"/>
-				<reference ref="name_operator_oh_wheelchair"/>
-				<reference ref="link_contact_address_payment"/>
-				<checkgroup columns="4">
-					<check key="recycling:batteries" text="Batteries"/>
-					<check key="recycling:cans" text="Cans"/>
-					<check key="recycling:cardboard" text="Cardboard"/>
-					<check key="recycling:clothes" text="Clothes" fr.text="Vêtements"/>
-					<check key="recycling:electrical_appliances" text="Electrical Appliances"/>
-					<check key="recycling:glass" text="Glass"/>
-					<check key="recycling:glass_bottles" text="Glass Bottles"/>
-					<check key="recycling:green_waste" text="Green Waste"/>
-					<check key="recycling:paper" text="Paper"/>
-					<check key="recycling:plastic" text="Plastic"/>
-					<check key="recycling:plastic_bottles" text="Plastic Bottles"/>
-					<check key="recycling:plastic_packaging" text="Plastic Packaging"/>
-					<check key="recycling:scrap_metal" text="Scrap Metal"/>
-					<check key="recycling:shoes" text="Shoes"/>
-					<check key="recycling:small_appliances" text="Small Appliances"/>
-					<check key="recycling:waste" text="Waste"/>
+					<check key="recycling:electrical_appliances" text="Electrical Appliances" fr.text="Appareils électriques"/>
+					<check key="recycling:glass" text="Glass" fr.text="Verre"/>
+					<check key="recycling:glass_bottles" text="Glass Bottles" fr.text="Bouteilles en verre"/>
+					<check key="recycling:green_waste" text="Green Waste" fr.text="Déchets verts"/>
+					<check key="recycling:paper" text="Paper" fr.text="Papier"/>
+					<check key="recycling:plastic" text="Plastic" fr.text="Plastique"/>
+					<check key="recycling:plastic_bottles" text="Plastic Bottles" fr.text="Bouteilles en plastique"/>
+					<check key="recycling:plastic_packaging" text="Plastic Packaging" fr.text="Emballages en plastique"/>
+					<check key="recycling:scrap_metal" text="Scrap Metal" fr.text="Métal"/>
+					<check key="recycling:shoes" text="Shoes" fr.text="Chaussures"/>
+					<check key="recycling:small_appliances" text="Small Appliances" fr.text="Petits appareils"/>
+					<check key="recycling:waste" text="Waste" fr.text="Déchets mélangés"/>
 				</checkgroup>
 			</item>
 			<item name="Waste Basket/Trash Can" type="node" fr.name="Poubelle">
 				<link wiki="Tag:amenity=waste_basket"/>
 				<key key="amenity" value="waste_basket"/>
-				<combo key="waste" text="Waste" values="trash,dog_excrement"/>
+				<combo key="waste" text="Waste" values="trash,dog_excrement" fr.text="Déchets mélangés"/>
 			</item>
-			<item name="Waste Disposal/Dumpster" type="node">
+			<item name="Waste Disposal/Dumpster" type="node" fr.name="Benne à ordures">
 				<link wiki="Tag:amenity=waste_disposal"/>
 				<key key="amenity" value="waste_disposal"/>
-				<combo key="waste" text="Waste" values="trash"/>
+				<combo key="waste" text="Waste" values="trash" fr.text="Déchets mélangés"/>
 			</item>
 			<item name="Sanitary Dump Station" type="node,closedway">
 				<link wiki="Toilet_Holding_Tank_Disposal"/>
-				<space/>
 				<key key="amenity" value="sanitary_dump_station"/>
 				<check key="sanitary_dump_station:pump-out" text="Suction pumpout"/>
 				<check key="sanitary_dump_station:round_drain" text="Gravity drain for hose"/>
 				<check key="sanitary_dump_station:basin" text="Casette or Elsan Disposal"/>
 				<combo key="access" text="Access" values="yes,customers,no" fr.text="Accès"/>
-				<combo key="opening_hours" text="Operation times" values="24/7" values_no_i18n="true"/>
+				<combo key="opening_hours" text="Operation times" values="24/7" values_no_i18n="true" fr.text="Heures de service"/>
 				<reference ref="fee"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 			</item>
 			<item name="Bench" type="node,closedway" fr.name="Banc">
 				<link wiki="Tag:amenity=bench"/>
-				<space/>
 				<key key="amenity" value="bench"/>
-				<check key="backrest" text="Backrest"/>
+				<check key="backrest" text="Backrest" fr.text="Dossier"/>
 				<combo key="material" text="Material" values="concrete,metal,plastic,stone,wood" fr.text="Matériau"/>
 				<combo key="colour" text="Color (HTML name or hexadecimal code)" values_context="color" values="black,brown,green,red,blue,gray,white,#CD853F" fr.text="Couleur (nom HTML ou code hexadécimal)"/>
-				<combo key="seats" text="Amount of Seats" values="2,3,4,5,6,7,8,9,10"/>
+				<combo key="seats" text="Amount of Seats" values="2,3,4,5,6,7,8,9,10" fr.text="Nombre de places"/>
 			</item>
 			<item name="Shelter" type="node,closedway" fr.name="Abri">
 				<link wiki="Tag:amenity=shelter"/>
-				<space/>
 				<key key="amenity" value="shelter"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<check key="fireplace" text="Fireplace"/>
-				<combo key="shelter_type" text="Type of shelter" values_context="shelter" values_searchable="true">
+				<combo key="shelter_type" text="Type of shelter" values_context="shelter" values_searchable="true" fr.text="Type d'abri">
 					<list_entry value="basic_hut"/>
 					<list_entry value="lean_to"/>
 					<list_entry value="picnic_shelter"/>
@@ -2267,1229 +1657,491 @@
 					<list_entry value="wildlife_hide"/>
 				</combo>
 			</item>
-			<item name="Hunting Stand" type="node,closedway">
-				<link wiki="Tag:amenity=hunting_stand"/>
-				<space/>
-				<key key="amenity" value="hunting_stand"/>
-				<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
-				<check key="shelter" text="Shelter" fr.text="Abri"/>
-				<check key="hide" text="Hide" text_context="hunting stand"/>
-				<check key="lockable" text="Lockable"/>
-			</item>
-			<item name="Drinking Water" type="node">
+			<item name="Drinking Water" type="node" fr.name="Eau potable">
 				<link wiki="Tag:amenity=drinking_water"/>
-				<space/>
 				<key key="amenity" value="drinking_water"/>
-				<check key="indoor" text="Indoor"/>
+				<check key="indoor" text="Indoor" fr.text="Intérieur"/>
 				<optional>
 					<text key="name" text="Name" fr.text="Nom"/>
 					<text key="description" text="Description"/>
 				</optional>
 			</item>
-			<item name="Water Point" type="node,closedway">
+			<item name="Water Point" type="node,closedway" fr.name="Point d'eau">
 				<link wiki="Tag:amenity=water_point"/>
-				<space/>
 				<key key="amenity" value="water_point"/>
 				<optional>
-					<check key="drinking_water" text="Drinking Water"/>
+					<check key="drinking_water" text="Drinking Water" fr.text="Eau potable"/>
 					<text key="name" text="Name" fr.text="Nom"/>
 					<text key="description" text="Description"/>
 				</optional>
 			</item>
-			<item name="Animal watering place" type="node,closedway">
+			<item name="Animal watering place" type="node,closedway" fr.name="Point d'eau pour animaux">
 				<link wiki="Tag:amenity=watering_place"/>
-				<space/>
 				<key key="amenity" value="watering_place"/>
 				<optional>
 					<text key="name" text="Name" fr.text="Nom"/>
 					<text key="description" text="Description"/>
 				</optional>
 			</item>
-			<item name="Compressed Air" type="node">
+			<item name="Compressed Air" type="node" fr.name="Pompe à air">
 				<link wiki="Tag:amenity=compressed_air"/>
-				<space/>
 				<key key="amenity" value="compressed_air"/>
 				<reference ref="name_ref"/>
 				<reference ref="fee"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 				<multiselect key="valves" text="Valves" values="dunlop;schrader;sclaverand;regina" display_values="Dunlop (Woods);Schrader;Sclaverand (Presta);Regina" values_searchable="true"/>
 			</item>
-			<item name="Advertising Column" type="node">
+			<item name="Advertising Column" type="node" fr.name="Colonne publicitaire">
 				<link wiki="Tag:advertising=column"/>
-				<space/>
 				<key key="advertising" value="column"/>
 				<optional>
 					<check key="lit" text="Lit" fr.text="Éclairage"/>
 				</optional>
 			</item>
-			<item name="Billboard" type="node,way">
+			<item name="Billboard" type="node,way" fr.name="Grand panneau">
 				<link wiki="Tag:advertising=billboard"/>
-				<space/>
 				<key key="advertising" value="billboard"/>
 				<optional>
 					<check key="lit" text="Lit" fr.text="Éclairage"/>
 				</optional>
 			</item>
-			<separator/>
-			<separator/>
-			<separator/>
-			<separator/>
-			<separator/>
 		</group>
 	</group>
 	<group name="Sports">
-		<item name="Stadium" type="node,closedway">
+		<item name="Stadium" type="node,closedway" fr.name="Stade">
 			<link wiki="Tag:leisure=stadium"/>
-			<space/>
 			<key key="leisure" value="stadium"/>
 			<text key="name" text="Name" fr.text="Nom"/>
 			<reference ref="sport"/>
 			<reference ref="link_contact_address_payment"/>
 		</item>
-		<item name="Sports Centre" type="node,closedway">
+		<item name="Sports Centre" type="node,closedway" fr.name="Centre sportif">
 			<link wiki="Tag:leisure=sports_centre"/>
-			<space/>
 			<key key="leisure" value="sports_centre"/>
 			<text key="name" text="Name" fr.text="Nom"/>
 			<reference ref="sport"/>
 			<reference ref="link_contact_address_payment"/>
 			<preset_link preset_name="Building"/>
 		</item>
-		<item name="Fitness Centre" type="node,closedway">
+		<item name="Fitness Centre" type="node,closedway" fr.name="Centre de fitness">
 			<link wiki="Tag:leisure=fitness_centre"/>
-			<space/>
 			<key key="leisure" value="fitness_centre"/>
 			<text key="name" text="Name" fr.text="Nom"/>
 			<reference ref="sport"/>
 			<reference ref="link_contact_address_payment"/>
 			<preset_link preset_name="Building"/>
 		</item>
-		<item name="Pitch" type="node,closedway">
+		<item name="Pitch" type="node,closedway" fr.name="Terrain">
 			<link wiki="Tag:leisure=pitch"/>
-			<space/>
 			<key key="leisure" value="pitch"/>
 			<text key="name" text="Name" fr.text="Nom"/>
 			<reference ref="sport"/>
 			<reference ref="link_contact_address_payment"/>
 			<combo key="surface" text="Surface" values="artificial_turf,asphalt,clay,concrete,decoturf,grass,sand,tartan,ground"/>
 		</item>
-		<item name="Racetrack" type="node,closedway">
-			<link wiki="Tag:leisure=track"/>
-			<space/>
-			<key key="leisure" value="track"/>
-			<text key="name" text="Name" fr.text="Nom"/>
-			<combo key="sport" text="Sport" values="athletics,cycling,dog_racing,equestrian,horse_racing,running,roller_skating,ice_skating" values_context="sport"/>
-			<combo key="surface" text="Surface" values="artificial_turf,asphalt,clay,concrete,decoturf,grass,sand,tartan,ground"/>
-		</item>
-		<item name="Golf Course" type="node,closedway">
+		<item name="Golf Course" type="node,closedway" fr.name="Terrain de golf">
 			<link wiki="Tag:leisure=golf_course"/>
-			<space/>
 			<key key="leisure" value="golf_course"/>
 			<reference ref="name_oh_wheelchair"/>
 		</item>
 	</group>
-	<group name="Man Made">
-		<group name="Man Made">
-			<item name="Tower">
-				<link wiki="Tag:man_made=tower"/>
-				<space/>
-				<key key="man_made" value="tower"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-				<combo key="tower:type" text="Tower type" values="bell_tower,communication,cooling,defensive,observation,radar,watchtower" values_searchable="true"/>
-				<optional>
-					<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
-					<text key="operator" text="Operator" fr.text="Opérateur"/>
-				</optional>
-			</item>
-			<item name="Flagpole" type="node">
-				<link wiki="Tag:man_made=flagpole"/>
-				<key key="man_made" value="flagpole"/>
-			</item>
-			<item name="Cross">
-				<link wiki="Tag:man_made=cross"/>
-				<key key="man_made" value="cross"/>
-			</item>
-			<item name="Works" type="node,closedway">
-				<link wiki="Tag:man_made=works"/>
-				<space/>
-				<key key="man_made" value="works"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Chimney">
-				<link wiki="Tag:man_made=chimney"/>
-				<space/>
-				<key key="man_made" value="chimney"/>
-				<reference ref="name_operator"/>
-				<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
-			</item>
-			<item name="Kiln">
-				<link wiki="Tag:man_made=kiln"/>
-				<space/>
-				<key key="man_made" value="kiln"/>
-				<reference ref="name_operator"/>
-				<combo key="product" text="Product" values="lime,charcoal,bricks"/>
-			</item>
-			<item name="Windmill">
-				<link wiki="Tag:man_made=windmill"/>
-				<space/>
-				<key key="man_made" value="windmill"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Gasometer">
-				<link wiki="Tag:man_made=gasometer"/>
-				<space/>
-				<key key="man_made" value="gasometer"/>
-				<optional>
-					<reference ref="name_operator"/>
-					<combo key="building" text="Building" values="gasometer" values_context="building" fr.text="Bâtiment"/>
-					<text key="height" text="Height (meters)" length="7" fr.text="Hauteur (mètres)"/>
-				</optional>
-			</item>
-			<item name="Silo">
-				<link wiki="Tag:man_made=silo"/>
-				<space/>
-				<key key="man_made" value="silo"/>
-				<optional>
-					<reference ref="name_operator"/>
-					<combo key="building" text="Building" values="silo" values_context="building" fr.text="Bâtiment"/>
-					<text key="height" text="Height (meters)" length="7" fr.text="Hauteur (mètres)"/>
-				</optional>
-			</item>
-			<item name="Storage Tank">
-				<link wiki="Tag:man_made=storage_tank"/>
-				<key key="man_made" value="storage_tank"/>
-				<optional>
-					<reference ref="name_operator"/>
-					<combo key="building" text="Building" values="storage_tank" values_context="building" fr.text="Bâtiment"/>
-					<combo key="content" text="Content" values="fuel,manure,oil,sewage,silage,slurry,water,wine" values_context="content"/>
-					<text key="height" text="Height (meters)" length="7" fr.text="Hauteur (mètres)"/>
-				</optional>
-			</item>
-			<item name="Bunker Silo">
-				<link wiki="Tag:man_made=bunker_silo"/>
-				<space/>
-				<key key="man_made" value="bunker_silo"/>
-				<optional>
-					<reference ref="name_operator"/>
-				</optional>
-			</item>
-			<item name="Crane">
-				<link wiki="Tag:man_made=crane"/>
-				<space/>
-				<key key="man_made" value="crane"/>
-				<optional>
-					<combo key="crane:type" text="Type" values="floor-mounted_crane,gantry_crane,portal_crane,travel_lift"/>
-					<reference ref="name_operator"/>
-				</optional>
-			</item>
-			<item name="Mineshaft">
-				<link wiki="Tag:man_made=mineshaft"/>
-				<space/>
-				<key key="man_made" value="mineshaft"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-				<text key="depth" text="Depth in meters"/>
-				<text key="operator" text="Operator" fr.text="Opérateur"/>
-				<combo key="mineshaft_type" text="Function" values="winding,air"/>
-				<combo key="resource" text="Resource" values="aggregate,bauxite,coal,copper,dimension_stone,gold,ilmenite,iron_ore,lead,limestone,nickel,rutile,salt,silver,tin,zinc,zircon"/>
-				<check key="headframe" text="Visible Headframe"/>
-				<check key="disused" text="Disused"/>
-			</item>
-			<item name="Adit">
-				<link wiki="Tag:man_made=adit"/>
-				<space/>
-				<key key="man_made" value="adit"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-				<text key="length" text="Length in meters"/>
-				<text key="operator" text="Operator" fr.text="Opérateur"/>
-				<combo key="resource" text="Resource" values="aggregate,bauxite,coal,copper,dimension_stone,gold,ilmenite,iron_ore,lead,limestone,nickel,rutile,salt,silver,tin,zinc,zircon"/>
-				<check key="disused" text="Disused"/>
-			</item>
-			<item name="Embankment">
-				<link wiki="Tag:man_made=embankment"/>
-				<space/>
-				<key key="man_made" value="embankment"/>
-			</item>
-			<item name="Pipeline">
-				<link wiki="Tag:man_made=pipeline"/>
-				<space/>
-				<key key="man_made" value="pipeline"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-				<text key="ref" text="Reference" fr.text="Référence"/>
-				<reference ref="operator_substance"/>
-				<combo key="location" text="Location" values="underground,underwater,overground" values_context="pipeline" fr.text="Localisation"/>
-			</item>
-			<item name="Pipeline Marker">
-				<link wiki="Tag:pipeline=marker"/>
-				<space/>
-				<key key="pipeline" value="marker"/>
-				<text key="ref" text="Reference" fr.text="Référence"/>
-				<reference ref="operator_substance"/>
-				<reference ref="support"/>
-			</item>
-			<item name="Pipeline Valve">
-				<link wiki="Tag:pipeline=valve"/>
-				<space/>
-				<key key="pipeline" value="valve"/>
-				<text key="ref" text="Reference" fr.text="Référence"/>
-				<reference ref="operator_substance"/>
-			</item>
-			<item name="Water Tower">
-				<link wiki="Tag:man_made=water_tower"/>
-				<space/>
-				<key key="man_made" value="water_tower"/>
-				<optional>
-					<reference ref="name_operator"/>
-					<text key="height" text="Height (meters)" length="7" fr.text="Hauteur (mètres)"/>
-				</optional>
-			</item>
-			<item name="Water Works">
-				<link wiki="Tag:man_made=water_works"/>
-				<space/>
-				<key key="man_made" value="water_works"/>
-				<reference ref="name_operator"/>
-			</item>
-			<item name="Wastewater Treatment Plant">
-				<link wiki="Tag:man_made=wastewater_plant"/>
-				<space/>
-				<key key="man_made" value="wastewater_plant"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Watermill">
-				<link wiki="Tag:man_made=watermill"/>
-				<space/>
-				<key key="man_made" value="watermill"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Fountain">
-				<link wiki="Tag:amenity=fountain"/>
-				<space/>
-				<key key="amenity" value="fountain"/>
-				<optional>
-					<text key="name" text="Name" fr.text="Nom"/>
-					<check key="drinking_water" text="Drinking Water"/>
-				</optional>
-			</item>
-			<item name="Water Well">
-				<link wiki="Tag:man_made=water_well"/>
-				<space/>
-				<key key="man_made" value="water_well"/>
-				<optional>
-					<text key="name" text="Name" fr.text="Nom"/>
-					<combo key="pump" text="Pump" values="yes,no,manual,powered" values_sort="false"/>
-				</optional>
-			</item>
-			<item name="Lighthouse">
-				<link wiki="Tag:man_made=lighthouse"/>
-				<space/>
-				<key key="man_made" value="lighthouse"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Beacon">
-				<link wiki="Tag:man_made=beacon"/>
-				<space/>
-				<key key="man_made" value="beacon"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Street Lamp">
-				<link wiki="Tag:highway=street_lamp"/>
-				<space/>
-				<key key="highway" value="street_lamp"/>
-				<combo key="opening_hours" text="Operation times" values="Mo-Fr 22:00-05:00" values_no_i18n="true"/>
-			</item>
-			<item name="Monitoring Station">
-				<link wiki="Tag:man_made=monitoring_station"/>
-				<space/>
-				<key key="man_made" value="monitoring_station"/>
-				<reference ref="name_operator"/>
-				<label text="Monitoring:"/>
-				<label text="Recording:"/>
-				<label text="Display:"/>
-				<checkgroup columns="3">
-					<check key="monitoring:water_level" text="Water level"/>
-					<check key="monitoring:tide_gauge" text="Tide Level"/>
-					<check key="monitoring:groundwater" text="Groundwater"/>
-					<check key="monitoring:traffic" text="Traffic"/>
-					<check key="monitoring:air_quality" text="Air Quality"/>
-					<check key="monitoring:noise" text="Noise"/>
-					<check key="monitoring:gps" text="GPS Signals"/>
-					<check key="monitoring:glonass" text="GLONASS Signals"/>
-					<check key="monitoring:galileo" text="Galileo Signals"/>
-					<check key="monitoring:weather" text="Weather"/>
-					<check key="monitoring:radiation" text="Radiation"/>
-					<check key="monitoring:seismic_activity" text="Seismic Activity"/>
-				</checkgroup>
-				<checkgroup columns="3">
-					<check key="recording:automated" text="Automated"/>
-					<check key="recording:manually" text="Manually"/>
-					<check key="recording:remote" text="Remote"/>
-				</checkgroup>
-				<checkgroup columns="2">
-					<check key="display:analog" text="Analog"/>
-					<check key="display:digital" text="Digital"/>
-				</checkgroup>
-			</item>
-			<item name="Survey Point">
-				<link wiki="Tag:man_made=survey_point"/>
-				<space/>
-				<key key="man_made" value="survey_point"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-				<text key="ref" text="Reference" fr.text="Référence"/>
-				<text key="ele" text="Elevation"/>
-			</item>
-			<item name="Surveillance Camera" type="node">
-				<link wiki="Tag:man_made=surveillance"/>
-				<space/>
-				<space/>
-				<space/>
-				<key key="man_made" value="surveillance"/>
-				<key key="surveillance:type" value="camera"/>
-				<combo key="surveillance" text="Type" values="indoor,outdoor,public"/>
-				<combo key="surveillance:zone" text="Zone" values="town,parking,traffic,shop,bank,building"/>
-				<combo key="camera:type" text="Type" values="fixed,panning,dome" values_context="camera:type" match="key"/>
-				<combo key="camera:mount" text="Mounted on" values="wall,pole,ceiling" values_context="camera:mount" match="key"/>
-				<text key="operator" text="Operator" fr.text="Opérateur"/>
-				<optional>
-					<text key="name" text="Name" fr.text="Nom"/>
-					<text key="ref" text="Reference" fr.text="Référence"/>
-				</optional>
-				<optional>
-					<text key="camera:direction" text="Direction in degrees" match="key"/>
-					<text key="camera:angle" text="Inclination in degrees" match="key"/>
-					<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
-				</optional>
-				<label text="Camera"/>
-			</item>
-			<separator/>
-			<separator/>
-			<separator/>
-			<separator/>
-		</group>
-		<group name="Military" name_context="preset group">
-			<item name="Airfield">
-				<link wiki="Tag:military=airfield"/>
-				<space/>
-				<key key="military" value="airfield" match="keyvalue!"/>
-				<reference ref="aerodrome"/>
-			</item>
-			<item name="Barracks" type="node,closedway,multipolygon" preset_name_label="true">
-				<link wiki="Tag:military=barracks"/>
-				<space/>
-				<key key="military" value="barracks"/>
-			</item>
-			<item name="Bunker">
-				<link wiki="Tag:military=bunker"/>
-				<space/>
-				<key key="military" value="bunker"/>
-				<combo key="bunker_type" text="Type" values="pillbox,munitions,hardened_aircraft_shelter" match="key"/>
-				<combo key="location" text="Location" values="underground,overground" values_context="bunker" fr.text="Localisation"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-				<check key="historic" text="Historic"/>
-				<check key="ruins" text="Ruins"/>
-			</item>
-			<item name="Range">
-				<link wiki="Tag:military=range"/>
-				<space/>
-				<key key="military" value="range"/>
-			</item>
-		</group>
-		<group name="Power">
-			<item name="Power Plant">
-				<link wiki="Tag:power=plant"/>
-				<space/>
-				<key key="power" value="plant"/>
-				<reference ref="name_ref_operator"/>
-				<text key="branch" text="Branch operator" fr.text="Opérateur de la branche"/>
-				<text key="start_date" text="Start date" fr.text="Date de début"/>
-				<optional text="Output forms of energy (optional):">
-					<combo key="plant:output:electricity" text="electricity" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="électricité"/>
-					<combo key="plant:output:hot_water" text="hot water" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="eau chaude"/>
-					<combo key="plant:output:hot_air" text="hot air" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="air chaud"/>
-					<combo key="plant:output:cold_water" text="cold water" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="eau froide"/>
-					<combo key="plant:output:cold_air" text="cold air" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="air froid"/>
-					<combo key="plant:output:compressed_air" text="compressed air" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="air comprimé"/>
-					<combo key="plant:output:steam" text="steam" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="vapeur"/>
-					<combo key="plant:output:vacuum" text="vacuum" values="yes,2 W,3 kW,5 MW,7 GW" fr.text="vide"/>
-					<space/>
-					<reference ref="voltage_frequency"/>
-				</optional>
-			</item>
-			<item name="Power Substation">
-				<link wiki="Tag:power=substation"/>
-				<space/>
-				<key key="power" value="substation"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-				<combo key="substation" text="Type of substation" values="transmission,distribution,minor_distribution,converter,compensation,transition,traction,industrial" values_context="power"/>
-				<reference ref="power_extra"/>
-				<optional>
-					<combo key="rating" text="Power rating (kVA/MVA)" values="2700 kVA,12500 kVA,15 MVA,50 MVA,100 MVA"/>
-					<text key="start_date" text="Start date" fr.text="Date de début"/>
-					<check key="gas_insulated" text="Gas insulated"/>
-				</optional>
-			</item>
-			<item name="Power Transformer">
-				<link wiki="Tag:power=transformer"/>
-				<space/>
-				<key key="power" value="transformer"/>
-				<combo key="transformer" text="Type of transformer" values="distribution,generator,converter,traction,auto,phase_angle_regulator,auxiliary,yes" match="key" values_context="power"/>
-				<reference ref="power_loc"/>
-				<reference ref="transformer_voltage_frequency"/>
-				<reference ref="ref_operator_branch"/>
-				<reference ref="optional_transformer_rating_phases_devices_windings"/>
-			</item>
-			<item name="Power Switchgear">
-				<link wiki="Tag:power=switchgear"/>
-				<space/>
-				<space/>
-				<label text="(Please only use this tag if more detailed mapping using busbars and bays is impossible!)"/>
-				<key key="power" value="switchgear"/>
-				<reference ref="power_loc"/>
-				<reference ref="voltage"/>
-				<optional>
-					<check key="gas_insulated" text="Gas insulated"/>
-				</optional>
-			</item>
-			<item name="Power Busbar">
-				<link wiki="Tag:line=busbar"/>
-				<space/>
-				<key key="power" value="line"/>
-				<key key="line" value="busbar"/>
-				<reference ref="power_line_extra"/>
-			</item>
-			<item name="Power Bay">
-				<link wiki="Tag:line=bay"/>
-				<space/>
-				<key key="power" value="line"/>
-				<key key="line" value="bay"/>
-				<reference ref="power_line_extra"/>
-			</item>
-			<item name="Power Switch">
-				<link wiki="Tag:power=switch"/>
-				<space/>
-				<key key="power" value="switch"/>
-				<combo key="switch" text="Type of switch" values="mechanical,circuit_breaker,disconnector,earthing" match="key" values_context="power"/>
-				<reference ref="power_loc"/>
-				<optional>
-					<reference ref="voltage"/>
-					<reference ref="cables"/>
-					<reference ref="ref_operator_branch"/>
-				</optional>
-			</item>
-			<item name="Power Converter">
-				<link wiki="Tag:power=converter"/>
-				<space/>
-				<key key="power" value="converter"/>
-				<combo key="converter" text="Type of converter" values="lcc,vsc,back-to-back" match="key" values_context="power"/>
-				<reference ref="voltage_frequency"/>
-				<reference ref="ref_operator_branch"/>
-				<optional>
-					<combo key="poles" text="Amount of poles" values="monopole,bipole"/>
-					<combo key="rating" text="Power rating (MVA)" values="15 MVA,50 MVA,100 MVA"/>
-				</optional>
-			</item>
-			<item name="Power Compensator">
-				<link wiki="Tag:power=compensator"/>
-				<space/>
-				<key key="power" value="compensator"/>
-				<combo key="compensator" text="Type of compensator" values="shunt_reactor,shunt_capacitor,static_var,statcom,synchronous_condenser,filter,series_reactor,series_capacitor" match="key" values_context="power"/>
-				<reference ref="voltage_frequency"/>
-				<reference ref="ref_operator_branch"/>
-				<optional>
-					<combo key="rating" text="Power rating (kvar/Mvar)" values="500 kvar,1 Mvar,5 Mvar"/>
-				</optional>
-			</item>
-			<item name="Power Street Cabinet">
-				<link wiki="Tag:man_made=street_cabinet"/>
-				<space/>
-				<key key="man_made" value="street_cabinet"/>
-				<key key="street_cabinet" value="power"/>
-				<combo key="voltage" text="Voltage in Volts (V)" values="600,400,220,110" fr.text="Voltage (en Volts)"/>
-				<reference ref="ref_operator_branch"/>
-			</item>
-			<item name="Transformer Tower">
-				<link wiki="Tag:building=transformer_tower"/>
-				<space/>
-				<key key="building" value="transformer_tower"/>
-				<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
-				<reference ref="ref_operator_branch"/>
-				<preset_link preset_name="Power Substation"/>
-			</item>
-			<item name="Terminal">
-				<link wiki="Tag:power=terminal"/>
-				<space/>
-				<key key="power" value="terminal"/>
-				<optional>
-					<text key="ref" text="Reference" fr.text="Référence"/>
-					<text key="operator" text="Operator" fr.text="Opérateur"/>
-				</optional>
-			</item>
-			<item name="Power Portal">
-				<link wiki="Tag:power=portal"/>
-				<space/>
-				<key key="power" value="portal"/>
-				<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
-				<combo key="structure" text="Type of construction" values="lattice,tubular,solid"/>
-				<combo key="material" text="Material" values="metal,plastic,steel,stone,wood,concrete" fr.text="Matériau"/>
-				<combo key="colour" text="Color (HTML name or hexadecimal code)" values="black,red,white,gray,red/white" values_context="color" fr.text="Couleur (nom HTML ou code hexadécimal)"/>
-				<combo key="design" text="Portal design" values="portal,portal_two-level,portal_three-level" values_context="power"/>
-				<reference ref="ref_operator_branch"/>
-			</item>
-			<item name="Power Tower">
-				<link wiki="Tag:power=tower"/>
-				<space/>
-				<key key="power" value="tower"/>
-				<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
-				<combo key="structure" text="Type of construction" values="lattice,tubular,solid"/>
-				<combo key="material" text="Material" values="metal,plastic,steel,stone,wood,concrete" fr.text="Matériau"/>
-				<combo key="colour" text="Color (HTML name or hexadecimal code)" values="black,red,white,gray,red/white" values_context="color" fr.text="Couleur (nom HTML ou code hexadécimal)"/>
-				<reference ref="ref_operator_branch"/>
-				<optional>
-					<combo key="tower:type" text="Tower type" values="suspension,anchor,termination,branch,transposing,crossing,transition" text_context="power" values_context="power"/>
-					<combo key="branch:type" text="Branch tower type" values="tap,split,loop,cross" values_context="power"/>
-					<combo key="design" text="Tower design" values="one-level,two-level,donau,three-level,barrel,asymmetric,triangle,flag,donau;one-level,four-level,six-level,nine-level,delta,delta_two-level,y-frame,x-frame,h-frame,guyed_h-frame,portal,portal_two-level,portal_three-level,guyed_v-frame,bipole,monopolar" values_context="power"/>
-					<check key="triple_tower" text="Triple tower"/>
-					<check key="design:incomplete" text="Incomplete tower"/>
-					<check key="location:transition" text="Location transition" disable_off="true"/>
-				</optional>
-			</item>
-			<item name="Pole">
-				<link wiki="Tag:power=pole"/>
-				<space/>
-				<key key="power" value="pole"/>
-				<reference ref="power_pole"/>
-			</item>
-			<item name="Pole with Switch">
-				<link wiki="Tag:power=pole"/>
-				<space/>
-				<space/>
-				<key key="power" value="pole"/>
-				<label text="Pole Attributes:"/>
-				<label text="Switch Attributes:"/>
-				<reference ref="power_pole"/>
-				<combo key="switch" text="Type" values="mechanical,circuit_breaker,disconnector,earthing" match="key!" values_context="power"/>
-				<optional>
-					<reference ref="voltage"/>
-					<reference ref="cables"/>
-				</optional>
-			</item>
-			<item name="Pole with Transformer">
-				<link wiki="Tag:power=pole"/>
-				<space/>
-				<space/>
-				<key key="power" value="pole"/>
-				<key key="transformer" value="distribution" match="key!"/>
-				<label text="Pole Attributes:"/>
-				<label text="Transformer Attributes:"/>
-				<reference ref="power_pole"/>
-				<reference ref="transformer_voltage_frequency"/>
-				<reference ref="optional_transformer_rating_phases_devices_windings"/>
-			</item>
-			<item name="Catenary mast">
-				<link wiki="Tag:power=catenary_mast"/>
-				<space/>
-				<key key="power" value="catenary_mast"/>
-				<optional>
-					<text key="ref" text="Reference" fr.text="Référence"/>
-					<text key="operator" text="Operator" fr.text="Opérateur"/>
-				</optional>
-			</item>
-			<item name="Insulator">
-				<link wiki="Tag:power=insulator"/>
-				<space/>
-				<key key="power" value="insulator"/>
-				<reference ref="ref_operator_branch"/>
-			</item>
-			<item name="Power Line">
-				<link wiki="Tag:power=line"/>
-				<space/>
-				<combo key="power" text="Line type" values="line,minor_line" default="line" match="keyvalue!"/>
-				<reference ref="voltage_frequency"/>
-				<reference ref="ref_operator_branch"/>
-				<optional>
-					<reference ref="cables_circuits"/>
-					<combo key="wires" text="Number of conductors/wires per cable" values="single,double,triple,quad,fivefold,sixfold,eightfold" values_context="power"/>
-					<combo key="layer" text="Layer" values="5,4,3,2,1,0,-1,-2,-3,-4,-5" length="3" fr.text="Couche"/>
-					<check key="communication" text="Used for data communications" value_on="line" value_off="" default="off"/>
-				</optional>
-			</item>
-			<item name="Power Cable">
-				<link wiki="Tag:power=cable"/>
-				<space/>
-				<key key="power" value="cable"/>
-				<reference ref="voltage_frequency"/>
-				<reference ref="ref_operator_branch"/>
-				<optional>
-					<reference ref="cables_circuits"/>
-					<combo key="location" text="Location" values="underground,underwater,overground" values_context="power cable" fr.text="Localisation"/>
-					<combo key="layer" text="Layer" values="5,4,3,2,1,0,-1,-2,-3,-4,-5" length="3" fr.text="Couche"/>
-					<check key="communication" text="Used for data communications" value_on="line" value_off="" default="off"/>
-				</optional>
-			</item>
-			<group name="Power Generator">
-				<item name="Biofuel Power Generator">
-					<key key="generator:source" value="biofuel"/>
-					<key key="generator:method" value="combustion"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="gas_turbine,reciprocating_engine,steam_generator"/>
-				</item>
-				<item name="Biogas Power Generator">
-					<key key="generator:source" value="biogas"/>
-					<key key="generator:method" value="combustion"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="reciprocating_engine,steam_generator"/>
-				</item>
-				<item name="Biomass Power Generator">
-					<key key="generator:source" value="biomass"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:method" text="Method" values_context="generator method" values="anaerobic_digestion,combustion,gasification"/>
-					<combo key="generator:type" text="Generator Type" values_searchable="true">
-						<list_entry value="bioreactor" short_description="anaerobic_digestion / combustion"/>
-						<list_entry value="pyrolysis" short_description=""/>
-						<list_entry value="steam_generator" short_description="combustion"/>
-						<list_entry value="steam_turbine" short_description="combustion"/>
-					</combo>
-				</item>
-				<item name="Coal Power Generator">
-					<key key="generator:source" value="coal"/>
-					<key key="generator:method" value="combustion"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="steam_generator,steam_turbine"/>
-				</item>
-				<item name="Gas Power Generator">
-					<key key="generator:source" value="gas"/>
-					<key key="generator:method" value="combustion"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="combined_cycle,gas_turbine,reciprocating_engine,steam_generator,steam_turbine"/>
-				</item>
-				<item name="Oil Power Generator">
-					<key key="generator:source" value="oil"/>
-					<key key="generator:method" value="combustion"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="steam_generator,steam_turbine"/>
-				</item>
-				<item name="Diesel Power Generator">
-					<key key="generator:source" value="diesel"/>
-					<key key="generator:method" value="combustion"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="reciprocating_engine,steam_generator"/>
-				</item>
-				<item name="Gasoline Power Generator">
-					<key key="generator:source" value="gasoline"/>
-					<key key="generator:method" value="combustion"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="reciprocating_engine,steam_generator"/>
-				</item>
-				<item name="Nuclear Reactor">
-					<key key="generator:source" value="nuclear"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:method" text="Method" values_context="generator method" values="fission,fusion"/>
-					<combo key="generator:type" text="Generator Type" values_searchable="true">
-						<list_entry value="BWR-1" display_value="Boiling Water Reactor 1 (BWR-1)" short_description="fission"/>
-						<list_entry value="BWR-2" display_value="Boiling Water Reactor 2 (BWR-2)" short_description="fission"/>
-						<list_entry value="BWR-3" display_value="Boiling Water Reactor 3 (BWR-3)" short_description="fission"/>
-						<list_entry value="BWR-4" display_value="Boiling Water Reactor 4 (BWR-4)" short_description="fission"/>
-						<list_entry value="BWR-5" display_value="Boiling Water Reactor 5 (BWR-5)" short_description="fission"/>
-						<list_entry value="BWR-6" display_value="Boiling Water Reactor 6 (BWR-6)" short_description="fission"/>
-						<list_entry value="CANDU" display_value="CANada Deuterium Uranium reactor (CANDU)" short_description="fission"/>
-						<list_entry value="cold-fusion" short_description="fusion"/>
-						<list_entry value="CPR-1000" display_value="China Pressurized Reactor (CPR-1000)" short_description="fission"/>
-						<list_entry value="EPR" display_value="European Pressurized Reactor (EPR)" short_description="fission"/>
-						<list_entry value="ICF" display_value="Inertial Confinement Fusion (ICF)" short_description="fusion"/>
-						<list_entry value="PWR" display_value="Pressurized water reactor (PWR)" short_description="fission"/>
-						<list_entry value="RBMK-1000" display_value="Reactor Bolshoy Moshchnosti Kanalniy 1000 (RBMK-1000)" short_description="fission"/>
-						<list_entry value="RBMK-1500" display_value="Reactor Bolshoy Moshchnosti Kanalniy 1500 (RBMK-1500)" short_description="fission"/>
-						<list_entry value="stellarator" short_description="fusion"/>
-						<list_entry value="tokamak" short_description="fusion"/>
-						<list_entry value="VVER" display_value="Vodo-Vodyanoi Energetichesky Reactor (VVER)" short_description="fission"/>
-					</combo>
-				</item>
-				<item name="Solar Power Generator">
-					<key key="generator:source" value="solar"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:method" text="Method" values_context="generator method" values="photovoltaic,thermal"/>
-					<combo key="generator:type" text="Generator Type" values_searchable="true">
-						<list_entry value="solar_photovoltaic_panel" short_description="photovoltaic"/>
-						<list_entry value="solar_thermal_collector" short_description="thermal"/>
-						<list_entry value="steam_turbine" short_description="thermal"/>
-					</combo>
-				</item>
-				<item name="Waste Power Generator">
-					<key key="generator:source" value="waste"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:method" text="Method" values_context="generator method" values="combustion,gasification,pyrolysis"/>
-					<combo key="generator:type" text="Generator Type" values_searchable="true">
-						<list_entry value="bioreactor" short_description="gasification"/>
-						<list_entry value="pyrolysis" short_description=""/>
-						<list_entry value="reciprocating_engine" short_description="combustion"/>
-						<list_entry value="steam_generator" short_description="combustion"/>
-					</combo>
-					<combo key="generator:type" text="Generator Type" values="bioreactor,reciprocating_engine,steam_generator"/>
-				</item>
-				<item name="Water Turbine">
-					<key key="generator:source" value="hydro"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:method" text="Method" values_context="generator method" values="run-of-the-river,water-pumped-storage,water-storage"/>
-					<combo key="generator:type" text="Generator Type" values_searchable="true">
-						<list_entry value="francis_turbine" short_description="all methods"/>
-						<list_entry value="hydrodynamic_screw" short_description="run-of-the-river"/>
-						<list_entry value="kaplan_turbine" short_description="run-of-the-river / water-storage"/>
-						<list_entry value="pelton_turbine" short_description="run-of-the-river / water-storage"/>
-					</combo>
-				</item>
-				<item name="Tidal Water Turbine">
-					<key key="generator:source" value="tidal"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:method" text="Method" values_context="generator method" values="barrage,stream"/>
-					<combo key="generator:type" text="Generator Type" values_searchable="true">
-						<list_entry value="horizontal_axis" short_description="stream"/>
-						<list_entry value="kaplan_turbine" short_description="barrage"/>
-						<list_entry value="vertical_axis" short_description="stream"/>
-					</combo>
-				</item>
-				<item name="Wave Energy Converter">
-					<key key="generator:source" value="wave"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-				</item>
-				<item name="Osmotic Power Generator">
-					<key key="generator:source" value="osmotic"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-				</item>
-				<item name="Geothermal Power Generator">
-					<key key="generator:source" value="geothermal"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="heat_pump,steam_turbine"/>
-				</item>
-				<item name="Wind Turbine">
-					<key key="generator:source" value="wind"/>
-					<key key="generator:method" value="wind_turbine"/>
-					<reference ref="power_generator"/>
-					<reference ref="power_output"/>
-					<combo key="generator:type" text="Generator Type" values="horizontal_axis,vertical_axis"/>
-				</item>
-			</group>
-			<separator/>
-			<separator/>
-			<separator/>
-			<separator/>
-		</group>
-		<group name="Historic Places">
-			<item name="Castle">
+	<group name="Man Made" fr.name="Infrastructure">
+		<group name="Historic Places" fr.name="Lieux historiques">
+			<item name="Castle" fr.name="Château">
 				<link wiki="Tag:historic=castle"/>
-				<space/>
 				<key key="historic" value="castle"/>
 				<combo key="castle_type" text="Type" values="stately,defensive,fortress,manor,palace"/>
 				<reference ref="name_wikipedia"/>
 				<reference ref="link_contact_address_payment"/>
-				<check key="ruins" text="Ruins"/>
+				<check key="ruins" text="Ruins" fr.text="Ruines"/>
 			</item>
-			<item name="Ruins">
-				<link wiki="Tag:historic=ruins"/>
-				<space/>
-				<key key="historic" value="ruins"/>
-				<reference ref="name_oh_wheelchair"/>
-			</item>
-			<item name="Archaeological Site">
-				<link wiki="Tag:historic=archaeological_site"/>
-				<space/>
-				<key key="historic" value="archaeological_site"/>
-				<combo key="site_type" text="Type" values="tumulus,megalith,fortification,settlement,necropolis,city"/>
-				<reference ref="name_oh_wheelchair"/>
-			</item>
-			<item name="Battlefield">
-				<link wiki="Tag:historic=battlefield"/>
-				<space/>
-				<key key="historic" value="battlefield"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Palaeontological Site">
-				<link wiki="Tag:geological=palaeontological_site"/>
-				<space/>
-				<key key="geological" value="palaeontological_site"/>
-				<text key="name" text="Name" fr.text="Nom"/>
-			</item>
-			<item name="Grave">
+			<item name="Grave" fr.name="Pierre tombale">
 				<link wiki="Tag:cemetery=grave"/>
-				<space/>
 				<key key="cemetery" value="grave"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
-			<item name="Tomb">
+			<item name="Tomb" fr.name="Tombe d'intérêt historique">
 				<link wiki="Tag:historic=tomb"/>
-				<space/>
 				<key key="historic" value="tomb"/>
 				<combo key="tomb" text="Type" values="tumulus,rock-cut,hypogeum,war_grave,mausoleum,columbarium,crypt,pyramid,sarcophagus,vault" values_context="tomb" values_searchable="true"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
 			<item name="Monument">
 				<link wiki="Tag:historic=monument"/>
-				<space/>
 				<key key="historic" value="monument"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
-			<item name="Memorial">
+			<item name="Memorial" fr.name="Mémorial">
 				<link wiki="Tag:historic=memorial"/>
-				<space/>
 				<key key="historic" value="memorial"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<combo key="memorial" text="Type" values="statue,bust,plaque,stele,stone,war_memorial" values_context="memorial" values_searchable="true"/>
 				<optional>
 					<text key="inscription" text="Inscription"/>
-					<text key="artist_name" text="Artist Name"/>
+					<text key="artist_name" text="Artist Name" fr.text="Nom de l'artiste"/>
 					<text key="start_date" text="Start date" fr.text="Date de début"/>
 					<text key="wikipedia" text="Wikipedia" fr.text="Wikipédia"/>
 				</optional>
 			</item>
-			<item name="Wayside Cross">
+			<item name="Wayside Cross" fr.name="Croix">
 				<link wiki="Tag:historic=wayside_cross"/>
-				<space/>
 				<key key="historic" value="wayside_cross"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<text key="start_date" text="Start date" fr.text="Date de début"/>
 				<text key="inscription" text="Inscription"/>
 				<reference ref="religious_catholic_christian"/>
 			</item>
-			<item name="Wayside Shrine">
+			<item name="Wayside Shrine" fr.name="Sanctuaire">
 				<link wiki="Tag:historic=wayside_shrine"/>
-				<space/>
 				<key key="historic" value="wayside_shrine"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 				<text key="start_date" text="Start date" fr.text="Date de début"/>
 				<text key="inscription" text="Inscription"/>
 				<reference ref="religious_catholic_christian"/>
-				<check key="amenity" text="Place of worship" value_on="place_of_worship" disable_off="true"/>
+				<check key="amenity" text="Place of worship" value_on="place_of_worship" disable_off="true" fr.text="Lieu de culte"/>
 				<combo key="building" text="Building" values="wayside_shrine,yes" values_context="building" fr.text="Bâtiment"/>
 			</item>
-			<item name="Boundary Stone">
+			<item name="Boundary Stone" fr.name="Pierre de limite">
 				<link wiki="Tag:historic=boundary_stone"/>
-				<space/>
 				<key key="historic" value="boundary_stone"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
-			<separator/>
-			<separator/>
 		</group>
+		<item name="Tower" fr.name="Tour">
+			<link wiki="Tag:man_made=tower"/>
+			<key key="man_made" value="tower"/>
+			<text key="name" text="Name" fr.text="Nom"/>
+			<combo key="tower:type" text="Tower type" values="bell_tower,communication,cooling,defensive,observation,radar,watchtower" values_searchable="true" fr.text="Type de tour"/>
+			<optional>
+				<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
+				<text key="operator" text="Operator" fr.text="Opérateur"/>
+			</optional>
+		</item>
+		<item name="Flagpole" type="node" fr.name="Poteau pour drapeau">
+			<link wiki="Tag:man_made=flagpole"/>
+			<key key="man_made" value="flagpole"/>
+		</item>
+		<item name="Cross" fr.name="Croix">
+			<link wiki="Tag:man_made=cross"/>
+			<key key="man_made" value="cross"/>
+		</item>
+		<item name="Crane" fr.name="Grue">
+			<link wiki="Tag:man_made=crane"/>
+			<key key="man_made" value="crane"/>
+			<optional>
+				<combo key="crane:type" text="Type" values="floor-mounted_crane,gantry_crane,portal_crane,travel_lift"/>
+				<reference ref="name_operator"/>
+			</optional>
+		</item>
+		<item name="Fountain" fr.name="Fontaine">
+			<link wiki="Tag:amenity=fountain"/>
+			<key key="amenity" value="fountain"/>
+			<optional>
+				<text key="name" text="Name" fr.text="Nom"/>
+				<check key="drinking_water" text="Drinking Water" fr.text="Eau potable"/>
+			</optional>
+		</item>
+		<item name="Water Well" fr.name="Puit">
+			<link wiki="Tag:man_made=water_well"/>
+			<key key="man_made" value="water_well"/>
+			<optional>
+				<text key="name" text="Name" fr.text="Nom"/>
+				<combo key="pump" text="Pump" values="yes,no,manual,powered" values_sort="false" fr.text="Pompe"/>
+			</optional>
+		</item>
+		<item name="Street Lamp" fr.name="Lampadaire">
+			<link wiki="Tag:highway=street_lamp"/>
+			<key key="highway" value="street_lamp"/>
+			<combo key="opening_hours" text="Operation times" values="Mo-Fr 22:00-05:00" values_no_i18n="true" fr.text="Heures de service"/>
+		</item>
+		<item name="Survey Point" fr.name="Point de triangulation">
+			<link wiki="Tag:man_made=survey_point"/>
+			<key key="man_made" value="survey_point"/>
+			<text key="name" text="Name" fr.text="Nom"/>
+			<text key="ref" text="Reference" fr.text="Référence"/>
+			<text key="ele" text="Elevation" fr.text="Élévation"/>
+		</item>
+		<item name="Surveillance Camera" type="node" fr.name="Caméra de surveillance">
+			<link wiki="Tag:man_made=surveillance"/>
+			<key key="man_made" value="surveillance"/>
+			<key key="surveillance:type" value="camera"/>
+			<combo key="surveillance" text="Type" values="indoor,outdoor,public"/>
+			<combo key="surveillance:zone" text="Zone" values="town,parking,traffic,shop,bank,building"/>
+			<combo key="camera:type" text="Type" values="fixed,panning,dome" values_context="camera:type" match="key"/>
+			<combo key="camera:mount" text="Mounted on" values="wall,pole,ceiling" values_context="camera:mount" match="key" fr.text="Fixé sur"/>
+			<text key="operator" text="Operator" fr.text="Opérateur"/>
+			<optional>
+				<text key="name" text="Name" fr.text="Nom"/>
+				<text key="ref" text="Reference" fr.text="Référence"/>
+			</optional>
+			<optional>
+				<text key="camera:direction" text="Direction in degrees" match="key" fr.text="Orientation en degrés"/>
+				<text key="camera:angle" text="Inclination in degrees" match="key" fr.text="Inclinaison en degrés"/>
+				<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
+			</optional>
+			<label text="Camera" fr.text="Caméra"/>
+		</item>
 	</group>
-	<group name="Shops">
-		<group name="Food">
-			<item name="Supermarket">
+	<group name="Shops" fr.name="Commerces">
+		<group name="Food" fr.name="Alimentaire">
+			<item name="Supermarket" fr.name="Supermarché">
 				<link wiki="Tag:shop=supermarket"/>
-				<space/>
 				<key key="shop" value="supermarket"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Convenience Store">
+			<item name="Convenience Store" fr.name="Épicerie">
 				<link wiki="Tag:shop=convenience"/>
-				<space/>
 				<key key="shop" value="convenience"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Kiosk">
+			<item name="Kiosk" fr.name="Kiosque">
 				<link wiki="Tag:shop=kiosk"/>
-				<space/>
 				<key key="shop" value="kiosk"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Bakery">
+			<item name="Bakery" fr.name="Boulangerie">
 				<link wiki="Tag:shop=bakery"/>
-				<space/>
 				<key key="shop" value="bakery"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Butcher">
+			<item name="Butcher" fr.name="Boucherie">
 				<link wiki="Tag:shop=butcher"/>
-				<space/>
 				<key key="shop" value="butcher"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Seafood">
+			<item name="Seafood" fr.name="Poissonerie">
 				<link wiki="Tag:shop=seafood"/>
-				<space/>
 				<key key="shop" value="seafood"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Dairy">
+			<item name="Dairy" fr.name="Laiterie">
 				<link wiki="Tag:shop=dairy"/>
-				<space/>
 				<key key="shop" value="dairy"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Cheese">
+			<item name="Cheese" fr.name="Fromagerie">
 				<link wiki="Tag:shop=cheese"/>
-				<space/>
 				<key key="shop" value="cheese"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Deli (Fine Food)">
+			<item name="Deli (Fine Food)" fr.name="Épicerie fine">
 				<link wiki="Tag:shop=deli"/>
-				<space/>
 				<key key="shop" value="deli"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Pastry">
+			<item name="Pastry" fr.name="Pâtisserie">
 				<link wiki="Tag:shop=pastry"/>
-				<space/>
 				<key key="shop" value="pastry"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Confectionery">
+			<item name="Confectionery" fr.name="Magasin de bonbons">
 				<link wiki="Tag:shop=confectionery"/>
-				<space/>
 				<key key="shop" value="confectionery"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Tea">
+			<item name="Tea" fr.name="Thé">
 				<link wiki="Tag:shop=tea"/>
-				<space/>
 				<key key="shop" value="tea"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Coffee">
+			<item name="Coffee" fr.name="Café">
 				<link wiki="Tag:shop=coffee"/>
-				<space/>
 				<key key="shop" value="coffee"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Public Market">
+			<item name="Public Market" fr.name="Marché public">
 				<link wiki="Tag:amenity=marketplace"/>
-				<space/>
 				<key key="amenity" value="marketplace"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<text key="website" text="Website" fr.text="Site web"/>
-				<combo key="organic" text="Organic" values="only,yes,no"/>
+				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
-			<item name="Greengrocer">
+			<item name="Greengrocer" fr.name="Fruits et légumes">
 				<link wiki="Tag:shop=greengrocer"/>
-				<space/>
 				<key key="shop" value="greengrocer"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
-				<combo key="organic" text="Organic" values="only,yes,no"/>
+				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
-			<item name="Farm Stand">
+			<item name="Farm Stand" fr.name="Magasin à la ferme">
 				<link wiki="Tag:shop=farm"/>
-				<space/>
 				<key key="shop" value="farm"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<text key="description" text="Description"/>
-				<combo key="organic" text="Organic" values="only,yes,no"/>
+				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
-			<item name="Organic" type="node,closedway,multipolygon" preset_name_label="true">
+			<item name="Organic" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Biologique">
 				<link wiki="Key:organic"/>
-				<space/>
-				<combo text="Organic/Bio" key="organic" values="only,yes,no" match="key"/>
+				<combo text="Organic/Bio" key="organic" values="only,yes,no" match="key" fr.text="Biologique"/>
 			</item>
-			<item name="Fair Trade" type="node,closedway,multipolygon" preset_name_label="true">
+			<item name="Fair Trade" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Équitable">
 				<link wiki="Key:fair_trade"/>
-				<space/>
-				<combo text="Fair Trade" key="fair_trade" values="no,yes,only" match="key"/>
+				<combo text="Fair Trade" key="fair_trade" values="no,yes,only" match="key" fr.text="Équitable"/>
 			</item>
-			<item name="Alcohol">
+			<item name="Alcohol" fr.name="Alcool">
 				<link wiki="Tag:shop=alcohol"/>
-				<space/>
 				<key key="shop" value="alcohol"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Beverages">
+			<item name="Beverages" fr.name="Boissons">
 				<link wiki="Tag:shop=beverages"/>
-				<space/>
 				<key key="shop" value="beverages"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Wine">
+			<item name="Wine" fr.name="Vin">
 				<link wiki="Tag:shop=wine"/>
-				<space/>
 				<key key="shop" value="wine"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<separator/>
-			<separator/>
-			<separator/>
-			<separator/>
 		</group>
 		<group name="Clothes" fr.name="Vêtements">
 			<item name="Clothes" fr.name="Vêtements">
 				<link wiki="Tag:shop=clothes"/>
-				<space/>
 				<key key="shop" value="clothes"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<combo key="second_hand" text="Second hand" values="only,yes,no" fr.text="Occasion"/>
-				<combo key="organic" text="Organic" values="only,yes,no"/>
+				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
 			<item name="Boutique">
 				<link wiki="Tag:shop=boutique"/>
-				<space/>
 				<key key="shop" value="boutique"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Shoes">
+			<item name="Shoes" fr.name="Chaussures">
 				<link wiki="Tag:shop=shoes"/>
-				<space/>
 				<key key="shop" value="shoes"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<combo key="second_hand" text="Second hand" values="only,yes,no" fr.text="Occasion"/>
-				<combo key="organic" text="Organic" values="only,yes,no"/>
+				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 				<check key="shoes:repair" text="Offers repairs" text_context="shoes"/>
 			</item>
-			<item name="Outdoor">
+			<item name="Outdoor" fr.name="Équipement pour l'extérieur">
 				<link wiki="Tag:shop=outdoor"/>
-				<space/>
 				<key key="shop" value="outdoor"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Sports">
 				<link wiki="Tag:shop=sports"/>
-				<space/>
 				<key key="shop" value="sports"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Dry Cleaning">
+			<item name="Dry Cleaning" fr.name="Nettoyage à sec">
 				<link wiki="Tag:shop=dry_cleaning"/>
-				<space/>
 				<key key="shop" value="dry_cleaning"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Laundry">
+			<item name="Laundry" fr.name="Laverie">
 				<link wiki="Tag:shop=laundry"/>
-				<space/>
 				<key key="shop" value="laundry"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<check key="self_service" text="Self Service" fr.text="Self-service"/>
-				<check key="laundry_service" text="Laundry Service"/>
+				<check key="laundry_service" text="Laundry Service" fr.text="Service de laverie"/>
 			</item>
-			<item name="Tailor">
+			<item name="Tailor" fr.name="Tailleur">
 				<link wiki="Tag:shop=tailor"/>
-				<space/>
 				<key key="shop" value="tailor"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Fabric">
 				<link wiki="Tag:shop=fabric"/>
-				<space/>
 				<key key="shop" value="fabric"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<separator/>
 		</group>
-		<group name="Electronic">
-			<item name="Computer">
+		<group name="Electronic" fr.name="Appareil électronique">
+			<item name="Computer" fr.name="Informatique">
 				<link wiki="Tag:shop=computer"/>
-				<space/>
 				<key key="shop" value="computer"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Electronics">
+			<item name="Electronics" fr.name="Appareils électroniques">
 				<link wiki="Tag:shop=electronics"/>
-				<space/>
 				<key key="shop" value="electronics"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Mobile Phone">
+			<item name="Mobile Phone" fr.name="Téléphonie">
 				<link wiki="Tag:shop=mobile_phone"/>
-				<space/>
 				<key key="shop" value="mobile_phone"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Vacuum Cleaner">
 				<link wiki="Tag:shop=vacuum_cleaner"/>
-				<space/>
 				<key key="shop" value="vacuum_cleaner"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Hifi">
+			<item name="Hifi" fr.name="Hi-Fi">
 				<link wiki="Tag:shop=hifi"/>
-				<space/>
 				<key key="shop" value="hifi"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Video">
+			<item name="Video" fr.name="Vidéo-club">
 				<link wiki="Tag:shop=video"/>
-				<space/>
 				<key key="shop" value="video"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Video Games">
+			<item name="Video Games" fr.name="Jeux-vidéos">
 				<link wiki="Tag:shop=video_games"/>
-				<space/>
 				<key key="shop" value="video_games"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Music">
+			<item name="Music" fr.name="Musique">
 				<link wiki="Tag:shop=music"/>
-				<space/>
 				<key key="shop" value="music"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 		</group>
-		<group name="Cash">
-			<item name="Bank">
+		<group name="Cash" fr.name="Argent">
+			<item name="Bank" fr.name="Banque">
 				<link wiki="Tag:amenity=bank"/>
-				<space/>
 				<key key="amenity" value="bank"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
-				<check key="atm" text="Automated Teller Machine" default="on"/>
+				<check key="atm" text="Automated Teller Machine" default="on" fr.text="Distributeur de billets"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Money Exchange">
+			<item name="Money Exchange" fr.name="Bureau de change">
 				<link wiki="Tag:amenity=bureau_de_change"/>
-				<space/>
 				<key key="amenity" value="bureau_de_change"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 			</item>
-			<item name="Automated Teller Machine">
+			<item name="Automated Teller Machine" fr.name="Distributeur de billets">
 				<link wiki="Tag:amenity=atm"/>
-				<space/>
 				<key key="amenity" value="atm"/>
 				<text key="brand" text="Brand" fr.text="Marque"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
@@ -3497,216 +2149,187 @@
 			</item>
 			<item name="Pawnbroker">
 				<link wiki="Tag:shop=pawnbroker"/>
-				<space/>
 				<key key="shop" value="pawnbroker"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 		</group>
-		<group name="Home decoration">
-			<item name="Furniture">
+		<group name="Home decoration" fr.name="Décoration intérieure">
+			<item name="Furniture" fr.name="Mobilier">
 				<link wiki="Tag:shop=furniture"/>
-				<space/>
 				<key key="shop" value="furniture"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Kitchen">
+			<item name="Kitchen" fr.name="Cuisine">
 				<link wiki="Tag:shop=kitchen"/>
-				<space/>
 				<key key="shop" value="kitchen"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Houseware">
+			<item name="Houseware" fr.name="Équipement pour la maison">
 				<link wiki="Tag:shop=houseware"/>
-				<space/>
 				<key key="shop" value="houseware"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Curtain">
+			<item name="Curtain" fr.name="Rideaux">
 				<link wiki="Tag:shop=curtain"/>
-				<space/>
 				<key key="shop" value="curtain"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Art">
 				<link wiki="Tag:shop=art"/>
-				<space/>
 				<key key="shop" value="art"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Frame">
+			<item name="Frame" fr.name="Cadres">
 				<link wiki="Tag:shop=frame"/>
-				<space/>
 				<key key="shop" value="frame"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Bed">
+			<item name="Bed" fr.name="Literie">
 				<link wiki="Tag:shop=bed"/>
-				<space/>
 				<key key="shop" value="bed"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Carpet">
+			<item name="Carpet" fr.name="Tapis">
 				<link wiki="Tag:shop=carpet"/>
-				<space/>
 				<key key="shop" value="carpet"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Interior Decoration">
+			<item name="Interior Decoration" fr.name="Décoration intérieure">
 				<link wiki="Tag:shop=interior_decoration"/>
-				<space/>
 				<key key="shop" value="interior_decoration"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Antiques">
+			<item name="Antiques" fr.name="Antiquaire">
 				<link wiki="Tag:shop=antiques"/>
-				<space/>
 				<key key="shop" value="antiques"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 		</group>
-		<group name="Printed Material">
+		<group name="Printed Material" fr.name="Imprimerie">
 			<item name="Stationery">
 				<link wiki="Tag:shop=stationery"/>
-				<space/>
 				<key key="shop" value="stationery"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Copy Shop">
 				<link wiki="Tag:shop=copyshop"/>
-				<space/>
 				<key key="shop" value="copyshop"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Book Store">
+			<item name="Book Store" fr.name="Libraire">
 				<link wiki="Tag:shop=books"/>
-				<space/>
 				<key key="shop" value="books"/>
 				<reference ref="name_brand_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<combo key="second_hand" text="Second hand" values="only,yes,no" fr.text="Occasion"/>
 			</item>
-			<item name="Newspaper Stand">
+			<item name="Newspaper Stand" fr.name="Kiosque à journaux">
 				<link wiki="Tag:shop=newsagent"/>
-				<space/>
 				<key key="shop" value="newsagent"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Ticket">
+			<item name="Ticket" fr.name="Tickets">
 				<link wiki="Tag:shop=ticket"/>
-				<space/>
 				<key key="shop" value="ticket"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 		</group>
-		<group name="For the body">
-			<item name="Chemist">
+		<group name="For the body" fr.name="Soin du corps">
+			<item name="Chemist" fr.name="Droguerie">
 				<link wiki="Tag:shop=chemist"/>
-				<space/>
 				<key key="shop" value="chemist"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Cosmetics">
+			<item name="Cosmetics" fr.name="Cosmétiques">
 				<link wiki="Tag:shop=cosmetics"/>
-				<space/>
 				<key key="shop" value="cosmetics"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Perfumery">
+			<item name="Perfumery" fr.name="Parfumerie">
 				<link wiki="Tag:shop=perfumery"/>
-				<space/>
 				<key key="shop" value="perfumery"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Beauty">
+			<item name="Beauty" fr.name="Beauté">
 				<link wiki="Tag:shop=beauty"/>
-				<space/>
 				<key key="shop" value="beauty"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Tobacco">
+			<item name="Tobacco" fr.name="Bureau de tabac">
 				<link wiki="Tag:shop=tobacco"/>
-				<space/>
 				<key key="shop" value="tobacco"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Hairdresser/Barber">
+			<item name="Hairdresser/Barber" fr.name="Coiffeur / barbier">
 				<link wiki="Tag:shop=hairdresser"/>
-				<space/>
 				<key key="shop" value="hairdresser"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<checkgroup columns="3">
-					<check key="female" text="Female"/>
-					<check key="male" text="Male"/>
-					<check key="unisex" text="Unisex"/>
+					<check key="female" text="Female" fr.text="Femme"/>
+					<check key="male" text="Male" fr.text="Homme"/>
+					<check key="unisex" text="Unisex" fr.text="Unisexe"/>
 				</checkgroup>
 			</item>
-			<item name="Massage">
+			<item name="Massage" fr.name="Salon de massage">
 				<link wiki="Tag:shop=massage"/>
-				<space/>
 				<key key="shop" value="massage"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Tattoo">
+			<item name="Tattoo" fr.name="Salon de tatouage">
 				<link wiki="Tag:shop=tattoo"/>
-				<space/>
 				<key key="shop" value="tattoo"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Optician">
+			<item name="Optician" fr.name="Opticien">
 				<link wiki="Tag:shop=optician"/>
-				<space/>
 				<key key="shop" value="optician"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Hearing Aids">
+			<item name="Hearing Aids" fr.name="Appareils auditifs">
 				<link wiki="Tag:shop=hearing_aids"/>
-				<space/>
 				<key key="shop" value="hearing_aids"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Medical Supply">
+			<item name="Medical Supply" fr.name="Matériel médical">
 				<link wiki="Tag:shop=medical_supply"/>
-				<space/>
 				<key key="shop" value="medical_supply"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
-				<check key="dispensing" text="Dispensing"/>
+				<check key="dispensing" text="Dispensing" fr.text="Délivre des médicaments avec ordonnance"/>
 			</item>
-			<item name="Jewellery">
+			<item name="Jewellery" fr.name="Bijouterie">
 				<link wiki="Tag:shop=jewelry"/>
-				<space/>
 				<key key="shop" value="jewelry"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Erotic">
+			<item name="Erotic" fr.name="Sex-shop">
 				<link wiki="Tag:shop=erotic"/>
-				<space/>
 				<key key="shop" value="erotic"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="min_age"/>
@@ -3714,86 +2337,74 @@
 			</item>
 		</group>
 		<group name="Other" fr.name="Autre">
-			<item name="Department Store">
+			<item name="Department Store" fr.name="Grand magasin">
 				<link wiki="Tag:shop=department_store"/>
-				<space/>
 				<key key="shop" value="department_store"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Mall">
+			<item name="Mall" fr.name="Galerie commerciale">
 				<link wiki="Tag:shop=mall"/>
-				<space/>
 				<key key="shop" value="mall"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Florist">
+			<item name="Florist" fr.name="Fleuriste">
 				<link wiki="Tag:shop=florist"/>
-				<space/>
 				<key key="shop" value="florist"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Garden Centre">
+			<item name="Garden Centre" fr.name="Jardinerie">
 				<link wiki="Tag:shop=garden_centre"/>
-				<space/>
 				<key key="shop" value="garden_centre"/>
 				<reference ref="name_brand_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Do-It-Yourself Store">
+			<item name="Do-It-Yourself Store" fr.name="Magasin de bricolage">
 				<link wiki="Tag:shop=doityourself"/>
-				<space/>
 				<key key="shop" value="doityourself"/>
 				<reference ref="name_brand_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Hardware">
+			<item name="Hardware" fr.name="Matériel">
 				<link wiki="Tag:shop=hardware"/>
-				<space/>
 				<key key="shop" value="hardware"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Paint">
+			<item name="Paint" fr.name="Peinture">
 				<link wiki="Tag:shop=paint"/>
-				<space/>
 				<key key="shop" value="paint"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Gas">
 				<link wiki="Tag:shop=gas"/>
-				<space/>
 				<key key="shop" value="gas"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Travel Agency">
+			<item name="Travel Agency" fr.name="Agence de voyages">
 				<link wiki="Tag:shop=travel_agency"/>
-				<space/>
 				<key key="shop" value="travel_agency"/>
 				<reference ref="name_brand_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Musical Instrument">
+			<item name="Musical Instrument" fr.name="Instrument de musique">
 				<link wiki="Tag:shop=musical_instrument"/>
-				<space/>
 				<key key="shop" value="musical_instrument"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Toys">
+			<item name="Toys" fr.name="Jouets">
 				<link wiki="Tag:shop=toys"/>
-				<space/>
 				<key key="shop" value="toys"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Gift/Souvenir">
+			<item name="Gift/Souvenir" fr.name="Cadeaux / souvenirs">
 				<link wiki="Tag:shop=gift"/>
-				<space/>
 				<key key="shop" value="gift"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
@@ -3803,456 +2414,344 @@
 			</item>
 			<item name="Variety Store">
 				<link wiki="Tag:shop=variety_store"/>
-				<space/>
 				<key key="shop" value="variety_store"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Charity">
 				<link wiki="Tag:shop=charity"/>
-				<space/>
 				<key key="shop" value="charity"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Bookmaker">
 				<link wiki="Tag:shop=bookmaker"/>
-				<space/>
 				<key key="shop" value="bookmaker"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Lottery">
+			<item name="Lottery" fr.name="Loterie">
 				<link wiki="Tag:shop=lottery"/>
-				<space/>
 				<key key="shop" value="lottery"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Bag">
+			<item name="Bag" fr.name="Maroquinerie">
 				<link wiki="Tag:shop=bag"/>
-				<space/>
 				<key key="shop" value="bag"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Pet">
+			<item name="Pet" fr.name="Animalerie">
 				<link wiki="Tag:shop=pet"/>
-				<space/>
 				<key key="shop" value="pet"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Photo">
 				<link wiki="Tag:shop=photo"/>
-				<space/>
 				<key key="shop" value="photo"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 			<item name="Funeral Directors">
 				<link wiki="Tag:shop=funeral_directors"/>
-				<space/>
 				<key key="shop" value="funeral_directors"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<separator/>
-			<separator/>
-			<separator/>
 		</group>
-		<separator/>
-		<item name="Vending Machine">
+		<item name="Vending Machine" fr.name="Distributeur automatique">
 			<link wiki="Tag:amenity=vending_machine"/>
-			<space/>
 			<key key="amenity" value="vending_machine"/>
-			<multiselect key="vending" text="Vending products" values="admission_tickets;animal_feed;bicycle_tube;cigarettes;coffee;condoms;drinks;elongated_coin;excrement_bags;food;milk;newspapers;parking_tickets;parcel_pickup;parcel_mail_in;photos;public_transport_tickets;SIM_cards;stamps;sweets;telephone_vouchers;toys" values_searchable="true"/>
+			<multiselect key="vending" text="Vending products" values="admission_tickets;animal_feed;bicycle_tube;cigarettes;coffee;condoms;drinks;elongated_coin;excrement_bags;food;milk;newspapers;parking_tickets;parcel_pickup;parcel_mail_in;photos;public_transport_tickets;SIM_cards;stamps;sweets;telephone_vouchers;toys" values_searchable="true" fr.text="Produits vendus"/>
 			<text key="operator" text="Operator" fr.text="Opérateur"/>
 			<text key="ref" text="Reference number" fr.text="Numéro de référence"/>
 			<preset_link preset_name="Payment Methods"/>
 		</item>
-		<item name="Payment Methods">
-			<link wiki="Key:payment"/>
-			<space/>
-			<space/>
-			<space/>
-			<space/>
-			<space/>
-			<combo key="payment:cash" text="Cash" values="yes,no" match="keyvalue"/>
-			<combo key="payment:debit_cards" text="Debit cards" values="no" match="keyvalue"/>
-			<combo key="payment:credit_cards" text="Credit cards" values="no" match="keyvalue"/>
-			<combo key="payment:electronic_purses" text="Electronic purses and Charge cards" values="no" match="keyvalue"/>
-			<combo key="payment:cryptocurrencies" text="Cryptocurrencies" values="no" match="keyvalue"/>
-			<checkgroup columns="4">
-				<check key="payment:coins" text="Coins" match="keyvalue"/>
-				<check key="payment:notes" text="Notes" text_context="payment" match="keyvalue"/>
-			</checkgroup>
-			<checkgroup columns="4">
-				<check key="payment:bankaxess" text="BankAxess" match="keyvalue"/>
-				<check key="payment:bancomat" text="Bancomat" match="keyvalue"/>
-				<check key="payment:girocard" text="Girocard" match="keyvalue"/>
-				<check key="payment:laser" text="Laser" match="keyvalue"/>
-				<check key="payment:maestro" text="Maestro" match="keyvalue"/>
-				<check key="payment:postfinance_card" text="PostFinance Card (ch)" match="keyvalue"/>
-				<check key="payment:visa_debit" text="Visa Debit" match="keyvalue"/>
-				<check key="payment:visa_electron" text="Visa Electron" match="keyvalue"/>
-			</checkgroup>
-			<checkgroup columns="4">
-				<check key="payment:american_express" text="American Express" match="keyvalue"/>
-				<check key="payment:diners_club" text="Diners Club" match="keyvalue"/>
-				<check key="payment:discover_card" text="Discover Card" match="keyvalue"/>
-				<check key="payment:jcb" text="JCB" match="keyvalue"/>
-				<check key="payment:mastercard" text="Mastercard" match="keyvalue"/>
-				<check key="payment:visa" text="Visa" match="keyvalue"/>
-			</checkgroup>
-			<checkgroup columns="4">
-				<check key="payment:ep_avant" text="Avant (fi)" match="keyvalue"/>
-				<check key="payment:ep_geldkarte" text="Geldkarte (de)" match="keyvalue"/>
-				<check key="payment:ep_mep" text="Mep (pt)" match="keyvalue"/>
-				<check key="payment:ep_minicash" text="Minicash (lu)" match="keyvalue"/>
-				<check key="payment:ep_minipay" text="Minipay (it)" match="keyvalue"/>
-				<check key="payment:ep_monedero" text="Mondero (ar)" match="keyvalue"/>
-				<check key="payment:ep_monedero4b" text="Mondero 4b (es)" match="keyvalue"/>
-				<check key="payment:ep_moneo" text="Moneo (fr)" match="keyvalue"/>
-			</checkgroup>
-			<checkgroup columns="4">
-				<check key="payment:bitcoin" text="Bitcoin" match="keyvalue"/>
-				<check key="payment:dogecoin" text="Dogecoin" match="keyvalue"/>
-				<check key="payment:litecoin" text="Litecoin" match="keyvalue"/>
-			</checkgroup>
-		</item>
 	</group>
-	<group name="Offices">
+	<group name="Offices" fr.name="Bureaux">
 		<item name="Accountant">
 			<link wiki="Tag:office=accountant"/>
-			<space/>
 			<key key="office" value="accountant"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Administrative">
+		<item name="Administrative" fr.name="Administratif">
 			<link wiki="Tag:office=administrative"/>
-			<space/>
 			<key key="office" value="administrative"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Advertising agency">
+		<item name="Advertising agency" fr.name="Agence de publicité">
 			<link wiki="Tag:office=advertising_agency"/>
-			<space/>
 			<key key="office" value="advertising_agency"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Architect">
+		<item name="Architect" fr.name="Architecte">
 			<link wiki="Tag:office=architect"/>
-			<space/>
 			<key key="office" value="architect"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Association">
 			<link wiki="Tag:office=association"/>
-			<space/>
 			<key key="office" value="association"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Private company">
+		<item name="Private company" fr.name="Société privée">
 			<link wiki="Tag:office=company"/>
-			<space/>
 			<key key="office" value="company"/>
 			<reference ref="name_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Educational institution">
+		<item name="Educational institution" fr.name="Établissement d'enseignement">
 			<link wiki="Tag:office=educational_institution"/>
-			<space/>
 			<key key="office" value="educational_institution"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Employment agency">
+		<item name="Employment agency" fr.name="Agence pour l'emploi">
 			<link wiki="Tag:office=employment_agency"/>
-			<space/>
 			<key key="office" value="employment_agency"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Estate agent">
+		<item name="Estate agent" fr.name="Agence immobilière">
 			<link wiki="Tag:office=estate_agent"/>
-			<space/>
 			<key key="office" value="estate_agent"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Foundation">
+		<item name="Foundation" fr.name="Fondatio">
 			<link wiki="Tag:office=foundation"/>
-			<space/>
 			<key key="office" value="foundation"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Government">
+		<item name="Government" fr.name="Agence gouvernementale">
 			<link wiki="Tag:office=government"/>
-			<space/>
 			<key key="office" value="government"/>
 			<text key="name" text="Name" fr.text="Nom"/>
 			<combo key="government" text="Type" values="administrative,cadaster,customs,education,healthcare,legislative,migration,ministry,pension_fund,prosecutor,public_service,register_office,social_security,social_services,tax,transportation"/>
 			<reference ref="oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Insurance">
+		<item name="Insurance" fr.name="Assurances">
 			<link wiki="Tag:office=insurance"/>
-			<space/>
 			<key key="office" value="insurance"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="It specialist">
+		<item name="It specialist" fr.name="Société d'informatique">
 			<link wiki="Tag:office=it"/>
-			<space/>
 			<key key="office" value="it"/>
 			<reference ref="name_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Lawyer">
+		<item name="Lawyer" fr.name="Juriste">
 			<link wiki="Tag:office=lawyer"/>
-			<space/>
 			<key key="office" value="lawyer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Newspaper">
+		<item name="Newspaper" fr.name="Journal">
 			<link wiki="Tag:office=newspaper"/>
-			<space/>
 			<key key="office" value="newspaper"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Non-governmental organisation (NGO)">
+		<item name="Non-governmental organisation (NGO)" fr.name="Organisation non-gouvernementale (ONG)">
 			<link wiki="Tag:office=ngo"/>
-			<space/>
 			<key key="office" value="ngo"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Notary">
+		<item name="Notary" fr.name="Notaire">
 			<link wiki="Tag:office=notary"/>
-			<space/>
 			<key key="office" value="notary"/>
 			<reference ref="name_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Political party">
+		<item name="Political party" fr.name="Parti politique">
 			<link wiki="Tag:office=political_party"/>
-			<space/>
 			<key key="office" value="political_party"/>
 			<reference ref="name_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Religion">
 			<link wiki="Tag:office=religion"/>
-			<space/>
 			<key key="office" value="religion"/>
 			<text key="name" text="Name" fr.text="Nom"/>
 			<reference ref="religious"/>
 			<reference ref="oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Research">
+		<item name="Research" fr.name="Recherche">
 			<link wiki="Tag:office=research"/>
-			<space/>
 			<key key="office" value="research"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Tax advisor">
 			<link wiki="Tag:office=tax_advisor"/>
-			<space/>
 			<key key="office" value="tax_advisor"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Telecommunication">
+		<item name="Telecommunication" fr.name="Télécommunications">
 			<link wiki="Tag:office=telecommunication"/>
-			<space/>
 			<key key="office" value="telecommunication"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 	</group>
-	<group name="Craft">
-		<item name="Beekeeper">
+	<group name="Craft" fr.name="Artisanat">
+		<item name="Beekeeper" fr.name="Apiculteur">
 			<link wiki="Tag:craft=beekeeper"/>
-			<space/>
 			<key key="craft" value="beekeeper"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Brewery" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Brewery" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Brasserie">
 			<link wiki="Tag:craft=brewery"/>
-			<space/>
 			<key key="craft" value="brewery"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Winery" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Winery" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Vigneron">
 			<link wiki="Tag:craft=winery"/>
-			<space/>
 			<key key="craft" value="winery"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Caterer" type="node,closedway,multipolygon" preset_name_label="true">
 			<link wiki="Tag:craft=caterer"/>
-			<space/>
 			<key key="craft" value="caterer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Upholsterer" type="node,closedway,multipolygon" preset_name_label="true">
 			<link wiki="Tag:craft=upholsterer"/>
-			<space/>
 			<key key="craft" value="upholsterer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Key cutter">
+		<item name="Key cutter" fr.name="Fabriquant de clés">
 			<link wiki="Tag:craft=key_cutter"/>
-			<space/>
 			<key key="craft" value="key_cutter"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Locksmith">
+		<item name="Locksmith" fr.name="Serrurier">
 			<link wiki="Tag:craft=locksmith"/>
-			<space/>
 			<key key="craft" value="locksmith"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Electrician">
+		<item name="Electrician" fr.name="Électricien">
 			<link wiki="Tag:craft=electrician"/>
-			<space/>
 			<key key="craft" value="electrician"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Plumber">
+		<item name="Plumber" fr.name="Plombier">
 			<link wiki="Tag:craft=plumber"/>
-			<space/>
 			<key key="craft" value="plumber"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Hvac" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Hvac" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Climatisation">
 			<link wiki="Tag:craft=hvac"/>
-			<space/>
 			<key key="craft" value="hvac"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Painter">
+		<item name="Painter" fr.name="Peintre">
 			<link wiki="Tag:craft=painter"/>
-			<space/>
 			<key key="craft" value="painter"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Tiler">
+		<item name="Tiler" fr.name="Toiturier">
 			<link wiki="Tag:craft=tiler"/>
-			<space/>
 			<key key="craft" value="tiler"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Window construction">
 			<link wiki="Tag:craft=window_construction"/>
-			<space/>
 			<key key="craft" value="window_construction"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Carpenter" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Carpenter" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Charpentier">
 			<link wiki="Tag:craft=carpenter"/>
-			<space/>
 			<key key="craft" value="carpenter"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Roofer">
 			<link wiki="Tag:craft=roofer"/>
-			<space/>
 			<key key="craft" value="roofer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Photographer" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Photographer" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Photographe">
 			<link wiki="Tag:craft=photographer"/>
-			<space/>
 			<key key="craft" value="photographer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Handicraft" type="node,closedway,multipolygon" preset_name_label="true">
 			<link wiki="Tag:craft=handicraft"/>
-			<space/>
 			<key key="craft" value="handicraft"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Pottery">
+		<item name="Pottery" fr.name="Potterie">
 			<link wiki="Tag:craft=pottery"/>
-			<space/>
 			<key key="craft" value="pottery"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Gardener" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Gardener" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Jardinier">
 			<link wiki="Tag:craft=gardener"/>
-			<space/>
 			<key key="craft" value="gardener"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Shoemaker" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Shoemaker" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Coordonnier">
 			<link wiki="Tag:craft=shoemaker"/>
-			<space/>
 			<key key="craft" value="shoemaker"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
 		<item name="Sawmill" type="node,closedway,multipolygon" preset_name_label="true">
 			<link wiki="Tag:craft=sawmill"/>
-			<space/>
 			<key key="craft" value="sawmill"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Stonemason" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Stonemason" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Maçon">
 			<link wiki="Tag:craft=stonemason"/>
-			<space/>
 			<key key="craft" value="stonemason"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Blacksmith" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Blacksmith" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Forgeron">
 			<link wiki="Tag:craft=blacksmith"/>
-			<space/>
 			<key key="craft" value="blacksmith"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Metal construction" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Metal construction" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Construction métallique">
 			<link wiki="Tag:craft=metal_construction"/>
-			<space/>
 			<key key="craft" value="metal_construction"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<separator/>
-		<separator/>
-		<separator/>
 	</group>
 </presets>
