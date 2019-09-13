@@ -121,32 +121,7 @@ class EditableLayer extends Path {
 
 	componentDidMount() {
 		super.componentDidMount();
-
-		let enableSnap = false;
 		const map = this.props.leaflet.map;
-
-		// Set initial selection visible
-		if(this.props.selection) {
-			enableSnap = true;
-			this.leafletElement.getLayers()
-			.filter(l => l.feature && l.feature.id === this.props.selection.id)
-			.forEach(l => {
-				this._setLayerStyle(l, this.props, true);
-
-				if(l.enableEdit) {
-					l.enableEdit();
-				}
-			});
-		}
-
-		// Start editor if necessary
-		if(this.props.draw) {
-			enableSnap = true;
-			this._startDrawing(this.props, this.leafletElement);
-		}
-
-		this._sortFeaturesZIndex(this.leafletElement);
-
 
 		/*
 		 * Bind various events for whole layer lifetime
@@ -200,13 +175,8 @@ class EditableLayer extends Path {
 		});
 
 
-		// Display icons
-		this._addIcons(this.leafletElement);
-
-		// Enable snapping
-		if(enableSnap) {
-			this._enableSnapping(map);
-		}
+		// Force update to make sure everything is set up correctly
+		PubSub.publishSync("map.editablelayer.redraw");
 	}
 
 	componentWillUnmount() {
