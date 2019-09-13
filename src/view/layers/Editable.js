@@ -110,6 +110,9 @@ class EditableLayer extends Path {
 			}
 		}, props);
 
+		// Create snap handler
+		this._createSnapHandler(props.leaflet.map);
+
 		// Create the GeoJSON layer
 		const lGeojson = this._populateLayer(new L.GeoJSON(null, this.getOptions(myprops)), myprops);
 
@@ -119,8 +122,12 @@ class EditableLayer extends Path {
 	componentDidMount() {
 		super.componentDidMount();
 
+		let enableSnap = false;
+		const map = this.props.leaflet.map;
+
 		// Set initial selection visible
 		if(this.props.selection) {
+			enableSnap = true;
 			this.leafletElement.getLayers()
 			.filter(l => l.feature && l.feature.id === this.props.selection.id)
 			.forEach(l => {
@@ -134,45 +141,101 @@ class EditableLayer extends Path {
 
 		// Start editor if necessary
 		if(this.props.draw) {
+			enableSnap = true;
 			this._startDrawing(this.props, this.leafletElement);
 		}
 
 		this._sortFeaturesZIndex(this.leafletElement);
 
+
+		/*
+		 * Bind various events for whole layer lifetime
+		 */
+
+		// Call for forcing complete layer redraw
 		PubSub.subscribe("map.editablelayer.redraw", (msg, data) => {
 			this.updateLeafletElement({}, this.props);
 		});
 
-		this.props.leaflet.map.on("movestart", () => {
-			if(this.snap) {
-				this.snap.unwatchMarker(this.snapMarker);
-			}
+		// Disable mouseover event when dragging a vertex
+		map.on("editable:vertex:dragstart", e => {
+			this.leafletElement.eachLayer(l => l.off("mouseover"));
+			this._snapFollowMarker(e.vertex);
 		});
 
-		this.props.leaflet.map.on("moveend", () => {
-			if(this.snap && this.snapMarker) {
-				this.snap.watchMarker(this.snapMarker);
-			}
+		// Save new geometry when vertex is released
+		map.on("editable:vertex:dragend", e => {
+			this.snap.unwatchMarker(e.vertex);
+			PubSub.publish("body.edit.feature", { feature: e.layer.toGeoJSON(GEOJSON_PRECISION) });
 		});
+
+		// Click on a node vertex (for selection)
+		if(this.props.allowVertexClick) {
+			map.on("editable:vertex:rawclick", e => {
+				const node = window.vectorDataManager.findNodeFeature(e.latlng);
+
+				// If node is a feature, select it
+				if(node && (!node.properties.own || !node.properties.own.utilityNode)) {
+					PubSub.publish("body.select.feature", { feature: node });
+					e.cancel();
+				}
+			});
+		}
+
+		// Click on a node vertex (for deletion)
+		map.on("editable:vertex:deleted", e => {
+			PubSub.publish("body.edit.feature", { feature: e.layer.toGeoJSON(GEOJSON_PRECISION) });
+		});
+
+		// When user starts creating new feature
+		map.on("editable:drawing:start", e => {
+			map.on("mousemove", this._followMouse, this);
+		});
+
+		// When user click to add a vertex on a new feature
+		map.on("editable:drawing:click", e => {
+			const latlng = this.snapMarker.getLatLng();
+			e.latlng.lat = latlng.lat;
+			e.latlng.lng = latlng.lng;
+		});
+
 
 		// Display icons
 		this._addIcons(this.leafletElement);
+
+		// Enable snapping
+		if(enableSnap) {
+			this._enableSnapping(map);
+		}
 	}
 
 	componentWillUnmount() {
 		super.componentWillUnmount();
 
+		// Clean up all bind events
+		const map = this.props.leaflet.map;
 		PubSub.unsubscribe("map.editablelayer.redraw");
-		this.updateLeafletElement(this.props, { leaflet: this.props.leaflet });
+		map.off("editable:vertex:dragstart");
+		map.off("editable:vertex:dragend");
+		map.off("editable:vertex:rawclick");
+		map.off("editable:vertex:deleted");
+		map.off("editable:drawing:start");
+		map.off("editable:drawing:end");
+		map.off("editable:drawing:click");
+		map.off("mousemove");
 
-		if(this.snap) {
-			this.snap.disable();
-			delete this.snap;
+		if(this.snapMarker) {
+			this.snapMarker.off("snap");
+			this.snapMarker.off("unsnap");
 		}
+
+		this.updateLeafletElement(this.props, { leaflet: this.props.leaflet });
 	}
 
 	updateLeafletElement(fromProps, toProps) {
 		let updateIcons = false;
+		let enableSnap = false;
+		let disableSnap = false;
 
 		// Add style property according to styler
 		if(!toProps.style && toProps.styler) {
@@ -203,10 +266,12 @@ class EditableLayer extends Path {
 		// Start editor if necessary
 		if(fromProps.draw !== toProps.draw) {
 			if(!fromProps.draw && toProps.draw) {
+				enableSnap = true;
 				this._startDrawing(toProps);
 			}
 			else if(fromProps.draw && !toProps.draw) {
 				this._stopDrawing(toProps);
+				disableSnap = true;
 				this.leafletElement.clearLayers();
 
 				if(toProps.data) {
@@ -217,6 +282,7 @@ class EditableLayer extends Path {
 
 		// Restore editor
 		if(fromProps.selection === toProps.selection && toProps.selection !== null) {
+			enableSnap = true;
 			this.leafletElement.eachLayer(l => {
 				if(l.feature) {
 					if(toProps.selection.id === l.feature.id) {
@@ -228,6 +294,16 @@ class EditableLayer extends Path {
 			});
 		}
 
+		if(fromProps.selection !== toProps.selection) {
+			if(!fromProps.selection && toProps.selection) {
+				enableSnap = true;
+			}
+
+			if(fromProps.selection && !toProps.selection) {
+				disableSnap = true;
+			}
+		}
+
 		// Change selection if updated
 		if(fromProps.selection !== toProps.selection) {
 			// Remove move cursor from previous selection
@@ -235,6 +311,7 @@ class EditableLayer extends Path {
 				this.leafletElement.removeLayer(this._markerMove);
 
 				if(fromProps.selection.id.startsWith("node/")) {
+					disableSnap = true;
 					this._markerMove.off("moveend mousemove move");
 					this.snap.unwatchMarker(this._markerMove);
 				}
@@ -360,7 +437,7 @@ class EditableLayer extends Path {
 				if(toProps.selection && toProps.selection.id.startsWith("node/") && !toProps.selection.properties.own.utilityNode) {
 					this._markerMove = this._createMarkerMove(newCoords);
 					this.leafletElement.addLayer(this._markerMove);
-					this.snap.watchMarker(this._markerMove);
+					enableSnap = this._markerMove;
 					let layersConnected = [];
 
 					// Handle case where we're moving routing graph features
@@ -455,16 +532,14 @@ class EditableLayer extends Path {
 		}
 
 		// Enable/disable snapping
-		if(this.snap) {
-			if((toProps.draw || toProps.selection) && (!fromProps.draw && !fromProps.selection)) {
-				this.snap.enable();
+		if(enableSnap) {
+			this._enableSnapping(toProps.leaflet.map);
+			if(typeof enableSnap === "object") {
+				this._snapFollowMarker(enableSnap);
 			}
-			else if(!toProps.draw && !toProps.selection && (fromProps.draw || fromProps.selection)) {
-				this.snap.disable();
-				if(toProps.leaflet && toProps.leaflet.map) {
-					toProps.leaflet.map.off("touchmove");
-				}
-			}
+		}
+		if(disableSnap && !enableSnap) {
+			this._disableSnapping();
 		}
 	}
 
@@ -513,20 +588,6 @@ class EditableLayer extends Path {
 	_populateLayer(layer, props) {
 		const map = props.leaflet.map;
 
-		// Reset events from previous _populateLayer calls
-		map.off("editable:vertex:dragstart");
-		map.off("editable:vertex:dragend");
-		map.off("editable:vertex:rawclick");
-		map.off("editable:vertex:deleted");
-		map.off("editable:drawing:start");
-		map.off("editable:drawing:end");
-		map.off("editable:drawing:click");
-		map.off("mousemove");
-		if(this.snapMarker) {
-			this.snapMarker.off("snap");
-			this.snapMarker.off("unsnap");
-		}
-
 		/*
 		 * Add shadow data
 		 */
@@ -544,39 +605,8 @@ class EditableLayer extends Path {
 		// Display lines for doors with width set
 		this._addDoorLines(layer, map);
 
-		// Enable snapping
-		this.snap = this.snap || new MyMarkerSnap(props.leaflet.map, { snapDistance: 20 });
-		this._enableSnapping(map);
-
-		// Disable mouseover event when dragging a vertex
-		map.on("editable:vertex:dragstart", e => {
-			layer.eachLayer(l => l.off("mouseover"));
-		});
-
-		// Save new geometry when vertex is released
-		map.on("editable:vertex:dragend", e => {
-			PubSub.publish("body.edit.feature", { feature: e.layer.toGeoJSON(GEOJSON_PRECISION) });
-		});
-
-		// Click on a node vertex (for selection)
-		if(props.allowVertexClick) {
-			map.on("editable:vertex:rawclick", e => {
-				const node = window.vectorDataManager.findNodeFeature(e.latlng);
-
-				// If node is a feature, select it
-				if(node && (!node.properties.own || !node.properties.own.utilityNode)) {
-					PubSub.publish("body.select.feature", { feature: node });
-					e.cancel();
-				}
-			});
-		}
-
-		// Click on a node vertex (for deletion)
-		map.on("editable:vertex:deleted", e => {
-			PubSub.publish("body.edit.feature", { feature: e.layer.toGeoJSON(GEOJSON_PRECISION) });
-		});
-
 		// Events specific for each layer
+		const guidesForSnap = [];
 		layer.eachLayer(l => {
 			if((!l.own || !l.own.shadow) && l.enableEdit && l.feature) {
 				if(!props.draw) {
@@ -595,9 +625,12 @@ class EditableLayer extends Path {
 
 			// Add layer as guide for snapping
 			if(l.toGeoJSON && l.feature && (!props.selection || l.feature.id !== props.selection.id)) {
-				this.snap.addGuideLayer(new L.GeoJSON(l.feature.geometry));
+				guidesForSnap.push(new L.GeoJSON(l.feature.geometry));
 			}
 		});
+
+		// Reload list of layers which should be used as guides for snapping
+		this._snapReplaceGuideLayers(guidesForSnap);
 
 		return layer;
 	}
@@ -708,6 +741,8 @@ class EditableLayer extends Path {
 				map.off("editable:drawing:end");
 				map.off("editable:vertex:new");
 				Mousetrap.unbind(GUIDE_LINES_ANGLE_KEY);
+				map.off("mousemove", this._followMouse, this);
+				this.snapMarker.remove();
 
 				// Check geometry validity
 				try {
@@ -759,38 +794,18 @@ class EditableLayer extends Path {
 	}
 
 	/**
-	 * Enable snapping on editing
-	 * @private
+	 * Create snap handler
 	 */
-	_enableSnapping(map) {
-		// Create snapping tools
-		this.snapMarker = this.snapMarker || new L.Marker(map.getCenter(), {
+	_createSnapHandler(map) {
+		this.snap = new MyMarkerSnap(map, { snapDistance: 20 });
+
+		this.snapMarker = new L.Marker(map.getCenter(), {
 			icon: map.editTools.createVertexIcon({className: 'leaflet-div-icon leaflet-drawing-icon'}),
 			opacity: 1,
 			zIndexOffset: 1000
 		});
 
-		this.snap.watchMarker(this.snapMarker);
-
 		// Events
-		map.on('editable:vertex:dragstart', e => {
-			this.snap.watchMarker(e.vertex);
-		});
-		map.on('editable:vertex:dragend', e => {
-			this.snap.unwatchMarker(e.vertex);
-		});
-		map.on('editable:drawing:start', e => {
-			map.on('mousemove', this._followMouse.bind(this));
-		});
-		map.on('editable:drawing:end', e => {
-			map.off('mousemove', this._followMouse.bind(this));
-			this.snapMarker.remove();
-		});
-		map.on('editable:drawing:click', e => {
-			const latlng = this.snapMarker.getLatLng();
-			e.latlng.lat = latlng.lat;
-			e.latlng.lng = latlng.lng;
-		});
 		this.snapMarker.on('snap', e => {
 			this.snapMarker.addTo(map);
 		});
@@ -798,6 +813,53 @@ class EditableLayer extends Path {
 			this.snapMarker.remove();
 			map.removeLayer(this.snapMarker);
 		});
+
+		this._snapEnabled = false;
+	}
+
+	/**
+	 * Enable snapping on editing
+	 * @private
+	 */
+	_enableSnapping(map) {
+		if(!this._snapEnabled) {
+			// Create snapping tools
+			this._snapEnabled = true;
+			this._snapFollowMarker(this.snapMarker);
+		}
+	}
+
+	/**
+	 * Set the marker to use for snapping
+	 * @private
+	 */
+	_snapFollowMarker(marker) {
+		this.snap.enable();
+		this.snap._markers = [];
+		this.snap.watchMarker(marker);
+	}
+
+	/**
+	 * Change list of layers to use as guides for snapping
+	 * @private
+	 */
+	_snapReplaceGuideLayers(guides) {
+		this.snap._guides = [];
+		guides.forEach(g => this.snap.addGuideLayer(g));
+	}
+
+	/**
+	 * Disable snapping
+	 * @private
+	 */
+	_disableSnapping() {
+		if(this._snapEnabled) {
+			if(this.snap) {
+				this.snap.disable();
+			}
+
+			this._snapEnabled = false;
+		}
 	}
 
 	/**
