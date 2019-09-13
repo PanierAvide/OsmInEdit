@@ -643,11 +643,11 @@
 					<text key="ref" text="Reference" fr.text="Référence"/>
 				</optional>
 			</item>
-			<item name="Apron" fr.name="Aire de stationnement">
+			<item name="Apron" fr.name="Aire de stationnement" type="closedway">
 				<link wiki="Tag:aeroway=apron"/>
 				<key key="aeroway" value="apron"/>
 			</item>
-			<item name="Plane Parking Position" fr.name="Stationnement pour avion">
+			<item name="Plane Parking Position" fr.name="Stationnement pour avion" type="node,way">
 				<link wiki="Tag:aeroway=parking_position"/>
 				<key key="aeroway" value="parking_position"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
@@ -1747,7 +1747,7 @@
 	</group>
 	<group name="Man Made" fr.name="Infrastructure">
 		<group name="Historic Places" fr.name="Lieux historiques">
-			<item name="Castle" fr.name="Château">
+			<item name="Castle" fr.name="Château" type="closedway">
 				<link wiki="Tag:historic=castle"/>
 				<key key="historic" value="castle"/>
 				<combo key="castle_type" text="Type" values="stately,defensive,fortress,manor,palace"/>
@@ -1755,23 +1755,23 @@
 				<reference ref="link_contact_address_payment"/>
 				<check key="ruins" text="Ruins" fr.text="Ruines"/>
 			</item>
-			<item name="Grave" fr.name="Pierre tombale">
+			<item name="Grave" fr.name="Pierre tombale" type="node">
 				<link wiki="Tag:cemetery=grave"/>
 				<key key="cemetery" value="grave"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
-			<item name="Tomb" fr.name="Tombe d'intérêt historique">
+			<item name="Tomb" fr.name="Tombe d'intérêt historique" type="node">
 				<link wiki="Tag:historic=tomb"/>
 				<key key="historic" value="tomb"/>
 				<combo key="tomb" text="Type" values="tumulus,rock-cut,hypogeum,war_grave,mausoleum,columbarium,crypt,pyramid,sarcophagus,vault" values_context="tomb" values_searchable="true"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
-			<item name="Monument">
+			<item name="Monument" type="node,closedway">
 				<link wiki="Tag:historic=monument"/>
 				<key key="historic" value="monument"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
-			<item name="Memorial" fr.name="Mémorial">
+			<item name="Memorial" fr.name="Mémorial" type="node,closedway">
 				<link wiki="Tag:historic=memorial"/>
 				<key key="historic" value="memorial"/>
 				<text key="name" text="Name" fr.text="Nom"/>
@@ -1783,7 +1783,7 @@
 					<text key="wikipedia" text="Wikipedia" fr.text="Wikipédia"/>
 				</optional>
 			</item>
-			<item name="Wayside Cross" fr.name="Croix">
+			<item name="Wayside Cross" fr.name="Croix" type="node">
 				<link wiki="Tag:historic=wayside_cross"/>
 				<key key="historic" value="wayside_cross"/>
 				<text key="name" text="Name" fr.text="Nom"/>
@@ -1791,7 +1791,7 @@
 				<text key="inscription" text="Inscription"/>
 				<reference ref="religious_catholic_christian"/>
 			</item>
-			<item name="Wayside Shrine" fr.name="Sanctuaire">
+			<item name="Wayside Shrine" fr.name="Sanctuaire" type="node">
 				<link wiki="Tag:historic=wayside_shrine"/>
 				<key key="historic" value="wayside_shrine"/>
 				<text key="name" text="Name" fr.text="Nom"/>
@@ -1801,13 +1801,13 @@
 				<check key="amenity" text="Place of worship" value_on="place_of_worship" disable_off="true" fr.text="Lieu de culte"/>
 				<combo key="building" text="Building" values="wayside_shrine,yes" values_context="building" fr.text="Bâtiment"/>
 			</item>
-			<item name="Boundary Stone" fr.name="Pierre de limite">
+			<item name="Boundary Stone" fr.name="Pierre de limite" type="node">
 				<link wiki="Tag:historic=boundary_stone"/>
 				<key key="historic" value="boundary_stone"/>
 				<text key="name" text="Name" fr.text="Nom"/>
 			</item>
 		</group>
-		<item name="Tower" fr.name="Tour">
+		<item name="Tower" fr.name="Tour" type="node,closedway">
 			<link wiki="Tag:man_made=tower"/>
 			<key key="man_made" value="tower"/>
 			<text key="name" text="Name" fr.text="Nom"/>
@@ -1817,15 +1817,15 @@
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 			</optional>
 		</item>
-		<item name="Flagpole" type="node" fr.name="Poteau pour drapeau">
+		<item name="Flagpole" type="node" fr.name="Poteau pour drapeau" type="node">
 			<link wiki="Tag:man_made=flagpole"/>
 			<key key="man_made" value="flagpole"/>
 		</item>
-		<item name="Cross" fr.name="Croix">
+		<item name="Cross" fr.name="Croix" type="node">
 			<link wiki="Tag:man_made=cross"/>
 			<key key="man_made" value="cross"/>
 		</item>
-		<item name="Crane" fr.name="Grue">
+		<item name="Crane" fr.name="Grue" type="node,closedway">
 			<link wiki="Tag:man_made=crane"/>
 			<key key="man_made" value="crane"/>
 			<optional>
@@ -1833,7 +1833,7 @@
 				<reference ref="name_operator"/>
 			</optional>
 		</item>
-		<item name="Fountain" fr.name="Fontaine">
+		<item name="Fountain" fr.name="Fontaine" type="node,closedway">
 			<link wiki="Tag:amenity=fountain"/>
 			<key key="amenity" value="fountain"/>
 			<optional>
@@ -1841,7 +1841,7 @@
 				<check key="drinking_water" text="Drinking Water" fr.text="Eau potable"/>
 			</optional>
 		</item>
-		<item name="Water Well" fr.name="Puit">
+		<item name="Water Well" fr.name="Puit" type="node,closedway">
 			<link wiki="Tag:man_made=water_well"/>
 			<key key="man_made" value="water_well"/>
 			<optional>
@@ -1849,12 +1849,12 @@
 				<combo key="pump" text="Pump" values="yes,no,manual,powered" values_sort="false" fr.text="Pompe"/>
 			</optional>
 		</item>
-		<item name="Street Lamp" fr.name="Lampadaire">
+		<item name="Street Lamp" fr.name="Lampadaire" type="node">
 			<link wiki="Tag:highway=street_lamp"/>
 			<key key="highway" value="street_lamp"/>
 			<combo key="opening_hours" text="Operation times" values="Mo-Fr 22:00-05:00" values_no_i18n="true" fr.text="Heures de service"/>
 		</item>
-		<item name="Survey Point" fr.name="Point de triangulation">
+		<item name="Survey Point" fr.name="Point de triangulation" type="node">
 			<link wiki="Tag:man_made=survey_point"/>
 			<key key="man_made" value="survey_point"/>
 			<text key="name" text="Name" fr.text="Nom"/>
@@ -1884,99 +1884,99 @@
 	</group>
 	<group name="Shops" fr.name="Commerces">
 		<group name="Food" fr.name="Alimentaire">
-			<item name="Supermarket" fr.name="Supermarché">
+			<item name="Supermarket" fr.name="Supermarché" type="node,closedway">
 				<link wiki="Tag:shop=supermarket"/>
 				<key key="shop" value="supermarket"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Convenience Store" fr.name="Épicerie">
+			<item name="Convenience Store" fr.name="Épicerie" type="node,closedway">
 				<link wiki="Tag:shop=convenience"/>
 				<key key="shop" value="convenience"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Kiosk" fr.name="Kiosque">
+			<item name="Kiosk" fr.name="Kiosque" type="node,closedway">
 				<link wiki="Tag:shop=kiosk"/>
 				<key key="shop" value="kiosk"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Bakery" fr.name="Boulangerie">
+			<item name="Bakery" fr.name="Boulangerie" type="node,closedway">
 				<link wiki="Tag:shop=bakery"/>
 				<key key="shop" value="bakery"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Butcher" fr.name="Boucherie">
+			<item name="Butcher" fr.name="Boucherie" type="node,closedway">
 				<link wiki="Tag:shop=butcher"/>
 				<key key="shop" value="butcher"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Seafood" fr.name="Poissonerie">
+			<item name="Seafood" fr.name="Poissonerie" type="node,closedway">
 				<link wiki="Tag:shop=seafood"/>
 				<key key="shop" value="seafood"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Dairy" fr.name="Laiterie">
+			<item name="Dairy" fr.name="Laiterie" type="node,closedway">
 				<link wiki="Tag:shop=dairy"/>
 				<key key="shop" value="dairy"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Cheese" fr.name="Fromagerie">
+			<item name="Cheese" fr.name="Fromagerie" type="node,closedway">
 				<link wiki="Tag:shop=cheese"/>
 				<key key="shop" value="cheese"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Deli (Fine Food)" fr.name="Épicerie fine">
+			<item name="Deli (Fine Food)" fr.name="Épicerie fine" type="node,closedway">
 				<link wiki="Tag:shop=deli"/>
 				<key key="shop" value="deli"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Pastry" fr.name="Pâtisserie">
+			<item name="Pastry" fr.name="Pâtisserie" type="node,closedway">
 				<link wiki="Tag:shop=pastry"/>
 				<key key="shop" value="pastry"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Confectionery" fr.name="Magasin de bonbons">
+			<item name="Confectionery" fr.name="Magasin de bonbons" type="node,closedway">
 				<link wiki="Tag:shop=confectionery"/>
 				<key key="shop" value="confectionery"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Tea" fr.name="Thé">
+			<item name="Tea" fr.name="Thé" type="node,closedway">
 				<link wiki="Tag:shop=tea"/>
 				<key key="shop" value="tea"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Coffee" fr.name="Café">
+			<item name="Coffee" fr.name="Café" type="node,closedway">
 				<link wiki="Tag:shop=coffee"/>
 				<key key="shop" value="coffee"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Public Market" fr.name="Marché public">
+			<item name="Public Market" fr.name="Marché public" type="node,closedway">
 				<link wiki="Tag:amenity=marketplace"/>
 				<key key="amenity" value="marketplace"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<text key="website" text="Website" fr.text="Site web"/>
 				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
-			<item name="Greengrocer" fr.name="Fruits et légumes">
+			<item name="Greengrocer" fr.name="Fruits et légumes" type="node,closedway">
 				<link wiki="Tag:shop=greengrocer"/>
 				<key key="shop" value="greengrocer"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
-			<item name="Farm Stand" fr.name="Magasin à la ferme">
+			<item name="Farm Stand" fr.name="Magasin à la ferme" type="node,closedway">
 				<link wiki="Tag:shop=farm"/>
 				<key key="shop" value="farm"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -1984,27 +1984,27 @@
 				<text key="description" text="Description"/>
 				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
-			<item name="Organic" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Biologique">
+			<item name="Organic" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Biologique" type="node,closedway">
 				<link wiki="Key:organic"/>
 				<combo text="Organic/Bio" key="organic" values="only,yes,no" match="key" fr.text="Biologique"/>
 			</item>
-			<item name="Fair Trade" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Équitable">
+			<item name="Fair Trade" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Équitable" type="node,closedway">
 				<link wiki="Key:fair_trade"/>
 				<combo text="Fair Trade" key="fair_trade" values="no,yes,only" match="key" fr.text="Équitable"/>
 			</item>
-			<item name="Alcohol" fr.name="Alcool">
+			<item name="Alcohol" fr.name="Alcool" type="node,closedway">
 				<link wiki="Tag:shop=alcohol"/>
 				<key key="shop" value="alcohol"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Beverages" fr.name="Boissons">
+			<item name="Beverages" fr.name="Boissons" type="node,closedway">
 				<link wiki="Tag:shop=beverages"/>
 				<key key="shop" value="beverages"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Wine" fr.name="Vin">
+			<item name="Wine" fr.name="Vin" type="node,closedway">
 				<link wiki="Tag:shop=wine"/>
 				<key key="shop" value="wine"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2012,7 +2012,7 @@
 			</item>
 		</group>
 		<group name="Clothes" fr.name="Vêtements">
-			<item name="Clothes" fr.name="Vêtements">
+			<item name="Clothes" fr.name="Vêtements" type="node,closedway">
 				<link wiki="Tag:shop=clothes"/>
 				<key key="shop" value="clothes"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2020,13 +2020,13 @@
 				<combo key="second_hand" text="Second hand" values="only,yes,no" fr.text="Occasion"/>
 				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
-			<item name="Boutique">
+			<item name="Boutique" type="node,closedway">
 				<link wiki="Tag:shop=boutique"/>
 				<key key="shop" value="boutique"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Shoes" fr.name="Chaussures">
+			<item name="Shoes" fr.name="Chaussures" type="node,closedway">
 				<link wiki="Tag:shop=shoes"/>
 				<key key="shop" value="shoes"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2035,25 +2035,25 @@
 				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 				<check key="shoes:repair" text="Offers repairs" text_context="shoes"/>
 			</item>
-			<item name="Outdoor" fr.name="Équipement pour l'extérieur">
+			<item name="Outdoor" fr.name="Équipement pour l'extérieur" type="node,closedway">
 				<link wiki="Tag:shop=outdoor"/>
 				<key key="shop" value="outdoor"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Sports">
+			<item name="Sports" type="node,closedway">
 				<link wiki="Tag:shop=sports"/>
 				<key key="shop" value="sports"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Dry Cleaning" fr.name="Nettoyage à sec">
+			<item name="Dry Cleaning" fr.name="Nettoyage à sec" type="node,closedway">
 				<link wiki="Tag:shop=dry_cleaning"/>
 				<key key="shop" value="dry_cleaning"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Laundry" fr.name="Laverie">
+			<item name="Laundry" fr.name="Laverie" type="node,closedway">
 				<link wiki="Tag:shop=laundry"/>
 				<key key="shop" value="laundry"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2061,13 +2061,13 @@
 				<check key="self_service" text="Self Service" fr.text="Self-service"/>
 				<check key="laundry_service" text="Laundry Service" fr.text="Service de laverie"/>
 			</item>
-			<item name="Tailor" fr.name="Tailleur">
+			<item name="Tailor" fr.name="Tailleur" type="node,closedway">
 				<link wiki="Tag:shop=tailor"/>
 				<key key="shop" value="tailor"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Fabric">
+			<item name="Fabric" type="node,closedway">
 				<link wiki="Tag:shop=fabric"/>
 				<key key="shop" value="fabric"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2075,49 +2075,49 @@
 			</item>
 		</group>
 		<group name="Electronic" fr.name="Appareil électronique">
-			<item name="Computer" fr.name="Informatique">
+			<item name="Computer" fr.name="Informatique" type="node,closedway">
 				<link wiki="Tag:shop=computer"/>
 				<key key="shop" value="computer"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Electronics" fr.name="Appareils électroniques">
+			<item name="Electronics" fr.name="Appareils électroniques" type="node,closedway">
 				<link wiki="Tag:shop=electronics"/>
 				<key key="shop" value="electronics"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Mobile Phone" fr.name="Téléphonie">
+			<item name="Mobile Phone" fr.name="Téléphonie" type="node,closedway">
 				<link wiki="Tag:shop=mobile_phone"/>
 				<key key="shop" value="mobile_phone"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Vacuum Cleaner">
+			<item name="Vacuum Cleaner" type="node,closedway">
 				<link wiki="Tag:shop=vacuum_cleaner"/>
 				<key key="shop" value="vacuum_cleaner"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Hifi" fr.name="Hi-Fi">
+			<item name="Hifi" fr.name="Hi-Fi" type="node,closedway">
 				<link wiki="Tag:shop=hifi"/>
 				<key key="shop" value="hifi"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Video" fr.name="Vidéo-club">
+			<item name="Video" fr.name="Vidéo-club" type="node,closedway">
 				<link wiki="Tag:shop=video"/>
 				<key key="shop" value="video"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Video Games" fr.name="Jeux-vidéos">
+			<item name="Video Games" fr.name="Jeux-vidéos" type="node,closedway">
 				<link wiki="Tag:shop=video_games"/>
 				<key key="shop" value="video_games"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Music" fr.name="Musique">
+			<item name="Music" fr.name="Musique" type="node,closedway">
 				<link wiki="Tag:shop=music"/>
 				<key key="shop" value="music"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2125,7 +2125,7 @@
 			</item>
 		</group>
 		<group name="Cash" fr.name="Argent">
-			<item name="Bank" fr.name="Banque">
+			<item name="Bank" fr.name="Banque" type="node,closedway">
 				<link wiki="Tag:amenity=bank"/>
 				<key key="amenity" value="bank"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
@@ -2134,20 +2134,20 @@
 				<text key="ref" text="Reference" fr.text="Référence"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Money Exchange" fr.name="Bureau de change">
+			<item name="Money Exchange" fr.name="Bureau de change" type="node,closedway">
 				<link wiki="Tag:amenity=bureau_de_change"/>
 				<key key="amenity" value="bureau_de_change"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
 			</item>
-			<item name="Automated Teller Machine" fr.name="Distributeur de billets">
+			<item name="Automated Teller Machine" fr.name="Distributeur de billets" type="node">
 				<link wiki="Tag:amenity=atm"/>
 				<key key="amenity" value="atm"/>
 				<text key="brand" text="Brand" fr.text="Marque"/>
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 				<reference ref="oh_wheelchair"/>
 			</item>
-			<item name="Pawnbroker">
+			<item name="Pawnbroker" type="node,closedway">
 				<link wiki="Tag:shop=pawnbroker"/>
 				<key key="shop" value="pawnbroker"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2155,61 +2155,61 @@
 			</item>
 		</group>
 		<group name="Home decoration" fr.name="Décoration intérieure">
-			<item name="Furniture" fr.name="Mobilier">
+			<item name="Furniture" fr.name="Mobilier" type="node,closedway">
 				<link wiki="Tag:shop=furniture"/>
 				<key key="shop" value="furniture"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Kitchen" fr.name="Cuisine">
+			<item name="Kitchen" fr.name="Cuisine" type="node,closedway">
 				<link wiki="Tag:shop=kitchen"/>
 				<key key="shop" value="kitchen"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Houseware" fr.name="Équipement pour la maison">
+			<item name="Houseware" fr.name="Équipement pour la maison" type="node,closedway">
 				<link wiki="Tag:shop=houseware"/>
 				<key key="shop" value="houseware"/>
 				<reference ref="name_brand_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Curtain" fr.name="Rideaux">
+			<item name="Curtain" fr.name="Rideaux" type="node,closedway">
 				<link wiki="Tag:shop=curtain"/>
 				<key key="shop" value="curtain"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Art">
+			<item name="Art" type="node,closedway">
 				<link wiki="Tag:shop=art"/>
 				<key key="shop" value="art"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Frame" fr.name="Cadres">
+			<item name="Frame" fr.name="Cadres" type="node,closedway">
 				<link wiki="Tag:shop=frame"/>
 				<key key="shop" value="frame"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Bed" fr.name="Literie">
+			<item name="Bed" fr.name="Literie" type="node,closedway">
 				<link wiki="Tag:shop=bed"/>
 				<key key="shop" value="bed"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Carpet" fr.name="Tapis">
+			<item name="Carpet" fr.name="Tapis" type="node,closedway">
 				<link wiki="Tag:shop=carpet"/>
 				<key key="shop" value="carpet"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Interior Decoration" fr.name="Décoration intérieure">
+			<item name="Interior Decoration" fr.name="Décoration intérieure" type="node,closedway">
 				<link wiki="Tag:shop=interior_decoration"/>
 				<key key="shop" value="interior_decoration"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Antiques" fr.name="Antiquaire">
+			<item name="Antiques" fr.name="Antiquaire" type="node,closedway">
 				<link wiki="Tag:shop=antiques"/>
 				<key key="shop" value="antiques"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2217,32 +2217,32 @@
 			</item>
 		</group>
 		<group name="Printed Material" fr.name="Imprimerie">
-			<item name="Stationery">
+			<item name="Stationery" type="node,closedway">
 				<link wiki="Tag:shop=stationery"/>
 				<key key="shop" value="stationery"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Copy Shop">
+			<item name="Copy Shop" type="node,closedway">
 				<link wiki="Tag:shop=copyshop"/>
 				<key key="shop" value="copyshop"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Book Store" fr.name="Libraire">
+			<item name="Book Store" fr.name="Libraire" type="node,closedway">
 				<link wiki="Tag:shop=books"/>
 				<key key="shop" value="books"/>
 				<reference ref="name_brand_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<combo key="second_hand" text="Second hand" values="only,yes,no" fr.text="Occasion"/>
 			</item>
-			<item name="Newspaper Stand" fr.name="Kiosque à journaux">
+			<item name="Newspaper Stand" fr.name="Kiosque à journaux" type="node,closedway">
 				<link wiki="Tag:shop=newsagent"/>
 				<key key="shop" value="newsagent"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Ticket" fr.name="Tickets">
+			<item name="Ticket" fr.name="Tickets" type="node,closedway">
 				<link wiki="Tag:shop=ticket"/>
 				<key key="shop" value="ticket"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2250,37 +2250,37 @@
 			</item>
 		</group>
 		<group name="For the body" fr.name="Soin du corps">
-			<item name="Chemist" fr.name="Droguerie">
+			<item name="Chemist" fr.name="Droguerie" type="node,closedway">
 				<link wiki="Tag:shop=chemist"/>
 				<key key="shop" value="chemist"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Cosmetics" fr.name="Cosmétiques">
+			<item name="Cosmetics" fr.name="Cosmétiques" type="node,closedway">
 				<link wiki="Tag:shop=cosmetics"/>
 				<key key="shop" value="cosmetics"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Perfumery" fr.name="Parfumerie">
+			<item name="Perfumery" fr.name="Parfumerie" type="node,closedway">
 				<link wiki="Tag:shop=perfumery"/>
 				<key key="shop" value="perfumery"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Beauty" fr.name="Beauté">
+			<item name="Beauty" fr.name="Beauté" type="node,closedway">
 				<link wiki="Tag:shop=beauty"/>
 				<key key="shop" value="beauty"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Tobacco" fr.name="Bureau de tabac">
+			<item name="Tobacco" fr.name="Bureau de tabac" type="node,closedway">
 				<link wiki="Tag:shop=tobacco"/>
 				<key key="shop" value="tobacco"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Hairdresser/Barber" fr.name="Coiffeur / barbier">
+			<item name="Hairdresser/Barber" fr.name="Coiffeur / barbier" type="node,closedway">
 				<link wiki="Tag:shop=hairdresser"/>
 				<key key="shop" value="hairdresser"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2291,44 +2291,44 @@
 					<check key="unisex" text="Unisex" fr.text="Unisexe"/>
 				</checkgroup>
 			</item>
-			<item name="Massage" fr.name="Salon de massage">
+			<item name="Massage" fr.name="Salon de massage" type="node,closedway">
 				<link wiki="Tag:shop=massage"/>
 				<key key="shop" value="massage"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Tattoo" fr.name="Salon de tatouage">
+			<item name="Tattoo" fr.name="Salon de tatouage" type="node,closedway">
 				<link wiki="Tag:shop=tattoo"/>
 				<key key="shop" value="tattoo"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Optician" fr.name="Opticien">
+			<item name="Optician" fr.name="Opticien" type="node,closedway">
 				<link wiki="Tag:shop=optician"/>
 				<key key="shop" value="optician"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Hearing Aids" fr.name="Appareils auditifs">
+			<item name="Hearing Aids" fr.name="Appareils auditifs" type="node,closedway">
 				<link wiki="Tag:shop=hearing_aids"/>
 				<key key="shop" value="hearing_aids"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Medical Supply" fr.name="Matériel médical">
+			<item name="Medical Supply" fr.name="Matériel médical" type="node,closedway">
 				<link wiki="Tag:shop=medical_supply"/>
 				<key key="shop" value="medical_supply"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 				<check key="dispensing" text="Dispensing" fr.text="Délivre des médicaments avec ordonnance"/>
 			</item>
-			<item name="Jewellery" fr.name="Bijouterie">
+			<item name="Jewellery" fr.name="Bijouterie" type="node,closedway">
 				<link wiki="Tag:shop=jewelry"/>
 				<key key="shop" value="jewelry"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Erotic" fr.name="Sex-shop">
+			<item name="Erotic" fr.name="Sex-shop" type="node,closedway">
 				<link wiki="Tag:shop=erotic"/>
 				<key key="shop" value="erotic"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2337,73 +2337,73 @@
 			</item>
 		</group>
 		<group name="Other" fr.name="Autre">
-			<item name="Department Store" fr.name="Grand magasin">
+			<item name="Department Store" fr.name="Grand magasin" type="closedway">
 				<link wiki="Tag:shop=department_store"/>
 				<key key="shop" value="department_store"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Mall" fr.name="Galerie commerciale">
+			<item name="Mall" fr.name="Galerie commerciale" type="closedway">
 				<link wiki="Tag:shop=mall"/>
 				<key key="shop" value="mall"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Florist" fr.name="Fleuriste">
+			<item name="Florist" fr.name="Fleuriste" type="node,closedway">
 				<link wiki="Tag:shop=florist"/>
 				<key key="shop" value="florist"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Garden Centre" fr.name="Jardinerie">
+			<item name="Garden Centre" fr.name="Jardinerie" type="node,closedway">
 				<link wiki="Tag:shop=garden_centre"/>
 				<key key="shop" value="garden_centre"/>
 				<reference ref="name_brand_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Do-It-Yourself Store" fr.name="Magasin de bricolage">
+			<item name="Do-It-Yourself Store" fr.name="Magasin de bricolage" type="node,closedway">
 				<link wiki="Tag:shop=doityourself"/>
 				<key key="shop" value="doityourself"/>
 				<reference ref="name_brand_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Hardware" fr.name="Matériel">
+			<item name="Hardware" fr.name="Matériel" type="node,closedway">
 				<link wiki="Tag:shop=hardware"/>
 				<key key="shop" value="hardware"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Paint" fr.name="Peinture">
+			<item name="Paint" fr.name="Peinture" type="node,closedway">
 				<link wiki="Tag:shop=paint"/>
 				<key key="shop" value="paint"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Gas">
+			<item name="Gas" type="node,closedway">
 				<link wiki="Tag:shop=gas"/>
 				<key key="shop" value="gas"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Travel Agency" fr.name="Agence de voyages">
+			<item name="Travel Agency" fr.name="Agence de voyages" type="node,closedway">
 				<link wiki="Tag:shop=travel_agency"/>
 				<key key="shop" value="travel_agency"/>
 				<reference ref="name_brand_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Musical Instrument" fr.name="Instrument de musique">
+			<item name="Musical Instrument" fr.name="Instrument de musique" type="node,closedway">
 				<link wiki="Tag:shop=musical_instrument"/>
 				<key key="shop" value="musical_instrument"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Toys" fr.name="Jouets">
+			<item name="Toys" fr.name="Jouets" type="node,closedway">
 				<link wiki="Tag:shop=toys"/>
 				<key key="shop" value="toys"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Gift/Souvenir" fr.name="Cadeaux / souvenirs">
+			<item name="Gift/Souvenir" fr.name="Cadeaux / souvenirs" type="node,closedway">
 				<link wiki="Tag:shop=gift"/>
 				<key key="shop" value="gift"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2412,56 +2412,56 @@
 					<reference ref="religious"/>
 				</optional>
 			</item>
-			<item name="Variety Store">
+			<item name="Variety Store" type="node,closedway">
 				<link wiki="Tag:shop=variety_store"/>
 				<key key="shop" value="variety_store"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Charity">
+			<item name="Charity" type="node,closedway">
 				<link wiki="Tag:shop=charity"/>
 				<key key="shop" value="charity"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Bookmaker">
+			<item name="Bookmaker" type="node,closedway">
 				<link wiki="Tag:shop=bookmaker"/>
 				<key key="shop" value="bookmaker"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Lottery" fr.name="Loterie">
+			<item name="Lottery" fr.name="Loterie" type="node,closedway">
 				<link wiki="Tag:shop=lottery"/>
 				<key key="shop" value="lottery"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Bag" fr.name="Maroquinerie">
+			<item name="Bag" fr.name="Maroquinerie" type="node,closedway">
 				<link wiki="Tag:shop=bag"/>
 				<key key="shop" value="bag"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Pet" fr.name="Animalerie">
+			<item name="Pet" fr.name="Animalerie" type="node,closedway">
 				<link wiki="Tag:shop=pet"/>
 				<key key="shop" value="pet"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Photo">
+			<item name="Photo" type="node,closedway">
 				<link wiki="Tag:shop=photo"/>
 				<key key="shop" value="photo"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Funeral Directors">
+			<item name="Funeral Directors" type="node,closedway">
 				<link wiki="Tag:shop=funeral_directors"/>
 				<key key="shop" value="funeral_directors"/>
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
 		</group>
-		<item name="Vending Machine" fr.name="Distributeur automatique">
+		<item name="Vending Machine" fr.name="Distributeur automatique" type="node">
 			<link wiki="Tag:amenity=vending_machine"/>
 			<key key="amenity" value="vending_machine"/>
 			<multiselect key="vending" text="Vending products" values="admission_tickets;animal_feed;bicycle_tube;cigarettes;coffee;condoms;drinks;elongated_coin;excrement_bags;food;milk;newspapers;parking_tickets;parcel_pickup;parcel_mail_in;photos;public_transport_tickets;SIM_cards;stamps;sweets;telephone_vouchers;toys" values_searchable="true" fr.text="Produits vendus"/>
@@ -2471,67 +2471,67 @@
 		</item>
 	</group>
 	<group name="Offices" fr.name="Bureaux">
-		<item name="Accountant">
+		<item name="Accountant" type="node,closedway">
 			<link wiki="Tag:office=accountant"/>
 			<key key="office" value="accountant"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Administrative" fr.name="Administratif">
+		<item name="Administrative" fr.name="Administratif" type="node,closedway">
 			<link wiki="Tag:office=administrative"/>
 			<key key="office" value="administrative"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Advertising agency" fr.name="Agence de publicité">
+		<item name="Advertising agency" fr.name="Agence de publicité" type="node,closedway">
 			<link wiki="Tag:office=advertising_agency"/>
 			<key key="office" value="advertising_agency"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Architect" fr.name="Architecte">
+		<item name="Architect" fr.name="Architecte" type="node,closedway">
 			<link wiki="Tag:office=architect"/>
 			<key key="office" value="architect"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Association">
+		<item name="Association" type="node,closedway">
 			<link wiki="Tag:office=association"/>
 			<key key="office" value="association"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Private company" fr.name="Société privée">
+		<item name="Private company" fr.name="Société privée" type="node,closedway">
 			<link wiki="Tag:office=company"/>
 			<key key="office" value="company"/>
 			<reference ref="name_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Educational institution" fr.name="Établissement d'enseignement">
+		<item name="Educational institution" fr.name="Établissement d'enseignement" type="node,closedway">
 			<link wiki="Tag:office=educational_institution"/>
 			<key key="office" value="educational_institution"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Employment agency" fr.name="Agence pour l'emploi">
+		<item name="Employment agency" fr.name="Agence pour l'emploi" type="node,closedway">
 			<link wiki="Tag:office=employment_agency"/>
 			<key key="office" value="employment_agency"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Estate agent" fr.name="Agence immobilière">
+		<item name="Estate agent" fr.name="Agence immobilière" type="node,closedway">
 			<link wiki="Tag:office=estate_agent"/>
 			<key key="office" value="estate_agent"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Foundation" fr.name="Fondatio">
+		<item name="Foundation" fr.name="Fondation" type="node,closedway">
 			<link wiki="Tag:office=foundation"/>
 			<key key="office" value="foundation"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Government" fr.name="Agence gouvernementale">
+		<item name="Government" fr.name="Agence gouvernementale" type="node,closedway">
 			<link wiki="Tag:office=government"/>
 			<key key="office" value="government"/>
 			<text key="name" text="Name" fr.text="Nom"/>
@@ -2539,49 +2539,49 @@
 			<reference ref="oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Insurance" fr.name="Assurances">
+		<item name="Insurance" fr.name="Assurances" type="node,closedway">
 			<link wiki="Tag:office=insurance"/>
 			<key key="office" value="insurance"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="It specialist" fr.name="Société d'informatique">
+		<item name="It specialist" fr.name="Société d'informatique" type="node,closedway">
 			<link wiki="Tag:office=it"/>
 			<key key="office" value="it"/>
 			<reference ref="name_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Lawyer" fr.name="Juriste">
+		<item name="Lawyer" fr.name="Juriste" type="node,closedway">
 			<link wiki="Tag:office=lawyer"/>
 			<key key="office" value="lawyer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Newspaper" fr.name="Journal">
+		<item name="Newspaper" fr.name="Journal" type="node,closedway">
 			<link wiki="Tag:office=newspaper"/>
 			<key key="office" value="newspaper"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Non-governmental organisation (NGO)" fr.name="Organisation non-gouvernementale (ONG)">
+		<item name="Non-governmental organisation (NGO)" fr.name="Organisation non-gouvernementale (ONG)" type="node,closedway">
 			<link wiki="Tag:office=ngo"/>
 			<key key="office" value="ngo"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Notary" fr.name="Notaire">
+		<item name="Notary" fr.name="Notaire" type="node,closedway">
 			<link wiki="Tag:office=notary"/>
 			<key key="office" value="notary"/>
 			<reference ref="name_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Political party" fr.name="Parti politique">
+		<item name="Political party" fr.name="Parti politique" type="node,closedway">
 			<link wiki="Tag:office=political_party"/>
 			<key key="office" value="political_party"/>
 			<reference ref="name_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Religion">
+		<item name="Religion" type="node,closedway">
 			<link wiki="Tag:office=religion"/>
 			<key key="office" value="religion"/>
 			<text key="name" text="Name" fr.text="Nom"/>
@@ -2589,19 +2589,19 @@
 			<reference ref="oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Research" fr.name="Recherche">
+		<item name="Research" fr.name="Recherche" type="node,closedway">
 			<link wiki="Tag:office=research"/>
 			<key key="office" value="research"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Tax advisor">
+		<item name="Tax advisor" type="node,closedway">
 			<link wiki="Tag:office=tax_advisor"/>
 			<key key="office" value="tax_advisor"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Telecommunication" fr.name="Télécommunications">
+		<item name="Telecommunication" fr.name="Télécommunications" type="node,closedway">
 			<link wiki="Tag:office=telecommunication"/>
 			<key key="office" value="telecommunication"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
@@ -2609,7 +2609,7 @@
 		</item>
 	</group>
 	<group name="Craft" fr.name="Artisanat">
-		<item name="Beekeeper" fr.name="Apiculteur">
+		<item name="Beekeeper" fr.name="Apiculteur" type="node,closedway">
 			<link wiki="Tag:craft=beekeeper"/>
 			<key key="craft" value="beekeeper"/>
 			<reference ref="name_operator_oh_wheelchair"/>
@@ -2639,25 +2639,25 @@
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Key cutter" fr.name="Fabriquant de clés">
+		<item name="Key cutter" fr.name="Fabriquant de clés" type="node,closedway">
 			<link wiki="Tag:craft=key_cutter"/>
 			<key key="craft" value="key_cutter"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Locksmith" fr.name="Serrurier">
+		<item name="Locksmith" fr.name="Serrurier" type="node,closedway">
 			<link wiki="Tag:craft=locksmith"/>
 			<key key="craft" value="locksmith"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Electrician" fr.name="Électricien">
+		<item name="Electrician" fr.name="Électricien" type="node,closedway">
 			<link wiki="Tag:craft=electrician"/>
 			<key key="craft" value="electrician"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Plumber" fr.name="Plombier">
+		<item name="Plumber" fr.name="Plombier" type="node,closedway">
 			<link wiki="Tag:craft=plumber"/>
 			<key key="craft" value="plumber"/>
 			<reference ref="name_operator_oh_wheelchair"/>
@@ -2669,19 +2669,19 @@
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Painter" fr.name="Peintre">
+		<item name="Painter" fr.name="Peintre" type="node,closedway">
 			<link wiki="Tag:craft=painter"/>
 			<key key="craft" value="painter"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Tiler" fr.name="Toiturier">
+		<item name="Tiler" fr.name="Toiturier" type="node,closedway">
 			<link wiki="Tag:craft=tiler"/>
 			<key key="craft" value="tiler"/>
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Window construction">
+		<item name="Window construction" type="node,closedway">
 			<link wiki="Tag:craft=window_construction"/>
 			<key key="craft" value="window_construction"/>
 			<reference ref="name_operator_oh_wheelchair"/>
@@ -2693,7 +2693,7 @@
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Roofer">
+		<item name="Roofer" type="node,closedway">
 			<link wiki="Tag:craft=roofer"/>
 			<key key="craft" value="roofer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
@@ -2711,7 +2711,7 @@
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Pottery" fr.name="Potterie">
+		<item name="Pottery" fr.name="Potterie" type="node,closedway">
 			<link wiki="Tag:craft=pottery"/>
 			<key key="craft" value="pottery"/>
 			<reference ref="name_operator_oh_wheelchair"/>

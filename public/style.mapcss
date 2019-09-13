@@ -661,6 +661,18 @@ relation[type=multipolygon][landuse=grass] {
 	text: name;
 }
 
+*[craft] {
+	color: #FFDAAD;
+	fill-color: #FFDAAD;
+	fill-opacity: 0.5;
+}
+
+*[office] {
+	color: #299CEA;
+	fill-color: #299CEA;
+	fill-opacity: 0.5;
+}
+
 
 /****************************************************************************
  * Barriers
