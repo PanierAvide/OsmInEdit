@@ -26,7 +26,7 @@ import buffer from '@turf/buffer';
 import centerOfMass from '@turf/center-of-mass';
 import { coordAll } from '@turf/meta';
 import deepEqual from 'fast-deep-equal';
-import { fixPrecision } from '../utils';
+import { fixPrecision, intersectionArray } from '../utils';
 import GeoJSONValidation from 'geojson-validation';
 import HistorizedManager from './HistorizedManager';
 import I18n from '../config/locales/ui';
@@ -348,17 +348,21 @@ class VectorDataManager extends HistorizedManager {
 			const floorBuff = floor && buffer(floor, 20, { units: "meters" });
 			features = this._cacheOsmGeojson
 				.features
-				.filter(feature =>
-					(this._listFeatureLevels(feature).properties.own.levels || []).includes(level)
-					&& feature.geometry.type !== "MultiPolygon"
-					&& isNotExcludedFeature(feature.properties.tags)
-					&& (!floor || booleanIntersects(floorBuff, feature))
-				);
+				.filter(feature => {
+					try {
+						return (this._listFeatureLevels(feature).properties.own.levels || []).includes(level)
+							&& isNotExcludedFeature(feature.properties.tags)
+							&& (!floor || booleanIntersects(floorBuff, feature));
+					}
+					catch(e) { return false; }
+				});
 
 			// Add custom rendering for doors on building contour
 			if(options.building) {
 				features = features.map(f => {
-					f.properties.own.onBuildingContour = ["Point", "LineString"].includes(f.geometry.type) && f.properties.tags.door && this.isOnContour(options.building, f);
+					if(["Point", "LineString"].includes(f.geometry.type) && f.properties.tags.door) {
+						f.properties.own.onBuildingContour = this.isOnContour(options.building, f);
+					}
 					return f;
 				});
 			}
@@ -400,17 +404,23 @@ class VectorDataManager extends HistorizedManager {
 			const buildingBuff = building && buffer(building, 20, { units: "meters" });
 			features = this._cacheOsmGeojson
 				.features
-				.filter(feature =>
-					(this._listFeatureLevels(feature).properties.own.levels || []).includes(level)
-					&& feature.geometry.type !== "MultiPolygon"
-					&& isNotExcludedFeature(feature.properties.tags)
-					&& (!building || booleanIntersects(buildingBuff, feature))
-				);
+				.filter(feature => {
+					try {
+						return (
+							this._listFeatureLevels(feature).properties.own.levels || []).includes(level)
+							&& isNotExcludedFeature(feature.properties.tags)
+							&& (!building || booleanIntersects(buildingBuff, feature)
+						);
+					}
+					catch(e) { return false; }
+				});
 
 			// Add custom rendering for doors on building contour
 			if(building) {
 				features = features.map(f => {
-					f.properties.own.onBuildingContour = ["Point", "LineString"].includes(f.geometry.type) && f.properties.tags.door && this.isOnContour(building, f);
+					if(["Point", "LineString"].includes(f.geometry.type) && f.properties.tags.door) {
+						f.properties.own.onBuildingContour = this.isOnContour(building, f);
+					}
 					return f;
 				});
 			}
@@ -489,7 +499,7 @@ class VectorDataManager extends HistorizedManager {
 
 			//Check all points lies within or on boundary
 			for(let c of coords) {
-				if(!booleanPointInPolygon(c, wider)) {
+				if(!c || !booleanPointInPolygon(c, wider)) {
 					return false;
 				}
 			}
@@ -1502,39 +1512,151 @@ class VectorDataManager extends HistorizedManager {
 								&& fPrev.properties.own.members.filter(m => m.role === "inner").length === 0
 								&& fPrev.properties.own.members.length === fNext.geometry.coordinates.length
 							) {
-								// Update each contained way
-								fNext.geometry.coordinates.forEach((polygon, pid) => {
-									const fNextWayId = fPrev.properties.own.members[pid].feature;
-									const fNextWay = this.findFeature(fNextWayId, next);
+								// Associate right way member to appropriate polygon ring
+								const availableWays = fPrev.properties.own.members.map(m => this.findFeature(m.feature, prev)).filter(w => w !== null);
 
-									if(!deepEqual(fNextWay.geometry.coordinates, polygon)) {
-										const fNextWayAlt = Object.assign({}, fNextWay);
-										fNextWayAlt.geometry.coordinates = polygon;
-										diff = this._assignNodesToWay(diff, prev, next, this.findFeature(fNextWayId, prev), fNextWayAlt, nextNodeId);
-									}
-								});
+								if(availableWays.length === fNext.geometry.coordinates.length) {
+									// Check for identical geometries
+									let polyFeatures = fNext.geometry.coordinates.map(polygon => {
+										let found = null;
+
+										for(let i=0; i < availableWays.length; i++) {
+											if(deepEqual(
+												availableWays[i].geometry.type === "LineString" ?
+													[ availableWays[i].geometry.coordinates ]
+													: availableWays[i].geometry.coordinates,
+												polygon
+											)) {
+												// If it has changed in next collection, save for update
+												const wayNext = this.findFeature(availableWays[i].id, next);
+												if(wayNext && !deepEqual(wayNext.geometry, availableWays[i].geometry)) {
+													found = wayNext.geometry;
+												}
+												// If no changes, just skip it
+												else {
+													found = "same";
+												}
+
+												availableWays.splice(i, 0);
+												break;
+											}
+										}
+
+										return found;
+									});
+
+									// Check for most looking alike geometries
+									polyFeatures = polyFeatures.map((rf,polygonId) => {
+										if(!rf) {
+											let mostCommonPct = 0;
+											let mostCommonFeat = null;
+											const polygon = fNext.geometry.coordinates[polygonId];
+
+											availableWays.forEach((w, i) => {
+												// Compute percentage of common nodes
+												const commonNodes = intersectionArray(
+													polygon[0],
+													w.geometry.type === "LineString" ? w.geometry.coordinates : w.geometry.coordinates[0]
+												);
+												const commonNodesPct = commonNodes.length / polygon[0].length;
+
+												if(commonNodesPct > mostCommonPct) {
+													mostCommonPct = commonNodesPct;
+													mostCommonFeat = w;
+												}
+											});
+
+											rf = this.findFeature(mostCommonFeat.id, next);
+										}
+
+										return rf;
+									});
+
+									// Update ways accordingly
+									polyFeatures.forEach((rf, i) => {
+										if(rf !== null && rf !== "same") {
+											const polygon = fNext.geometry.coordinates[i];
+											rf.geometry.coordinates = rf.geometry.type === "LineString" ? polygon[0] : polygon;
+											diff = this._assignNodesToWay(diff, prev, next, this.findFeature(rf.id, prev), rf, nextNodeId);
+										}
+									});
+								}
 							}
-							// One outer closed way and several inner closed ways
+							// One outer closed way and several inner closed ways (and no added/deleted rings)
 							else if(
 								fNext.geometry.type === "Polygon"
 								&& fPrev.properties.own.members.filter(m => m.role === "outer").length === 1
+								&& fPrev.geometry.coordinates.length === fNext.geometry.coordinates.length
 							) {
-								// Update each contained way
-								fNext.geometry.coordinates.forEach((ring, rid) => {
-									const fNextWayId = fPrev.properties.own.members[rid].feature;
-									const fNextWay = this.findFeature(fNextWayId, next);
+								// Associate right way member to appropriate polygon ring
+								const availableWays = fPrev.properties.own.members.map(m => this.findFeature(m.feature, prev)).filter(w => w !== null);
 
-									if(fNextWay && !deepEqual(
-										fNextWay.geometry.type === "LineString" ?
-											fNextWay.geometry.coordinates
-											: fNextWay.geometry.coordinates[0],
-										ring
-									)) {
-										const fNextWayAlt = Object.assign({}, fNextWay);
-										fNextWayAlt.geometry.coordinates = fNextWay.geometry.type === "LineString" ? ring : [ ring ];
-										diff = this._assignNodesToWay(diff, prev, next, this.findFeature(fNextWayId, prev), fNextWayAlt, nextNodeId);
-									}
-								});
+								if(availableWays.length === fNext.geometry.coordinates.length) {
+									// Check for identical geometries
+									let ringFeatures = fNext.geometry.coordinates.map(ring => {
+										let found = null;
+
+										for(let i=0; i < availableWays.length; i++) {
+											if(deepEqual(
+												availableWays[i].geometry.type === "LineString" ?
+													availableWays[i].geometry.coordinates
+													: availableWays[i].geometry.coordinates[0],
+												ring
+											)) {
+												// If it has changed in next collection, save for update
+												const wayNext = this.findFeature(availableWays[i].id, next);
+												if(wayNext && !deepEqual(wayNext.geometry, availableWays[i].geometry)) {
+													found = wayNext.geometry;
+												}
+												// If no changes, just skip it
+												else {
+													found = "same";
+												}
+
+												availableWays.splice(i, 0);
+												break;
+											}
+										}
+
+										return found;
+									});
+
+									// Check for most looking alike geometries
+									ringFeatures = ringFeatures.map((rf,ringId) => {
+										if(!rf) {
+											let mostCommonPct = 0;
+											let mostCommonFeat = null;
+											const ring = fNext.geometry.coordinates[ringId];
+
+											availableWays.forEach((w, i) => {
+												// Compute percentage of common nodes
+												const commonNodes = intersectionArray(
+													ring,
+													w.geometry.type === "LineString" ? w.geometry.coordinates : w.geometry.coordinates[0]
+												);
+												const commonNodesPct = commonNodes.length / ring.length;
+
+												if(commonNodesPct > mostCommonPct) {
+													mostCommonPct = commonNodesPct;
+													mostCommonFeat = w;
+												}
+											});
+
+											rf = this.findFeature(mostCommonFeat.id, next);
+										}
+
+										return rf;
+									});
+
+									// Update ways accordingly
+									ringFeatures.forEach((rf, i) => {
+										if(rf !== null && rf !== "same") {
+											const ring = fNext.geometry.coordinates[i];
+											rf.geometry.coordinates = rf.geometry.type === "LineString" ? ring : [ring];
+											diff = this._assignNodesToWay(diff, prev, next, this.findFeature(rf.id, prev), rf, nextNodeId);
+										}
+									});
+								}
 							}
 							else {
 								console.log("Ignored complex multipolygon", fPrev.id);
@@ -2054,7 +2176,7 @@ class VectorDataManager extends HistorizedManager {
 						type: "Feature",
 						geometry: {
 							type: "Point",
-							coordinates: [ entry.getAttribute("lon"), entry.getAttribute("lat") ]
+							coordinates: fixPrecision([ entry.getAttribute("lon"), entry.getAttribute("lat") ])
 						},
 						properties: {
 							own: { levels: [], utilityNode: true },
@@ -2139,7 +2261,7 @@ class VectorDataManager extends HistorizedManager {
 			const tags = feature.properties.tags;
 
 			//No tags
-			if(tags === null || Object.keys(tags).length === 0) {
+			if((tags === null || Object.keys(tags).length === 0) && (!feature.properties.relations || feature.properties.relations.length === 0)) {
 				feature.properties.own.levels = [ 0 ];
 			}
 			//Tag level + repeat_on
@@ -2181,7 +2303,7 @@ class VectorDataManager extends HistorizedManager {
 				const upperLevel = Math.ceil(parseFloat(tags["building:levels"])) - 1;
 				feature.properties.own.levels = this._parseLevelsFloat(((tags["building:min_level"] !== undefined) ? tags["building:min_level"] : "0")+"-"+upperLevel);
 			}
-			//Relations type=level
+			//Relations (type=level or type=multipolygon)
 			else if(feature.properties.relations !== undefined && feature.properties.relations.length > 0) {
 				feature.properties.own.levels = [];
 
@@ -2197,6 +2319,15 @@ class VectorDataManager extends HistorizedManager {
 						else {
 							console.error("Invalid level value for relation "+rel.rel);
 						}
+					}
+					else if(rel.reltags.type === "multipolygon" && rel.reltags.level !== undefined) {
+						const relLevels = this._parseLevelsFloat(rel.reltags.level);
+
+						relLevels.forEach(lvl => {
+							if(!feature.properties.own.levels.includes(lvl)) {
+								feature.properties.own.levels.push(lvl);
+							}
+						});
 					}
 				}
 			}
@@ -2241,6 +2372,35 @@ class VectorDataManager extends HistorizedManager {
 			console.error("Unsupported operation for ", wide.id, small.id);
 			return false;
 		}
+	}
+
+	/**
+	 * Is the editor in capacity of handling the wanted geometry editing of relation
+	 * @param {Object} prev The relation old feature
+	 * @param {Object} next The relation new feature
+	 * @return {boolean} True if editor supports wanted geometry edit
+	 */
+	isRelationEditingSupported(prev, next) {
+		if(prev && next && prev.geometry.type === next.geometry.type) {
+			if(next.geometry.type === "MultiPolygon") {
+				// Several outer polygons (same amount) + no inner
+				return (
+					prev.properties.own.members.filter(m => m.role === "inner").length === 0
+					&& prev.properties.own.members.length === next.geometry.coordinates.length
+					&& next.geometry.coordinates.filter(p => !Array.isArray(p)).length === 0
+				);
+			}
+			else if(next.geometry.type === "Polygon") {
+				// A single outer polygon + several inner (same amount)
+				return (
+					prev.properties.own.members.filter(m => m.role === "outer").length === 1
+					&& prev.geometry.coordinates.length === next.geometry.coordinates.length
+					&& next.geometry.coordinates.filter(r => !Array.isArray(r) || r.length < 4).length === 0
+				);
+			}
+		}
+
+		return false;
 	}
 
 	/**
