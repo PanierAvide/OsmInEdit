@@ -10,6 +10,8 @@
  *
  */
 
+import deepEqual from 'fast-deep-equal';
+
 /**
  * Simple object check.
  * @private
@@ -46,6 +48,26 @@ const mergeDeep = (target, ...sources) => {
 /**
  * Return array of coordinates with a precision of 8 digits (OSM)
  */
-const fixPrecision = coords => coords.map(c => parseFloat(c.toFixed(8)));
+const fixPrecision = coords => coords.map(c => {
+	if(typeof c === "string") { c = parseFloat(c); }
+	return parseFloat(c.toFixed(8));
+});
 
-export { mergeDeep, fixPrecision };
+/**
+ * List of common elements between two arrays (intersection)
+ */
+const intersectionArray = function(arrA, arrB) {
+	const common = [];
+	const minimal = arrA.length < arrB.length ? arrA : arrB;
+	const other = arrA.length < arrB.length ? arrB : arrA;
+
+	minimal.forEach(el => {
+		if(other.find(el2 => deepEqual(el, el2)) && !common.find(el2 => deepEqual(el, el2))) {
+			common.push(el);
+		}
+	});
+
+	return common;
+}
+
+export { mergeDeep, fixPrecision, intersectionArray };

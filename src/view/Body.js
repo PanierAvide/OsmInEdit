@@ -899,31 +899,40 @@ class Body extends Component {
 			}
 
 			if(data.feature && data.feature.id) {
-				if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
-					this.setState(
-						{ datalocked: true },
-						async () => {
-							const feature = await window.vectorDataManager.editFeatureGeometry(data.feature.id, data.feature.geometry);
-							this.setState({ datalocked: false }, () => {
-								if(feature && (data.select === undefined || data.select === true)) {
-									if(this.state.mode === Body.MODE_BUILDING) {
-										PubSub.publish("body.select.building", { building: feature });
+				if(
+					!data.feature.id.startsWith("relation/")
+					|| window.vectorDataManager.isRelationEditingSupported(window.vectorDataManager.findFeature(data.feature.id), data.feature)
+				) {
+					if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
+						this.setState(
+							{ datalocked: true },
+							async () => {
+								const feature = await window.vectorDataManager.editFeatureGeometry(data.feature.id, data.feature.geometry);
+								this.setState({ datalocked: false }, () => {
+									if(feature && (data.select === undefined || data.select === true)) {
+										if(this.state.mode === Body.MODE_BUILDING) {
+											PubSub.publish("body.select.building", { building: feature });
+										}
+										else if(this.state.mode === Body.MODE_LEVELS) {
+											PubSub.publish("body.select.floor", { floor: feature });
+										}
+										else if(this.state.mode === Body.MODE_FEATURES) {
+											PubSub.publish("body.select.feature", { feature: feature });
+										}
 									}
-									else if(this.state.mode === Body.MODE_LEVELS) {
-										PubSub.publish("body.select.floor", { floor: feature });
-									}
-									else if(this.state.mode === Body.MODE_FEATURES) {
-										PubSub.publish("body.select.feature", { feature: feature });
-									}
-								}
-							});
-						}
-					);
+								});
+							}
+						);
+					}
+					else {
+						this.setState({ showDialogOutOfBoundsGeometry: true, floor: null, pane: LeftPanel.PANE_LEVELS_ADD }, () => {
+							PubSub.publish("map.editablelayer.redraw");
+						});
+					}
 				}
 				else {
-					this.setState({ showDialogOutOfBoundsGeometry: true, floor: null, pane: LeftPanel.PANE_LEVELS_ADD }, () => {
-						PubSub.publish("map.editablelayer.redraw");
-					});
+					alert(I18n.t("The editor doesn't support yet this kind of complex geometry editing."));
+					PubSub.publish("map.editablelayer.redraw");
 				}
 			}
 			else {
