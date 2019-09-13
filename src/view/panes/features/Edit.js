@@ -283,7 +283,7 @@ class EditFeaturePane extends Component {
 					/>
 				}
 
-				{!this.state.showPresetSelect &&
+				{!this.state.showPresetSelect && (!feature.properties.own || !feature.properties.own.new) &&
 					<Button
 						className="mb-3 mt-3"
 						variant="outline-secondary"

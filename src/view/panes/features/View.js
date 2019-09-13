@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Check from 'mdi-react/CheckIcon';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import History from 'mdi-react/HistoryIcon';
 import I18n from '../../../config/locales/ui';
 import Pencil from 'mdi-react/PencilIcon';
 import PubSub from 'pubsub-js';
@@ -91,6 +92,19 @@ class ViewFeaturePane extends Component {
 					tags={tags}
 					locked={true}
 				/>
+
+				{(!feature.properties.own || !feature.properties.own.new) &&
+					<Button
+						className="mb-3 mt-3"
+						variant="outline-secondary"
+						block
+						size="sm"
+						href={window.CONFIG.osm_api_url+"/"+feature.id+"/history"}
+						target="_blank"
+					>
+						<History size={20} /> {I18n.t("See feature history on OpenStreetMap")}
+					</Button>
+				}
 			</div>
 		</div>;
 	}
