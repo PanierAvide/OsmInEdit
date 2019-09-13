@@ -1452,7 +1452,7 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	async _analyzeDiff(prev, next) {
 		return new Promise(resolve => { setTimeout(() => {
-			const startTs = Date.now();
+// 			const startTs = Date.now();
 
 			let diff = {};
 			const nodeNegativeIds = next.features.filter(f => f.id.startsWith("node/-")).map(f => parseInt(f.id.substring(5)));
@@ -1486,21 +1486,6 @@ class VectorDataManager extends HistorizedManager {
 							});
 						}
 						break;
-
-// 					case "relation":
-// 						// If it hasn't changed, fix nodes
-// 						fPrev = this.findFeature(fNext.id, prev);
-// 						if(fPrev && fPrev.properties.tags.type === "multipolygon" && deepEqual(fPrev.geometry, fNext.geometry)) {
-// 							// Fix nodes of each way if they haven't changed
-// 							fPrev.properties.own.members.forEach(m => {
-// 								if(m.feature.startsWith("way/")) {
-// 									const wPrev = this.findFeature(m.feature, prev);
-// 									const wNext = this.findFeature(m.feature, next);
-// 									if(deepEqual
-// 								}
-// 							});
-// 						}
-// 						break;
 					default:
 				}
 			});
@@ -1992,10 +1977,10 @@ class VectorDataManager extends HistorizedManager {
 				delete diff[e[0]];
 			});
 
-			console.log("Processed in", Date.now() - startTs, "ms");
+// 			console.log("Processed in", Date.now() - startTs, "ms");
 // 			console.log("prev", prev);
-			console.log("next", next);
-			console.log("diff", diff);
+// 			console.log("next", next);
+// 			console.log("diff", diff);
 
 			resolve(diff);
 		}, 0); });
@@ -2440,7 +2425,7 @@ class VectorDataManager extends HistorizedManager {
 				return (
 					prev.properties.own.members.filter(m => m.role === "outer").length === 1
 					&& prev.geometry.coordinates.length === next.geometry.coordinates.length
-					&& next.geometry.coordinates.filter(r => !Array.isArray(r) || r.length < 4).length === 0
+					&& next.geometry.coordinates.filter(r => !Array.isArray(r) || (new Set(r.map(c => c.join(",")))).size < 3).length === 0
 				);
 			}
 		}

@@ -143,6 +143,18 @@ class EditableLayer extends Path {
 			this.updateLeafletElement({}, this.props);
 		});
 
+		this.props.leaflet.map.on("movestart", () => {
+			if(this.snap) {
+				this.snap.unwatchMarker(this.snapMarker);
+			}
+		});
+
+		this.props.leaflet.map.on("moveend", () => {
+			if(this.snap && this.snapMarker) {
+				this.snap.watchMarker(this.snapMarker);
+			}
+		});
+
 		// Display icons
 		this._addIcons(this.leafletElement);
 	}
@@ -510,6 +522,10 @@ class EditableLayer extends Path {
 		map.off("editable:drawing:end");
 		map.off("editable:drawing:click");
 		map.off("mousemove");
+		if(this.snapMarker) {
+			this.snapMarker.off("snap");
+			this.snapMarker.off("unsnap");
+		}
 
 		/*
 		 * Add shadow data
