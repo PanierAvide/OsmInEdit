@@ -265,12 +265,15 @@ class VectorDataManager extends HistorizedManager {
 			if(this._containsWithBoundary(container, feature) || this._containsWithBoundary(feature, container)) {
 				return true;
 			}
-			else {
+			else if(container.geometry.type === "Polygon" && feature.geometry.type === "Polygon") {
 				const common = intersect(container, feature);
 				return common !== undefined
 					&& common !== null
 					&& GeoJSONValidation.valid(common)
 					&& area(common) >= area(feature) * 0.8;
+			}
+			else {
+				return true;
 			}
 		}
 		else {
@@ -284,6 +287,7 @@ class VectorDataManager extends HistorizedManager {
 	 * @return {Object} The found building, or null if none or several
 	 */
 	findAssociatedBuilding(feature) {
+		if(feature.properties.tags.building) { return feature; }
 		const buildings = this.getOSMBuildings().features.filter(b => this._containsWithBoundary(b, feature));
 		return buildings.length === 1 ? buildings[0] : null;
 	}
@@ -2187,6 +2191,7 @@ class VectorDataManager extends HistorizedManager {
 	_completeGeoJSON(collection) {
 		//Add namespace for the editor
 		const featureById = {};
+		collection.features = collection.features.filter(f => GeoJSONValidation.valid(f));
 		collection.features.forEach(f => {
 			f.properties.own = {};
 			featureById[f.id] = f;

@@ -297,7 +297,7 @@ class MapStyler {
 	 */
 	_getParentObjects(feature) {
 		return () => {
-			if (feature.properties.relations.length === 0) {
+			if (!feature.properties.relations || !Array.isArray(feature.properties.relations) || feature.properties.relations.length === 0) {
 				return [];
 			}
 			else {

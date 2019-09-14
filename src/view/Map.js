@@ -180,7 +180,11 @@ class MyMap extends Component {
 				&& bbox.getWest() !== bbox.getEast()
 				&& (!this.loadedArea || !this.loadedArea.contains(bbox))
 			) {
-				bbox = bbox.pad(0.1);
+				// Augment bbox size if too small (to avoid many data reloads)
+				while(bbox.getSouthWest().distanceTo(bbox.getNorthEast()) < 400) {
+					bbox = bbox.pad(0.1);
+				}
+
 				this.loadedArea = bbox;
 				this.setState(
 					{ loading: true },
@@ -291,7 +295,7 @@ class MyMap extends Component {
 		const floorImgs = window.imageryManager.getFloorImages();
 		let levelsList = null;
 
-		if(this.props.mode === Body.MODE_EXPLORE) {
+		if([Body.MODE_EXPLORE, Body.MODE_BUILDING].includes(this.props.mode)) {
 			levelsList = window.vectorDataManager.getAllLevels();
 		}
 		else if([ Body.MODE_LEVELS, Body.MODE_FEATURES ].includes(this.props.mode) && this.props.building) {
@@ -347,7 +351,7 @@ class MyMap extends Component {
 					position="topright"
 				/>
 
-				{[Body.MODE_EXPLORE, Body.MODE_LEVELS, Body.MODE_FEATURES].includes(this.props.mode) && !this.state.loading && this.state.dataready &&
+				{[Body.MODE_EXPLORE, Body.MODE_BUILDING, Body.MODE_LEVELS, Body.MODE_FEATURES].includes(this.props.mode) && !this.state.loading && this.state.dataready && levelsList &&
 					<LevelSelector
 						position="topright"
 						levels={levelsList}

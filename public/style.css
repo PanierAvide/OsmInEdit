@@ -69,6 +69,10 @@ html, body, #root {
 	text-align: center;
 }
 
+.modal.show {
+	z-index: 20001 !important;
+}
+
 .leaflet-overlay-pane svg {
 	width: unset;
 	height: unset;
