@@ -40,7 +40,7 @@ class ChangesetDiff extends Component {
 						e[1].deleted ? baseCollection : null
 					)
 				])
-				.filter(e => e[2] !== null && e[2] !== undefined && e[2].properties.tags && Object.keys(e[2].properties.tags).length > 0)
+				.filter(e => e[2] !== null && e[2] !== undefined)
 				.map(e => {
 					const [ elemId, elemDiff, element ] = e;
 					const color = elemDiff.created ? "green" : (elemDiff.deleted ? "red" : "orange");
