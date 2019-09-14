@@ -444,7 +444,7 @@ class VectorDataManager extends HistorizedManager {
 		let result = false;
 
 		if(building && this._cacheOsmGeojson) {
-			const isNotExcludedFeature = (tags => tags.indoor !== "level" && !tags.building && !tags["building:part"]);
+			const isNotExcludedFeature = (tags => tags.level !== undefined && tags.indoor !== "level" && !tags.building && !tags["building:part"]);
 
 			for(let i=0; i < this._cacheOsmGeojson.features.length; i++) {
 				const feature = this._cacheOsmGeojson.features[i];
@@ -1456,7 +1456,14 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	async _analyzeDiff(prev, next) {
 		return new Promise(resolve => { setTimeout(() => {
-// 			const startTs = Date.now();
+			let startTs = Date.now();
+
+			// Create indexes of features from prev/next
+			const prevFeaturesById = {};
+			const nextFeaturesById = {};
+			prev.features.forEach(f => prevFeaturesById[f.id] = f);
+			next.features.forEach(f => nextFeaturesById[f.id] = f);
+
 
 			let diff = {};
 			const nodeNegativeIds = next.features.filter(f => f.id.startsWith("node/-")).map(f => parseInt(f.id.substring(5)));
@@ -1479,15 +1486,18 @@ class VectorDataManager extends HistorizedManager {
 
 					case "way":
 						// If it hasn't changed, fix nodes
-						fPrev = this.findFeature(fNext.id, prev);
-						if(fPrev && deepEqual(fPrev.geometry, fNext.geometry) && this.hasMainTags(fNext.properties.tags)) {
-							fNext.properties.own.nodes.filter(nId => !fixedNodesIds.has(nId)).forEach(nId => {
-								const nNext = this.findFeature(nId, next);
-								if(nNext) {
-									nNext.properties.own.fixed = true;
-									fixedNodesIds.add(nId);
-								}
-							});
+						if(this.hasMainTags(fNext.properties.tags)) {
+							fPrev = prevFeaturesById[fNext.id];
+
+							if(fPrev && deepEqual(fPrev.geometry, fNext.geometry)) {
+								fNext.properties.own.nodes.filter(nId => !fixedNodesIds.has(nId)).forEach(nId => {
+									const nNext = nextFeaturesById[nId];
+									if(nNext) {
+										nNext.properties.own.fixed = true;
+										fixedNodesIds.add(nId);
+									}
+								});
+							}
 						}
 						break;
 					default:
@@ -1496,7 +1506,7 @@ class VectorDataManager extends HistorizedManager {
 
 			// Updates on existing features
 			prev.features.forEach(fPrev => {
-				let fNext = this.findFeature(fPrev.id, next);
+				let fNext = nextFeaturesById[fPrev.id];
 				let featDeleted = !fNext;
 
 				// Check that we're not deleting an used node
@@ -1535,7 +1545,7 @@ class VectorDataManager extends HistorizedManager {
 						}
 						// Way
 						else if(fPrev.id.startsWith("way/")) {
-							diff = this._assignNodesToWay(diff, prev, next, fPrev, fNext, nextNodeId);
+							diff = this._assignNodesToWay(diff, prev, next, prevFeaturesById, nextFeaturesById, fPrev, fNext, nextNodeId);
 						}
 						// Relation
 						else if(fPrev.id.startsWith("relation/")) {
@@ -1546,7 +1556,7 @@ class VectorDataManager extends HistorizedManager {
 								&& fPrev.properties.own.members.length === fNext.geometry.coordinates.length
 							) {
 								// Associate right way member to appropriate polygon ring
-								const availableWays = fPrev.properties.own.members.map(m => this.findFeature(m.feature, prev)).filter(w => w !== null);
+								const availableWays = fPrev.properties.own.members.map(m => prevFeaturesById[m.feature]).filter(w => w !== null);
 
 								if(availableWays.length === fNext.geometry.coordinates.length) {
 									// Check for identical geometries
@@ -1561,7 +1571,7 @@ class VectorDataManager extends HistorizedManager {
 												polygon
 											)) {
 												// If it has changed in next collection, save for update
-												const wayNext = this.findFeature(availableWays[i].id, next);
+												const wayNext = nextFeaturesById[availableWays[i].id];
 												if(wayNext && !deepEqual(wayNext.geometry, availableWays[i].geometry)) {
 													found = wayNext.geometry;
 												}
@@ -1599,7 +1609,7 @@ class VectorDataManager extends HistorizedManager {
 												}
 											});
 
-											rf = this.findFeature(mostCommonFeat.id, next);
+											rf = nextFeaturesById[mostCommonFeat.id];
 										}
 
 										return rf;
@@ -1610,7 +1620,7 @@ class VectorDataManager extends HistorizedManager {
 										if(rf !== null && rf !== "same") {
 											const polygon = fNext.geometry.coordinates[i];
 											rf.geometry.coordinates = rf.geometry.type === "LineString" ? polygon[0] : polygon;
-											diff = this._assignNodesToWay(diff, prev, next, this.findFeature(rf.id, prev), rf, nextNodeId);
+											diff = this._assignNodesToWay(diff, prev, next, prevFeaturesById, nextFeaturesById, prevFeaturesById[rf.id], rf, nextNodeId);
 										}
 									});
 								}
@@ -1622,7 +1632,7 @@ class VectorDataManager extends HistorizedManager {
 								&& fPrev.geometry.coordinates.length === fNext.geometry.coordinates.length
 							) {
 								// Associate right way member to appropriate polygon ring
-								const availableWays = fPrev.properties.own.members.map(m => this.findFeature(m.feature, prev)).filter(w => w !== null);
+								const availableWays = fPrev.properties.own.members.map(m => prevFeaturesById[m.feature]).filter(w => w !== null);
 
 								if(availableWays.length === fNext.geometry.coordinates.length) {
 									// Check for identical geometries
@@ -1637,7 +1647,7 @@ class VectorDataManager extends HistorizedManager {
 												ring
 											)) {
 												// If it has changed in next collection, save for update
-												const wayNext = this.findFeature(availableWays[i].id, next);
+												const wayNext = nextFeaturesById[availableWays[i].id];
 												if(wayNext && !deepEqual(wayNext.geometry, availableWays[i].geometry)) {
 													found = wayNext.geometry;
 												}
@@ -1675,7 +1685,7 @@ class VectorDataManager extends HistorizedManager {
 												}
 											});
 
-											rf = this.findFeature(mostCommonFeat.id, next);
+											rf = nextFeaturesById[mostCommonFeat.id];
 										}
 
 										return rf;
@@ -1686,7 +1696,7 @@ class VectorDataManager extends HistorizedManager {
 										if(rf !== null && rf !== "same") {
 											const ring = fNext.geometry.coordinates[i];
 											rf.geometry.coordinates = rf.geometry.type === "LineString" ? ring : [ring];
-											diff = this._assignNodesToWay(diff, prev, next, this.findFeature(rf.id, prev), rf, nextNodeId);
+											diff = this._assignNodesToWay(diff, prev, next, prevFeaturesById, nextFeaturesById, prevFeaturesById[rf.id], rf, nextNodeId);
 										}
 									});
 								}
@@ -1710,7 +1720,7 @@ class VectorDataManager extends HistorizedManager {
 
 			// New features
 			next.features
-			.filter(f => this._findCacheId(f.id, prev) === -1)
+			.filter(f => !prevFeaturesById[f.id])
 			.forEach(fNext => {
 				diff[fNext.id] = {
 					created: true,
@@ -1724,7 +1734,7 @@ class VectorDataManager extends HistorizedManager {
 					fNext.properties.own.fixed = true;
 				}
 				else if(fNext.id.startsWith("way/")) {
-					diff = this._assignNodesToWay(diff, prev, next, null, fNext, nextNodeId);
+					diff = this._assignNodesToWay(diff, prev, next, prevFeaturesById, nextFeaturesById, null, fNext, nextNodeId);
 				}
 				else {
 					// We don't allow creating new relations for now
@@ -1741,7 +1751,7 @@ class VectorDataManager extends HistorizedManager {
 				else if(f.id.startsWith("way/")) {
 					const nodesIds = (diff[f.id] && diff[f.id].newNodes ? diff[f.id].newNodes : f.properties.own.nodes);
 					nodesIds.forEach(n => {
-						const f = this.findFeature(n, next) || this.findFeature(n, prev);
+						const f = nextFeaturesById[n] || prevFeaturesById[n];
 						if(f) {
 							nodesAvailable[n] = f.geometry.coordinates;
 						}
@@ -1774,7 +1784,7 @@ class VectorDataManager extends HistorizedManager {
 			// Doors + buildings
 			if(nodesDoors.length > 0 && waysBuilding.length > 0) {
 				diff = this._connectNodesToWays(
-					diff, prev, next,
+					diff, prev, next, prevFeaturesById, nextFeaturesById,
 					nodesDoors.map(f => [ f.id, nodesAvailable[f.id] ]),
 					waysBuilding,
 					nodesAvailable
@@ -1785,7 +1795,7 @@ class VectorDataManager extends HistorizedManager {
 			dedupeLevels(nodesDoors)
 			.forEach(lvl => {
 				diff = this._connectNodesToWays(
-					diff, prev, next,
+					diff, prev, next, prevFeaturesById, nextFeaturesById,
 					nodesDoors.filter(f => f.properties.own.levels.includes(lvl)).map(f => [ f.id, nodesAvailable[f.id] ]),
 					waysInNext.filter(f => (
 						f.properties.own.levels.includes(lvl)
@@ -1804,7 +1814,7 @@ class VectorDataManager extends HistorizedManager {
 				const waysRoadsLvl = waysRoads.filter(f => f.properties.own.levels.includes(lvl));
 
 				diff = this._connectNodesToWays(
-					diff, prev, next,
+					diff, prev, next, prevFeaturesById, nextFeaturesById,
 					nodesFromWays(waysRoadsLvl),
 					waysRoadsLvl,
 					nodesAvailable
@@ -1817,7 +1827,7 @@ class VectorDataManager extends HistorizedManager {
 				const waysRoomsLvl = waysRooms.filter(f => f.properties.own.levels.includes(lvl));
 
 				diff = this._connectNodesToWays(
-					diff, prev, next,
+					diff, prev, next, prevFeaturesById, nextFeaturesById,
 					nodesFromWays(waysRoomsLvl),
 					waysRoomsLvl,
 					nodesAvailable
@@ -1828,7 +1838,7 @@ class VectorDataManager extends HistorizedManager {
 			const nodesFromRooms = nodesFromWays(waysRooms);
 			if(nodesFromRooms.length > 0 && waysBuilding.length > 0) {
 				diff = this._connectNodesToWays(
-					diff, prev, next,
+					diff, prev, next, prevFeaturesById, nextFeaturesById,
 					nodesFromRooms,
 					waysBuilding,
 					nodesAvailable
@@ -1862,7 +1872,7 @@ class VectorDataManager extends HistorizedManager {
 						}
 						// Check in next collection
 						else {
-							const f = this.findFeature(nid, next);
+							const f = nextFeaturesById[nid];
 
 							if(f) {
 								return this.hasMainTags(f.properties.tags) ? null : nid;
@@ -1963,7 +1973,7 @@ class VectorDataManager extends HistorizedManager {
 			Object.entries(diff)
 			.filter(e => e[0].startsWith("way/") && e[1].newNodes)
 			.forEach(e => {
-				const fPrev = this.findFeature(e[0], prev);
+				const fPrev = prevFeaturesById[e[0]];
 
 				if(fPrev && deepEqual(fPrev.properties.own.nodes, e[1].newNodes)) {
 					delete e[1].newNodes;
@@ -1981,7 +1991,7 @@ class VectorDataManager extends HistorizedManager {
 				delete diff[e[0]];
 			});
 
-// 			console.log("Processed in", Date.now() - startTs, "ms");
+			console.log("Processed in", Date.now() - startTs, "ms");
 // 			console.log("prev", prev);
 // 			console.log("next", next);
 // 			console.log("diff", diff);
@@ -2019,7 +2029,7 @@ class VectorDataManager extends HistorizedManager {
 	 * Add information of which node is used by way
 	 * @private
 	 */
-	_assignNodesToWay(diff, prev, next, fPrev, fNext, nextNodeId) {
+	_assignNodesToWay(diff, prev, next, prevFeaturesById, nextFeaturesById, fPrev, fNext, nextNodeId) {
 		// Empty node list
 		const fid = fNext.id;
 		let geom = fNext.geometry.type === "LineString" ? fNext.geometry.coordinates : fNext.geometry.coordinates[0];
@@ -2055,7 +2065,7 @@ class VectorDataManager extends HistorizedManager {
 						return false;
 					}
 					else {
-						const nodeNext = this.findFeature(nodeId, next);
+						const nodeNext = nextFeaturesById[nodeId];
 						if(!nodeNext) { return false; }
 						else if(!nodeNext.properties || !nodeNext.properties.own) { return true; }
 						else if(nodeNext.properties.own.fixed) { return false; }
@@ -2100,10 +2110,10 @@ class VectorDataManager extends HistorizedManager {
 	 * Find coordinates of a node against all data available
 	 * @private
 	 */
-	_findCoords(id, diff, prev, next) {
+	_findCoords(id, diff, prev, next, prevFeaturesById, nextFeaturesById) {
 		if(diff[id] && diff[id].newCoords) { return diff[id].newCoords; }
 		else {
-			let f = this.findFeature(id, next) || this.findFeature(id, prev);
+			let f = nextFeaturesById[id] || prevFeaturesById[id];
 			if(f) { return f.geometry.coordinates; }
 			else { return null; }
 		}
@@ -2113,7 +2123,7 @@ class VectorDataManager extends HistorizedManager {
 	 * Makes nodes connected to ways if they overlap them.
 	 * @private
 	 */
-	_connectNodesToWays(diff, prev, next, concernedNodes, concernedWays, nodesCoords) {
+	_connectNodesToWays(diff, prev, next, prevFeaturesById, nextFeaturesById, concernedNodes, concernedWays, nodesCoords) {
 		if(concernedNodes.length > 0) {
 			concernedWays.forEach(way => {
 				// Find potential nodes
@@ -2126,8 +2136,8 @@ class VectorDataManager extends HistorizedManager {
 
 					// Check every segment
 					for(let i=0; i < wayNodesIds.length - 1; i++) {
-						const nodeStartCoords = nodesCoords[wayNodesIds[i]] || this._findCoords(wayNodesIds[i], diff, prev, next);
-						const nodeEndCoords = nodesCoords[wayNodesIds[i+1]] || this._findCoords(wayNodesIds[i+1], diff, prev, next);
+						const nodeStartCoords = nodesCoords[wayNodesIds[i]] || this._findCoords(wayNodesIds[i], diff, prev, next, prevFeaturesById, nextFeaturesById);
+						const nodeEndCoords = nodesCoords[wayNodesIds[i+1]] || this._findCoords(wayNodesIds[i+1], diff, prev, next, prevFeaturesById, nextFeaturesById);
 
 						// Check every available node
 						if(nodeStartCoords && nodeEndCoords) {

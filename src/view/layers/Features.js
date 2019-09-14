@@ -20,9 +20,9 @@ import Styled from './Styled';
  */
 class FeaturesLayer extends Component {
 	render() {
-		const geojson = window.vectorDataManager.getFeaturesInLevel(this.props.building, this.props.level);
-
 		if(!this.props.locked) {
+			const geojson = window.vectorDataManager.getFeaturesInLevel(this.props.building, this.props.level);
+
 			return <Editable
 				data={geojson}
 				shadowData={this.props.building}
@@ -37,6 +37,7 @@ class FeaturesLayer extends Component {
 			/>;
 		}
 		else {
+			const geojson = window.vectorDataManager.getFeaturesInLevel(null, this.props.level);
 			const buildings = window.vectorDataManager.getOSMBuildings().features;
 			geojson.features = buildings.concat(geojson.features);
 
