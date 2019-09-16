@@ -13,8 +13,8 @@
 	<chunk id="wheelchair">
 		<combo key="wheelchair" text="Wheelchair access" values="yes,limited,no" fr.text="Accès en fauteuil roulant"/>
 	</chunk>
-	<group name="Building structure" fr.name="Structure du bâtiment">
-		<item name="Room" fr.name="Pièce" type="closedway" preset_name_label="true" indoor_structure="yes">
+	<group name="Building structure" fr.name="Structure du bâtiment" icon="img/icons/indoor_corridor.png">
+		<item name="Room" fr.name="Pièce" type="closedway" preset_name_label="true" indoor_structure="yes" icon="img/icons/indoor_room.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<label text="Conventional room with walls" fr.text="Salle traditionnelle avec murs"/>
 			<space/>
@@ -22,21 +22,21 @@
 			<combo key="room" text="Type of room" fr.text="Type de salle" values="shop,office,class,stairs,toilets,corridor,restaurant,entrance,toilet,technical,conference,laboratory,elevator,storage,collection,hall,waiting,library,lecture,gallery,computer,kitchen,utility,guest,bathroom,terrace,workshop,meeting,archive,reception,dressing,bedroom,lounge,lobby,amphitheatre,sport" values_searchable="true"/>
 			<reference ref="name_ref"/>
 		</item>
-		<item name="Area" fr.name="Zone" type="closedway" preset_name_label="true" indoor_structure="yes">
+		<item name="Area" fr.name="Zone" type="closedway" preset_name_label="true" indoor_structure="yes" icon="img/icons/indoor_area.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<label text="Area without walls" fr.text="Espace sans murs"/>
 			<space/>
 			<key key="indoor" value="area"/>
 			<reference ref="name_ref"/>
 		</item>
-		<item name="Wall" fr.name="Mur" type="way,closedway" preset_name_label="true" indoor_structure="only">
+		<item name="Wall" fr.name="Mur" type="way,closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/indoor_wall.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<label text="Individual (non-passable) wall element, when not already defined by indoor=room" fr.text="Mur individuel qui ne serait pas déjà défini par une pièce (indoor=room)"/>
 			<space/>
 			<key key="indoor" value="wall"/>
 			<check key="area" text="Solid wall" fr.text="Mur plein"/>
 		</item>
-		<item name="Door" fr.name="Porte" type="node" indoor_structure="only">
+		<item name="Door" fr.name="Porte" type="node" indoor_structure="only" icon="img/icons/door.png">
 			<key key="door" value="yes" match="key"/>
 			<combo key="door" text="Type" values="hinged,sliding,revolving,folding,trapdoor,overhead,loadingdock,no,yes" use_last_as_default="force"/>
 			<combo key="entrance" text="Building entrance" values_searchable="true" use_last_as_default="force" fr.text="Entrée de bâtiment">
@@ -53,14 +53,14 @@
 			<check key="automatic_door" text="Automatic door" fr.text="Porte automatique"/>
 			<reference ref="wheelchair"/>
 		</item>
-		<item name="Corridor" fr.name="Couloir" type="closedway" preset_name_label="true" indoor_structure="only">
+		<item name="Corridor" fr.name="Couloir" type="closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/indoor_corridor.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<label text="Unwalled connecting passage" fr.text="Passage sans murs"/>
 			<space/>
 			<key key="indoor" value="corridor"/>
 			<reference ref="name_ref"/>
 		</item>
-		<item name="Staircase" fr.name="Cage d'escaliers" type="closedway" preset_name_label="true" indoor_structure="only">
+		<item name="Staircase" fr.name="Cage d'escaliers" type="closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/staircase.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="indoor" value="room"/>
 			<key key="room" value="stairs"/>
@@ -91,14 +91,14 @@
 			<reference ref="multi_level"/>
 			<reference ref="wheelchair"/>
 		</item>
-		<item name="Footway" type="way" indoor_structure="only" fr.name="Chemin piéton">
+		<item name="Footway" type="way" indoor_structure="only" fr.name="Chemin piéton" icon="img/icons/highway_footway.png">
 			<link wiki="Tag:highway=footway"/>
 			<key key="highway" value="footway"/>
 			<reference ref="name"/>
 			<reference ref="multi_level"/>
 			<reference ref="wheelchair"/>
 		</item>
-		<item name="Service road" type="way" indoor_structure="only" fr.name="Route de service">
+		<item name="Service road" type="way" indoor_structure="only" fr.name="Route de service" icon="img/icons/highway_service.png">
 			<link wiki="Tag:highway=service"/>
 			<key key="highway" value="service"/>
 			<combo key="service" text="Service way type" values="alley,driveway,parking_aisle,drive-through,emergency_access" fr.text="Type de voie de service"/>
@@ -106,12 +106,12 @@
 			<reference ref="multi_level"/>
 			<check key="oneway" text="Oneway" fr.text="Sens unique"/>
 		</item>
-		<item name="Level connection" type="node" indoor_structure="only" fr.name="Connexion à l'étage">
+		<item name="Level connection" type="node" indoor_structure="only" fr.name="Connexion à l'étage" icon="img/icons/level_connection.png">
 			<key key="door" value="no"/>
 			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>
 		</item>
 	</group>
-	<group name="Furniture" fr.name="Mobilier">
+	<group name="Furniture" fr.name="Mobilier" icon="img/icons/amenity_chair.png">
 		<item name="Table" type="node">
 			<key key="amenity" value="table"/>
 			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>

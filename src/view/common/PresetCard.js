@@ -39,6 +39,7 @@ class PresetCard extends Component {
 		}
 		else {
 			let icon = this.props.preset.icon || null;
+			const isGroup = this.props.preset.tags === undefined;
 
 			if(!icon && this.props.preset.tags) {
 				const tags = Object.entries(this.props.preset.tags).filter(e => TAGS_ICONS.includes(e[0]));
@@ -52,14 +53,14 @@ class PresetCard extends Component {
 			}
 
 			return <Media
-				className={(this.props.className || "")+" p-1 app-preset-card"}
+				className={(this.props.className || "")+" p-1 app-preset-card"+(isGroup ? " app-preset-card-group" : "")}
 				onClick={() => this.props.onClick(this.props.preset)}
 			>
 				{icon &&
 					<img
 						width={32}
 						height={32}
-						className="align-self-center mr-2"
+						className="align-self-center mr-2 app-preset-symbol"
 						src={icon}
 						alt={this.props.preset.name}
 						onError={e => {
@@ -71,9 +72,9 @@ class PresetCard extends Component {
 				}
 
 				{!icon && (this.props.preset.groups || this.props.preset.items ?
-					<MapMarkerMultiple size={32} className="align-self-center mr-2" style={{color: "gray"}} />
+					<MapMarkerMultiple size={32} className="align-self-center mr-2 app-preset-symbol" style={{color: "gray"}} />
 					:
-					<MapMarker size={32} className="align-self-center mr-2" style={{color: "gray"}} />
+					<MapMarker size={32} className="align-self-center mr-2 app-preset-symbol" style={{color: "gray"}} />
 				)}
 
 				<Media.Body>

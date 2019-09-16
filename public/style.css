@@ -286,6 +286,18 @@ svg.mdi-icon {
 /* 	margin-top: 4px; */
 }
 
+.app-preset-card.app-preset-card-group {
+	background-color: #f7f7f7;
+}
+
+.app-preset-card.app-preset-card-group .app-preset-symbol {
+	border: 2px solid #a2a2a2;
+	border-radius: 5px;
+	padding: 2px;
+	background-color: white;
+	width: 32px;
+}
+
 
 /*
  * Geometry type selector

@@ -215,8 +215,8 @@
 		<preset_link preset_name="Address"/>
 		<preset_link preset_name="Payment Methods"/>
 	</chunk>
-	<group name="Transport">
-		<group name="Railway" fr.name="Voie ferrée">
+	<group name="Transport" icon="img/icons/railway_platform.png">
+		<group name="Railway" fr.name="Voie ferrée" icon="img/icons/railway_platform.png">
 			<item name="Rail" type="way">
 				<link wiki="Tag:railway=rail"/>
 				<key key="railway" value="rail"/>
@@ -306,7 +306,7 @@
 				<key key="railway" value="buffer_stop"/>
 			</item>
 		</group>
-		<group name="Car" fr.name="Voiture">
+		<group name="Car" fr.name="Voiture" icon="img/icons/car.png">
 			<item name="Parking" type="closedway">
 				<link wiki="Tag:amenity=parking"/>
 				<key key="amenity" value="parking"/>
@@ -475,7 +475,7 @@
 				<reference ref="name_oh_wheelchair"/>
 			</item>
 		</group>
-		<group name="Motorcycle" fr.name="Moto">
+		<group name="Motorcycle" fr.name="Moto" icon="img/icons/moto.png">
 			<item name="Parking" type="node,closedway">
 				<link wiki="Tag:amenity=motorcycle_parking"/>
 				<key key="amenity" value="motorcycle_parking"/>
@@ -505,7 +505,7 @@
 				</optional>
 			</item>
 		</group>
-		<group name="Bicycle" fr.name="Vélo">
+		<group name="Bicycle" fr.name="Vélo" icon="img/icons/bicycle.png">
 			<item name="Parking" type="node,closedway">
 				<link wiki="Tag:amenity=bicycle_parking"/>
 				<key key="amenity" value="bicycle_parking"/>
@@ -548,7 +548,7 @@
 				</optional>
 			</item>
 		</group>
-		<group name="Public Transport" fr.name="Transport public">
+		<group name="Public Transport" fr.name="Transport public" icon="img/icons/highway_bus_stop.png">
 			<item name="Stop Position" type="node" fr.name="Point d'arrêt">
 				<link wiki="Tag:public_transport=stop_position"/>
 				<key key="public_transport" value="stop_position"/>
@@ -616,7 +616,7 @@
 				<preset_link preset_name="Payment Methods"/>
 			</item>
 		</group>
-		<group name="Airport" fr.name="Aéroport">
+		<group name="Airport" fr.name="Aéroport" icon="img/icons/aeroway_airport.png">
 			<item name="Airport Ground" type="closedway" fr.name="Terrain d'aéroport">
 				<link wiki="Tag:aeroway=aerodrome"/>
 				<reference ref="aerodrome"/>
@@ -672,7 +672,7 @@
 		</item>
 	</group>
 	<group name="Facilities" fr.name="Équipements">
-		<group name="Accommodation" fr.name="Hébergement">
+		<group name="Accommodation" fr.name="Hébergement" icon="img/icons/tourism_hotel.png">
 			<item name="Hotel" type="node,closedway" fr.name="Hôtel">
 				<link wiki="Tag:tourism=hotel"/>
 				<key key="tourism" value="hotel"/>
@@ -744,7 +744,7 @@
 				<preset_link preset_name="Building"/>
 			</item>
 		</group>
-		<group name="Food+Drinks" fr.name="Nourriture + boissons">
+		<group name="Food+Drinks" fr.name="Nourriture + boissons" icon="img/icons/amenity_restaurant.png">
 			<item name="Restaurant" type="node,closedway">
 				<link wiki="Tag:amenity=restaurant"/>
 				<key key="amenity" value="restaurant"/>
@@ -835,7 +835,7 @@
 				<check key="outdoor_seating" text="Outdoor seating" fr.text="Places en terrasse"/>
 			</item>
 		</group>
-		<group name="Tourism" fr.name="Tourisme">
+		<group name="Tourism" fr.name="Tourisme" icon="img/icons/tourism_attraction.png">
 			<item name="Attraction" type="node,closedway">
 				<link wiki="Tag:tourism=attraction"/>
 				<key key="tourism" value="attraction"/>
@@ -926,7 +926,7 @@
 				<text key="description" text="Closer description" fr.text="Description détaillée"/>
 			</item>
 		</group>
-		<group name="Leisure" fr.name="Loisirs">
+		<group name="Leisure" fr.name="Loisirs" icon="img/icons/amenity_cinema.png">
 			<item name="Movie Theater/Cinema" type="node,closedway" fr.name="Cinéma">
 				<link wiki="Tag:amenity=cinema"/>
 				<key key="amenity" value="cinema"/>
@@ -1064,7 +1064,7 @@
 				<reference ref="link_contact_address_payment"/>
 			</item>
 		</group>
-		<group name="Culture">
+		<group name="Culture" icon="img/icons/tourism_museum.png">
 			<item name="Museum" type="node,closedway" fr.name="Musée">
 				<link wiki="Tag:tourism=museum"/>
 				<key key="tourism" value="museum"/>
@@ -1194,7 +1194,7 @@
 				<preset_link preset_name="Building"/>
 			</item>
 		</group>
-		<group name="Public Building" fr.name="Bâtiment public">
+		<group name="Public Building" fr.name="Bâtiment public" icon="img/icons/amenity_townhall.png">
 			<item name="Town Hall" type="node,closedway" fr.name="Hôtel de ville">
 				<link wiki="Tag:amenity=townhall"/>
 				<key key="amenity" value="townhall"/>
@@ -1257,7 +1257,7 @@
 				<text key="ref" text="Reference" fr.text="Référence"/>
 			</item>
 		</group>
-		<group name="Education" fr.name="Enseignement">
+		<group name="Education" fr.name="Enseignement" icon="img/icons/amenity_school.png">
 			<item name="Kindergarten" type="node,closedway">
 				<link wiki="Tag:amenity=kindergarten"/>
 				<key key="amenity" value="kindergarten"/>
@@ -1295,7 +1295,7 @@
 				<combo key="license_classes" text="License Classes" values="A;A1;B;BE;C,A;A1;B;B1;C;C1;D;D1;BE;CE;C1E;DE;D1E"/>
 			</item>
 		</group>
-		<group name="Health" fr.name="Santé">
+		<group name="Health" fr.name="Santé" icon="img/icons/amenity_hospital.png">
 			<item name="Hospital" type="node,closedway" fr.name="Hôpital">
 				<link wiki="Tag:amenity=hospital"/>
 				<key key="amenity" value="hospital"/>
@@ -1349,7 +1349,7 @@
 				<reference ref="link_contact_address_payment"/>
 			</item>
 		</group>
-		<group name="Emergency" fr.name="Urgence">
+		<group name="Emergency" fr.name="Urgence" icon="img/icons/emergency_defibrillator.png">
 			<item name="Ambulance Station" type="node,closedway" fr.name="Station d'ambulances">
 				<link wiki="Tag:emergency=ambulance_station"/>
 				<key key="emergency" value="ambulance_station"/>
@@ -1508,7 +1508,7 @@
 				<reference ref="link_contact_address"/>
 			</item>
 		</group>
-		<group name="Facilities" fr.name="Équipements">
+		<group name="Facilities" fr.name="Équipements" icon="img/icons/amenity_toilets.png">
 			<item name="Toilets/Restrooms" type="node,closedway" fr.name="Toilettes">
 				<link wiki="Tag:amenity=toilets"/>
 				<key key="amenity" value="toilets"/>
@@ -1707,7 +1707,7 @@
 			</item>
 		</group>
 	</group>
-	<group name="Sports">
+	<group name="Sports" icon="img/icons/sport.png">
 		<item name="Stadium" type="node,closedway" fr.name="Stade">
 			<link wiki="Tag:leisure=stadium"/>
 			<key key="leisure" value="stadium"/>
@@ -1745,8 +1745,8 @@
 			<reference ref="name_oh_wheelchair"/>
 		</item>
 	</group>
-	<group name="Man Made" fr.name="Infrastructure">
-		<group name="Historic Places" fr.name="Lieux historiques">
+	<group name="Man Made" fr.name="Infrastructure" icon="img/icons/man_made.png">
+		<group name="Historic Places" fr.name="Lieux historiques" icon="img/icons/historic_castle.png">
 			<item name="Castle" fr.name="Château" type="closedway">
 				<link wiki="Tag:historic=castle"/>
 				<key key="historic" value="castle"/>
@@ -1882,7 +1882,7 @@
 			<label text="Camera" fr.text="Caméra"/>
 		</item>
 	</group>
-	<group name="Shops" fr.name="Commerces">
+	<group name="Shops" fr.name="Commerces"  icon="img/icons/shop_supermarket.png">
 		<group name="Food" fr.name="Alimentaire">
 			<item name="Supermarket" fr.name="Supermarché" type="node,closedway">
 				<link wiki="Tag:shop=supermarket"/>
@@ -2470,7 +2470,7 @@
 			<preset_link preset_name="Payment Methods"/>
 		</item>
 	</group>
-	<group name="Offices" fr.name="Bureaux">
+	<group name="Offices" fr.name="Bureaux"  icon="img/icons/room_office.png">
 		<item name="Accountant" type="node,closedway" fr.name="Comptable">
 			<link wiki="Tag:office=accountant"/>
 			<key key="office" value="accountant"/>
@@ -2608,7 +2608,7 @@
 			<reference ref="link_contact_address"/>
 		</item>
 	</group>
-	<group name="Craft" fr.name="Artisanat">
+	<group name="Craft" fr.name="Artisanat" icon="img/icons/craft.png">
 		<item name="Beekeeper" fr.name="Apiculteur" type="node,closedway">
 			<link wiki="Tag:craft=beekeeper"/>
 			<key key="craft" value="beekeeper"/>
