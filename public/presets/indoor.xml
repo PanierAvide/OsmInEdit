@@ -40,14 +40,14 @@
 			<key key="door" value="yes" match="key"/>
 			<combo key="door" text="Type" values="hinged,sliding,revolving,folding,trapdoor,overhead,loadingdock,no,yes" use_last_as_default="force"/>
 			<combo key="entrance" text="Building entrance" values_searchable="true" use_last_as_default="force" fr.text="Entrée de bâtiment">
-				<list_entry value="main" display_value="Main building entrance"/>
-				<list_entry value="service" display_value="Backdoor entrance for employees"/>
-				<list_entry value="exit" display_value="One-way only building exit"/>
-				<list_entry value="emergency" display_value="Emergency only building exit"/>
-				<list_entry value="staircase" display_value="Entrance leading to a staircase"/>
-				<list_entry value="home" display_value="Entrance for a private house/apartment"/>
-				<list_entry value="yes" display_value="Unspecified type of building entrance"/>
-				<list_entry value="" display_value="Not a building entrance"/>
+				<list_entry value="main" display_value="Main building entrance" fr.display_value="Entrée principale du bâtiment"/>
+				<list_entry value="service" display_value="Backdoor entrance for employees" fr.display_value="Entrée de service pour les employés"/>
+				<list_entry value="exit" display_value="One-way only building exit" fr.display_value="Porte de sortie uniquement"/>
+				<list_entry value="emergency" display_value="Emergency only building exit" fr.display_value="Porte de secours"/>
+				<list_entry value="staircase" display_value="Entrance leading to a staircase" fr.display_value="Entrée menant à une cage d'escaliers"/>
+				<list_entry value="home" display_value="Entrance for a private house/apartment" fr.display_value="Entrée d'un logement/appartement"/>
+				<list_entry value="yes" display_value="Unspecified type of building entrance" fr.display_value="Type d'entrée de bâtiment non précisé"/>
+				<list_entry value="" display_value="Not a building entrance" fr.display_value="N'est pas une entrée de bâtiment"/>
 			</combo>
 			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>
 			<check key="automatic_door" text="Automatic door" fr.text="Porte automatique"/>
@@ -71,15 +71,15 @@
 			<reference ref="multi_level"/>
 			<reference ref="name"/>
 			<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison">
-				<list_entry value="up" display_value="Going up in way direction"/>
-				<list_entry value="down" display_value="Going down in way direction"/>
+				<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé"/>
+				<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé"/>
 			</combo>
 			<combo key="conveying" text="Escalator" values_searchable="true">
-				<list_entry value="yes" display_value="escalator with unspecified direction"/>
-				<list_entry value="forward" display_value="movement in way direction"/>
-				<list_entry value="backward" display_value="movement opposite to way direction"/>
-				<list_entry value="reversible" display_value="changing direction"/>
-				<list_entry value="" display_value="not an escalator"/>
+				<list_entry value="yes" display_value="escalator with unspecified direction" fr.display_value="Escalator dont la direction est inconnue"/>
+				<list_entry value="forward" display_value="movement in way direction" fr.display_value="Mouvement dans le sens du tracé"/>
+				<list_entry value="backward" display_value="movement opposite to way direction" fr.display_value="Mouvement dans le sens contraire du tracé"/>
+				<list_entry value="reversible" display_value="changing direction" fr.display_value="Direction variable"/>
+				<list_entry value="" display_value="not an escalator" fr.display_value="N'est pas un escalator"/>
 			</combo>
 		</item>
 		<item name="Elevator" fr.name="Ascenseur" type="closedway" preset_name_label="true" indoor_structure="only">

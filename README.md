@@ -10,10 +10,12 @@ OsmInEdit aims to make [indoor data editing](https://wiki.openstreetmap.org/wiki
 
 If you are looking for an indoor data viewer (a map for browsing existing data), have a look at [OpenLevelUp](https://openlevelup.net/).
 
+__Tips and tricks__ for using this editor can be found on [usage documentation](USAGE.md).
+
 
 ## Contributing
 
-This project is an open source tool, meaning it is made by volunteers. If you want to help us, there are several ways (technical or non-technical ones). You can find how to participate in the [contributing documentation](CONTRIBUTING.md).
+This project is an open source tool, meaning it is made by volunteers. If you __want to help us__, there are several ways (technical or non-technical ones). You can find how to participate in the [contributing documentation](CONTRIBUTING.md).
 
 
 ## Develop/run your own instance

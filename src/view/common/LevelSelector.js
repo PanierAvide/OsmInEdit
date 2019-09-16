@@ -25,11 +25,11 @@ const LevelControl = Control.extend({
 
 	setAvailableLevels(lvls) {
 		this.container.innerHTML = "";
-		const levels = lvls.map(l => parseFloat(l)) || [ 0 ];
+		this._levels = lvls.map(l => parseFloat(l)) || [ 0 ];
 
-		levels.sort((a,b) => a - b);
-		const min = levels[0];
-		const max = levels[levels.length-1];
+		this._levels.sort((a,b) => a - b);
+		const min = this._levels[0];
+		const max = this._levels[this._levels.length-1];
 
 		for(let lvl = max; lvl >= min; lvl--) {
 			const myLvl = parseInt(lvl.toString());
@@ -54,6 +54,10 @@ const LevelControl = Control.extend({
 		const next = this.container.getElementsByClassName("lvl"+l)[0];
 		if(next) {
 			next.classList.add("leaflet-control-level-selected");
+		}
+		else {
+			this.setAvailableLevels(this._levels.concat([ l ]));
+			this.setLevel(l);
 		}
 	},
 

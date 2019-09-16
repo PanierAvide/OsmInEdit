@@ -20,7 +20,7 @@ const entryToLabels = entry => {
 			Object.entries(v).forEach(ve => {
 				const [ vk, vv ] = ve;
 
-				if([ "text", "name", "display_values"].includes(vk)) {
+				if([ "text", "name", "display_values", "display_value"].includes(vk)) {
 					foundLabels[Hash(vv)] = vv;
 				}
 			});

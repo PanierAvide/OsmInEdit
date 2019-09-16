@@ -413,7 +413,7 @@ class Body extends Component {
 				this.setState({
 					mode: data.mode,
 					floor: null,
-					level: 0,
+// 					level: 0,
 					feature: null,
 					copyingFeature: null,
 					draw: null,
@@ -462,7 +462,7 @@ class Body extends Component {
 					mode: data.mode,
 					building: null,
 					floor: null,
-					level: 0,
+// 					level: 0,
 					feature: null,
 					copyingFeature: null,
 					draw: null,
@@ -491,7 +491,7 @@ class Body extends Component {
 				this.setState({
 					mode: data.mode,
 					draw: null,
-					level: 0,
+// 					level: 0,
 					leftPanelOpen: true,
 					pane: LeftPanel.PANE_FLOOR_IMAGERY
 				});
@@ -1070,6 +1070,23 @@ class Body extends Component {
 		});
 
 		/**
+		 * Event for pasting tags of previously copied feature
+		 * @event body.paste.tags
+		 * @memberof Body
+		 */
+		PubSub.subscribe("body.paste.tags", (msg, data) => {
+			if(this.state.datalocked) {
+				setTimeout(() => PubSub.publish("body.paste.tags", data), 100);
+				return null;
+			}
+
+			if(this.state.mode === Body.MODE_FEATURES && this.state.copyingFeature && this.state.feature) {
+				const tags = Object.assign({}, this.state.feature.properties.tags, this.state.copyingFeature.properties.tags);
+				PubSub.publish("body.tags.set", { tags: tags });
+			}
+		});
+
+		/**
 		 * Event for changing imagery to display on map
 		 * @event body.imagery.set
 		 * @memberof Body
@@ -1402,6 +1419,9 @@ class Body extends Component {
 		});
 		Mousetrap.bind("ctrl+v", () => {
 			PubSub.publish("body.paste.feature");
+		});
+		Mousetrap.bind("ctrl+shift+v", () => {
+			PubSub.publish("body.paste.tags");
 		});
 
 		// Update after locale changes

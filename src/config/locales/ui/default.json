@@ -74,6 +74,7 @@
     "levels_structure_level_lvl_aab3eddf": "Levels structure (level %{lvl})",
     "line_95da80eb": "Line",
     "loading_25990131": "Loading...",
+    "login_or_create_account_b27ad227": "Login or create account",
     "move_this_plan_to_copied_position_1bfd523e": "Move this plan to copied position",
     "name_1aed4a1b": "Name",
     "new_below_level_3d5af6df": "New below level",
@@ -126,12 +127,15 @@
     "supported_formats_jpeg_png_imagery_json_3bfc7689": "Supported formats: JPEG, PNG, Imagery JSON",
     "surrounded_by_walls_d4b4ec40": "Surrounded by walls",
     "thanks_for_your_contribution_3c790eea": "Thanks for your contribution !",
+    "the_editor_doesn_t_support_yet_this_kind_of_comple_46362064": "The editor doesn't support yet this kind of complex geometry editing.",
     "the_feature_contour_you_just_edited_is_partially_o_7cbfd0ed": "The feature contour you just edited is partially or completely outside of the level contour. Please make sure that the feature contour is mostly contained in the floor.",
     "the_level_contour_you_just_edited_is_partially_or__870ff4e4": "The level contour you just edited is partially or completely outside of the building contour. Please make sure that the level contour is mostly contained in the building.",
     "these_buildings_lack_some_floor_outlines_1ed7986f": "These buildings lack some floor outlines :",
     "these_floor_outlines_are_optional_in_osm_but_are_u_c6e53110": "These floor outlines are optional in OSM, but are useful for various tools people use.",
     "this_level_doesn_t_have_a_precise_floor_outline_de_d08cb793": "This level doesn't have a precise floor outline defined yet.",
+    "to_edit_map_data_you_need_to_connect_first_using_a_a0c85c4e": "To edit map data, you need to connect first using an OpenStreetMap account.",
     "to_make_your_floor_plans_appear_correctly_when_edi_ceafcc87": "To make your floor plans appear correctly when editing indoors, please make sure you set on which level they should show up on the left panel.",
+    "to_view_and_edit_map_data_you_need_to_connect_firs_959b4121": "To view and edit map data, you need to connect first using an OpenStreetMap account.",
     "total_height_in_meters_e6951830": "Total height (in meters)",
     "type_of_building_dac64a5d": "Type of building",
     "unknown_47a3b725": "Unknown",
@@ -145,7 +149,6 @@
     "you_can_use_any_tms_like_url_afc72061": "You can use any TMS-like URL",
     "you_have_the_choice_between_following_options_b69ea4b4": "You have the choice between following options :",
     "you_have_to_give_us_more_details_about_your_change_c3d8b397": "You have to give us more details about your changes using Changeset comment text field.",
-    "you_will_be_redirected_in_order_to_login_using_you_f5480017": "You will be redirected in order to login using your OpenStreetMap account.",
     "your_edits_75881b31": "Your edits"
   }
 }

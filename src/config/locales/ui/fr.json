@@ -74,6 +74,7 @@
     "levels_structure_level_lvl_aab3eddf": "Structure des niveaux (étage %{lvl})",
     "line_95da80eb": "Ligne",
     "loading_25990131": "Chargement...",
+    "login_or_create_account_b27ad227": "Se connecter ou créer un compte",
     "move_this_plan_to_copied_position_1bfd523e": "Déplacer ce plan à la position copiée",
     "name_1aed4a1b": "Nom",
     "new_below_level_3d5af6df": "Nouveau niveau inférieur",
@@ -126,12 +127,15 @@
     "supported_formats_jpeg_png_imagery_json_3bfc7689": "Formats supportés : JPEG, PNG, fichier JSON d'imagerie",
     "surrounded_by_walls_d4b4ec40": "Entouré par des murs",
     "thanks_for_your_contribution_3c790eea": "Merci pour votre contribution !",
+    "the_editor_doesn_t_support_yet_this_kind_of_comple_46362064": "L'éditeur ne permet pas pour le moment d'éditer ce type de géométries complexes.",
     "the_feature_contour_you_just_edited_is_partially_o_7cbfd0ed": "L'objet que vous avez modifié est partiellement ou complètement en dehors de l'emprise de l'étage. Merci de vérifier que votre objet est bien contenu dans l'étage.",
     "the_level_contour_you_just_edited_is_partially_or__870ff4e4": "L'emprise d'étage que vous avez modifié est partiellement ou complètement en dehors de l'emprise du bâtiment. Merci de vérifier qu'elle est bien contenue dans le bâtiment.",
     "these_buildings_lack_some_floor_outlines_1ed7986f": "Il manque des emprises d'étages sur les bâtiments suivants :",
     "these_floor_outlines_are_optional_in_osm_but_are_u_c6e53110": "Ces emprises sont optionnelles, mais servent à de nombreux outils.",
     "this_level_doesn_t_have_a_precise_floor_outline_de_d08cb793": "Ce niveau n'a pas d'emprise d'étage définie pour l'instant.",
+    "to_edit_map_data_you_need_to_connect_first_using_a_a0c85c4e": "Pour pouvoir éditer la carte, vous devez d'abord vous connecter à l'aide d'un compte OpenStreetMap.",
     "to_make_your_floor_plans_appear_correctly_when_edi_ceafcc87": "Pour faire en sorte que vos plans d'étage apparaissent correctement lors de l'édition de la carte, merci de renseigner le niveau auquel ils doivent apparaître dans le panneau de gauche.",
+    "to_view_and_edit_map_data_you_need_to_connect_firs_959b4121": "Pour voir et éditer la carte, vous devez d'abord vous connecter à l'aide d'un compte OpenStreetMap.",
     "total_height_in_meters_e6951830": "Hauteur totale (en mètres)",
     "type_of_building_dac64a5d": "Type de bâtiment",
     "unknown_47a3b725": "Inconnu",
@@ -145,7 +149,6 @@
     "you_can_use_any_tms_like_url_afc72061": "Vous pouvez utiliser n'importe quelle URL de type TMS",
     "you_have_the_choice_between_following_options_b69ea4b4": "Vous avez le choix entre différentes options :",
     "you_have_to_give_us_more_details_about_your_change_c3d8b397": "Vous devez nous donner plus de détails sur vos modifications à l'aide du champ Commentaire.",
-    "you_will_be_redirected_in_order_to_login_using_you_f5480017": "Vous allez être redirigé vers OpenStreetMap pour vous connecter à votre compte.",
     "your_edits_75881b31": "Vos modifications"
   }
 }

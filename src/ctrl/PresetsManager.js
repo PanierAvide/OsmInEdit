@@ -301,15 +301,13 @@ class PresetsManager {
 			I18n.locale && I18n.locale !== "en"
 			&& [ "group", "item", "label", "text", "combo", "multiselect", "list_entry", "check" ].includes(type)
 		) {
-			if(p.$[I18n.locale+".name"]) {
-				res.name = p.$[I18n.locale+".name"];
-			}
-			if(p.$[I18n.locale+".text"]) {
-				res.text = p.$[I18n.locale+".text"];
-			}
-			if(p.$[I18n.locale+".display_values"]) {
-				res.display_values = p.$[I18n.locale+".display_values"];
-			}
+			const i18nFields = [ "name", "text", "display_values", "display_value" ];
+
+			i18nFields.forEach(field => {
+				if(p.$[I18n.locale+"."+field]) {
+					res[field] = p.$[I18n.locale+"."+field];
+				}
+			});
 		}
 
 		// Object types

@@ -59,6 +59,8 @@ class EditFeaturePane extends Component {
 
 		if(!p) { return res; }
 
+		let showLevel = p.showLevel;
+
 		if(p.combos) {
 			res = res.concat(p.combos.map((c,i) => <PresetInputField type="combo" data={c} tags={this.props.feature.properties.tags} key={"c"+i} />));
 		}
@@ -66,7 +68,17 @@ class EditFeaturePane extends Component {
 			res = res.concat(p.texts.map((t,i) => <PresetInputField type="text" data={t} tags={this.props.feature.properties.tags} key={"t"+i} />));
 		}
 		if(p.multiselects) {
-			res = res.concat(p.multiselects.map((m,i) => <PresetInputField type="multiselect" data={m} tags={this.props.feature.properties.tags} key={"m"+i} />));
+			res = res.concat(
+				p.multiselects
+				.filter(m => {
+					if(m.key === "level") {
+						showLevel = true;
+						return false;
+					}
+					else { return true; }
+				})
+				.map((m,i) => <PresetInputField type="multiselect" data={m} tags={this.props.feature.properties.tags} key={"m"+i} />)
+			);
 		}
 		if(p.checks) {
 			res = res.concat(p.checks.map((ch,i) => <PresetInputField type="check" data={ch} tags={this.props.feature.properties.tags} key={"ch"+i} />));
@@ -76,7 +88,7 @@ class EditFeaturePane extends Component {
 		}
 
 		// Add level field
-		if(p.showLevel) {
+		if(showLevel) {
 			// List available levels
 			let levels = (this.props.feature.properties.own && this.props.feature.properties.own.levels) || [-5,-4,-3,-2,-1,0,1,2,3,4,5];
 			if(this.props.building && this.props.building.properties.own && this.props.building.properties.own.levels) {
@@ -123,12 +135,9 @@ class EditFeaturePane extends Component {
 					if(!result[pk]) { result[pk] = []; }
 
 					pv.forEach(v => {
-						if(!usedKeys.includes(v.key) && v.key !== "level") {
+						if(!usedKeys.includes(v.key)) {
 							result[pk].push(v);
 							usedKeys.push(v.key);
-						}
-						else if(v.key === "level") {
-							result.showLevel = true;
 						}
 					});
 				}

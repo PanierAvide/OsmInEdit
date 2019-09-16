@@ -22,10 +22,17 @@ class FeaturesLayer extends Component {
 	render() {
 		if(!this.props.locked) {
 			const geojson = window.vectorDataManager.getFeaturesInLevel(this.props.building, this.props.level);
+			let shadow = this.props.building;
+
+			// Get level footprint
+			if(shadow) {
+				const lvlFootprints = window.vectorDataManager.getLevelFootprint(this.props.building, this.props.level);
+				shadow = { type: "FeatureCollection", features: lvlFootprints.concat(shadow) };
+			}
 
 			return <Editable
 				data={geojson}
-				shadowData={this.props.building}
+				shadowData={shadow}
 				selection={this.props.feature}
 				onFeatureClick={feature => PubSub.publish("body.select.feature", { feature: feature })}
 				styler={this.props.styler}

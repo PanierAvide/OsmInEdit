@@ -467,7 +467,8 @@ node[aeroway] {
  * Amenities
  */
 
-*[amenity=~/bar|biergarten|cafe|fast_food|food_court|ice_cream|pub|restaurant|college|kindergarten|library|school|music_school|driving_school|language_school|university|car_rental|parking|taxi|atm|bank|bureau_de_change|clinic|dentist|doctors|hospital|nursing_home|pharmacy|social_facility|veterinary|arts_centre|brothel|casino|cinema|community_centre|gambling|nightclub|planetarium|social_centre|stripclub|studio|swingerclub|animal_boarding|animal_shelter|courthouse|coworking_space|crematorium|crypt|dojo|embassy|fire_station|gym|internet_cafe|photo_booth|place_of_worship|police|post_box|post_office|sauna|shower|telephone|toilets|piano|parking_space/] {
+/** All amenities **/
+*[amenity][amenity!=showcase] {
 	fill-color: #FFDAAD;
 	opacity: 1;
 	fill-opacity: 0.5;
@@ -480,6 +481,8 @@ node[aeroway] {
 
 node[amenity] {
 	color: #734A08;
+	fill-opacity: 0.8;
+	fill-color: white;
 }
 
 /** Comfort amenities **/
@@ -646,20 +649,8 @@ relation[type=multipolygon][landuse=grass] {
 
 
 /****************************************************************************
- * Amenities
+ * Craft/office
  */
-
-/** All amenities **/
-*[amenity][amenity!=showcase] {
-	fill-color: #FFDAAD;
-	opacity: 1;
-	fill-opacity: 0.5;
-	icon-image: url('amenity_$[amenity].png');
-	icon-width: 16;
-	icon-height: 16;
-	icon-opacity: 1;
-	text: name;
-}
 
 *[craft] {
 	color: #FFDAAD;

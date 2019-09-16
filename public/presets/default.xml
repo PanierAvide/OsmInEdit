@@ -1374,7 +1374,7 @@
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 				<check key="indoor" text="Indoor" fr.text="Intérieur"/>
 			</item>
-			<item name="Fire Hose" type="node">
+			<item name="Fire Hose" type="node" fr.name="Lance incendie">
 				<link wiki="Tag:emergency=fire_hose"/>
 				<key key="emergency" value="fire_hose"/>
 				<text key="ref" text="Reference" fr.text="Référence"/>
@@ -1428,7 +1428,7 @@
 					<combo key="couplings" text="Number of couplings" values="1,2,3" fr.text="Nombre de couplages"/>
 					<combo key="colour" text="Colour" values="blue,green,red,yellow,grey" values_context="color" fr.text="Couleur"/>
 					<combo key="bonnet:colour" text="Colour of the top section (bonnet)" values="blue,green,red,yellow,grey" values_context="color" fr.text="Couleur de la partie supérieure (bonnet)"/>
-					<combo key="cap:colour" text="Colour of the caps" values="blue,green,red,yellow,grey" values_context="color"/>
+					<combo key="cap:colour" text="Colour of the caps" values="blue,green,red,yellow,grey" values_context="color" fr.text="Couleur du capuchon"/>
 				</optional>
 			</item>
 			<item name="Water Tank" type="node,closedway" fr.name="Réservoir d'eau">
@@ -1817,7 +1817,7 @@
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 			</optional>
 		</item>
-		<item name="Flagpole" type="node" fr.name="Poteau pour drapeau" type="node">
+		<item name="Flagpole" type="node" fr.name="Poteau pour drapeau">
 			<link wiki="Tag:man_made=flagpole"/>
 			<key key="man_made" value="flagpole"/>
 		</item>
@@ -1984,11 +1984,11 @@
 				<text key="description" text="Description"/>
 				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique"/>
 			</item>
-			<item name="Organic" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Biologique" type="node,closedway">
+			<item name="Organic" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Biologique">
 				<link wiki="Key:organic"/>
 				<combo text="Organic/Bio" key="organic" values="only,yes,no" match="key" fr.text="Biologique"/>
 			</item>
-			<item name="Fair Trade" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Équitable" type="node,closedway">
+			<item name="Fair Trade" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Équitable">
 				<link wiki="Key:fair_trade"/>
 				<combo text="Fair Trade" key="fair_trade" values="no,yes,only" match="key" fr.text="Équitable"/>
 			</item>
@@ -2067,7 +2067,7 @@
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Fabric" type="node,closedway">
+			<item name="Fabric" type="node,closedway" fr.name="Tissus">
 				<link wiki="Tag:shop=fabric"/>
 				<key key="shop" value="fabric"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2223,7 +2223,7 @@
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Copy Shop" type="node,closedway">
+			<item name="Copy Shop" type="node,closedway" fr.name="Photocopies">
 				<link wiki="Tag:shop=copyshop"/>
 				<key key="shop" value="copyshop"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2418,7 +2418,7 @@
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Charity" type="node,closedway">
+			<item name="Charity" type="node,closedway" fr.name="Magasin caritatif">
 				<link wiki="Tag:shop=charity"/>
 				<key key="shop" value="charity"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2454,7 +2454,7 @@
 				<reference ref="name_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Funeral Directors" type="node,closedway">
+			<item name="Funeral Directors" type="node,closedway" fr.name="Pompes funèbres">
 				<link wiki="Tag:shop=funeral_directors"/>
 				<key key="shop" value="funeral_directors"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2471,7 +2471,7 @@
 		</item>
 	</group>
 	<group name="Offices" fr.name="Bureaux">
-		<item name="Accountant" type="node,closedway">
+		<item name="Accountant" type="node,closedway" fr.name="Comptable">
 			<link wiki="Tag:office=accountant"/>
 			<key key="office" value="accountant"/>
 			<reference ref="name_operator_oh_wheelchair"/>
@@ -2525,7 +2525,7 @@
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Foundation" fr.name="Fondation" type="node,closedway">
+		<item name="Foundation" fr.name="Fondatio" type="node,closedway">
 			<link wiki="Tag:office=foundation"/>
 			<key key="office" value="foundation"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
@@ -2693,7 +2693,7 @@
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Roofer" type="node,closedway">
+		<item name="Roofer" type="node,closedway" fr.name="Toiturier">
 			<link wiki="Tag:craft=roofer"/>
 			<key key="craft" value="roofer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
