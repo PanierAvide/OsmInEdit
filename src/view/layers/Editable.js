@@ -743,6 +743,9 @@ class EditableLayer extends Path {
 		map.off("editable:drawing:end");
 		map.off("editable:vertex:new");
 		Mousetrap.unbind(GUIDE_LINES_ANGLE_KEY);
+		map.off("mousemove", this._followMouse, this);
+		this.snapMarker.remove();
+
 		map.on("editable:drawing:end", e => {
 			map.removeLayer(e.layer);
 		});

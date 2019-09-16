@@ -436,6 +436,7 @@ class Body extends Component {
 
 				this.setState({
 					mode: data.mode,
+					building: window.vectorDataManager.getBuildingLevels(this.state.building),
 					floor: theFloor,
 					feature: null,
 					copyingFeature: null,
@@ -799,7 +800,10 @@ class Body extends Component {
 							}
 						}
 						else if(this.state.mode === Body.MODE_FEATURES && this.state.preset) {
-							if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
+							if(
+								(this.state.preset.tags && !this.state.preset.tags.indoor)
+								|| window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)
+							) {
 								newState.feature = window.vectorDataManager.createNewFeature(data.feature, this.state.level, this.state.preset);
 								newState.pane = LeftPanel.PANE_FEATURE_EDIT;
 								this._pushUsedPreset(this.state.preset);
@@ -903,7 +907,10 @@ class Body extends Component {
 					!data.feature.id.startsWith("relation/")
 					|| window.vectorDataManager.isRelationEditingSupported(window.vectorDataManager.findFeature(data.feature.id), data.feature)
 				) {
-					if(window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)) {
+					if(
+						(data.feature.properties.tags && !data.feature.properties.tags.indoor)
+						|| window.vectorDataManager.isOverlappingEnough(this.state.building, data.feature)
+					) {
 						this.setState(
 							{ datalocked: true },
 							async () => {

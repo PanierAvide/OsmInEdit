@@ -210,16 +210,19 @@ class VectorDataManager extends HistorizedManager {
 	getBuildingLevels(building) {
 		if(!building.properties.own.levels || !building.properties.own.levelsComputed) {
 			//Levels of building itself
-			this._listFeatureLevels(building);
+			building = this._listFeatureLevels(building, true);
 
 			//Levels of feature it contains
 			if(this._cacheOsmGeojson) {
 				const levels = new Set(building.properties.own.levels);
 
 				this._cacheOsmGeojson.features.forEach(feature => {
-					if(booleanIntersects(building, feature)) {
-						this._listFeatureLevels(feature).properties.own.levels.forEach(l => levels.add(l));
+					try {
+						if(booleanIntersects(building, feature)) {
+							this._listFeatureLevels(feature).properties.own.levels.forEach(l => levels.add(l));
+						}
 					}
+					catch(e) {}
 				});
 
 				building.properties.own.levels = Array.from(levels);
@@ -444,13 +447,13 @@ class VectorDataManager extends HistorizedManager {
 		let result = false;
 
 		if(building && this._cacheOsmGeojson) {
-			const isNotExcludedFeature = (tags => tags.level !== undefined && tags.indoor !== "level" && !tags.building && !tags["building:part"]);
+			const isNotExcludedFeature = (tags => tags.level !== undefined && tags.indoor !== undefined && tags.indoor !== "level" && !tags.building && !tags["building:part"]);
 
 			for(let i=0; i < this._cacheOsmGeojson.features.length; i++) {
 				const feature = this._cacheOsmGeojson.features[i];
 
 				if(
-					!feature.id.startsWith("node/")
+					feature.id.startsWith("way/")
 					&& feature.geometry.type !== "MultiPolygon"
 					&& isNotExcludedFeature(feature.properties.tags)
 					&& booleanIntersects(building, feature)
@@ -945,6 +948,12 @@ class VectorDataManager extends HistorizedManager {
 				// Clean-up level tag
 				if(tags.level) {
 					feature.properties.tags.level = this._cleanLevelTag(feature.properties.own.levels);
+				}
+
+				// Re-compute building levels
+				if(tags.building) {
+					feature.properties.own.levelsComputed = false;
+					feature = this.getBuildingLevels(feature);
 				}
 
 				this._cacheOsmGeojson.features[featureCacheId] = feature;
@@ -2343,10 +2352,17 @@ class VectorDataManager extends HistorizedManager {
 			else if(tags["buildingpart:verticalpassage:floorrange"] !== undefined) {
 				feature.properties.own.levels = this._parseLevelsFloat(tags["buildingpart:verticalpassage:floorrange"]);
 			}
-			//Tag building:levels (and optionally building:min_level)
+			//Tag building:levels
 			else if(tags["building:levels"] !== undefined) {
-				const upperLevel = Math.ceil(parseFloat(tags["building:levels"])) - 1;
-				feature.properties.own.levels = this._parseLevelsFloat(((tags["building:min_level"] !== undefined) ? tags["building:min_level"] : "0")+"-"+upperLevel);
+				const lvlsGround = Math.ceil(parseFloat(tags["building:levels"]));
+				const lvlsRoof = tags["roof:levels"] !== undefined ? Math.ceil(parseFloat(tags["roof:levels"])) : 0;
+				const lvlsUground = tags["building:levels:underground"] !== undefined ? Math.ceil(parseFloat(tags["building:levels:underground"])) : 0;
+
+				feature.properties.own.levels = this._parseLevelsFloat(
+					(-lvlsUground)
+					+ "-"
+					+ ((lvlsGround+lvlsRoof) - 1)
+				);
 			}
 			//Relations (type=level or type=multipolygon)
 			else if(feature.properties.relations !== undefined && feature.properties.relations.length > 0) {
