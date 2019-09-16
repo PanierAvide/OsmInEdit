@@ -48,15 +48,15 @@ describe("ctrl > VectorDataManager", () => {
 			feature.properties.own.levels.forEach(l => assert.equal(typeof l, "number"));
 		});
 
-		it("works with building:levels=* + building:min_level=*", () => {
+		it("works with building:levels=*", () => {
 			const feature = { properties: {
-				tags: { "building:levels": "5", "building:min_level": "3" }
+				tags: { "building:levels": "5", "building:levels:underground": "3", "roof:levels": "1" }
 				,
 				own: {}
 			} };
 
 			vdm._listFeatureLevels(feature);
-			assert.equal(feature.properties.own.levels.toString(), [ 3,4 ].toString());
+			assert.equal(feature.properties.own.levels.toString(), [ -3, -2, -1, 0, 1, 2, 3, 4, 5 ].toString());
 			feature.properties.own.levels.forEach(l => assert.equal(typeof l, "number"));
 		});
 	});
