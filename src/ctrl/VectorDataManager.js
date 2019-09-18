@@ -780,7 +780,7 @@ class VectorDataManager extends HistorizedManager {
 							}
 						}
 
-						if(hasSharedLevels && !booleanDisjoint(feature, f) && !this._booleanContains(f, feature)) {
+						if(hasSharedLevels && !booleanDisjoint(feature, f) && !this._booleanContains(f, feature) && !this._booleanContains(feature, f)) {
 							connectedFeaturesCacheIds.push(i);
 							return true;
 						}
