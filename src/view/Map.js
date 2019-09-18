@@ -295,8 +295,17 @@ class MyMap extends Component {
 		const floorImgs = window.imageryManager.getFloorImages();
 		let levelsList = null;
 
-		if([Body.MODE_EXPLORE, Body.MODE_BUILDING].includes(this.props.mode)) {
+		if(this.props.mode === Body.MODE_EXPLORE) {
 			levelsList = window.vectorDataManager.getAllLevels();
+		}
+		else if(this.props.mode === Body.MODE_BUILDING) {
+			if(this.props.building) {
+				levelsList = this.props.building.properties.own.levels.slice(0);
+				levelsList.sort();
+			}
+			else {
+				levelsList = window.vectorDataManager.getAllLevels();
+			}
 		}
 		else if([ Body.MODE_LEVELS, Body.MODE_FEATURES ].includes(this.props.mode) && this.props.building) {
 			levelsList = this.props.building.properties.own.levels.slice(0);
