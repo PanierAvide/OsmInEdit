@@ -388,8 +388,18 @@ node[barrier] {
 	fill-opacity: 0.7;
 }
 
-way[barrier] {
-	width: 15;
+line[barrier] {
+	width: 6;
+	icon-image: none;
+}
+
+*[barrier=hedge] {
+	color: #8CD16E;
+}
+
+*[barrier=shelf] {
+	color: #DBA0A0;
+	fill-color: #DBA0A0;
 }
 
 
@@ -664,27 +674,6 @@ relation[type=multipolygon][landuse=grass] {
 	fill-opacity: 0.5;
 }
 
-
-/****************************************************************************
- * Barriers
- */
-
-*[barrier=hedge] {
-	color: #8CD16E;
-}
-
-*[barrier=shelf] {
-	color: #DBA0A0;
-	fill-color: #DBA0A0;
-}
-
-*[barrier=~/self_checkout|checkout/] {
-	fill-color: #EEEEEE;
-	icon-image: url('barrier_$[barrier].png');
-	icon-width: 16;
-	icon-height: 16;
-	icon-opacity: 1;
-}
 
 
 /****************************************************************************

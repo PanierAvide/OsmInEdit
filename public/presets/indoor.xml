@@ -19,6 +19,9 @@
 			<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé"/>
 		</combo>
 	</chunk>
+	<chunk id="access">
+		<combo key="access" text="Access" values="private,customers,permissive,no,yes" display_values="Private,Customers only,Permissive,No public access,Open to public" fr.text="Accès" fr.display_values="Privé,Réservé aux clients,Permissif,Pas d'accès au public,Ouvert au public"/>
+	</chunk>
 	<chunk id="incline_conveying">
 		<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison">
 			<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé"/>
@@ -40,6 +43,7 @@
 			<key key="indoor" value="room"/>
 			<combo key="room" text="Type of room" fr.text="Type de salle" values="shop,office,class,stairs,toilets,corridor,restaurant,entrance,toilet,technical,conference,laboratory,elevator,storage,collection,hall,waiting,library,lecture,gallery,computer,kitchen,utility,guest,bathroom,terrace,workshop,meeting,archive,reception,dressing,bedroom,lounge,lobby,amphitheatre,sport" values_searchable="true"/>
 			<reference ref="name_ref"/>
+			<reference ref="access"/>
 		</item>
 		<item name="Area" fr.name="Zone" type="closedway" preset_name_label="true" indoor_structure="yes" icon="img/icons/indoor_area.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
@@ -47,6 +51,7 @@
 			<space/>
 			<key key="indoor" value="area"/>
 			<reference ref="name_ref"/>
+			<reference ref="access"/>
 		</item>
 		<item name="Wall" fr.name="Mur" type="way,closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/indoor_wall.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
@@ -78,18 +83,20 @@
 			<space/>
 			<key key="indoor" value="corridor"/>
 			<reference ref="name_ref"/>
+			<reference ref="access"/>
 		</item>
 		<item name="Staircase" fr.name="Cage d'escaliers" type="closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/staircase.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="indoor" value="room"/>
 			<key key="room" value="stairs"/>
+			<reference ref="access"/>
 		</item>
 		<item name="Stairs" fr.name="Escaliers" type="way" preset_name_label="true" indoor_structure="only">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="highway" value="steps"/>
 			<reference ref="multi_level"/>
 			<reference ref="name"/>
-			<reference ref="incline_conveying" />
+			<reference ref="incline_conveying"/>
 		</item>
 		<item name="Elevator" fr.name="Ascenseur" type="closedway" preset_name_label="true" indoor_structure="only">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
@@ -99,6 +106,7 @@
 			<reference ref="name"/>
 			<reference ref="multi_level"/>
 			<reference ref="wheelchair"/>
+			<reference ref="access"/>
 		</item>
 		<item name="Footway" type="way" indoor_structure="only" fr.name="Chemin piéton" icon="img/icons/highway_footway.png">
 			<link wiki="Tag:highway=footway"/>
@@ -106,7 +114,8 @@
 			<reference ref="name"/>
 			<reference ref="multi_level"/>
 			<reference ref="wheelchair"/>
-			<reference ref="incline_conveying" />
+			<reference ref="incline_conveying"/>
+			<reference ref="access"/>
 		</item>
 		<item name="Service road" type="way" indoor_structure="only" fr.name="Route de service" icon="img/icons/highway_service.png">
 			<link wiki="Tag:highway=service"/>
@@ -114,8 +123,9 @@
 			<combo key="service" text="Service way type" values="alley,driveway,parking_aisle,drive-through,emergency_access" fr.text="Type de voie de service"/>
 			<reference ref="name"/>
 			<reference ref="multi_level"/>
+			<reference ref="incline"/>
+			<reference ref="access"/>
 			<check key="oneway" text="Oneway" fr.text="Sens unique"/>
-			<reference ref="incline" />
 		</item>
 		<item name="Level connection" type="node" indoor_structure="only" fr.name="Connexion à l'étage" icon="img/icons/level_connection.png">
 			<key key="door" value="no"/>

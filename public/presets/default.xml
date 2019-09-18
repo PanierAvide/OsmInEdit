@@ -20,7 +20,7 @@
 		<check key="bridge" text="Bridge" disable_off="true" fr.text="Pont"/>
 		<check key="tunnel" text="Tunnel" disable_off="true"/>
 		<check key="cutting" text="Cutting" disable_off="true"/>
-		<check key="embankment" text="Embankment" disable_off="true"/>
+		<check key="embankment" text="Embankment" disable_off="true" fr.text="Talus"/>
 		<combo key="incline" text="Incline" values="10%,-10%,10°,-10°,up,down" fr.text="Inclinaison"/>
 	</chunk>
 	<chunk id="highway_yesno_incline_oneway">
@@ -215,6 +215,47 @@
 		<preset_link preset_name="Address"/>
 		<preset_link preset_name="Payment Methods"/>
 	</chunk>
+	<group name="Barriers" icon="img/icons/barrier_gate.png" fr.name="Barrières">
+		<item name="Hedge" type="way" preset_name_label="true" fr.name="Haie">
+			<link wiki="Tag:barrier=hedge"/>
+			<key key="barrier" value="hedge"/>
+			<text key="height" text="Height (meters)" length="7" fr.text="Hauteur (mètres)"/>
+		</item>
+		<item name="Fence" type="way" preset_name_label="true" fr.name="Grillage">
+			<link wiki="Tag:barrier=fence"/>
+			<key key="barrier" value="fence"/>
+			<combo key="fence_type" text="Type" values="barbed_wire,bars,chain_link,concrete,electric,metal,pole,railing,split_rail,wire,wood"/>
+			<text key="height" text="Height (meters)" length="7" fr.text="Hauteur (mètres)"/>
+		</item>
+		<item name="Handrail" type="way" preset_name_label="true" fr.name="Main courante">
+			<link wiki="Tag:barrier=handrail"/>
+			<key key="barrier" value="handrail"/>
+			<combo key="material" text="Material" values="concrete,metal,plastic,stone,wood" fr.text="Matériau"/>
+			<combo key="colour" text="Color (HTML name or hexadecimal code)" values_context="color" values="black,blue,brown,gray,green,orange,purple,red,silver,white,yellow,#CD853F" fr.text="Couleur (nom HTML ou code hexadécimal)"/>
+		</item>
+		<item name="Guard Rail" type="way" preset_name_label="true" fr.name="Garde-fou">
+			<link wiki="Tag:barrier=guard_rail"/>
+			<key key="barrier" value="guard_rail"/>
+			<text key="height" text="Height (meters)" length="7" fr.text="Hauteur (mètres)"/>
+		</item>
+		<item name="Gate" type="node" preset_name_label="true" fr.name="Porte">
+			<link wiki="Tag:barrier=gate"/>
+			<key key="barrier" value="gate"/>
+		</item>
+		<item name="Lift Gate" type="node" preset_name_label="true" fr.name="Barrière levante">
+			<link wiki="Tag:barrier=lift_gate"/>
+			<key key="barrier" value="lift_gate"/>
+		</item>
+		<item name="Swing Gate" type="node" preset_name_label="true" fr.name="Barrière pivotante">
+			<link wiki="Tag:barrier=swing_gate"/>
+			<key key="barrier" value="swing_gate"/>
+			<combo key="swing_gate:type" text="Type" values="single,double" values_context="swing_gate"/>
+		</item>
+		<item name="Turnstile" type="node" preset_name_label="true" fr.name="Tourniquet">
+			<link wiki="Tag:barrier=turnstile"/>
+			<key key="barrier" value="turnstile"/>
+		</item>
+	</group>
 	<group name="Transport" icon="img/icons/railway_platform.png">
 		<group name="Railway" fr.name="Voie ferrée" icon="img/icons/railway_platform.png">
 			<item name="Rail" type="way">
@@ -816,7 +857,7 @@
 				<combo key="takeaway" text="Takeaway" values="yes,no,only" fr.text="À emporter"/>
 				<combo key="delivery" text="Delivery" values="yes,no,only,Mo-Su 12:00-22:00" fr.text="Livraison à domicile"/>
 			</item>
-			<item name="Beer Garden" type="node,closedway">
+			<item name="Beer Garden" type="node,closedway" fr.name="Jardin de brasseurs">
 				<link wiki="Tag:amenity=biergarten"/>
 				<key key="amenity" value="biergarten"/>
 				<reference ref="name_operator"/>
@@ -938,7 +979,7 @@
 				<text key="screen" text="Number of screens" fr.text="Nombre d'écrans"/>
 				<preset_link preset_name="Building"/>
 			</item>
-			<item name="Bandstand" type="node,closedway">
+			<item name="Bandstand" type="node,closedway" fr.name="Kiosque à musique">
 				<link wiki="Tag:leisure=bandstand"/>
 				<key key="leisure" value="bandstand"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -978,7 +1019,7 @@
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Resort" type="node,closedway">
+			<item name="Resort" type="node,closedway" fr.name="Complexe touristique">
 				<link wiki="Tag:leisure=resort"/>
 				<key key="leisure" value="resort"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -1015,7 +1056,7 @@
 				<link wiki="Tag:tourism=picnic_site"/>
 				<key key="tourism" value="picnic_site"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<check key="fireplace" text="Fireplace"/>
+				<check key="fireplace" text="Fireplace" fr.text="Cheminée"/>
 			</item>
 			<item name="Picnic Table" type="node" fr.name="Table de pique-nique">
 				<link wiki="Tag:leisure=picnic_table"/>
@@ -1029,7 +1070,7 @@
 				<combo key="fuel" text="Fuel" text_context="grill" values="charcoal,electric,wood" fr.text="Essence"/>
 				<check key="covered" text="Covered" fr.text="Couvert"/>
 			</item>
-			<item name="Firepit" type="node,closedway">
+			<item name="Firepit" type="node,closedway" fr.name="Fosse à feu">
 				<link wiki="Tag:leisure=firepit"/>
 				<key key="leisure" value="firepit"/>
 				<text key="name" text="Name" fr.text="Nom"/>
@@ -1258,7 +1299,7 @@
 			</item>
 		</group>
 		<group name="Education" fr.name="Enseignement" icon="img/icons/amenity_school.png">
-			<item name="Kindergarten" type="node,closedway">
+			<item name="Kindergarten" type="node,closedway" fr.name="Maternelle">
 				<link wiki="Tag:amenity=kindergarten"/>
 				<key key="amenity" value="kindergarten"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -1624,7 +1665,7 @@
 				<key key="amenity" value="waste_disposal"/>
 				<combo key="waste" text="Waste" values="trash" fr.text="Déchets mélangés"/>
 			</item>
-			<item name="Sanitary Dump Station" type="node,closedway">
+			<item name="Sanitary Dump Station" type="node,closedway" fr.name="Point de vidange sanitaire">
 				<link wiki="Toilet_Holding_Tank_Disposal"/>
 				<key key="amenity" value="sanitary_dump_station"/>
 				<check key="sanitary_dump_station:pump-out" text="Suction pumpout"/>
@@ -1647,7 +1688,7 @@
 				<link wiki="Tag:amenity=shelter"/>
 				<key key="amenity" value="shelter"/>
 				<text key="name" text="Name" fr.text="Nom"/>
-				<check key="fireplace" text="Fireplace"/>
+				<check key="fireplace" text="Fireplace" fr.text="Cheminée"/>
 				<combo key="shelter_type" text="Type of shelter" values_context="shelter" values_searchable="true" fr.text="Type d'abri">
 					<list_entry value="basic_hut"/>
 					<list_entry value="lean_to"/>
@@ -1882,7 +1923,7 @@
 			<label text="Camera" fr.text="Caméra"/>
 		</item>
 	</group>
-	<group name="Shops" fr.name="Commerces"  icon="img/icons/shop_supermarket.png">
+	<group name="Shops" fr.name="Commerces" icon="img/icons/shop_supermarket.png">
 		<group name="Food" fr.name="Alimentaire">
 			<item name="Supermarket" fr.name="Supermarché" type="node,closedway">
 				<link wiki="Tag:shop=supermarket"/>
@@ -2147,7 +2188,7 @@
 				<text key="operator" text="Operator" fr.text="Opérateur"/>
 				<reference ref="oh_wheelchair"/>
 			</item>
-			<item name="Pawnbroker" type="node,closedway">
+			<item name="Pawnbroker" type="node,closedway" fr.name="Prêteur sur gages">
 				<link wiki="Tag:shop=pawnbroker"/>
 				<key key="shop" value="pawnbroker"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2217,7 +2258,7 @@
 			</item>
 		</group>
 		<group name="Printed Material" fr.name="Imprimerie">
-			<item name="Stationery" type="node,closedway">
+			<item name="Stationery" type="node,closedway" fr.name="Papeterie">
 				<link wiki="Tag:shop=stationery"/>
 				<key key="shop" value="stationery"/>
 				<reference ref="name_oh_wheelchair"/>
@@ -2379,7 +2420,7 @@
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Gas" type="node,closedway">
+			<item name="Gas" type="node,closedway" fr.name="Carburant">
 				<link wiki="Tag:shop=gas"/>
 				<key key="shop" value="gas"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2424,7 +2465,7 @@
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address_payment"/>
 			</item>
-			<item name="Bookmaker" type="node,closedway">
+			<item name="Bookmaker" type="node,closedway" fr.name="Preneur de paris">
 				<link wiki="Tag:shop=bookmaker"/>
 				<key key="shop" value="bookmaker"/>
 				<reference ref="name_operator_oh_wheelchair"/>
@@ -2470,7 +2511,7 @@
 			<preset_link preset_name="Payment Methods"/>
 		</item>
 	</group>
-	<group name="Offices" fr.name="Bureaux"  icon="img/icons/room_office.png">
+	<group name="Offices" fr.name="Bureaux" icon="img/icons/room_office.png">
 		<item name="Accountant" type="node,closedway" fr.name="Comptable">
 			<link wiki="Tag:office=accountant"/>
 			<key key="office" value="accountant"/>
@@ -2595,7 +2636,7 @@
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Tax advisor" type="node,closedway">
+		<item name="Tax advisor" type="node,closedway" fr.name="Conseil fiscal">
 			<link wiki="Tag:office=tax_advisor"/>
 			<key key="office" value="tax_advisor"/>
 			<reference ref="name_brand_operator_oh_wheelchair"/>
@@ -2627,7 +2668,7 @@
 			<reference ref="name_operator_oh_wheelchair"/>
 			<reference ref="link_contact_address"/>
 		</item>
-		<item name="Caterer" type="node,closedway,multipolygon" preset_name_label="true">
+		<item name="Caterer" type="node,closedway,multipolygon" preset_name_label="true" fr.name="Traiteur">
 			<link wiki="Tag:craft=caterer"/>
 			<key key="craft" value="caterer"/>
 			<reference ref="name_operator_oh_wheelchair"/>
