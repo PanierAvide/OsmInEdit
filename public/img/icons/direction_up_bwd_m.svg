@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 8.4666665 8.4666669"
+   height="32"
+   width="32">
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="TriangleOutS"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.2)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path4693" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleOutM"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.4)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path4690" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Mend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.6) rotate(180) translate(0,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         id="path4572" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Mstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.6) translate(0,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         id="path4569" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Send"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.2) rotate(180) translate(6,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path4560" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         id="path4566" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-288.53332)"
+     id="layer1">
+    <g
+       transform="matrix(-0.07461908,0,0,0.07461908,9.9891536,289.02675)"
+       id="g4541"
+       style="fill:#000000">
+      <switch
+         id="switch4526">
+        <foreignObject
+           requiredExtensions="http://ns.adobe.com/AdobeIllustrator/10.0/"
+           x="0"
+           y="0"
+           width="1"
+           height="1" />
+        <g
+           i:extraneous="self"
+           id="g4524">
+          <g
+             id="g4522">
+            <path
+               d="m 23,45.6 2.2,-4 C 28.6,35.4 33.7,30.3 39.9,26.9 43.4,25 45,24.5 46.6,24.5 L 54,25 c 2.2,0.1 3.8,1.1 10.2,9.3 1.9,2.4 4.1,4.5 6.7,6.2 l 4.6,3 c 2.1,1.4 2.7,4.1 1.3,6.2 -1.4,2.1 -4.1,2.7 -6.2,1.3 L 66,48 c -3.2,-2.1 -6.1,-4.7 -8.5,-7.7 l -3.6,17.1 7,6.8 c 2.8,2.7 4.8,6.2 5.7,10.1 L 70.7,91 c 0.7,2.9 -1.1,5.8 -4,6.5 -0.4,0.1 -0.9,0.2 -1.3,0.2 -2.4,0 -4.6,-1.6 -5.2,-4.1 L 56.1,76.9 C 55.6,75 54.7,73.3 53.3,72 l -7,-6.8 -0.7,4.7 c -0.4,2.4 -1.1,4.7 -2.1,6.9 l -8.4,17.8 c -0.9,1.9 -2.9,3.1 -4.9,3.1 -0.8,0 -1.5,-0.2 -2.3,-0.5 -2.7,-1.3 -3.8,-4.5 -2.6,-7.2 l 8.4,-17.8 c 0.6,-1.2 1,-2.6 1.2,-3.9 l 2.4,-16 1.7,-13.8 c -2.3,2.1 -4.3,4.5 -5.9,7.3 l -2.2,4 c -0.8,1.5 -2.4,2.3 -3.9,2.3 -0.7,0 -1.5,-0.2 -2.1,-0.5 -2.2,-1.1 -3,-3.8 -1.9,-6 z"
+               id="path4518" />
+            <circle
+               r="9.8999996"
+               transform="matrix(0.1082,-0.9941,0.9941,0.1082,33.7433,62.4928)"
+               cx="51.700001"
+               cy="12.4"
+               id="ellipse4520" />
+          </g>
+        </g>
+      </switch>
+    </g>
+    <path
+       id="path4543"
+       d="M 3.7358232,294.41846 0.8841115,291.56675"
+       style="fill:none;stroke:#000000;stroke-width:0.6943298;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS)" />
+  </g>
+</svg>

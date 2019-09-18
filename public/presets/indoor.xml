@@ -13,6 +13,25 @@
 	<chunk id="wheelchair">
 		<combo key="wheelchair" text="Wheelchair access" values="yes,limited,no" fr.text="Accès en fauteuil roulant"/>
 	</chunk>
+	<chunk id="incline">
+		<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison">
+			<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé"/>
+			<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé"/>
+		</combo>
+	</chunk>
+	<chunk id="incline_conveying">
+		<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison">
+			<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé"/>
+			<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé"/>
+		</combo>
+		<combo key="conveying" text="Escalator" values_searchable="true">
+			<list_entry value="yes" display_value="escalator with unspecified direction" fr.display_value="Escalator dont la direction est inconnue"/>
+			<list_entry value="forward" display_value="movement in way direction" fr.display_value="Mouvement dans le sens du tracé"/>
+			<list_entry value="backward" display_value="movement opposite to way direction" fr.display_value="Mouvement dans le sens contraire du tracé"/>
+			<list_entry value="reversible" display_value="changing direction" fr.display_value="Direction variable"/>
+			<list_entry value="" display_value="not an escalator" fr.display_value="N'est pas un escalator"/>
+		</combo>
+	</chunk>
 	<group name="Building structure" fr.name="Structure du bâtiment" icon="img/icons/indoor_corridor.png">
 		<item name="Room" fr.name="Pièce" type="closedway" preset_name_label="true" indoor_structure="yes" icon="img/icons/indoor_room.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
@@ -70,17 +89,7 @@
 			<key key="highway" value="steps"/>
 			<reference ref="multi_level"/>
 			<reference ref="name"/>
-			<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison">
-				<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé"/>
-				<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé"/>
-			</combo>
-			<combo key="conveying" text="Escalator" values_searchable="true">
-				<list_entry value="yes" display_value="escalator with unspecified direction" fr.display_value="Escalator dont la direction est inconnue"/>
-				<list_entry value="forward" display_value="movement in way direction" fr.display_value="Mouvement dans le sens du tracé"/>
-				<list_entry value="backward" display_value="movement opposite to way direction" fr.display_value="Mouvement dans le sens contraire du tracé"/>
-				<list_entry value="reversible" display_value="changing direction" fr.display_value="Direction variable"/>
-				<list_entry value="" display_value="not an escalator" fr.display_value="N'est pas un escalator"/>
-			</combo>
+			<reference ref="incline_conveying" />
 		</item>
 		<item name="Elevator" fr.name="Ascenseur" type="closedway" preset_name_label="true" indoor_structure="only">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
@@ -97,6 +106,7 @@
 			<reference ref="name"/>
 			<reference ref="multi_level"/>
 			<reference ref="wheelchair"/>
+			<reference ref="incline_conveying" />
 		</item>
 		<item name="Service road" type="way" indoor_structure="only" fr.name="Route de service" icon="img/icons/highway_service.png">
 			<link wiki="Tag:highway=service"/>
@@ -105,6 +115,7 @@
 			<reference ref="name"/>
 			<reference ref="multi_level"/>
 			<check key="oneway" text="Oneway" fr.text="Sens unique"/>
+			<reference ref="incline" />
 		</item>
 		<item name="Level connection" type="node" indoor_structure="only" fr.name="Connexion à l'étage" icon="img/icons/level_connection.png">
 			<key key="door" value="no"/>

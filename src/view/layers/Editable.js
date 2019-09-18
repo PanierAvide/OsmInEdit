@@ -18,6 +18,7 @@ import 'leaflet-draw';
 import './leaflet.snap';
 import 'leaflet-geometryutil';
 import 'leaflet-textpath';
+import 'leaflet-polylinedecorator';
 import area from '@turf/area';
 import deepEqual from 'fast-deep-equal';
 import GeoJSONValidation from 'geojson-validation';
@@ -29,10 +30,12 @@ import PubSub from 'pubsub-js';
 const GEOJSON_PRECISION = 8;
 const GUIDE_LINES_ANGLE_KEY = "a";
 const ICON_SIZE = 20;
+const CONVEYING_TO_IMG = { "yes": "fwd", "forward": "fwd", "backward": "bwd", "reversible": "both" };
 
 // Default styles
 const stShadow = { color: "purple", fillColor: "black", opacity: 0.5, fillOpacity: 0.2, zIndex: -10 };
 const existingIcons = {};
+
 
 // Fix for excluding selected geometry from snapping guides
 const MyMarkerSnap = L.Handler.MarkerSnap.extend({
@@ -136,6 +139,22 @@ class EditableLayer extends Path {
 		map.on("editable:vertex:dragstart", e => {
 			this.leafletElement.eachLayer(l => l.off("mouseover"));
 			this._snapFollowMarker(e.vertex);
+
+			// Hide direction icons for line if any
+			if(
+				this._linesDirIcons
+				&& e.layer && e.layer.feature && e.layer.feature.id
+				&& this._linesDirIcons[e.layer.feature.id]
+				&& map.hasLayer(this._linesDirIcons[e.layer.feature.id])
+			) {
+				map.removeLayer(this._linesDirIcons[e.layer.feature.id]);
+				delete this._linesDirIcons[e.layer.feature.id];
+			}
+
+			// Hide cursor move
+			if(this._markerMove) {
+				this._markerMove.setOpacity(0);
+			}
 		});
 
 		// Save new geometry when vertex is released
@@ -199,6 +218,7 @@ class EditableLayer extends Path {
 			this.snapMarker.off("unsnap");
 		}
 
+		this._cleanLinesDirIcons(this.props.leaflet.map);
 		this.updateLeafletElement(this.props, { leaflet: this.props.leaflet });
 	}
 
@@ -378,6 +398,22 @@ class EditableLayer extends Path {
 						);
 
 						newLayer.setLatLngs(movell(newLayer.getLatLngs()));
+
+						// Hide direction icons if any
+						if(
+							this._linesDirIcons
+							&& newLayer.feature.id
+							&& this._linesDirIcons[newLayer.feature.id]
+							&& toProps.leaflet.map.hasLayer(this._linesDirIcons[newLayer.feature.id])
+						) {
+							toProps.leaflet.map.removeLayer(this._linesDirIcons[newLayer.feature.id]);
+							delete this._linesDirIcons[newLayer.feature.id];
+						}
+
+						// Hide vertex editing
+						if(newLayer.disableEdit) {
+							newLayer.disableEdit();
+						}
 					});
 
 					this._markerMove.on("moveend", e => {
@@ -552,11 +588,28 @@ class EditableLayer extends Path {
 	}
 
 	/**
+	 * @private
+	 */
+	_cleanLinesDirIcons(map) {
+		if(this._linesDirIcons) {
+			Object.values(this._linesDirIcons).forEach(ldl => {
+				if(map.hasLayer(ldl)) {
+					map.removeLayer(ldl);
+				}
+			});
+			this._linesDirIcons = {};
+		}
+	}
+
+	/**
 	 * Load content into the leaflet layer
 	 * @private
 	 */
 	_populateLayer(layer, props) {
 		const map = props.leaflet.map;
+
+		// Clean up linestring icons if any
+		this._cleanLinesDirIcons(map);
 
 		/*
 		 * Add shadow data
@@ -1033,21 +1086,84 @@ class EditableLayer extends Path {
 		// Show way direction
 		if(l.feature && l.feature.geometry.type === "LineString") {
 			const direction = this._getDirection(l.feature);
+			const tags = l.feature.properties.tags;
 
-			if(direction) {
+			if(this._linesDirIcons && this._linesDirIcons[l.feature.id] && props.leaflet.map.hasLayer(this._linesDirIcons[l.feature.id])) {
+				props.leaflet.map.removeLayer(this._linesDirIcons[l.feature.id]);
+			}
+
+			if(tags.incline || tags.conveying || tags.oneway) {
 				if(!myStyle) {
 					myStyle = style(l.feature, selected) || {};
 				}
 
 				l.setText(null);
 
-				if(l.feature.properties.tags.highway === "steps") {
-					l.setText(
-						direction === 1 ? "   ⬋🚶   " : "   ⬉🚶   ",
-						{ offset: -10, repeat: true, attributes: { fill: myStyle.color || '#333', clearable: true, "font-size": 18 } }
-					);
+				if((tags.highway !== "steps" && (tags.incline || tags.conveying)) || (tags.highway === "steps" && tags.incline)) {
+					// Find bearing
+					let reverse = false;
+
+					try {
+						const coords = l.getLatLngs();
+						reverse = L.GeometryUtil.bearing(coords[0], coords[coords.length-1]) < 0;
+					}
+					catch(e) {}
+
+					// Compute icon name
+					let iconImage = "direction_";
+
+					let incline = tags.incline ? ((tags.incline === "down" || tags.incline.startsWith("-")) ? "down" : "up") : "front";
+					let conveying = CONVEYING_TO_IMG[tags.conveying] ? CONVEYING_TO_IMG[tags.conveying] : "fwd";
+
+					if(reverse && conveying !== "both") { conveying = conveying === "fwd" ? "bwd" : "fwd"; }
+					if(
+						incline !== "front"
+						&& (
+							(!reverse && conveying === "bwd")
+							|| (reverse && (conveying === "fwd" || conveying === "both"))
+						)
+					) {
+						incline = incline === "up" ? "down" : "up";
+					}
+
+					iconImage += incline + "_" + conveying + "_";
+
+					// Gender
+					iconImage += parseInt(l.feature.id.slice(-1)) % 2 === 0 ? "m" : "f";
+					iconImage += ".png";
+
+					const iconUrl = window.EDITOR_URL + "img/icons/"+iconImage;
+
+					if(!window.UNUSABLE_ICONS.has(iconUrl)) {
+						let icon = existingIcons[iconUrl];
+
+						if(!icon) {
+							icon = new MyIcon({
+								iconUrl: iconUrl,
+								iconSize: [28,28],
+								iconAnchor: [14,14]
+							});
+							existingIcons[iconUrl] = icon;
+						}
+
+						if(!this._linesDirIcons) {
+							this._linesDirIcons = {};
+						}
+
+						const polyDec = L.polylineDecorator(
+							l,
+							{
+								patterns: [
+									{ offset: 50, repeat: 100, symbol: L.Symbol.marker({rotate: true, angleCorrection: reverse ? 90 : -90, markerOptions: { icon: icon }})}
+								]
+							}
+						);
+
+						this._linesDirIcons[l.feature.id] = polyDec;
+						polyDec.addTo(props.leaflet.map);
+					}
 				}
-				else {
+				else if(tags.oneway) {
 					l.setText(
 						"   ➡   ",
 						{ offset: 5, repeat: true, attributes: { fill: '#333', clearable: true, "font-size": myStyle.width || 15 }, orientation: direction === 1 ? undefined : "flip" }

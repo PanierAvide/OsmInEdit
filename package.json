@@ -63,6 +63,7 @@
     "leaflet-editable": "^1.2.0",
     "leaflet-geometryutil": "^0.9.1",
     "leaflet-hash": "^0.2.1",
+    "leaflet-polylinedecorator": "^1.6.0",
     "leaflet-textpath": "^1.2.0",
     "leaflet-toolbar": "^0.4.0-alpha.2",
     "mdi-react": "^5.5.0",
