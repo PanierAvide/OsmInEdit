@@ -1491,7 +1491,11 @@ class Body extends Component {
 		PubSub.unsubscribe("map.zoom.changed");
 		PubSub.unsubscribe("app.user.*");
 		Mousetrap.unbind("esc");
+		Mousetrap.unbind("enter");
+		Mousetrap.unbind("del");
+		Mousetrap.unbind("ctrl+c");
 		Mousetrap.unbind("ctrl+z");
+		Mousetrap.unbind("ctrl+v");
 		Mousetrap.unbind("ctrl+shift+z");
 		clearInterval(this._timerImagery);
 	}
