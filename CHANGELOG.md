@@ -6,5 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-### Added
-- Initial release of the editor, which allows to view indoor data, manage floor plan images, edit OpenStreetMap indoor data and send changes.
+
+# 1.0.0 - 2019-09-19
+
+### Added
+
+- Initial release of the editor, which allows to view indoor data, manage floor plan images, edit OpenStreetMap indoor data and send changes.
