@@ -1,6 +1,6 @@
 {
   "name": "osm-indoor-editor",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Web tool for editing OpenStreetMap building indoors data",
   "main": "index.js",
   "scripts": {
