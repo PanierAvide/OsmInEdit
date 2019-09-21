@@ -338,7 +338,7 @@ class MyMap extends Component {
 				preferCanvas={false}
 				editable={true}
 				scrollWheelZoom={true}
-				doubleClickZoom={false}
+				doubleClickZoom={this.props.mode === Body.MODE_EXPLORE}
 				attributionControl={false}
 				boxSelector={false}
 				boxZoom={false}
@@ -444,7 +444,7 @@ class MyMap extends Component {
 		});
 
 		this.elem.leafletElement.on("dblclick", e => {
-			if(!this.props.draw) {
+			if(!this.props.draw && this.props.mode !== Body.MODE_EXPLORE) {
 				PubSub.publish("body.unselect.feature");
 			}
 		});
