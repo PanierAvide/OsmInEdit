@@ -1,104 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <presets xmlns="http://josm.openstreetmap.de/tagging-preset-1.0" author="sidjy" version="1.7_2018-03-24" shortdescription="Simple Indoor Tagging" fr.shortdescription="Cartographie d'intérieur Simple Indoor" description="Simple Indoor Tagging" fr.description="Cartographie d'intérieur Simple Indoor">
 	<chunk id="name_ref">
-		<text key="name" text="Name" fr.text="Nom"/>
-		<text key="ref" text="Reference" fr.text="Référence"/>
+		<text key="name" text="Name" fr.text="Nom" it.text="Nome"/>
+		<text key="ref" text="Reference" fr.text="Référence" it.text="Referenza"/>
 	</chunk>
 	<chunk id="name">
-		<text key="name" text="Name" fr.text="Nom"/>
+		<text key="name" text="Name" fr.text="Nom" it.text="Nome"/>
 	</chunk>
 	<chunk id="multi_level">
-		<multiselect key="level" text="Level" fr.text="Niveau" values="5;4;3;2;1;0;-1;-2;-3;-4;-5" values_searchable="true"/>
+		<multiselect key="level" text="Level" fr.text="Niveau" values="5;4;3;2;1;0;-1;-2;-3;-4;-5" values_searchable="true" it.text="Livello"/>
 	</chunk>
 	<chunk id="wheelchair">
-		<combo key="wheelchair" text="Wheelchair access" values="yes,limited,no" fr.text="Accès en fauteuil roulant"/>
+		<combo key="wheelchair" text="Wheelchair access" values="yes,limited,no" fr.text="Accès en fauteuil roulant" it.text="Accesso per sedia a rotelle"/>
 	</chunk>
 	<chunk id="incline">
-		<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison">
-			<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé"/>
-			<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé"/>
+		<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison" it.text="Inclinazione">
+			<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé" it.display_value="nella direzione della salita"/>
+			<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé" it.display_value="nella direzione delle discesa"/>
 		</combo>
 	</chunk>
 	<chunk id="access">
-		<combo key="access" text="Access" values="private,customers,permissive,no,yes" display_values="Private,Customers only,Permissive,No public access,Open to public" fr.text="Accès" fr.display_values="Privé,Réservé aux clients,Permissif,Pas d'accès au public,Ouvert au public"/>
+		<combo key="access" text="Access" values="private,customers,permissive,no,yes" display_values="Private,Customers only,Permissive,No public access,Open to public" fr.text="Accès" fr.display_values="Privé,Réservé aux clients,Permissif,Pas d'accès au public,Ouvert au public" it.text="Accesso" it.display_values="Privato, Solo clienti, Su permesso, Nessun accesso pubblico, Aperto al pubblico"/>
 	</chunk>
 	<chunk id="incline_conveying">
-		<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison">
-			<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé"/>
-			<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé"/>
+		<combo key="incline" text="Incline" values_searchable="true" fr.text="Inclinaison" it.text="Inclinazione">
+			<list_entry value="up" display_value="Going up in way direction" fr.display_value="Monte dans le sens du tracé" it.display_value="nella direzione della salita"/>
+			<list_entry value="down" display_value="Going down in way direction" fr.display_value="Descend dans le sens du tracé" it.display_value="nella direzione delle discesa"/>
 		</combo>
-		<combo key="conveying" text="Escalator" values_searchable="true">
-			<list_entry value="yes" display_value="escalator with unspecified direction" fr.display_value="Escalator dont la direction est inconnue"/>
-			<list_entry value="forward" display_value="movement in way direction" fr.display_value="Mouvement dans le sens du tracé"/>
-			<list_entry value="backward" display_value="movement opposite to way direction" fr.display_value="Mouvement dans le sens contraire du tracé"/>
-			<list_entry value="reversible" display_value="changing direction" fr.display_value="Direction variable"/>
-			<list_entry value="" display_value="not an escalator" fr.display_value="N'est pas un escalator"/>
+		<combo key="conveying" text="Escalator" values_searchable="true" it.text="Scala mobile">
+			<list_entry value="yes" display_value="escalator with unspecified direction" fr.display_value="Escalator dont la direction est inconnue" it.display_value="scala mobile con direzione non specificata"/>
+			<list_entry value="forward" display_value="movement in way direction" fr.display_value="Mouvement dans le sens du tracé" it.display_value="movimento nella direzione di marcia"/>
+			<list_entry value="backward" display_value="movement opposite to way direction" fr.display_value="Mouvement dans le sens contraire du tracé" it.display_value="movimento nella direzione opposta di marcia"/>
+			<list_entry value="reversible" display_value="changing direction" fr.display_value="Direction variable" it.display_value="cambio di direzione"/>
+			<list_entry value="" display_value="not an escalator" fr.display_value="N'est pas un escalator" it.display_value="non una scala mobile"/>
 		</combo>
 	</chunk>
-	<group name="Building structure" fr.name="Structure du bâtiment" icon="img/icons/indoor_corridor.png">
-		<item name="Room" fr.name="Pièce" type="closedway" preset_name_label="true" indoor_structure="yes" icon="img/icons/indoor_room.png">
+	<group name="Building structure" fr.name="Structure du bâtiment" icon="img/icons/indoor_corridor.png" it.name="Struttura dell'edificio">
+		<item name="Room" fr.name="Pièce" type="closedway" preset_name_label="true" indoor_structure="yes" icon="img/icons/indoor_room.png" it.name="Stanza">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
-			<label text="Conventional room with walls" fr.text="Salle traditionnelle avec murs"/>
+			<label text="Conventional room with walls" fr.text="Salle traditionnelle avec murs" it.text="Camera convenzionale con pareti"/>
 			<space/>
 			<key key="indoor" value="room"/>
-			<combo key="room" text="Type of room" fr.text="Type de salle" values="shop,office,class,stairs,toilets,corridor,restaurant,entrance,toilet,technical,conference,laboratory,elevator,storage,collection,hall,waiting,library,lecture,gallery,computer,kitchen,utility,guest,bathroom,terrace,workshop,meeting,archive,reception,dressing,bedroom,lounge,lobby,amphitheatre,sport" values_searchable="true"/>
+			<combo key="room" text="Type of room" fr.text="Type de salle" values="shop,office,class,stairs,toilets,corridor,restaurant,entrance,toilet,technical,conference,laboratory,elevator,storage,collection,hall,waiting,library,lecture,gallery,computer,kitchen,utility,guest,bathroom,terrace,workshop,meeting,archive,reception,dressing,bedroom,lounge,lobby,amphitheatre,sport" values_searchable="true" it.text="Tipo di stanza"/>
 			<reference ref="name_ref"/>
 			<reference ref="access"/>
 		</item>
 		<item name="Area" fr.name="Zone" type="closedway" preset_name_label="true" indoor_structure="yes" icon="img/icons/indoor_area.png">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
-			<label text="Area without walls" fr.text="Espace sans murs"/>
+			<label text="Area without walls" fr.text="Espace sans murs" it.text="Area senza pareti"/>
 			<space/>
 			<key key="indoor" value="area"/>
 			<reference ref="name_ref"/>
 			<reference ref="access"/>
 		</item>
-		<item name="Wall" fr.name="Mur" type="way,closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/indoor_wall.png">
+		<item name="Wall" fr.name="Mur" type="way,closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/indoor_wall.png" it.name="Parete">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
-			<label text="Individual (non-passable) wall element, when not already defined by indoor=room" fr.text="Mur individuel qui ne serait pas déjà défini par une pièce (indoor=room)"/>
+			<label text="Individual (non-passable) wall element, when not already defined by indoor=room" fr.text="Mur individuel qui ne serait pas déjà défini par une pièce (indoor=room)" it.text="Parete individuale (non attraversabile), quando non è già stato definito dalla chiave/valore indoor = stanza"/>
 			<space/>
 			<key key="indoor" value="wall"/>
-			<check key="area" text="Solid wall" fr.text="Mur plein"/>
+			<check key="area" text="Solid wall" fr.text="Mur plein" it.text="Parete solida"/>
 		</item>
-		<item name="Door" fr.name="Porte" type="node" indoor_structure="only" icon="img/icons/door.png">
+		<item name="Door" fr.name="Porte" type="node" indoor_structure="only" icon="img/icons/door.png" it.name="Porta">
 			<key key="door" value="yes" match="key"/>
-			<combo key="door" text="Type" values="hinged,sliding,revolving,folding,trapdoor,overhead,loadingdock,no,yes" use_last_as_default="force"/>
-			<combo key="entrance" text="Building entrance" values_searchable="true" use_last_as_default="force" fr.text="Entrée de bâtiment">
-				<list_entry value="main" display_value="Main building entrance" fr.display_value="Entrée principale du bâtiment"/>
-				<list_entry value="service" display_value="Backdoor entrance for employees" fr.display_value="Entrée de service pour les employés"/>
-				<list_entry value="exit" display_value="One-way only building exit" fr.display_value="Porte de sortie uniquement"/>
-				<list_entry value="emergency" display_value="Emergency only building exit" fr.display_value="Porte de secours"/>
-				<list_entry value="staircase" display_value="Entrance leading to a staircase" fr.display_value="Entrée menant à une cage d'escaliers"/>
-				<list_entry value="home" display_value="Entrance for a private house/apartment" fr.display_value="Entrée d'un logement/appartement"/>
-				<list_entry value="yes" display_value="Unspecified type of building entrance" fr.display_value="Type d'entrée de bâtiment non précisé"/>
-				<list_entry value="" display_value="Not a building entrance" fr.display_value="N'est pas une entrée de bâtiment"/>
+			<combo key="door" text="Type" values="hinged,sliding,revolving,folding,trapdoor,overhead,loadingdock,no,yes" use_last_as_default="force" it.text="Tipo"/>
+			<combo key="entrance" text="Building entrance" values_searchable="true" use_last_as_default="force" fr.text="Entrée de bâtiment" it.text="Entrata dell'edificio">
+				<list_entry value="main" display_value="Main building entrance" fr.display_value="Entrée principale du bâtiment" it.display_value="Entrata principale dell'edificio"/>
+				<list_entry value="service" display_value="Backdoor entrance for employees" fr.display_value="Entrée de service pour les employés" it.display_value="Entrata secondaria per dipendenti"/>
+				<list_entry value="exit" display_value="One-way only building exit" fr.display_value="Porte de sortie uniquement" it.display_value="Uscita"/>
+				<list_entry value="emergency" display_value="Emergency only building exit" fr.display_value="Porte de secours" it.display_value="Uscita di emergenza"/>
+				<list_entry value="staircase" display_value="Entrance leading to a staircase" fr.display_value="Entrée menant à une cage d'escaliers" it.display_value="Ingresso che conduce ad una scala"/>
+				<list_entry value="home" display_value="Entrance for a private house/apartment" fr.display_value="Entrée d'un logement/appartement" it.display_value="Ingresso per una casa / appartamento privato"/>
+				<list_entry value="yes" display_value="Unspecified type of building entrance" fr.display_value="Type d'entrée de bâtiment non précisé" it.display_value="Tipo di ingresso non specificato"/>
+				<list_entry value="" display_value="Not a building entrance" fr.display_value="N'est pas une entrée de bâtiment" it.display_value="Non è un ingresso dell'edificio"/>
 			</combo>
-			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>
-			<check key="automatic_door" text="Automatic door" fr.text="Porte automatique"/>
+			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)" it.text="Larghezza (metri)"/>
+			<check key="automatic_door" text="Automatic door" fr.text="Porte automatique" it.text="Porta automatica"/>
 			<reference ref="wheelchair"/>
 		</item>
-		<item name="Corridor" fr.name="Couloir" type="closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/indoor_corridor.png">
+		<item name="Corridor" fr.name="Couloir" type="closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/indoor_corridor.png" it.name="Corridoio">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
-			<label text="Unwalled connecting passage" fr.text="Passage sans murs"/>
+			<label text="Unwalled connecting passage" fr.text="Passage sans murs" it.text="Passaggio di collegamento non protetto"/>
 			<space/>
 			<key key="indoor" value="corridor"/>
 			<reference ref="name_ref"/>
 			<reference ref="access"/>
 		</item>
-		<item name="Staircase" fr.name="Cage d'escaliers" type="closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/staircase.png">
+		<item name="Staircase" fr.name="Cage d'escaliers" type="closedway" preset_name_label="true" indoor_structure="only" icon="img/icons/staircase.png" it.name="Scala">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="indoor" value="room"/>
 			<key key="room" value="stairs"/>
 			<reference ref="access"/>
 		</item>
-		<item name="Stairs" fr.name="Escaliers" type="way" preset_name_label="true" indoor_structure="only">
+		<item name="Stairs" fr.name="Escaliers" type="way" preset_name_label="true" indoor_structure="only" it.name="Scale">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="highway" value="steps"/>
 			<reference ref="multi_level"/>
 			<reference ref="name"/>
 			<reference ref="incline_conveying"/>
 		</item>
-		<item name="Elevator" fr.name="Ascenseur" type="closedway" preset_name_label="true" indoor_structure="only">
+		<item name="Elevator" fr.name="Ascenseur" type="closedway" preset_name_label="true" indoor_structure="only" it.name="Ascensore">
 			<link href="https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging"/>
 			<key key="highway" value="elevator"/>
 			<key key="indoor" value="room" match="none"/>
@@ -108,7 +108,7 @@
 			<reference ref="wheelchair"/>
 			<reference ref="access"/>
 		</item>
-		<item name="Footway" type="way" indoor_structure="only" fr.name="Chemin piéton" icon="img/icons/highway_footway.png">
+		<item name="Footway" type="way" indoor_structure="only" fr.name="Chemin piéton" icon="img/icons/highway_footway.png" it.name="Passerella">
 			<link wiki="Tag:highway=footway"/>
 			<key key="highway" value="footway"/>
 			<reference ref="name"/>
@@ -117,34 +117,34 @@
 			<reference ref="incline_conveying"/>
 			<reference ref="access"/>
 		</item>
-		<item name="Service road" type="way" indoor_structure="only" fr.name="Route de service" icon="img/icons/highway_service.png">
+		<item name="Service road" type="way" indoor_structure="only" fr.name="Route de service" icon="img/icons/highway_service.png" it.name="Strada di servizio">
 			<link wiki="Tag:highway=service"/>
 			<key key="highway" value="service"/>
-			<combo key="service" text="Service way type" values="alley,driveway,parking_aisle,drive-through,emergency_access" fr.text="Type de voie de service"/>
+			<combo key="service" text="Service way type" values="alley,driveway,parking_aisle,drive-through,emergency_access" fr.text="Type de voie de service" it.text="Tipo di percorso di servizio"/>
 			<reference ref="name"/>
 			<reference ref="multi_level"/>
 			<reference ref="incline"/>
 			<reference ref="access"/>
-			<check key="oneway" text="Oneway" fr.text="Sens unique"/>
+			<check key="oneway" text="Oneway" fr.text="Sens unique" it.text="Senso unico"/>
 		</item>
-		<item name="Level connection" type="node" indoor_structure="only" fr.name="Connexion à l'étage" icon="img/icons/level_connection.png">
+		<item name="Level connection" type="node" indoor_structure="only" fr.name="Connexion à l'étage" icon="img/icons/level_connection.png" it.name="Livello di collegamento">
 			<key key="door" value="no"/>
-			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>
+			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)" it.text="Larghezza (metri)"/>
 		</item>
 	</group>
-	<group name="Furniture" fr.name="Mobilier" icon="img/icons/amenity_chair.png">
-		<item name="Table" type="node">
+	<group name="Furniture" fr.name="Mobilier" icon="img/icons/amenity_chair.png" it.name="Arredamento">
+		<item name="Table" type="node" it.name="Tavolo">
 			<key key="amenity" value="table"/>
-			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)"/>
-			<text key="length" text="Length (meters)" fr.text="Longueur (en mètres)"/>
-			<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
+			<text key="width" text="Width (meters)" fr.text="Largeur (mètres)" it.text="Larghezza (metri)"/>
+			<text key="length" text="Length (meters)" fr.text="Longueur (en mètres)" it.text="Lunghezza (metri)"/>
+			<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)" it.text="Altezza (metri)"/>
 		</item>
-		<item name="Chair" type="node" fr.name="Chaise">
+		<item name="Chair" type="node" fr.name="Chaise" it.name="Sedia">
 			<key key="amenity" value="chair"/>
 		</item>
-		<item name="Shelf" type="closedway" fr.name="Étagère">
+		<item name="Shelf" type="closedway" fr.name="Étagère" it.name="Mensola">
 			<key key="barrier" value="shelf"/>
-			<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)"/>
+			<text key="height" text="Height (meters)" fr.text="Hauteur (mètres)" it.text="Altezza (metri)"/>
 		</item>
 	</group>
 </presets>
