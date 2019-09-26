@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+- Improved metadata in `index.html` file
+
 
 ## 1.0.1 - 2019-09-25
 
