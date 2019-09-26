@@ -357,6 +357,82 @@ describe("ctrl > VectorDataManager", () => {
 			assert.ok(deepEqual(res["way/2"].newNodes, ["node/2", "node/4"]));
 		});
 
+		it("handles case of overlapping existing nodes with new level connection", async () => {
+			const vdm = new VectorDataManager();
+			const prev = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: {}, own: { ways: [ "way/1" ] } }, geometry: { type: "Point", coordinates: [0,0] } },
+				{ type: "Feature", id: "node/2", properties: { tags: {}, own: { ways: [ "way/1" ] } }, geometry: { type: "Point", coordinates: [0,1] } },
+				{
+					type: "Feature", id: "way/1",
+					properties: {
+						tags: { highway: "footway", level: "0" },
+						own: { nodes: [ "node/1", "node/2" ] }
+					},
+					geometry: { type: "LineString", coordinates: [[0,0], [0,1]] }
+				}
+			] };
+			const next = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: {}, own: { ways: [ "way/1" ] } }, geometry: { type: "Point", coordinates: [0,0] } },
+				{ type: "Feature", id: "node/2", properties: { tags: {}, own: { ways: [ "way/1" ] } }, geometry: { type: "Point", coordinates: [0,1] } },
+				{ type: "Feature", id: "node/-1", properties: { tags: { "door": "no", "level": "0" }, own: { ways: [] } }, geometry: { type: "Point", coordinates: [0,1] } },
+				{
+					type: "Feature", id: "way/1",
+					properties: {
+						tags: { highway: "footway", level: "0" },
+						own: { nodes: [ "node/1", "node/2" ] }
+					},
+					geometry: { type: "LineString", coordinates: [[0,0], [0,1]] }
+				}
+			] };
+
+			const res = await vdm._analyzeDiff(prev, next);
+
+			assert.equal(Object.keys(res).length, 1);
+
+			assert.equal(Object.keys(res["node/2"]).length, 1);
+
+			assert.ok(deepEqual(res["node/2"].newTags, { "door": "no", "level": "0" }));
+		});
+
+		it("handles case of overlapping existing nodes with a POI feature", async () => {
+			const vdm = new VectorDataManager();
+			const prev = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: {}, own: { ways: [ "way/1" ] } }, geometry: { type: "Point", coordinates: [0,0] } },
+				{ type: "Feature", id: "node/2", properties: { tags: {}, own: { ways: [ "way/1" ] } }, geometry: { type: "Point", coordinates: [0,1] } },
+				{
+					type: "Feature", id: "way/1",
+					properties: {
+						tags: { highway: "footway", level: "0" },
+						own: { nodes: [ "node/1", "node/2" ] }
+					},
+					geometry: { type: "LineString", coordinates: [[0,0], [0,1]] }
+				}
+			] };
+			const next = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: {}, own: { ways: [ "way/1" ] } }, geometry: { type: "Point", coordinates: [0,0] } },
+				{ type: "Feature", id: "node/2", properties: { tags: {}, own: { ways: [ "way/1" ] } }, geometry: { type: "Point", coordinates: [0,1] } },
+				{ type: "Feature", id: "node/-1", properties: { tags: { emergency: "fire_hydrant", level: "0" }, own: { ways: [] } }, geometry: { type: "Point", coordinates: [0,1] } },
+				{
+					type: "Feature", id: "way/1",
+					properties: {
+						tags: { highway: "footway", level: "0" },
+						own: { nodes: [ "node/1", "node/2" ] }
+					},
+					geometry: { type: "LineString", coordinates: [[0,0], [0,1]] }
+				}
+			] };
+
+			const res = await vdm._analyzeDiff(prev, next);
+
+			assert.equal(Object.keys(res).length, 1);
+
+			assert.equal(Object.keys(res["node/-1"]).length, 3);
+
+			assert.ok(res["node/-1"].created);
+			assert.ok(deepEqual(res["node/-1"].newTags, { emergency: "fire_hydrant", level: "0" }));
+			assert.ok(deepEqual(res["node/-1"].newCoords, [0,1]));
+		});
+
 		it("handles case of multiple, overlapping, existing nodes", async () => {
 			const vdm = new VectorDataManager();
 			const prev = { type: "FeatureCollection", features: [

@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Improved metadata in `index.html` file
 
+### Fixed
+- Door nodes are now merged with vertex node if they are overlapping
+- List of edits in changeset pane always display correct name
+
 
 ## 1.0.1 - 2019-09-25
 

@@ -1131,10 +1131,19 @@ class VectorDataManager extends HistorizedManager {
 	 * @return {Object} Object with OSM IDs as keys, diff for element as values
 	 */
 	async computeDiff() {
-		return await this._analyzeDiff(
-			this.getBaseCollection(),
-			this._cacheOsmGeojson
+		const startTs = Date.now();
+		const prev = this.getBaseCollection();
+		const next = this._cacheOsmGeojson;
+
+		const result = this._addDiffMedata(
+			await this._analyzeDiff(prev, next),
+			prev,
+			next
 		);
+
+		console.log("Processed in", Date.now() - startTs, "ms");
+
+		return result;
 	}
 
 	/**
@@ -1465,7 +1474,6 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	async _analyzeDiff(prev, next) {
 		return new Promise(resolve => { setTimeout(() => {
-			let startTs = Date.now();
 
 			// Create indexes of features from prev/next
 			const prevFeaturesById = {};
@@ -1877,14 +1885,14 @@ class VectorDataManager extends HistorizedManager {
 					const nodesToMerge = e[1].map(nid => {
 						// Check in diff
 						if(diff[nid] && diff[nid].newTags) {
-							return this.hasMainTags(diff[nid].newTags) ? null : nid;
+							return this.hasMainTags(diff[nid].newTags) && !diff[nid].newTags.door ? null : nid;
 						}
 						// Check in next collection
 						else {
 							const f = nextFeaturesById[nid];
 
 							if(f) {
-								return this.hasMainTags(f.properties.tags) ? null : nid;
+								return this.hasMainTags(f.properties.tags) && !f.properties.tags.door ? null : nid;
 							}
 							else {
 								return null;
@@ -1908,14 +1916,31 @@ class VectorDataManager extends HistorizedManager {
 
 				// Delete duplicated nodes
 				nodes.forEach(n => {
+					let tagsToTransfer;
+
 					if(n.startsWith("node/-")) {
+						tagsToTransfer = diff[n] && diff[n].newTags;
 						delete diff[n];
 					}
 					else {
+						tagsToTransfer = (diff[n] && diff[n].newTags) || (prevFeaturesById[n] && prevFeaturesById[n].properties.tags);
 						diff[n] = { deleted: true };
 					}
 
 					diff = this._replaceNodeInDiff(diff, next, n, toKeep);
+
+					// Copy tags from deleted node to destination node
+					if(tagsToTransfer && Object.keys(tagsToTransfer).length > 0) {
+						if(!diff[toKeep]) {
+							diff[toKeep] = { newTags: tagsToTransfer };
+						}
+						else if(!diff[toKeep].newTags) {
+							diff[toKeep].newTags = tagsToTransfer;
+						}
+						else {
+							diff[toKeep].newTags = Object.assign({}, diff[toKeep].newTags, tagsToTransfer);
+						}
+					}
 				});
 			});
 
@@ -2000,13 +2025,52 @@ class VectorDataManager extends HistorizedManager {
 				delete diff[e[0]];
 			});
 
-			console.log("Processed in", Date.now() - startTs, "ms");
+
 // 			console.log("prev", prev);
 // 			console.log("next", next);
 // 			console.log("diff", diff);
 
 			resolve(diff);
 		}, 0); });
+	}
+
+	/**
+	 * Add metadata to diff for display
+	 * @private
+	 */
+	_addDiffMedata(diff, prev, next) {
+		// Create indexes of features from prev/next
+		const prevFeaturesById = {};
+		const nextFeaturesById = {};
+		prev.features.forEach(f => prevFeaturesById[f.id] = f);
+		next.features.forEach(f => nextFeaturesById[f.id] = f);
+
+		Object.entries(diff)
+		.forEach(e => {
+			const [ elemId, elemDiff ] = e;
+			const element = nextFeaturesById[elemId] || prevFeaturesById[elemId];
+			const tags = elemDiff.newTags || (element && element.properties.tags) || {};
+
+			elemDiff.metadata = {
+				tags: tags,
+				geometry: element && element.geometry.type,
+				name: (
+					tags.name
+					|| tags.ref
+					|| tags.brand
+					|| (
+						window.presetsManager
+						&& [...new Set(
+							window.presetsManager.findPresetsForFeature({ properties: { tags: tags } })
+							.map(p => p.name)
+						)].join(", ")
+					)
+					|| elemId
+				)
+			};
+		});
+
+		return diff;
 	}
 
 	/**

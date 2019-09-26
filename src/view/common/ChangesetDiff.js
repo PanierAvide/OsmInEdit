@@ -11,7 +11,6 @@
  */
 
 import React, { Component } from 'react';
-import Body from '../Body';
 import DotsHorizontal from 'mdi-react/DotsHorizontalIcon';
 import ListGroup from 'react-bootstrap/ListGroup';
 import MapMarker from 'mdi-react/MapMarkerIcon';
@@ -29,32 +28,22 @@ class ChangesetDiff extends Component {
 			"Polygon": <VectorSquare />,
 			"MultiPolygon": <VectorSquare />
 		};
-		const baseCollection = window.vectorDataManager.getBaseCollection();
 
 		return <ListGroup>
 			{Object.entries(this.props.diff)
-				.map(e => [
-					...e,
-					window.vectorDataManager.findFeature(
-						e[0],
-						e[1].deleted ? baseCollection : null
-					)
-				])
-				.filter(e => e[2] !== null && e[2] !== undefined)
 				.map(e => {
-					const [ elemId, elemDiff, element ] = e;
+					const [ elemId, elemDiff ] = e;
 					const color = elemDiff.created ? "green" : (elemDiff.deleted ? "red" : "orange");
-					const presets = window.presetsManager.findPresetsForFeature(element);
 
 					return <ListGroup.Item
 						action
 						className="p-1"
 						key={elemId}
 						style={{color: color}}
-						title={Object.entries(element.properties.tags).map(e => e.join(" = ")).join("\n")}
+						title={Object.entries(elemDiff.metadata.tags).map(e => e.join(" = ")).join("\n")}
 					>
-						{typeIcon[element.geometry.type] || <DotsHorizontal />}
-						{Body.GetFeatureName(element, [...new Set(presets.map(p => p.name))].join(", "))}
+						{typeIcon[elemDiff.metadata.geometry] || <DotsHorizontal />}
+						{elemDiff.metadata.name}
 					</ListGroup.Item>;
 				})
 			}
