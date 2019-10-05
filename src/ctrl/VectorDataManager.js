@@ -188,15 +188,19 @@ class VectorDataManager extends HistorizedManager {
 
 	/**
 	 * Get buildings from cached OSM data
+	 * @param {int} [level] Only retrieve building going through given level (no filter by default)
 	 * @return {Object} Buildings features, as GeoJSON feature collection
 	 */
-	getOSMBuildings() {
+	getOSMBuildings(level) {
 		let features = [];
 
 		if(this._cacheOsmGeojson) {
 			features = this._cacheOsmGeojson
 				.features
-				.filter(feature => feature.properties && feature.properties.tags && feature.properties.tags.building);
+				.filter(feature => (
+					feature.properties && feature.properties.tags && feature.properties.tags.building
+					&& (level === undefined || (feature.properties.own && feature.properties.own.levels && feature.properties.own.levels.includes(level)))
+				));
 		}
 
 		return { type: "FeatureCollection", features: features };

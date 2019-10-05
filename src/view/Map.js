@@ -379,6 +379,7 @@ class MyMap extends Component {
 						styler={this.mapStyler}
 						building={this.props.building}
 						draw={this.props.draw}
+						level={this.props.level}
 						locked={this.props.mode === Body.MODE_FLOOR_IMAGERY}
 					/>
 				}

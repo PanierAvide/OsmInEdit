@@ -22,13 +22,13 @@ class BuildingLayer extends Component {
 	render() {
 		if(this.props.locked) {
 			return <GeoJSON
-				data={window.vectorDataManager.getOSMBuildings()}
+				data={window.vectorDataManager.getOSMBuildings(this.props.level)}
 				style={{ color: "purple", fillColor: "black", opacity: 0.5, fillOpacity: 0.2 }}
 			/>;
 		}
 		else {
 			return <Editable
-				data={window.vectorDataManager.getOSMBuildings()}
+				data={window.vectorDataManager.getOSMBuildings(this.props.level)}
 				onFeatureClick={feature => PubSub.publish("body.select.building", { building: feature })}
 				selection={this.props.building}
 				styler={this.props.styler}

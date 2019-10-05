@@ -45,7 +45,7 @@ class FeaturesLayer extends Component {
 		}
 		else {
 			const geojson = window.vectorDataManager.getFeaturesInLevel(null, this.props.level);
-			const buildings = window.vectorDataManager.getOSMBuildings().features;
+			const buildings = window.vectorDataManager.getOSMBuildings(this.props.level).features;
 			geojson.features = buildings.concat(geojson.features);
 
 			return <Styled
