@@ -155,10 +155,24 @@ svg.mdi-icon {
 	cursor: pointer;
 }
 
-.leaflet-control-levels a.leaflet-control-level-selected,
-.leaflet-control-levels a.leaflet-control-level-selected:hover {
+.leaflet-control-levels .leaflet-control-level-selected,
+.leaflet-control-levels .leaflet-control-level-selected:hover,
+.leaflet-control-levels .leaflet-control-level-byten-selected,
+.leaflet-control-levels .leaflet-control-level-byten-selected:hover {
 	background-color: #013243;
 	color: white !important;
+}
+
+.leaflet-control-levels .leaflet-control-level-byten:not(.leaflet-control-level-byten-extended):before {
+	content: "<";
+	margin-right: 3px;
+	font-weight: bold;
+	color: #a4a4a4;
+}
+
+.leaflet-control-levels .leaflet-control-level-byten-extended:not(.leaflet-control-level-byten-selected),
+.leaflet-control-levels .leaflet-control-level-byten-extended:not(.leaflet-control-level-byten-selected):hover {
+	background-color: #ccc;
 }
 
 

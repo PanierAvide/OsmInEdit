@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Buildings are now filtered on map according to selected level
+- Level selector properly handles areas with many levels
 
 
 ## 1.0.2 - 2019-09-26

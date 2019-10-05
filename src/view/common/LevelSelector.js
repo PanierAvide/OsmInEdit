@@ -31,33 +31,120 @@ const LevelControl = Control.extend({
 		const min = this._levels[0];
 		const max = this._levels[this._levels.length-1];
 
-		for(let lvl = max; lvl >= min; lvl--) {
-			const myLvl = parseInt(lvl.toString());
-			const cLvl = DomUtil.create("a", "leaflet-control-level lvl"+myLvl);
-			cLvl.innerHTML = myLvl;
-			cLvl.addEventListener("click", () => {
-				PubSub.publish("body.level.set", { level: myLvl });
-			});
+		// Condensed version (levels shown in ranges)
+		if(max-min > 10) {
+			this._mode = "condensed";
+			this._lastByTen = null;
+			const minByTen = Math.floor(min / 10);
+			const maxByTen = Math.floor(max / 10);
 
-			this.container.appendChild(cLvl);
+			// Display buttons for ranges (0X, 1X, 2X...)
+			for(let lvlByTen = maxByTen; lvlByTen >= minByTen; lvlByTen--) {
+				const myLvlByTen = parseInt(lvlByTen.toString());
+
+				const cLvlByTen = DomUtil.create("a", "leaflet-control-level-byten lvl-byten"+myLvlByTen);
+				cLvlByTen.innerHTML = myLvlByTen+"X";
+
+				// Click event on range button
+				cLvlByTen.addEventListener("click", evt => {
+					// Clean-up last selection
+					for(let last of this.container.getElementsByClassName("leaflet-control-level-byten-extended")) {
+						last.classList.remove("leaflet-control-level-byten-extended");
+					}
+
+					for(let inten of this.container.getElementsByClassName("leaflet-control-levels-inten")) {
+						this.container.removeChild(inten);
+					}
+
+					// Click on other range : show in-range selector
+					if(this._lastByTen !== myLvlByTen) {
+						evt.target.classList.add("leaflet-control-level-byten-extended");
+
+						// Show list of levels in range
+						const cLvls = DomUtil.create("div", "leaflet-bar leaflet-control-levels-inten");
+						cLvls.style.position = "absolute";
+						cLvls.style.top = (evt.target.offsetTop-4)+"px";
+						cLvls.style.right = 32+"px";
+
+						for(let lvl = myLvlByTen*10+9; lvl >= myLvlByTen*10; lvl--) {
+							const myLvl = parseInt(lvl.toString());
+							const cLvl = DomUtil.create("a", "leaflet-control-level lvl"+myLvl);
+							cLvl.innerHTML = myLvl;
+							cLvl.addEventListener("click", () => {
+								PubSub.publish("body.level.set", { level: myLvl });
+							});
+
+							if(lvl === this._level) {
+								cLvl.classList.add("leaflet-control-level-selected");
+							}
+
+							cLvls.appendChild(cLvl);
+						}
+
+						this.container.appendChild(cLvls);
+						this._lastByTen = myLvlByTen;
+					}
+					// Click on same range : hide in-range selector
+					else {
+						this._lastByTen = null;
+					}
+				});
+
+				this.container.appendChild(cLvlByTen);
+			}
+		}
+		// Extended version (all levels shown)
+		else {
+			this._mode = "extended";
+
+			for(let lvl = max; lvl >= min; lvl--) {
+				const myLvl = parseInt(lvl.toString());
+				const cLvl = DomUtil.create("a", "leaflet-control-level lvl"+myLvl);
+				cLvl.innerHTML = myLvl;
+				cLvl.addEventListener("click", () => {
+					PubSub.publish("body.level.set", { level: myLvl });
+				});
+
+				this.container.appendChild(cLvl);
+			}
 		}
 	},
 
 	setLevel(l) {
-		const lasts = this.container.getElementsByClassName("leaflet-control-level-selected");
-		if(lasts) {
-			for(let last of lasts) {
-				last.classList.remove("leaflet-control-level-selected");
+		// Clean previous selection
+		for(let last of this.container.getElementsByClassName("leaflet-control-level-selected")) {
+			last.classList.remove("leaflet-control-level-selected");
+		}
+
+		for(let last of this.container.getElementsByClassName("leaflet-control-level-byten-selected")) {
+			last.classList.remove("leaflet-control-level-byten-selected");
+		}
+
+		// Highlight current level/range
+		if(this._mode === "extended" || this._lastByTen !== null) {
+			const next = this.container.getElementsByClassName("lvl"+l)[0];
+			if(next) {
+				next.classList.add("leaflet-control-level-selected");
+				this._level = l;
+			}
+			else {
+				this.setAvailableLevels(this._levels.concat([ l ]));
+				this.setLevel(l);
 			}
 		}
 
-		const next = this.container.getElementsByClassName("lvl"+l)[0];
-		if(next) {
-			next.classList.add("leaflet-control-level-selected");
-		}
-		else {
-			this.setAvailableLevels(this._levels.concat([ l ]));
-			this.setLevel(l);
+		if(this._mode === "condensed") {
+			const currentRange = Math.floor(l/10);
+
+			const next = this.container.getElementsByClassName("lvl-byten"+currentRange)[0];
+			if(next) {
+				next.classList.add("leaflet-control-level-byten-selected");
+				this._level = l;
+			}
+			else {
+				this.setAvailableLevels(this._levels.concat([ l ]));
+				this.setLevel(l);
+			}
 		}
 	},
 
