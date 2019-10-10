@@ -24,15 +24,30 @@ const LevelControl = Control.extend({
 	},
 
 	setAvailableLevels(lvls) {
+		console.log("levels", lvls);
 		this.container.innerHTML = "";
 		this._levels = lvls.map(l => parseFloat(l)) || [ 0 ];
 
 		this._levels.sort((a,b) => a - b);
+
+		// Add missing integer levels value
+		for(let i=0; i < this._levels.length - 1; i++) {
+			const lvlValCurr = this._levels[i];
+			const lvlValNext = this._levels[i+1];
+			if(lvlValNext - lvlValCurr > 1) {
+				const next = Math.floor(lvlValCurr+1);
+				const until = Math.floor(lvlValNext) === lvlValNext ? lvlValNext - 1 : Math.floor(lvlValNext);
+				for(let j=until; j >= next; j--) {
+					this._levels.splice(i+1, 0, j);
+				}
+			}
+		}
+
 		const min = this._levels[0];
 		const max = this._levels[this._levels.length-1];
 
 		// Condensed version (levels shown in ranges)
-		if(max-min > 10) {
+		if(this._levels.length > 10) {
 			this._mode = "condensed";
 			this._lastByTen = null;
 			const minByTen = Math.floor(min / 10);
@@ -97,8 +112,9 @@ const LevelControl = Control.extend({
 		else {
 			this._mode = "extended";
 
-			for(let lvl = max; lvl >= min; lvl--) {
-				const myLvl = parseInt(lvl.toString());
+			for(let lid = this._levels.length-1; lid >= 0; lid--) {
+				const lvl = this._levels[lid];
+				const myLvl = parseFloat(lvl.toString());
 				const cLvl = DomUtil.create("a", "leaflet-control-level lvl"+myLvl);
 				cLvl.innerHTML = myLvl;
 				cLvl.addEventListener("click", () => {

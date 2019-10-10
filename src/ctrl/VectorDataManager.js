@@ -240,14 +240,17 @@ class VectorDataManager extends HistorizedManager {
 	}
 
 	/**
-	 * Get the list of rounded levels available in data
-	 * @return {int[]} List of rounded levels available
+	 * Get the list of all levels available in data
+	 * @param {boolean} [rounded] Set to true if values should be rounded
+	 * @return {int[]} List of levels available
 	 */
-	getAllLevels() {
+	getAllLevels(rounded) {
+		rounded = rounded || false;
+
 		if(this._cacheOsmGeojson) {
 			const levels = new Set();
 			this._cacheOsmGeojson.features.forEach(feature => {
-				this._listFeatureLevels(feature).properties.own.levels.forEach(l => levels.add(Math.round(l)));
+				this._listFeatureLevels(feature).properties.own.levels.forEach(l => levels.add(rounded ? Math.floor(l) : l));
 			});
 			const levelsArray = [...levels];
 			levelsArray.sort((a,b) => parseInt(a) - parseInt(b));
