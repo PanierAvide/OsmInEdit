@@ -1247,7 +1247,26 @@ class Body extends Component {
 						}
 						else if(this.state.mode === Body.MODE_FEATURES) {
 							const f = Object.assign({}, this.state.feature);
-							this.setState({ feature: window.vectorDataManager.setFeatureTags(f.id, data.tags), datalocked: false });
+							const oldLevels = this.state.feature.properties.own.levels;
+
+							this.setState(
+								{ feature: window.vectorDataManager.setFeatureTags(f.id, data.tags), datalocked: false },
+								() => {
+									if(!deepEqual(oldLevels, this.state.feature.properties.own.levels)) {
+										// Find if all levels set in feature exist on building
+										if(
+											this.state.building
+											&& this.state.feature.properties.own.levels.findIndex(lvl => !this.state.building.properties.own.levels.includes(lvl)) >= 0
+										) {
+											// Process again all available levels in building
+											const newBuilding = Object.assign({}, this.state.building);
+											newBuilding.properties.own.levelsComputed = false;
+											window.vectorDataManager.getBuildingLevels(newBuilding);
+											this.setState({ building: newBuilding });
+										}
+									}
+								}
+							);
 						}
 						else {
 							this.setState({ datalocked: false });

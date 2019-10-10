@@ -188,11 +188,12 @@ class VectorDataManager extends HistorizedManager {
 
 	/**
 	 * Get buildings from cached OSM data
-	 * @param {int} [level] Only retrieve building going through given level (no filter by default)
+	 * @param {float} [level] Only retrieve building going through given level (no filter by default). If a decimal value is given, it will be floored.
 	 * @return {Object} Buildings features, as GeoJSON feature collection
 	 */
 	getOSMBuildings(level) {
 		let features = [];
+		level = Math.floor(level);
 
 		if(this._cacheOsmGeojson) {
 			features = this._cacheOsmGeojson
@@ -240,14 +241,17 @@ class VectorDataManager extends HistorizedManager {
 	}
 
 	/**
-	 * Get the list of rounded levels available in data
-	 * @return {int[]} List of rounded levels available
+	 * Get the list of all levels available in data
+	 * @param {boolean} [rounded] Set to true if values should be rounded
+	 * @return {int[]} List of levels available
 	 */
-	getAllLevels() {
+	getAllLevels(rounded) {
+		rounded = rounded || false;
+
 		if(this._cacheOsmGeojson) {
 			const levels = new Set();
 			this._cacheOsmGeojson.features.forEach(feature => {
-				this._listFeatureLevels(feature).properties.own.levels.forEach(l => levels.add(Math.round(l)));
+				this._listFeatureLevels(feature).properties.own.levels.forEach(l => levels.add(rounded ? Math.floor(l) : l));
 			});
 			const levelsArray = [...levels];
 			levelsArray.sort((a,b) => parseInt(a) - parseInt(b));

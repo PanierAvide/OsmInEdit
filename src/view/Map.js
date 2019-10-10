@@ -296,7 +296,7 @@ class MyMap extends Component {
 		let levelsList = null;
 
 		if(this.props.mode === Body.MODE_EXPLORE) {
-			levelsList = window.vectorDataManager.getAllLevels();
+			levelsList = window.vectorDataManager.getAllLevels(true);
 		}
 		else if(this.props.mode === Body.MODE_BUILDING) {
 			if(this.props.building) {
@@ -304,7 +304,7 @@ class MyMap extends Component {
 				levelsList.sort();
 			}
 			else {
-				levelsList = window.vectorDataManager.getAllLevels();
+				levelsList = window.vectorDataManager.getAllLevels(false);
 			}
 		}
 		else if([ Body.MODE_LEVELS, Body.MODE_FEATURES ].includes(this.props.mode) && this.props.building) {
