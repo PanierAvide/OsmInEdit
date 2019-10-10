@@ -20,15 +20,17 @@ import PubSub from 'pubsub-js';
  */
 class BuildingLayer extends Component {
 	render() {
+		const data = window.vectorDataManager.getOSMBuildings(this.props.level);
+
 		if(this.props.locked) {
 			return <GeoJSON
-				data={window.vectorDataManager.getOSMBuildings(this.props.level)}
+				data={data}
 				style={{ color: "purple", fillColor: "black", opacity: 0.5, fillOpacity: 0.2 }}
 			/>;
 		}
 		else {
 			return <Editable
-				data={window.vectorDataManager.getOSMBuildings(this.props.level)}
+				data={data}
 				onFeatureClick={feature => PubSub.publish("body.select.building", { building: feature })}
 				selection={this.props.building}
 				styler={this.props.styler}

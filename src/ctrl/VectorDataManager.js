@@ -2286,6 +2286,7 @@ class VectorDataManager extends HistorizedManager {
 		collection.features.forEach(f => {
 			f.properties.own = {};
 			featureById[f.id] = f;
+			this._listFeatureLevels(f, true);
 		});
 
 		//Check every feature
