@@ -193,7 +193,7 @@ class VectorDataManager extends HistorizedManager {
 	 */
 	getOSMBuildings(level) {
 		let features = [];
-		level = Math.floor(level);
+		level = level === undefined ? undefined : Math.floor(level);
 
 		if(this._cacheOsmGeojson) {
 			features = this._cacheOsmGeojson

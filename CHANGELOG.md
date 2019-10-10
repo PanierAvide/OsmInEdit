@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- List of used imagery is added to changeset informations (tag `imagery_used`)
+- User can add used source for edits (tag `source` in changeset)
+
 ### Changed
 - Support decimal levels when editing (they are visible in level selector)
 

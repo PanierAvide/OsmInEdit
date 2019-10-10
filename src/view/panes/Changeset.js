@@ -42,11 +42,30 @@ class ChangesetPane extends Component {
 				}
 
 				{this.props.changeset.status === "check" ?
-					<PresetInputField
-						type="textarea"
-						data={{ text: I18n.t("Changeset comment"), key: "comment", default: I18n.t("Describe briefly but explicitely your edits (required)") }}
-						tags={this.props.changeset.tags}
-					/>
+					<div>
+						<PresetInputField
+							type="textarea"
+							data={{ text: I18n.t("Changeset comment"), key: "comment", default: I18n.t("Describe briefly but explicitely your edits (required)") }}
+							tags={this.props.changeset.tags}
+						/>
+
+						<PresetInputField
+							type="multiselect"
+							data={{
+								text: I18n.t("Sources"),
+								key: "source",
+								list_entrys: [
+									{ value: "local knowledge", display_value: I18n.t("Local knowledge") },
+									{ value: "survey", display_value: I18n.t("Ground survey") },
+									{ value: "aerial imagery", display_value: I18n.t("Aerial imagery") },
+									{ value: "streetlevel imagery", display_value: I18n.t("Street-level imagery") },
+									{ value: "emergency map", display_value: I18n.t("Emergency map") }
+								],
+								info: I18n.t("List all sources you have used to make your edits (recommended)"),
+							}}
+							tags={this.props.changeset.tags}
+						/>
+					</div>
 					:
 					<div className="text-center">
 						{this.props.changeset.status === "upload" &&

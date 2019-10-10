@@ -2074,7 +2074,7 @@
 				<reference ref="link_contact_address_payment"/>
 				<combo key="second_hand" text="Second hand" values="only,yes,no" fr.text="Occasion" it.text="Seconda mano" de.text="Secondhand"/>
 				<combo key="organic" text="Organic" values="only,yes,no" fr.text="Biologique" it.text="Organico" de.text="Bio"/>
-				<check key="shoes:repair" text="Offers repairs" text_context="shoes" it.text="Riparazioni" de.text="Bietet Reparaturen an"/>
+				<check key="shoes:repair" text="Offers repairs" text_context="shoes" it.text="Riparazioni" de.text="Bietet Reparaturen an" fr.text="Propose des réparations"/>
 			</item>
 			<item name="Outdoor" fr.name="Équipement pour l'extérieur" type="node,closedway">
 				<link wiki="Tag:shop=outdoor"/>

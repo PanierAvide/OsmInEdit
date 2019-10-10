@@ -85,6 +85,8 @@ class Body extends Component {
 			lastUsedPresets: [],
 			zoom: window.CONFIG.map_initial_zoom
 		};
+
+		this._usedImageryNames = new Set();
 	}
 
 	/**
@@ -360,6 +362,26 @@ class Body extends Component {
 		}
 	}
 
+	/**
+	 * Capture imagery used when user perform an action
+	 * @private
+	 */
+	_addUsedImagery() {
+		// Base imagery
+		if(this.state.selectedBaseImagery && this.state.selectedBaseImagery.properties) {
+			this._usedImageryNames.add(this.state.selectedBaseImagery.properties.name || this.state.selectedBaseImagery.properties.id);
+		}
+
+		// Overlays
+		if(this.state.selectedOverlaysImagery && this.state.selectedOverlaysImagery.length > 0) {
+			this.state.selectedOverlaysImagery.forEach(ovl => {
+				if(ovl.properties) {
+					this._usedImageryNames.add(ovl.properties.name || ovl.properties.id);
+				}
+			});
+		}
+	}
+
 	componentDidMount() {
 		this._timerImagery = setInterval(() => this._updateImagery(), 1000);
 		this._checkUserLoggedIn();
@@ -480,7 +502,10 @@ class Body extends Component {
 					this.setState({
 						showDialogMissingLevelOutlines: missingOutlines,
 						changeset: {
-							tags: { comment: "" },
+							tags: {
+								comment: "",
+								imagery_used: this._usedImageryNames && this._usedImageryNames.size > 0 ? [...this._usedImageryNames].join(";") : undefined
+							},
 							diff: diff,
 							status: "check"
 						}
@@ -783,6 +808,7 @@ class Body extends Component {
 				this.setState(
 					{ datalocked: true },
 					() => {
+						this._addUsedImagery();
 						const newState = { draw: null, datalocked: false, leftPanelOpen: true };
 
 						if(this.state.mode === Body.MODE_BUILDING) {
@@ -873,11 +899,14 @@ class Body extends Component {
 				if(window.vectorDataManager.isOverlappingEnough(this.state.building, newFeature)) {
 					this.setState(
 						{ datalocked: true },
-						() => this.setState({
-							datalocked: false,
-							floor: window.vectorDataManager.createNewFloor(newFeature, this.state.level),
-							pane: LeftPanel.PANE_LEVELS_EDIT
-						})
+						() => {
+							this._addUsedImagery();
+							this.setState({
+								datalocked: false,
+								floor: window.vectorDataManager.createNewFloor(newFeature, this.state.level),
+								pane: LeftPanel.PANE_LEVELS_EDIT
+							});
+						}
 					);
 				}
 				else {
@@ -914,6 +943,7 @@ class Body extends Component {
 						this.setState(
 							{ datalocked: true },
 							async () => {
+								this._addUsedImagery();
 								const feature = await window.vectorDataManager.editFeatureGeometry(data.feature.id, data.feature.geometry);
 								this.setState({ datalocked: false }, () => {
 									if(feature && (data.select === undefined || data.select === true)) {
@@ -967,6 +997,7 @@ class Body extends Component {
 				this.setState(
 					{ datalocked: true },
 					() => {
+						this._addUsedImagery();
 						window.vectorDataManager.deleteFeature(this.state.feature);
 						PubSub.publish("body.unselect.feature");
 						this.setState({ datalocked: false });
@@ -977,6 +1008,7 @@ class Body extends Component {
 				this.setState(
 					{ datalocked: true },
 					() => {
+						this._addUsedImagery();
 						if(this.state.mode === Body.MODE_BUILDING && this.state.building) {
 							window.vectorDataManager.deleteFeature(this.state.building, data.deleteAll);
 							PubSub.publish("body.unselect.feature");
@@ -1057,6 +1089,8 @@ class Body extends Component {
 					this.setState(
 						{ datalocked: true },
 						() => {
+							this._addUsedImagery();
+
 							this.setState({
 								feature: window.vectorDataManager.copyFeature(this.state.copyingFeature, this.state.level, mouseCoords),
 								leftPanelOpen: true,
@@ -1236,6 +1270,8 @@ class Body extends Component {
 				this.setState(
 					{ datalocked: true },
 					() => {
+						this._addUsedImagery();
+
 						if(this.state.mode === Body.MODE_BUILDING) {
 							const f = Object.assign({}, this.state.building);
 							if(!data.tags.building || data.tags.building.trim() === "") { data.tags.building = "yes"; }
@@ -1366,6 +1402,7 @@ class Body extends Component {
 			if(this.map) {
 				this.map.cleanUp();
 			}
+			this._usedImageryNames = new Set();
 			PubSub.publish("body.mode.set", { mode: Body.MODE_BUILDING });
 		});
 
