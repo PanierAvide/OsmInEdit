@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+- Support decimal levels when editing (they are visible in level selector)
+
 
 ## 1.0.4 - 2019-10-10
 
