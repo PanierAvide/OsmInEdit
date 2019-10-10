@@ -24,7 +24,6 @@ const LevelControl = Control.extend({
 	},
 
 	setAvailableLevels(lvls) {
-		console.log("levels", lvls);
 		this.container.innerHTML = "";
 		this._levels = lvls.map(l => parseFloat(l)) || [ 0 ];
 
@@ -81,8 +80,11 @@ const LevelControl = Control.extend({
 						cLvls.style.top = (evt.target.offsetTop-4)+"px";
 						cLvls.style.right = 32+"px";
 
-						for(let lvl = myLvlByTen*10+9; lvl >= myLvlByTen*10; lvl--) {
-							const myLvl = parseInt(lvl.toString());
+						const levelsInRange = this._levels.filter(lvl => lvl >= myLvlByTen*10 && lvl < (myLvlByTen*10+10));
+
+						for(let lvlId = levelsInRange.length-1; lvlId >= 0; lvlId--) {
+							const lvl = levelsInRange[lvlId];
+							const myLvl = parseFloat(lvl.toString());
 							const cLvl = DomUtil.create("a", "leaflet-control-level lvl"+myLvl);
 							cLvl.innerHTML = myLvl;
 							cLvl.addEventListener("click", () => {

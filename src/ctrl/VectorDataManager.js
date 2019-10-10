@@ -188,11 +188,12 @@ class VectorDataManager extends HistorizedManager {
 
 	/**
 	 * Get buildings from cached OSM data
-	 * @param {int} [level] Only retrieve building going through given level (no filter by default)
+	 * @param {float} [level] Only retrieve building going through given level (no filter by default). If a decimal value is given, it will be floored.
 	 * @return {Object} Buildings features, as GeoJSON feature collection
 	 */
 	getOSMBuildings(level) {
 		let features = [];
+		level = Math.floor(level);
 
 		if(this._cacheOsmGeojson) {
 			features = this._cacheOsmGeojson
