@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+
+## 1.0.6 - 2019-11-12
+
 ### Fixed
 - Deletion of features being part of a non-geometrical relation
 
