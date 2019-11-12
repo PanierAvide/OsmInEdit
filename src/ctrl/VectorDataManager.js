@@ -199,7 +199,7 @@ class VectorDataManager extends HistorizedManager {
 			features = this._cacheOsmGeojson
 				.features
 				.filter(feature => (
-					feature.properties && feature.properties.tags && feature.properties.tags.building
+					feature.type === "Feature" && feature.properties && feature.properties.tags && feature.properties.tags.building
 					&& (level === undefined || (feature.properties.own && feature.properties.own.levels && feature.properties.own.levels.includes(level)))
 				));
 		}
@@ -269,7 +269,7 @@ class VectorDataManager extends HistorizedManager {
 	 * @return {boolean} True if overlapping enough
 	 */
 	isOverlappingEnough(container, feature) {
-		if(!container || !feature) {
+		if(!container || !feature || container.type !== "Feature" || feature.type !== "Feature") {
 			return false;
 		}
 		else if(booleanIntersects(container, feature)) {
@@ -313,7 +313,7 @@ class VectorDataManager extends HistorizedManager {
 		return (this._cacheOsmGeojson) ?
 			this._cacheOsmGeojson.features
 			.filter(feature => (
-				feature.properties.tags && feature.properties.tags.indoor === "level"
+				feature.type === "Feature" && feature.properties.tags && feature.properties.tags.indoor === "level"
 				&& (
 					feature.properties.own.utilityNode
 					|| this._listFeatureLevels(feature).properties.own.levels.includes(level)
@@ -334,7 +334,7 @@ class VectorDataManager extends HistorizedManager {
 		else {
 			const rawLevels = this._cacheOsmGeojson.features
 				.filter(feature => (
-					feature.properties.tags && feature.properties.tags.indoor === "level"
+					feature.type === "Feature" && feature.properties.tags && feature.properties.tags.indoor === "level"
 					&& this.isOverlappingEnough(building, feature)
 				))
 				.map(feature => this._listFeatureLevels(feature).properties.own.levels)
@@ -366,6 +366,7 @@ class VectorDataManager extends HistorizedManager {
 				.filter(feature => {
 					try {
 						return (this._listFeatureLevels(feature).properties.own.levels || []).includes(level)
+							&& feature.type === "Feature"
 							&& isNotExcludedFeature(feature.properties.tags)
 							&& (!floor || booleanIntersects(floorBuff, feature));
 					}
@@ -382,7 +383,7 @@ class VectorDataManager extends HistorizedManager {
 				});
 			}
 			else {
-				const buildings = this._cacheOsmGeojson.features.filter(f => ["Polygon","MultiPolygon"].includes(f.geometry.type) && f.properties.tags.building);
+				const buildings = this._cacheOsmGeojson.features.filter(f => f.type === "Feature" && ["Polygon","MultiPolygon"].includes(f.geometry.type) && f.properties.tags.building);
 
 				features = features.map(f => {
 					if(f.properties.tags.door && ["Point", "LineString"].includes(f.geometry.type)) {
@@ -423,6 +424,7 @@ class VectorDataManager extends HistorizedManager {
 					try {
 						return (
 							this._listFeatureLevels(feature).properties.own.levels || []).includes(level)
+							&& feature.type === "Feature"
 							&& isNotExcludedFeature(feature.properties.tags)
 							&& (!building || booleanIntersects(buildingBuff, feature)
 						);
@@ -506,7 +508,8 @@ class VectorDataManager extends HistorizedManager {
 	 * @private
 	 */
 	_containsWithBoundary(large, small) {
-		if(deepEqual(small.geometry, large.geometry)) { return true; }
+		if(small.type !== "Feature" || large.type !== "Feature") { return false; }
+		else if(deepEqual(small.geometry, large.geometry)) { return true; }
 		else if(this._booleanContains(large, small)) { return true; }
 		else if(booleanIntersects(large, small)) {
 			const coords = coordAll(small);
@@ -774,7 +777,7 @@ class VectorDataManager extends HistorizedManager {
 
 			if(feature.properties.own && feature.properties.own.levels && feature.properties.own.levels.length > 0) {
 				connectedFeatures = this._cacheOsmGeojson.features.filter((f,i) => {
-					if(!f || f.id === feature.id || !f.properties.own || !f.properties.own.levels) {
+					if(!f || f.id === feature.id || !f.properties.own || !f.properties.own.levels || !f.geometry || f.type !== "Feature") {
 						return false;
 					}
 					// Check levels
@@ -1098,7 +1101,8 @@ class VectorDataManager extends HistorizedManager {
 				collection
 				.features
 				.filter(f => (
-					f.geometry.type === "Point"
+					f.type === "Feature"
+					&& f.geometry.type === "Point"
 					&& parseFloat(f.geometry.coordinates[0]) === latlng.lng
 					&& parseFloat(f.geometry.coordinates[1]) === latlng.lat
 				));
@@ -1247,7 +1251,17 @@ class VectorDataManager extends HistorizedManager {
 				.filter(n => typeof n === "string");
 		}
 
-		//TODO Replace members ID in newMembers
+		// Replace members ID in newMembers
+		if(elemDiff.newMembers && elemDiff.newMembers.filter(m => m.feature.startsWith("node/-")).length > 0) {
+			elemDiff.newMembers = elemDiff.newMembers
+				.map(m => {
+					if(m.feature.startsWith("node/-")) {
+						m.feature = newElementsIds[m.feature];
+					}
+					return m;
+				})
+				.filter(m => typeof m.feature === "string");
+		}
 
 		// Create new element
 		if(elemDiff.created) {
@@ -1287,6 +1301,11 @@ class VectorDataManager extends HistorizedManager {
 				// Change coordinates
 				if(elemDiff.newCoords) {
 					element = this._osmApi.setCoordinates(element, elemDiff.newCoords[1], elemDiff.newCoords[0]);
+				}
+
+				// Change members list
+				if(elemDiff.newMembers) {
+					element = this._osmApi.setRelationMembers(element, elemDiff.newMembers.map(m => ({ id: m.feature, role: m.role })));
 				}
 
 				element = this._osmApi.setTimestampToNow(element);
@@ -1572,8 +1591,8 @@ class VectorDataManager extends HistorizedManager {
 						else if(fPrev.id.startsWith("way/")) {
 							diff = this._assignNodesToWay(diff, prev, next, prevFeaturesById, nextFeaturesById, fPrev, fNext, nextNodeId);
 						}
-						// Relation
-						else if(fPrev.id.startsWith("relation/")) {
+						// Relation (with geom)
+						else if(fPrev.id.startsWith("relation/") && fPrev.type === "Feature") {
 							// Several outer closed ways
 							if(
 								fNext.geometry.type === "MultiPolygon"
@@ -2061,7 +2080,7 @@ class VectorDataManager extends HistorizedManager {
 
 			elemDiff.metadata = {
 				tags: tags,
-				geometry: element && element.geometry.type,
+				geometry: element && element.geometry && element.geometry.type,
 				name: (
 					tags.name
 					|| tags.ref
@@ -2354,6 +2373,34 @@ class VectorDataManager extends HistorizedManager {
 						}
 					}
 				}
+				// Append missing relation in data
+				else {
+					const tags = {};
+					const members = [];
+
+					// Parse data
+					for(let subentry of entry.children) {
+						if(subentry.nodeName === "member") {
+							members.push({
+								role: subentry.getAttribute("role"),
+								feature: subentry.getAttribute("type")+"/"+subentry.getAttribute("ref")
+							});
+						}
+						else if(subentry.nodeName === "tag") {
+							tags[subentry.getAttribute("k")] = subentry.getAttribute("v");
+						}
+					}
+
+					collection.features.push({
+						id: id,
+						type: "Relation",
+						geometry: null,
+						properties: {
+							own: { members: members },
+							tags: tags
+						}
+					});
+				}
 			}
 		}
 
@@ -2515,7 +2562,7 @@ class VectorDataManager extends HistorizedManager {
 	 * @return {boolean} True if editor supports wanted geometry edit
 	 */
 	isRelationEditingSupported(prev, next) {
-		if(prev && next && prev.geometry.type === next.geometry.type) {
+		if(prev && next && prev.type === "Feature" && next.type === "Feature" && prev.geometry.type === next.geometry.type) {
 			if(next.geometry.type === "MultiPolygon") {
 				// Several outer polygons (same amount) + no inner
 				return (
