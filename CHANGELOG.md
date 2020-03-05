@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+
+## 1.0.8 - 2020-03-05
+
 ### Fixed
 - Handle outdoor sports centre as landuse
 - Read URL with hash missing part of level info
