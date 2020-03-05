@@ -509,7 +509,9 @@ node[amenity] {
 }
 
 /** Large, landuse-like, amenities **/
-area[amenity=~/school|college|university|hospital|parking/] {
+area[amenity=~/school|college|university|hospital|parking/],
+area[leisure=sports_centre],
+area[public_transport=station] {
 	z-index: -9;
 }
 

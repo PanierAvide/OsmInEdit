@@ -47,14 +47,13 @@ L.Hash.parseHash = function(hash) {
 		lon = parseFloat(args[2]),
 		level = args.length === 4 ? parseInt(args[3], 10) : 0;
 
-		if (isNaN(zoom) || isNaN(lat) || isNaN(lon) || isNaN(level)) {
+		if (isNaN(zoom) || isNaN(lat) || isNaN(lon)) {
 			return false;
 		} else {
 			return {
 				center: new L.LatLng(lat, lon),
-				zoom: zoom
-,
-				level: level
+				zoom: zoom,
+				level: isNaN(level) ? 0 : level
 			};
 		}
 	} else {
@@ -70,8 +69,7 @@ L.Hash.formatHash = function(map) {
 
 	return "#" + [zoom,
 		center.lat.toFixed(precision),
-		center.lng.toFixed(precision)
-,
+		center.lng.toFixed(precision),
 		this._level || "0"
 	].join("/");
 };
@@ -425,7 +423,7 @@ class MyMap extends Component {
 		this._mapHash = new L.Hash(this.elem.leafletElement);
 
 		// If no valid hash found, use default coordinates from config file or stored cookie
-		if(!window.location.hash || !window.location.hash.match(/^#\d+\/-?\d+(.\d+)?\/-?\d+(.\d+)?(\/\d+)?$/)) {
+		if(!window.location.hash || !window.location.hash.match(/^#\d+\/-?\d+(.\d+)?\/-?\d+(.\d+)?(\/(-?\d+(.\d+)?)?)?$/)) {
 			// Has cookie ?
 			const cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)lasthash\s*=\s*([^;]*).*$)|^.*$/, "$1");
 			let newHash;
