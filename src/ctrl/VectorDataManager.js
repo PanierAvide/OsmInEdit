@@ -2444,15 +2444,19 @@ class VectorDataManager extends HistorizedManager {
 				const lvl2 = this._parseLevelsFloat(tags.repeat_on);
 
 				if(lvl1 !== null && lvl2 !== null) {
-					feature.properties.own.levels = lvl1.concat(lvl2);
+					// Levels from level=* + repeat_on=* removing duplicates
+					feature.properties.own.levels = lvl1.concat(lvl2.filter((i) => lvl1.indexOf(i) < 0));
 				}
 				else if(lvl1 !== null) {
+					// Levels only from level=* because no repeat_on=*
 					feature.properties.own.levels = lvl1;
 				}
 				else if(lvl2 !== null) {
+					// Levels only from repeat_on=* because no level=*
 					feature.properties.own.levels = lvl2;
 				}
 				else {
+					// No levels provided, use default level 0
 					feature.properties.own.levels = [ 0 ];
 				}
 			}

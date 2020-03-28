@@ -48,6 +48,16 @@ describe("ctrl > VectorDataManager", () => {
 			feature.properties.own.levels.forEach(l => assert.equal(typeof l, "number"));
 		});
 
+		it("works with level=* + repeat_on=*, overlapping, unsorted", () => {
+			const feature = { properties: {
+				tags: { level: "2;3;4", repeat_on: "4;5;1" },
+				own: {}
+			} };
+			vdm._listFeatureLevels(feature);
+			assert.equal(feature.properties.own.levels.toString(), [ 1,2,3,4,5 ].toString());
+			feature.properties.own.levels.forEach(l => assert.equal(typeof l, "number"));
+		});
+
 		it("works with building:levels=*", () => {
 			const feature = { properties: {
 				tags: { "building:levels": "5", "building:levels:underground": "3", "roof:levels": "1" }
