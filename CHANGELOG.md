@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 
+## 1.0.9 - 2020-03-28
+
+### Fixed
+- Fix duplicate values in `level` tag
+- Better handling of existing `repeat_on` tag
+
+
 ## 1.0.8 - 2020-03-05
 
 ### Fixed
