@@ -94,6 +94,8 @@ class EditFeaturePane extends Component {
 			if(this.props.building && this.props.building.properties.own && this.props.building.properties.own.levels) {
 				levels = levels.concat(this.props.building.properties.own.levels);
 			}
+			const mytags = Object.assign({}, this.props.feature.properties.tags, { level: this.props.feature.properties.own.levels.join(";") });
+			delete mytags.repeat_on;
 
 			// Create input
 			res.push(<PresetInputField
@@ -103,7 +105,7 @@ class EditFeaturePane extends Component {
 					text: I18n.t("Floors served"),
 					values: [...new Set(levels)].map(a => parseFloat(a)).sort((a,b) => a-b).join(";")
 				}}
-				tags={Object.assign({}, this.props.feature.properties.tags, { level: this.props.feature.properties.own.levels.join(";") })}
+				tags={mytags}
 				key={"lvl"}
 			/>);
 		}

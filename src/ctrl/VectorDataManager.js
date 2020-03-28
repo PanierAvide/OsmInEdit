@@ -948,6 +948,8 @@ class VectorDataManager extends HistorizedManager {
 			let feature = this._cacheOsmGeojson.features[featureCacheId];
 
 			if(!deepEqual(feature.properties.tags, tags)) {
+				const hasRepeatOn = feature.properties.tags.repeat_on !== undefined || tags.repeat_on !== undefined;
+
 				feature.properties.tags = tags;
 				feature = this._listFeatureLevels(feature, true);
 
@@ -957,8 +959,39 @@ class VectorDataManager extends HistorizedManager {
 				}
 
 				// Clean-up level tag
-				if(tags.level) {
+				if((tags.level && !hasRepeatOn) || (!tags.level && hasRepeatOn)) {
 					feature.properties.tags.level = this._cleanLevelTag(feature.properties.own.levels);
+					delete feature.properties.tags.repeat_on;
+				}
+				else if(tags.level && hasRepeatOn) {
+					if(this._isVerticalFeature(feature) && feature.properties.own.levels.length > 1) {
+						// Two minimal values for level tag
+						feature.properties.tags.level = this._cleanLevelTag(feature.properties.own.levels.slice(0, 2));
+
+						// Other in repeat_on
+						if(feature.properties.own.levels.length > 2) {
+							feature.properties.tags.repeat_on = this._cleanLevelTag(feature.properties.own.levels.slice(2));
+						}
+						else {
+							delete feature.properties.tags.repeat_on;
+						}
+					}
+					else if(feature.properties.own.levels.length > 0) {
+						// Minimal level in level tag
+						feature.properties.tags.level = feature.properties.own.levels[0];
+
+						// Other values in repeat_on
+						if(feature.properties.own.levels.length > 1) {
+							feature.properties.tags.repeat_on = this._cleanLevelTag(feature.properties.own.levels.slice(1));
+						}
+						else {
+							delete feature.properties.tags.repeat_on;
+						}
+					}
+					else {
+						delete feature.properties.tags.level;
+						delete feature.properties.tags.repeat_on;
+					}
 				}
 
 				// Re-compute building levels
@@ -2530,6 +2563,14 @@ class VectorDataManager extends HistorizedManager {
 			feature.properties.own.levels.sort(sortNumberArray);
 			return feature;
 		}
+	}
+
+	_isVerticalFeature(feature) {
+		const t = feature.properties.tags;
+		return (
+			["elevator", "steps"].includes(t.highway)
+			|| t.conveying
+		);
 	}
 
 	_isLanduse(feature) {
