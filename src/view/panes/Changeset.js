@@ -65,6 +65,12 @@ class ChangesetPane extends Component {
 							}}
 							tags={this.props.changeset.tags}
 						/>
+
+						<PresetInputField
+							type="binarycheck"
+							data={{ text: I18n.t("I would like someone to review my edits"), key: "review_requested" }}
+							tags={this.props.changeset.tags}
+						/>
 					</div>
 					:
 					<div className="text-center">

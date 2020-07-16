@@ -19,7 +19,7 @@
 	<chunk id="highway_yesno_incline">
 		<check key="bridge" text="Bridge" disable_off="true" fr.text="Pont" it.text="Ponte" de.text="Brücke"/>
 		<check key="tunnel" text="Tunnel" disable_off="true"/>
-		<check key="cutting" text="Cutting" disable_off="true" it.text="Taglio" de.text="Einschnitt"/>
+		<check key="cutting" text="Cutting" disable_off="true" it.text="Taglio" de.text="Einschnitt" fr.text="découpage"/>
 		<check key="embankment" text="Embankment" disable_off="true" fr.text="Talus" it.text="Argine" de.text="Böschung"/>
 		<combo key="incline" text="Incline" values="10%,-10%,10°,-10°,up,down" fr.text="Inclinaison" it.text="Inclinazione" de.text="Gefälle"/>
 	</chunk>
@@ -412,7 +412,7 @@
 						<check key="fuel:1_25" text="1/25 mix (mofa/moped)" it.text="1/25 mix (moto/motocicli)" de.text="Zweitaktgemisch 1:25 (Mofa/Moped)"/>
 						<check key="fuel:1_50" text="1/50 mix (mofa/moped)" it.text="1/50 mix (moto/motocicli)" de.text="Zweitaktgemisch 1:50 (Mofa/Moped)"/>
 						<check key="fuel:lpg" text="LPG (Liquefied petroleum gas)" fr.text="GPL (gaz de pétrole liquéfié)" it.text="GPL (Gas Propano Liquido)" de.text="LPG (Flüssiggas/Autogas)"/>
-						<check key="fuel:cng" text="CNG (Compressed Natural Gas)" it.text="GNC (Gas Naturale Compresso)" de.text="CNG (Erdgas)"/>
+						<check key="fuel:cng" text="CNG (Compressed Natural Gas)" it.text="GNC (Gas Naturale Compresso)" de.text="CNG (Erdgas)" fr.text="GNC (gaz naturel comprimé)"/>
 						<check key="fuel:biogas" text="Biogas" fr.text="Biogaz"/>
 					</checkgroup>
 					<checkgroup columns="3">
@@ -1333,7 +1333,7 @@
 				<key key="amenity" value="driving_school"/>
 				<reference ref="name_operator_oh_wheelchair"/>
 				<reference ref="link_contact_address"/>
-				<combo key="license_classes" text="License Classes" values="A;A1;B;BE;C,A;A1;B;B1;C;C1;D;D1;BE;CE;C1E;DE;D1E" it.text="Categoria di licenza" de.text="Führerscheinklassen"/>
+				<combo key="license_classes" text="License Classes" values="A;A1;B;BE;C,A;A1;B;B1;C;C1;D;D1;BE;CE;C1E;DE;D1E" it.text="Categoria di licenza" de.text="Führerscheinklassen" fr.text="Catégories de permis"/>
 			</item>
 		</group>
 		<group name="Health" fr.name="Santé" icon="img/icons/amenity_hospital.png" it.name="Salute" de.name="Gesundheit">

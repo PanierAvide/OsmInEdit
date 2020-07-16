@@ -160,6 +160,38 @@ class PresetInputField extends Component {
 				</Form.Check.Label>
 			</Form.Group>;
 		}
+		else if(this.props.type === "binarycheck") {
+			const states = [
+				{ id: 0, val: d.value_on || "yes" },
+				{ id: 1, val: d.value_off || "null" }
+			];
+
+			let currentState = 1;
+			const currentValState = states.filter(s => s.val === currentVal);
+			if(currentValState.length === 1) {
+				currentState = currentValState[0].id;
+			}
+
+			const onEvent = () => {
+				const newState = (currentState+1) % 2;
+				this._onEdit(states[newState].val);
+			};
+
+			res = <Form.Group className="m-0 mb-3">
+				<Form.Check type="checkbox">
+					<Form.Check.Input
+						type="checkbox"
+						checked={currentState === 0}
+						onChange={() => onEvent()}
+					/>
+					<Form.Check.Label
+						onClick={() => onEvent()}
+					>
+						{d.text || d.key} {infoTip}
+					</Form.Check.Label>
+				</Form.Check>
+			</Form.Group>;
+		}
 		else if(this.props.type === "multiselect") {
 			let data = null;
 			const currentValues = currentVal.split(";");
