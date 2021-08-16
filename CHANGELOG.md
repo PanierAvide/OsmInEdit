@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Button to ask for review when sending changeset (`review_request=yes` changeset tag)
+
+### Fixed
+- Tile providers with `crs` parameter defined caused freeze of UI
+
 
 ## 1.0.9 - 2020-03-28
 

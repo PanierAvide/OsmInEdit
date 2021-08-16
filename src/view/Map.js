@@ -234,15 +234,15 @@ class MyMap extends Component {
 
 			if(urlParts.length > 1) {
 				url = urlParts[0];
-				const blacklist = ['srs', 'width', 'height', 'format', 'service', 'request', 'bbox', 'key'];
+				const blacklist = ['srs', 'width', 'height', 'format', 'service', 'request', 'bbox', 'key', 'crs'];
 
 				urlParts[1].split('&').forEach(p => {
 					const [k,v] = p.split('=');
 					if(!blacklist.includes(k.toLowerCase())) {
 						params[k.toLowerCase()] = v;
 					}
-					else if(k.toLowerCase() === 'key') {
-						params.KEY = v;
+					else if(['key'].includes(k.toLowerCase())) {
+						params[k.toUpperCase()] = v;
 					}
 				});
 			}
