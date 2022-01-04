@@ -85,6 +85,18 @@ class Toolbar extends Component {
 					</ButtonGroup>
 
 					<Button
+						variant="primary"
+						size="sm"
+						className="mr-2"
+						active={this.props.mode === Body.MODE_PREVIEW}
+						disabled={this.props.mode === Body.MODE_PREVIEW}
+						onClick={() => PubSub.publish("body.preview.open")}
+						title={I18n.t("Preview")}
+					>
+						<span className="hide-smDown">{I18n.t("Preview")}</span>
+					</Button>
+
+					<Button
 						variant={nbEdits < 30 ? "success" : (nbEdits < 100 ? "warning" : "danger")}
 						size="sm"
 						disabled={!canSave}

@@ -116,7 +116,11 @@ class Body extends Component {
 	}
 
 	render() {
-		const modeName = this.state.mode === Body.MODE_EXPLORE ? "mode-explore" : (this.state.mode === Body.MODE_FLOOR_IMAGERY ? "mode-floorplan" : "mode-editindoor");
+		const modes = {
+			[Body.MODE_EXPLORE]: "mode-explore",
+			[Body.MODE_FLOOR_IMAGERY]: "mode-floorplan"
+		};
+		const modeName = modes[this.state.mode] ? modes[this.state.mode] : "mode-editindoor";
 
 		return <Container fluid={true} className={"h-100 m-0 p-0 "+modeName}>
 			<Header
@@ -1415,6 +1419,36 @@ class Body extends Component {
 			if(locator && data.zoom && locator.properties.max_zoom && data.zoom > locator.properties.max_zoom) {
 				const newlist = this.state.selectedOverlaysImagery.filter(l => l.properties.id !== LOCATOR_OVERLAY_ID);
 				this.setState({ selectedOverlaysImagery: newlist.length === 0 ? null : newlist });
+			}
+		});
+
+		let win;
+		function fixGeoJSON(collection) {
+			collection.features.forEach((feature) => {
+				feature.properties = {
+					...feature.properties,
+					...feature.properties.tags
+				}
+			});
+			return collection;
+		}
+		// Preview open
+		const sendPreviewGeoJSON = () => {
+			const file = new File([JSON.stringify(fixGeoJSON(window.vectorDataManager._cacheOsmGeojson))], 'osminedit.geojson');
+			win.postMessage({ command: 'preview', file }, '*');
+			win.postMessage({ command: 'level', level: this.state.level.toString() }, '*');
+			win.focus();
+		}
+		PubSub.subscribe("body.preview.open", () => {
+			if (!win || win.closed) {
+				win = window.open("https://indoorequal.org/");
+				window.addEventListener('message', (e) => {
+					if (e.data.event === 'ready') {
+						sendPreviewGeoJSON();
+					}
+				});
+			} else {
+				sendPreviewGeoJSON();
 			}
 		});
 
