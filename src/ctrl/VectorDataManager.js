@@ -1610,7 +1610,7 @@ class VectorDataManager extends HistorizedManager {
 				if(featDeleted || tagsChanged || geomChanged || mbrsChanged) {
 					diff[fPrev.id] = {};
 					if(featDeleted) { diff[fPrev.id].deleted = true; }
-					if(tagsChanged) { diff[fPrev.id].newTags = fNext.properties.tags; }
+					if(tagsChanged) { diff[fPrev.id].newTags = this._cleanFeatureTags(fNext.properties.tags); }
 
 					// Geometry changes
 					if(geomChanged) {
@@ -1801,7 +1801,7 @@ class VectorDataManager extends HistorizedManager {
 			.forEach(fNext => {
 				diff[fNext.id] = {
 					created: true,
-					newTags: fNext.properties.tags
+					newTags: this._cleanFeatureTags(fNext.properties.tags)
 				};
 
 				// Geometry
@@ -2092,6 +2092,26 @@ class VectorDataManager extends HistorizedManager {
 
 			resolve(diff);
 		}, 0); });
+	}
+
+	_cleanFeatureTags(tags) {
+		const newTags = Object.assign({}, tags);
+		for(let k in newTags) {
+			if(k.trim().length === 0 || typeof newTags[k] !== "string" || newTags[k].trim().length === 0) {
+				delete newTags[k];
+			}
+			else {
+				if(k.trim() !== k) {
+					newTags[k.trim()] = newTags[k].trim();
+					delete newTags[k];
+				}
+
+				if(newTags[k].trim() !== newTags[k]) {
+					newTags[k] = newTags[k].trim();
+				}
+			}
+		}
+		return newTags;
 	}
 
 	/**

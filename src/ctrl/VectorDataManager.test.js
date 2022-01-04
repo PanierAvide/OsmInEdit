@@ -187,6 +187,72 @@ describe("ctrl > VectorDataManager", () => {
 			assert.equal(res["node/1"].newTags.name, "Toilettes d'en haut");
 		});
 
+		it("doesn't allow empty tag values for edited features", async () => {
+			const vdm = new VectorDataManager();
+			const prev = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: { amenity: "toilets", level: "1", brand: "Popo Land" } }, geometry: { type: "Point", coordinates: [1,1] } }
+			] };
+			const next = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: { amenity: "toilets", level: "1", brand: "" } }, geometry: { type: "Point", coordinates: [1,1] } }
+			] };
+
+			const res = await vdm._analyzeDiff(prev, next);
+
+			assert.equal(Object.keys(res).length, 1);
+			assert.equal(Object.keys(res["node/1"]).length, 1);
+			assert.equal(Object.keys(res["node/1"].newTags).length, 2);
+			assert.equal(res["node/1"].newTags.amenity, "toilets");
+			assert.equal(res["node/1"].newTags.level, "1");
+		});
+
+		it("doesn't allow empty tag keys for edited features", async () => {
+			const vdm = new VectorDataManager();
+			const prev = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: { amenity: "toilets", level: "1", brand: "Popo Land" } }, geometry: { type: "Point", coordinates: [1,1] } }
+			] };
+			const next = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/1", properties: { tags: { amenity: "toilets", level: "1", "": "Popo Land" } }, geometry: { type: "Point", coordinates: [1,1] } }
+			] };
+
+			const res = await vdm._analyzeDiff(prev, next);
+
+			assert.equal(Object.keys(res).length, 1);
+			assert.equal(Object.keys(res["node/1"]).length, 1);
+			assert.equal(Object.keys(res["node/1"].newTags).length, 2);
+			assert.equal(res["node/1"].newTags.amenity, "toilets");
+			assert.equal(res["node/1"].newTags.level, "1");
+		});
+
+		it("doesn't allow empty tag values for new features", async () => {
+			const vdm = new VectorDataManager();
+			const prev = { type: "FeatureCollection", features: [] };
+			const next = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/-1", properties: { tags: { amenity: "toilets", level: "1", brand: "" } }, geometry: { type: "Point", coordinates: [1,1] } }
+			] };
+
+			const res = await vdm._analyzeDiff(prev, next);
+
+			assert.equal(Object.keys(res).length, 1);
+			assert.equal(Object.keys(res["node/-1"].newTags).length, 2);
+			assert.equal(res["node/-1"].newTags.amenity, "toilets");
+			assert.equal(res["node/-1"].newTags.level, "1");
+		});
+
+		it("doesn't allow empty tag keys for new features", async () => {
+			const vdm = new VectorDataManager();
+			const prev = { type: "FeatureCollection", features: [] };
+			const next = { type: "FeatureCollection", features: [
+				{ type: "Feature", id: "node/-1", properties: { tags: { amenity: "toilets", level: "1", "": "Popo Land" } }, geometry: { type: "Point", coordinates: [1,1] } }
+			] };
+
+			const res = await vdm._analyzeDiff(prev, next);
+
+			assert.equal(Object.keys(res).length, 1);
+			assert.equal(Object.keys(res["node/-1"].newTags).length, 2);
+			assert.equal(res["node/-1"].newTags.amenity, "toilets");
+			assert.equal(res["node/-1"].newTags.level, "1");
+		});
+
 		it("lists tags deletions", async () => {
 			const vdm = new VectorDataManager();
 			const prev = { type: "FeatureCollection", features: [
@@ -1563,11 +1629,11 @@ describe("ctrl > VectorDataManager", () => {
 			const vdm = new VectorDataManager();
 			const prev = { type: "FeatureCollection", features: [] };
 			const next = { type: "FeatureCollection", features: [
-				{ type: "Feature", id: "node/-1", properties: { tags: { door: "yes", level: 0 }, own: {} }, geometry: { type: "Point", coordinates: [0.5,0.5] } },
+				{ type: "Feature", id: "node/-1", properties: { tags: { door: "yes", level: "0" }, own: {} }, geometry: { type: "Point", coordinates: [0.5,0.5] } },
 				{
 					type: "Feature", id: "way/-1",
 					properties: {
-						tags: { highway: "footway", level: 0 },
+						tags: { highway: "footway", level: "0" },
 						own: {}
 					},
 					geometry: { type: "LineString", coordinates: [ [0,0], [1,1] ] }
@@ -1584,7 +1650,7 @@ describe("ctrl > VectorDataManager", () => {
 
 			assert.ok(res["node/-1"].created);
 			assert.ok(deepEqual(res["node/-1"].newCoords, [0.5,0.5]));
-			assert.ok(deepEqual(res["node/-1"].newTags, { door: "yes", level: 0 }));
+			assert.ok(deepEqual(res["node/-1"].newTags, { door: "yes", level: "0" }));
 
 			assert.ok(res["node/-2"].created);
 			assert.ok(deepEqual(res["node/-2"].newCoords, [0,0]));
@@ -1617,7 +1683,7 @@ describe("ctrl > VectorDataManager", () => {
 				{ type: "Feature", id: "node/1", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [0,0] } },
 				{ type: "Feature", id: "node/2", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [1,0] } },
 				{ type: "Feature", id: "node/3", properties: { tags: {}, own: { ways: ["way/1"] } }, geometry: { type: "Point", coordinates: [1,1] } },
-				{ type: "Feature", id: "node/-1", properties: { tags: { door: "yes", level: 0 }, own: {} }, geometry: { type: "Point", coordinates: [0.5,0.5] } },
+				{ type: "Feature", id: "node/-1", properties: { tags: { door: "yes", level: "0" }, own: {} }, geometry: { type: "Point", coordinates: [0.5,0.5] } },
 				{
 					type: "Feature", id: "way/1",
 					properties: {
@@ -1646,7 +1712,7 @@ describe("ctrl > VectorDataManager", () => {
 
 			assert.ok(res["node/-1"].created);
 			assert.ok(deepEqual(res["node/-1"].newCoords, [0.5,0.5]));
-			assert.ok(deepEqual(res["node/-1"].newTags, { door: "yes", level: 0 }));
+			assert.ok(deepEqual(res["node/-1"].newTags, { door: "yes", level: "0" }));
 
 			assert.ok(res["node/-2"].created);
 			assert.ok(deepEqual(res["node/-2"].newCoords, [0,1]));
@@ -1662,12 +1728,12 @@ describe("ctrl > VectorDataManager", () => {
 			const vdm = new VectorDataManager();
 			const prev = { type: "FeatureCollection", features: [] };
 			const next = { type: "FeatureCollection", features: [
-				{ type: "Feature", id: "node/-1", properties: { tags: { door: "yes", level: 0 }, own: {} }, geometry: { type: "Point", coordinates: [0.5,0.5] } },
-				{ type: "Feature", id: "node/-2", properties: { tags: { door: "yes", level: 0 }, own: {} }, geometry: { type: "Point", coordinates: [0.7,0.7] } },
+				{ type: "Feature", id: "node/-1", properties: { tags: { door: "yes", level: "0" }, own: {} }, geometry: { type: "Point", coordinates: [0.5,0.5] } },
+				{ type: "Feature", id: "node/-2", properties: { tags: { door: "yes", level: "0" }, own: {} }, geometry: { type: "Point", coordinates: [0.7,0.7] } },
 				{
 					type: "Feature", id: "way/-1",
 					properties: {
-						tags: { highway: "footway", level: 0 },
+						tags: { highway: "footway", level: "0" },
 						own: {}
 					},
 					geometry: { type: "LineString", coordinates: [ [0,0], [1,1] ] }
@@ -1685,11 +1751,11 @@ describe("ctrl > VectorDataManager", () => {
 
 			assert.ok(res["node/-1"].created);
 			assert.ok(deepEqual(res["node/-1"].newCoords, [0.5,0.5]));
-			assert.ok(deepEqual(res["node/-1"].newTags, { door: "yes", level: 0 }));
+			assert.ok(deepEqual(res["node/-1"].newTags, { door: "yes", level: "0" }));
 
 			assert.ok(res["node/-2"].created);
 			assert.ok(deepEqual(res["node/-2"].newCoords, [0.7,0.7]));
-			assert.ok(deepEqual(res["node/-2"].newTags, { door: "yes", level: 0 }));
+			assert.ok(deepEqual(res["node/-2"].newTags, { door: "yes", level: "0" }));
 
 			assert.ok(res["node/-3"].created);
 			assert.ok(deepEqual(res["node/-3"].newCoords, [0,0]));
