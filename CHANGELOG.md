@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Allow preview current edits on [indoor=](https://indoorequal.org/) (thanks to François de Metz)
+
 
 ## 1.0.10 - 2021-08-16
 

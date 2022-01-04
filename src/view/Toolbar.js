@@ -15,6 +15,7 @@ import Body from './Body';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ContentSave from 'mdi-react/ContentSaveIcon';
+import MapCheck from 'mdi-react/MapCheckIcon';
 import FloorImageryButtons from './common/FloorImageryButtons';
 import I18n from '../config/locales/ui';
 import IndoorEditButtons from './common/IndoorEditButtons';
@@ -91,9 +92,10 @@ class Toolbar extends Component {
 						active={this.props.mode === Body.MODE_PREVIEW}
 						disabled={this.props.mode === Body.MODE_PREVIEW}
 						onClick={() => PubSub.publish("body.preview.open")}
-						title={I18n.t("Preview")}
+						title={I18n.t("Preview your changes on indoor=")}
 					>
-						<span className="hide-smDown">{I18n.t("Preview")}</span>
+						<MapCheck />
+						<span className="hide-mdDown">{I18n.t("Preview")}</span>
 					</Button>
 
 					<Button
