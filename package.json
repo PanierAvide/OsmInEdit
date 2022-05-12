@@ -66,6 +66,7 @@
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet-textpath": "^1.2.0",
     "leaflet-toolbar": "^0.4.0-alpha.2",
+    "martinez-polygon-clipping": "^0.7.3",
     "mdi-react": "^5.5.0",
     "mousetrap": "^1.6.3",
     "nominatim-browser": "^2.0.2",
