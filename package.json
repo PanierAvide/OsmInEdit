@@ -16,7 +16,6 @@
     "i18n:pull": "tx pull -a --minimum-perc=75 && node fix_i18n_files.js && i18nline index && node presets_merge_labels.js",
     "i18n:clean": "rm -rf ./src/config/locales/**/*.js*",
     "icons": "for i in public/img/icons/*.svg ; do inkscape -z -e ${i%.*}.png -w 32 -h 32 $i ; done",
-    "preinstall": "if [ -d \"node_modules/leaflet-distortableimage/.git\" ]; then rm -rf node_modules/leaflet-distortableimage/.git; fi",
     "clean": "rm -rf build/* doc/*"
   },
   "repository": {
@@ -58,7 +57,7 @@
     "fuse.js": "^3.4.5",
     "geojson-validation": "^0.2.1",
     "leaflet": "^1.5.1",
-    "leaflet-distortableimage": "git://github.com/publiclab/Leaflet.DistortableImage.git#3b27c1e5",
+    "leaflet-distortableimage": "^0.6.7",
     "leaflet-draw": "^1.0.4",
     "leaflet-editable": "^1.2.0",
     "leaflet-geometryutil": "^0.9.1",

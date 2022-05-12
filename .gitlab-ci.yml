@@ -1,4 +1,4 @@
-image: node:9-stretch
+image: node:lts
 
 before_script:
   - node --version
