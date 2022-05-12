@@ -2106,7 +2106,7 @@ class VectorDataManager extends HistorizedManager {
 					delete newTags[k];
 				}
 
-				if(newTags[k].trim() !== newTags[k]) {
+				if(newTags[k] && newTags[k].trim() !== newTags[k]) {
 					newTags[k] = newTags[k].trim();
 				}
 			}
