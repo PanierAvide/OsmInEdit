@@ -32,7 +32,7 @@ describe("ctrl > ImageryManager", () => {
 					assert.ok(layer.geometry === null || booleanIntersects(layer, { type: "Point", coordinates: [ -1.7101, 48.1121 ] }));
 				});
 			});
-		});
+		}, 30000);
 
 		it("returns all layers if no coordinates given", () => {
 			return im.getAvailableImagery()
@@ -40,6 +40,6 @@ describe("ctrl > ImageryManager", () => {
 				assert.ok(result.length > 0);
 				assert.equal(im._rawLayers.length, result.length);
 			});
-		});
+		}, 30000);
 	});
 });

@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+- Update Mapbox tiles URLs to use a dedicated access token
+
 
 ## 1.0.12 - 2022-05-12
 

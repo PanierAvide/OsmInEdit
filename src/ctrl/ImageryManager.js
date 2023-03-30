@@ -103,6 +103,11 @@ class ImageryManager extends HistorizedManager {
 						props.max_zoom = 19;
 					}
 
+					// Special fix for Mapbox layers
+					if(props.url.includes("tiles.mapbox.com")) {
+						props.url = props.url.replace(/access_token=.*$/, "access_token=pk.eyJ1Ijoib3BlbnN0cmVldG1hcCIsImEiOiJjbGZkenFib3IyazZlNDRwYzd5eWg5Mjl2In0.Gha0ZtI4GZy36s8h8ClbaQ");
+					}
+
 					if(valid) {
 						this._rawLayers.push(layer);
 					}
