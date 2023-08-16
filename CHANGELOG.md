@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 
+## 1.0.14 - 2023-08-16
+
+### Fixed
+- Mapbox tiles without token were breaking the editor (thanks to [Elian Doran](https://framagit.org/elian) for the fix)
+
+
 ## 1.0.13 - 2023-03-30
 
 ### Changed
