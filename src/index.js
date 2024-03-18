@@ -15,7 +15,7 @@ import ReactDOM from 'react-dom';
 import Body from './view/Body';
 import I18n from './config/locales/ui';
 import ImageryManager from './ctrl/ImageryManager';
-import OsmAuth from 'osm-auth';
+import { osmAuth } from 'osm-auth';
 import PresetsManager from './ctrl/PresetsManager';
 import PubSub from 'pubsub-js';
 import request from 'request-promise-native';
@@ -85,22 +85,27 @@ class App {
 	 */
 	_initAuth() {
 		const opts = {
+			apiUrl: window.CONFIG.osm_api_url,
 			url: window.CONFIG.osm_api_url,
-			oauth_consumer_key: window.CONFIG.oauth_consumer_key,
-			oauth_secret: window.CONFIG.oauth_secret,
-			landing: window.EDITOR_URL + window.location.hash,
+			client_id: window.CONFIG.oauth_consumer_key,
+			redirect_uri: window.EDITOR_URL,
+			scope: "read_prefs write_api",
 			singlepage: true
 		};
-		window.editor_user_auth = OsmAuth(opts);
+		window.editor_user_auth = osmAuth(opts);
 
 		const params = this._readURLParams(window.location.href);
-		const token = params.oauth_token || localStorage.getItem("oauth_token") || null;
 
-		if(token) {
-			window.editor_user_auth.bootstrapToken(token, () => {
+		if(params.code) {
+			window.editor_user_auth.authenticate(() => {
 				this._checkAuth();
-				window.history.pushState({}, "", window.location.href.replace("?oauth_token="+token, ""));
-				localStorage.setItem("oauth_token", token);
+				localStorage.setItem("oauth_token", params.code);
+				window.history.replaceState({}, "", window.location.href.replace(/\?.*/, ""));
+			});
+		}
+		else if(localStorage.getItem("oauth_token")) {
+			window.editor_user_auth.bootstrapToken(localStorage.getItem("oauth_token"), () => {
+				this._checkAuth();
 			});
 		}
 		else {
@@ -109,15 +114,13 @@ class App {
 			this.authWait = setInterval(this._checkAuth.bind(this), 100);
 		}
 
+
 		/**
 		 * Event for logging in user
 		 * @event app.user.login
 		 * @memberof App
 		 */
 		PubSub.subscribe("app.user.login", (msg, data) => {
-			opts.landing = window.EDITOR_URL + window.location.hash;
-			window.editor_user_auth.options(opts);
-
 			if(!window.editor_user_auth.authenticated()) {
 				window.editor_user_auth.authenticate((err, res) => {
 					if(err) {
