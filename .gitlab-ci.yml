@@ -31,7 +31,7 @@ deploy:master:
   only:
     - master
   script:
-    - echo "{\"editor_name\":\"OsmInEdit\",\"hash\":\"GIT_HASH\",\"data_min_zoom\":18,\"map_initial_zoom\":18,\"map_initial_latlng\":[48.13678,-1.69533],\"providers\":{\"bing\":\"AhsSQakuHuX3ozMBXC60w-hPk0KD_smZZbHLjb7mBFfeIwDKJnJn2_qK3qQfYfPZ\"},\"osm_api_url\":\"https://www.openstreetmap.org\",\"oauth_consumer_key\":\"3lzD17wk8BNT22p5M2HE261mV4gbziyA7W2mbB1l\",\"oauth_secret\":\"n2TgSEakcg46eQWDXyCwlrWwIxMrWdbYV7Yw4xmm\",\"always_authenticated\":false}" > ./public/config.json
+    - echo "{\"editor_name\":\"OsmInEdit\",\"hash\":\"GIT_HASH\",\"data_min_zoom\":18,\"map_initial_zoom\":18,\"map_initial_latlng\":[48.13678,-1.69533],\"providers\":{\"bing\":\"AhsSQakuHuX3ozMBXC60w-hPk0KD_smZZbHLjb7mBFfeIwDKJnJn2_qK3qQfYfPZ\"},\"osm_api_url\":\"https://www.openstreetmap.org\",\"oauth_consumer_key\":\"JcFvAydlXj3Krm6M2eNLxvh4rvL2T8JfUn0HfUIEsGk\",\"oauth_secret\":\"M-k2EnprOC606CHsq29bELniV3-kiFL-iwyKbJrCsLs\",\"always_authenticated\":false}" > ./public/config.json
     - ./embed_git_hash.sh
     - sed -i 's#</head>#<script type="text/javascript">var _paq = window._paq || []; _paq.push(["setDoNotTrack", true]); _paq.push(["disableCookies"]); _paq.push(["trackPageView"]); _paq.push(["enableLinkTracking"]); (function() { var u="//stats.pavie.info/"; _paq.push(["setTrackerUrl", u+"matomo.php"]); _paq.push(["setSiteId", "12"]); var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript"; g.async=true; g.defer=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s); })();</script></head>#' public/index.html
     - npm run build
