@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 
+## 1.0.15 - 2024-03-19
+
+### Changed
+- Switched OSM authentication to OAuth 2
+
+
 ## 1.0.14 - 2023-08-16
 
 ### Fixed
