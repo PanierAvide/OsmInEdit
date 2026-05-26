@@ -1,14 +1,19 @@
 [main]
 host = https://www.transifex.com
 
-[osminedit.ui]
-file_filter = src/config/locales/ui/<lang>.json
-source_file = src/config/locales/ui/default.json
-source_lang = en
-type = KEYVALUEJSON
+[o:openlevelup:p:osminedit:r:presets]
+file_filter            = src/config/locales/presets/<lang>.json
+source_file            = src/config/locales/presets/en.json
+source_lang            = en
+type                   = KEYVALUEJSON
+replace_edited_strings = false
+keep_translations      = false
 
-[osminedit.presets]
-file_filter = src/config/locales/presets/<lang>.json
-source_file = src/config/locales/presets/en.json
-source_lang = en
-type = KEYVALUEJSON
+[o:openlevelup:p:osminedit:r:ui]
+file_filter            = src/config/locales/ui/<lang>.json
+source_file            = src/config/locales/ui/default.json
+source_lang            = en
+type                   = KEYVALUEJSON
+replace_edited_strings = false
+keep_translations      = false
+

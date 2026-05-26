@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Translations for HU, ES, CS languages
+
+### Changed
+- Migrate Transifex CLI to more recent version
 
 ## 1.0.15 - 2024-03-19
 

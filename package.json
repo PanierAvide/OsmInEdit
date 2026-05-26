@@ -11,9 +11,9 @@
     "doc:js": "documentation build ./src/*.js ./src/ctrl ./src/model ./src/view -f html -o doc/ --shallow",
     "doc:js:check": "documentation lint ./src/*.js ./src/ctrl ./src/model ./src/view --shallow",
     "i18n:build": "i18nline synch && node presets_extract_labels.js",
-    "i18n:add": "tx set --auto-local -r osminedit.ui 'src/config/locales/ui/<lang>.json' --source-lang en --type KEYVALUEJSON",
-    "i18n:push": "tx push -s",
-    "i18n:pull": "tx pull -a --minimum-perc=75 && node fix_i18n_files.js && i18nline index && node presets_merge_labels.js",
+    "i18n:add": "tx-cli set --auto-local -r osminedit.ui 'src/config/locales/ui/<lang>.json' --source-lang en --type KEYVALUEJSON",
+    "i18n:push": "tx-cli push -s",
+    "i18n:pull": "tx-cli pull -a --minimum-perc=75 && node fix_i18n_files.js && i18nline index && node presets_merge_labels.js",
     "i18n:clean": "rm -rf ./src/config/locales/**/*.js*",
     "icons": "for i in public/img/icons/*.svg ; do inkscape -z -e ${i%.*}.png -w 32 -h 32 $i ; done",
     "clean": "rm -rf build/* doc/*"
